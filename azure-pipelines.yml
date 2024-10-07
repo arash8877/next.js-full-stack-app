@@ -71,15 +71,15 @@ stages:
               DockerNamespace: '$(containerRegistry)'
               DockerRepository: '$(imageRepository)'
               DockerImageTag: '$(tag)'
+          
           - task: AzureRmWebAppDeployment@4
             condition: and(succeeded(), eq(variables.isTest, true))
             displayName: 'Azure Web App Deploy'
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: $(azureSubscription)
+              azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
               appType: 'webAppContainer'
               WebAppName: 'web-trialsync-sponsor-platform-test'
-              ResourceGroupName: $(testResourceGroupName)
               DockerNamespace: '$(containerRegistry)'
               DockerRepository: '$(imageRepository)'
               DockerImageTag: '$(tag)'
