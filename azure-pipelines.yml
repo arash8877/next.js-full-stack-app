@@ -65,10 +65,9 @@ stages:
             displayName: 'Azure Web App Deploy'
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: $(azureSubscription)
+              azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
               appType: 'webAppContainer'
-              WebAppName: $(appName)
-              ResourceGroupName: $(ResourceGroupName)
+              WebAppName: 'web-trialsync-sponsor-plaform-prod'
               DockerNamespace: '$(containerRegistry)'
               DockerRepository: '$(imageRepository)'
               DockerImageTag: '$(tag)'
