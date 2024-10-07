@@ -6,7 +6,6 @@ import Link from "next/link";
 import CounterMyTrials from "./CounterContainer";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
-import useGetUserInfo from "@/hooks/useGetUserInfo";
 // import RedirectToRegisterModal from "./RedirectToRegisterModal";
 import LogoutModal from "./LogoutModal";
 import useIsAuthenticated from "@/hooks/useIsAuthenticated";
@@ -16,8 +15,6 @@ import useLanguageStore from "@/stores/language-store";
 export default function NavbarDashboardMobile() {
   const [menu, setMenu] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const { userData } = useGetUserInfo();
-  const isDiseaseSelected = userData.diseases.length > 0;
   const authenticated = useIsAuthenticated();
   const { l } = useLanguageStore();
 
@@ -190,15 +187,6 @@ export default function NavbarDashboardMobile() {
                 {l("common.header.settings.text") || "Settings"}
               </Link>
             </div>
-            {!isDiseaseSelected && authenticated && (
-              <Image
-                src="/alert_icon.svg"
-                width={20}
-                height={20}
-                alt="alert-icon"
-                style={{ width: "20px", height: "auto" }}
-              />
-            )}
           </div>
           {authenticated && (
             <button

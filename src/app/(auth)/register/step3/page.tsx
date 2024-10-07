@@ -26,33 +26,32 @@ function RegisterStep3() {
       setSelectedLang(initialLang ? initialLang.code : "en");
     }, [setSelectedLang]);
 
-  //------------- Handle Next Step ---------------
-  async function handleNextStep() {
-    const token = searchParams.get("invite_token");
-
-    if (token) {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/invites/verify`, //Request
-          {
-            token: token,
-          }
-        );
-        localStorage.setItem("token", response.data.token);
-
-        router.push("/register/step4");
-      } catch (error) {
-        console.error("Error in verifying token:", error);
-      }
-    } else {
-      console.log("No token found");
-      return;
-    }
-  }
-
   useEffect(() => {
+    async function handleNextStep() {
+      const token = searchParams.get("invite_token");
+
+      if (token) {
+        try {
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/v1/invites/verify`, //Request
+            {
+              token: token,
+            }
+          );
+          localStorage.setItem("token", response.data.token);
+
+          router.push("/register/step4");
+        } catch (error) {
+          console.error("Error in verifying token:", error);
+        }
+      } else {
+        console.log("No token found");
+        return;
+      }
+    }
+
     handleNextStep();
-  }, []);
+  }, [searchParams, router]);
 
   //------------ Handle Resend Email------------
   async function handleResendEmail() {

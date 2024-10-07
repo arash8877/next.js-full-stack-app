@@ -7,8 +7,6 @@ import TrialCard from "@/components/TrialCard";
 import useGetAllTrials from "@/hooks/useGetAllTrials";
 import TrialFilterBar from "@/components/TrialFilterBar";
 import useLanguageStore from "@/stores/language-store";
-import useDiseaseStore from "@/stores/disease-store";
-import useGetUserInfo from "@/hooks/useGetUserInfo";
 
 //------- format date function --------
 function formatDate(dateString: string): string {
@@ -36,9 +34,6 @@ export default function TrialsPage() {
   const { l } = useLanguageStore();
   const { allTrials, trialsError } =
     useGetAllTrials(filteringSettings);
-  const { setUserDiseases } = useDiseaseStore();
-  const { userData } = useGetUserInfo();
-  const userDiseases = userData.diseases;
 
   // const observerRef = useRef<IntersectionObserver | null>(null);
   // const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -52,10 +47,7 @@ export default function TrialsPage() {
     }));
   }, []);
 
-  //-------- put diseases from database into useDiseaseStore  -------
-  useEffect(() => {
-    setUserDiseases(userDiseases);
-  }, [setUserDiseases, userDiseases]);
+
 
   useEffect(() => {
     if (trialsError) {

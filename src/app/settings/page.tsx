@@ -18,17 +18,17 @@ export default function SettingsPage() {
   const tabs = [
     {
       id: "1",
-      tabTitle: "Second Tab",
+      tabTitle: "first Tab",
       content: <SettingTabUserInfo {...userData} />,
     },
     {
       id: "2",
-      tabTitle: "Third Tab",
+      tabTitle: "Second Tab",
       content: <SettingTabNotification />,
     },
     {
       id: "3",
-      tabTitle: "Fourth Tab",
+      tabTitle: "Third Tab",
       content: <SettingTabDeleteUser />,
     },
     // {
@@ -45,6 +45,9 @@ export default function SettingsPage() {
   //------------------------------- JSX ----------------------------------------------
   return (
     <SidebarLayout>
+      <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+        {l("settings.title") || "Settings"}
+      </h1>
       <div className="flex flex-col bg-white rounded-3xl py-8	">
         <div className="w-full px-8 ">
           <div className="grid grid-cols-2 md:flex pb-4 w-full gap-x-20 gap-y-6 md:gap-12  ">
@@ -58,7 +61,7 @@ export default function SettingsPage() {
                   : "text-primary-900"
               }`}
             >
-              {l("settings.tab1.name") || "Medical"}
+              {l("settings.tab1.name") || "User Info"}
             </button>
             <button
               id="2"
@@ -70,7 +73,7 @@ export default function SettingsPage() {
                   : "text-primary-900"
               }`}
             >
-              {l("settings.tab2.name") || "User Info"}
+              {l("settings.tab2.name") || "Notifications"}
             </button>
             <button
               id="3"
@@ -82,7 +85,7 @@ export default function SettingsPage() {
                   : "text-primary-900"
               }`}
             >
-              {l("settings.tab3.name") || "Notifications"}
+              {l("settings.tab3.name") || "Delete User"}
             </button>
             <button
               id="4"
@@ -94,12 +97,12 @@ export default function SettingsPage() {
                   : "text-primary-900"
               }`}
             >
-              {l("settings.tab4.name") || "Delete User"}
+              {l("settings.tab4.name") || "Fourth Tab"}
             </button>
           </div>
         </div>
 
-        {tabs.map((tab, i) => (
+        {tabs.map((tab) => (
           <div className="px-8" key={tab.id}>
             {currentTab === tab.id && tab.content}
           </div>

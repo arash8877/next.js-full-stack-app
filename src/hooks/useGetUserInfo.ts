@@ -15,18 +15,12 @@ const useGetUserInfo = (): {
 } => {
   //--- Initial User Info ---
   const initialUserInfo: iUserProps = {
-    county: "",
-    dateOfBirth: "",
     email: "",
     firstName: "",
-    gender: "",
     lastName: "",
-    medicalCategories: [],
-    phoneNumber: "",
-    zipCode: "",
+    jobTitle: "",
     consentedToTerms: true,
     hasConsentedToMarketing: true,
-    diseases: [],
     preferredLanguage: "",
   };
 

@@ -111,22 +111,22 @@ const formSchema = Yup.object({
     //-----onSubmit-------
     onSubmit: async (values) => {
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     firstName: values.firstName,
-        //     lastName: values.lastName,
-        //     jobTitle: values.jobTitle,
-        //     email: values.email,
-        //     password: values.password,
-        //     repeatedPassword: values.repeatedPassword,
-        //     consentedToTerms: values.consentedToTerms,
-        //     hasConsentedToMarketing: values.hasConsentedToMarketing,
-        //   }
-        // );
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
+          {
+            verifyURL: `${window.location.origin}/register/step2`,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            jobTitle: values.jobTitle,
+            email: values.email,
+            password: values.password,
+            repeatedPassword: values.repeatedPassword,
+            consentedToTerms: values.consentedToTerms,
+            hasConsentedToMarketing: values.hasConsentedToMarketing,
+          }
+        );
 
-        // localStorage.setItem("token", response.data.token);
+        localStorage.setItem("token", response.data.token);
 
         router.push("/register/step3");
       } catch (error) {
@@ -139,7 +139,7 @@ const formSchema = Yup.object({
         }
       }
     },
-    // validationSchema: formSchema,
+    validationSchema: formSchema,
   });
 
 

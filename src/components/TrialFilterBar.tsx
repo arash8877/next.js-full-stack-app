@@ -2,8 +2,8 @@ import { iTrialFilterBarProps, iTrialFilteringProps } from "@/types";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { debounce } from "@mui/material";
-import useGetUserInfo from "@/hooks/useGetUserInfo";
-import { useSearchParams } from "next/navigation";
+// import useGetUserInfo from "@/hooks/useGetUserInfo";
+// import { useSearchParams } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
 
 //--------------------------main function ---------------------------------
@@ -16,8 +16,8 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
   const [searchInputValue, setSearchInputValue] = useState<string | null>(
     filters?.searchValue || ""
   );
-  const searchParams = useSearchParams();
-  const { userData, userError, userIsLoading } = useGetUserInfo();
+//   const searchParams = useSearchParams();
+//   const { userData, userError, userIsLoading } = useGetUserInfo();
   const { l } = useLanguageStore();
 
 
@@ -33,39 +33,39 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
     window.history.replaceState({}, "", newUrl);
   }
 
-  useEffect(() => {
-    if (userData) {
-      let defaultCategories: number[] | null = Array.isArray(
-        userData.medicalCategories
-      )
-        ? userData.medicalCategories
-            .map((cat) => cat.medicalCategoryId)
-            .filter((id): id is number => id !== undefined) // Filters out undefined values
-        : null;
+//   useEffect(() => {
+//     if (userData) {
+//       let defaultCategories: number[] | null = Array.isArray(
+//         userData.medicalCategories
+//       )
+//         ? userData.medicalCategories
+//             .map((cat) => cat.medicalCategoryId)
+//             .filter((id): id is number => id !== undefined) // Filters out undefined values
+//         : null;
 
-      const paramCategories = searchParams.get("categories");
-      if (paramCategories) {
-        defaultCategories = paramCategories
-          .split(",")
-          .map((cat) => Number.parseInt(cat));
-      }
+//       const paramCategories = searchParams.get("categories");
+//       if (paramCategories) {
+//         defaultCategories = paramCategories
+//           .split(",")
+//           .map((cat) => Number.parseInt(cat));
+//       }
 
-      const defaultFilters: iTrialFilteringProps = {
-        searchValue: searchParams.get("search"),
-        medicalCategories: defaultCategories,
-        filterByIsRecruiting: searchParams.get("isrecruiting")
-          ? searchParams.get("isrecruiting") === "true"
-          : true,
-        filterBySoonRecruiting: searchParams.get("issoonrecruiting") === "true",
-        showExpiredTrials: searchParams.get("showexpired") === "true",
-        submissionDeadlineSortDirection: searchParams.get("sort"),
-        pagination: { maxPageResult: 5, pageIndex: 0 },
-      };
-      setFilters(defaultFilters);
-      updateURL(defaultFilters);
-      onFilterChange(defaultFilters);
-    }
-  }, [userData, userError, userIsLoading, onFilterChange, searchParams]);
+//       const defaultFilters: iTrialFilteringProps = {
+//         searchValue: searchParams.get("search"),
+//         medicalCategories: defaultCategories,
+//         filterByIsRecruiting: searchParams.get("isrecruiting")
+//           ? searchParams.get("isrecruiting") === "true"
+//           : true,
+//         filterBySoonRecruiting: searchParams.get("issoonrecruiting") === "true",
+//         showExpiredTrials: searchParams.get("showexpired") === "true",
+//         submissionDeadlineSortDirection: searchParams.get("sort"),
+//         pagination: { maxPageResult: 5, pageIndex: 0 },
+//       };
+//       setFilters(defaultFilters);
+//       updateURL(defaultFilters);
+//       onFilterChange(defaultFilters);
+//     }
+//   }, [userData, userError, userIsLoading, onFilterChange, searchParams]);
 
   ////-------------------
   useEffect(() => {
