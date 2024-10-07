@@ -222,6 +222,46 @@ export interface iApplicationProps {
   userMessage: string;
 }
 
+// ------------------ create-trial ------------------------
+export interface CreateTrialStep1FormValues {
+  title: string;
+  shortDescription: string;
+  longDescription: string;
+}
+
+export interface CreateTrialStep1FormProps {
+  label: string;
+  name: keyof CreateTrialStep1FormValues;
+  type: string;
+  placeholder: string;
+  formik: FormikProps<CreateTrialStep1FormValues>;
+  icon?: string;
+}
+
+export interface CreateTrialStep2FormValues {
+  place: string;
+  address: string;
+  zipCode: string;
+  country: string;
+}
+
+export interface CreateTrialStep2FormProps {
+  label: string;
+  name: keyof CreateTrialStep2FormValues;
+  type: string;
+  placeholder: string;
+  formik: FormikProps<CreateTrialStep2FormValues>;
+  icon?: string;
+}
+
+export interface CreateTrialStep3FormValues {
+  startDate: string;
+  endDate: string;
+  deadline: string;
+  ageStart: number;
+  ageEnd: number;
+  gender: string;
+}
 
 
 //------------------ filtering ------------------------

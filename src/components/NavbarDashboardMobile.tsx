@@ -8,14 +8,12 @@ import useGetMyTrials from "@/hooks/useGetMyTrials";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
 // import RedirectToRegisterModal from "./RedirectToRegisterModal";
 import LogoutModal from "./LogoutModal";
-import useIsAuthenticated from "@/hooks/useIsAuthenticated";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------- main function -----------------------------------------
 export default function NavbarDashboardMobile() {
   const [menu, setMenu] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const authenticated = useIsAuthenticated();
   const { l } = useLanguageStore();
 
   //--- toggle burger icon -----
@@ -116,17 +114,18 @@ export default function NavbarDashboardMobile() {
                 setToggleMenu(false);
               }}
             >
-              {l("common.header.trialsoverview.text") || "Trial Overview"}
+              {l("common.header.trialsoverview.text") || "Trials"}
             </Link>
+            <CounterMyTrials
+              counts={getTrialsCount()}
+              style="w-[36px] px-2 py-1 right-16 text-xs	"
+            />
           </div>
+
+
+
           <div
             className="navbar_item items-center"
-            // onClick={(e) => {
-            //   if (!authenticated) {
-            //     e.preventDefault();
-            //     openRedirectToRegisterModal();
-            //   }
-            // }}
           >
             <Image
               src="/favorite_icon.png"
@@ -136,24 +135,67 @@ export default function NavbarDashboardMobile() {
             />
             <Link
               className="text-sm"
-              href={authenticated ? "/settings" : "#"}
+              href="/company" 
               onClick={() => {
                 setMenu(false);
                 setToggleMenu(false);
               }}
             >
-              {l("common.header.mytrrials.text") || "My Trials"}
+              {l("common.header.mytrrials.text") || "Company"}
             </Link>
-            <CounterMyTrials
-              counts={getTrialsCount()}
-              style="w-[36px] px-2 py-1 right-16 text-xs	"
-            />
           </div>
+
+
+          <div
+            className="navbar_item items-center"
+          >
+            <Image
+              src="/favorite_icon.png"
+              alt="home-icon"
+              width={24}
+              height={24}
+            />
+            <Link
+              className="text-sm"
+              href="/employees" 
+              onClick={() => {
+                setMenu(false);
+                setToggleMenu(false);
+              }}
+            >
+              {l("common.header.mytrrials.text") || "Employees"}
+            </Link>
+          </div>
+
+          <div
+            className="navbar_item items-center"
+          >
+            <Image
+              src="/favorite_icon.png"
+              alt="home-icon"
+              width={24}
+              height={24}
+            />
+            <Link
+              className="text-sm"
+              href="/invoices" 
+              onClick={() => {
+                setMenu(false);
+                setToggleMenu(false);
+              }}
+            >
+              {l("common.header.mytrrials.text") || "Invoices"}
+            </Link>
+          </div>
+
+
+
         </div>
+
+
+
         <div
-          className={`flex flex-col gap-3 w-full pl-4 pr-12  absolute bottom-0 ${
-            authenticated ? "mb-8" : "mb-20"
-          }`}
+          className="flex flex-col gap-3 w-full pl-4 pr-12  absolute bottom-0 mb-8"
         >
           <hr className="border border-gray-200 w-full mb-8" />
           <h4 className="text-base font-semibold ml-4 ">
@@ -163,12 +205,6 @@ export default function NavbarDashboardMobile() {
           <div className="navbar_item items-center justify-between">
             <div
               className="flex gap-3"
-            //   onClick={(e) => {
-            //     if (!authenticated) {
-            //       e.preventDefault();
-            //       openRedirectToRegisterModal();
-            //     }
-            //   }}
             >
               <Image
                 src="/settings_icon.png"
@@ -178,7 +214,7 @@ export default function NavbarDashboardMobile() {
               />
               <Link
                 className="text-sm"
-                href={authenticated ? "/settings" : "#"}
+                href="/settings" 
                 onClick={() => {
                   setMenu(false);
                   setToggleMenu(false);
@@ -188,7 +224,7 @@ export default function NavbarDashboardMobile() {
               </Link>
             </div>
           </div>
-          {authenticated && (
+        
             <button
               className="navbar_item items-center text-sm"
               onClick={openLogoutModal}
@@ -201,7 +237,7 @@ export default function NavbarDashboardMobile() {
               />
               {l("navbar.account.logout.text") || "Log Out"}
             </button>
-          )}
+          
         </div>
       </div>
     </>

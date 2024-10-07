@@ -1,3 +1,5 @@
+"use client";
+
 import { iTrialFilterBarProps, iTrialFilteringProps } from "@/types";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -5,6 +7,7 @@ import { debounce } from "@mui/material";
 // import useGetUserInfo from "@/hooks/useGetUserInfo";
 // import { useSearchParams } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
+import { useRouter } from "next/navigation";
 
 //--------------------------main function ---------------------------------
 const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
@@ -16,10 +19,10 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
   const [searchInputValue, setSearchInputValue] = useState<string | null>(
     filters?.searchValue || ""
   );
-//   const searchParams = useSearchParams();
-//   const { userData, userError, userIsLoading } = useGetUserInfo();
+  //   const searchParams = useSearchParams();
+  //   const { userData, userError, userIsLoading } = useGetUserInfo();
+  const router = useRouter();
   const { l } = useLanguageStore();
-
 
   function updateURL(newFilters: iTrialFilteringProps) {
     let newUrl = "/trials";
@@ -33,39 +36,39 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
     window.history.replaceState({}, "", newUrl);
   }
 
-//   useEffect(() => {
-//     if (userData) {
-//       let defaultCategories: number[] | null = Array.isArray(
-//         userData.medicalCategories
-//       )
-//         ? userData.medicalCategories
-//             .map((cat) => cat.medicalCategoryId)
-//             .filter((id): id is number => id !== undefined) // Filters out undefined values
-//         : null;
+  //   useEffect(() => {
+  //     if (userData) {
+  //       let defaultCategories: number[] | null = Array.isArray(
+  //         userData.medicalCategories
+  //       )
+  //         ? userData.medicalCategories
+  //             .map((cat) => cat.medicalCategoryId)
+  //             .filter((id): id is number => id !== undefined) // Filters out undefined values
+  //         : null;
 
-//       const paramCategories = searchParams.get("categories");
-//       if (paramCategories) {
-//         defaultCategories = paramCategories
-//           .split(",")
-//           .map((cat) => Number.parseInt(cat));
-//       }
+  //       const paramCategories = searchParams.get("categories");
+  //       if (paramCategories) {
+  //         defaultCategories = paramCategories
+  //           .split(",")
+  //           .map((cat) => Number.parseInt(cat));
+  //       }
 
-//       const defaultFilters: iTrialFilteringProps = {
-//         searchValue: searchParams.get("search"),
-//         medicalCategories: defaultCategories,
-//         filterByIsRecruiting: searchParams.get("isrecruiting")
-//           ? searchParams.get("isrecruiting") === "true"
-//           : true,
-//         filterBySoonRecruiting: searchParams.get("issoonrecruiting") === "true",
-//         showExpiredTrials: searchParams.get("showexpired") === "true",
-//         submissionDeadlineSortDirection: searchParams.get("sort"),
-//         pagination: { maxPageResult: 5, pageIndex: 0 },
-//       };
-//       setFilters(defaultFilters);
-//       updateURL(defaultFilters);
-//       onFilterChange(defaultFilters);
-//     }
-//   }, [userData, userError, userIsLoading, onFilterChange, searchParams]);
+  //       const defaultFilters: iTrialFilteringProps = {
+  //         searchValue: searchParams.get("search"),
+  //         medicalCategories: defaultCategories,
+  //         filterByIsRecruiting: searchParams.get("isrecruiting")
+  //           ? searchParams.get("isrecruiting") === "true"
+  //           : true,
+  //         filterBySoonRecruiting: searchParams.get("issoonrecruiting") === "true",
+  //         showExpiredTrials: searchParams.get("showexpired") === "true",
+  //         submissionDeadlineSortDirection: searchParams.get("sort"),
+  //         pagination: { maxPageResult: 5, pageIndex: 0 },
+  //       };
+  //       setFilters(defaultFilters);
+  //       updateURL(defaultFilters);
+  //       onFilterChange(defaultFilters);
+  //     }
+  //   }, [userData, userError, userIsLoading, onFilterChange, searchParams]);
 
   ////-------------------
   useEffect(() => {
@@ -73,18 +76,21 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
     onFilterChange(filters);
   }, [filters, onFilterChange]);
 
-  const debouncedApplyFilters = debounce((updatedFilters: iTrialFilteringProps) => {
-    onFilterChange(updatedFilters);
-    let newUrl = "/trials";
-    let separator = "?";
+  const debouncedApplyFilters = debounce(
+    (updatedFilters: iTrialFilteringProps) => {
+      onFilterChange(updatedFilters);
+      let newUrl = "/trials";
+      let separator = "?";
 
-    if (updatedFilters.searchValue != null) {
-      newUrl += separator + "search=" + updatedFilters.searchValue;
-      separator = "&";
-    }
+      if (updatedFilters.searchValue != null) {
+        newUrl += separator + "search=" + updatedFilters.searchValue;
+        separator = "&";
+      }
 
-    window.history.replaceState({}, "", newUrl);
-  }, 500);
+      window.history.replaceState({}, "", newUrl);
+    },
+    500
+  );
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -99,6 +105,13 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
       });
     }
   };
+
+  //--------
+
+  function redirectToCreateTrialPage() {
+      router.push("/create-trial/step1");
+    
+  }
 
   //------------------------------------------ JSX --------------------------------------------
   return (
@@ -124,11 +137,11 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
       </div>
       <div className="md:flex gap-4 py-[6px] justify-between h-[56px] md:col-span-2 md:col-start-3">
         <div className="md:flex gap-4">
-          <div
-            className="flex_center rounded-lg py-[6px] h-[44px] bg-secondary-50 cursor-pointer"
-
-          >
-            <button className="text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8 pointer-events-none">
+          <div className="flex_center rounded-lg py-[6px] h-[44px] bg-secondary-50 cursor-pointer">
+            <button
+              className="text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8"
+              onClick={redirectToCreateTrialPage}
+            >
               {l("filter.btn.suggestion") || "Create Trial"}
             </button>
           </div>
