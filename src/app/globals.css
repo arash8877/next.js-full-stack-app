@@ -2,26 +2,147 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f7f7f9;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+html {
+  font-family: var(--font-outfit);
+}
+
+p {
+  font-family: var(--font-satoshi);
+}
+
+/*---------------------------- General styles----------------------------- */
+.flex_center {
+  @apply flex items-center justify-center;
+}
+
+.wrapper {
+  @apply px-4 py-8 xs:px-8;
+}
+
+.single_line_toast {
+  white-space: nowrap;
+  width: fit-content;
+  margin-right: 10px;
+}
+/*---------------------------- custom button----------------------------- */
+
+.custom-btn {
+  @apply w-full xs:w-auto px-8 py-2.5;
+}
+.custom-width-btn {
+  width: 100% !important;
+}
+.gradient-green1 {
+  @apply bg-gradient-to-r from-primary-800 to-primary-1100;
+}
+.gradient-green2 {
+  @apply bg-gradient-to-r from-primary-1300 to-primary-1200;
+}
+.hover1 {
+  @apply hover:from-primary-1100 hover:to-primary-1100;
+}
+.hover2 {
+  @apply hover:from-primary-1200 hover:to-primary-1200;
+}
+
+/*---------------------------- Register ----------------------------- */
+.register_input {
+  @apply w-full h-[48px] p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
+}
+.custom-height {
+  height: calc(100vh - 55px);
+}
+.custom_height {
+  height: calc(100vh - 55px);
+}
+.custom-border {
+  border-color: #dff2df !important;
+}
+
+.register_step1_section {
+  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 lg:px-12 py-6 md:py-10 xl:py-12 mt-12 rounded-3xl;
+}
+
+.register_step2_div {
+  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl;
+}
+
+.register_step3_div {
+  @apply mx-auto bg-white max-w-3xl px-6 mt-[192px] sm:mt-0 md:px-12 py-6 md:py-10 xl:py-12 rounded-3xl;
+}
+
+.register_step4_section {
+  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 py-6 md:py-10 xl:py-12 mt-12 rounded-3xl;
+}
+
+/*---------------------------- Reset Password ----------------------------- */
+.reset_password_div {
+  @apply mx-auto bg-white max-w-3xl px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl;
+}
+
+/*---------------------------- Sidebar ----------------------------- */
+.sidebar_item {
+  @apply flex gap-3 rounded-lg cursor-pointer hover:bg-neutral-50 transition-all duration-300;
+}
+.sidebar_item_active {
+  @apply rounded-lg cursor-pointer bg-neutral-50 transition-all duration-300;
+}
+.sidebar_animation {
+  @apply transition-all duration-300;
+}
+
+/*---------------------------- Navbar-dashboard ----------------------------- */
+.navbar_item {
+  @apply flex gap-3 rounded-lg p-3 cursor-pointer hover:bg-gradient-button;
+}
+
+/*---------------------------- TrialOverview ----------------------------- */
+.trial_overview_grid {
+  @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 py-8 xs:px-8 place-items-center;
+}
+
+/*---------------------------- My-trials ----------------------------- */
+.my_trials_grid {
+  @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 xs:px-8 pb-8 place-items-center ;
+}
+
+/*---------------------------- Trial-Details ----------------------------- */
+.truncate_title {
+  @apply w-full h-[48px] p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
+}
+
+/*---------------------------- filter modal ----------------------------- */
+.filter_modal_btn {
+  @apply inline-flex items-center border border-primary-500 text-xs sm:text-sm px-2 rounded-200 mb-4 py-2 cursor-pointer active:scale-95;
+}
+
+/*---------------------------- Setting ----------------------------- */
+.setting_step4_div {
+  @apply bg-bgColor-100 md:w-2/5 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
+}
+
+/*---------------------------- LanguageDropdown ----------------------------- */
+@keyframes dropdownOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown_animation {
+  animation: dropdownOpen 0.3s ease-out forwards;
 }
