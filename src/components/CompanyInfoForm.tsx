@@ -67,20 +67,33 @@ const SettingUserInfoForm = ({
         l("settings.tab1.form.companyName.validation.length") ||
           "Company name must be at least 2 characters!"
       ),
-
-    vatNumber: Yup.string()
+    address: Yup.string()
       .required(
-        l("settings.tab1.form.vatNumber.validation.required") ||
-          "VAT number is required!"
+        l("register.step1.form.address.validation.required") ||
+          "Address is required!"
       )
       .min(
-        1,
-        l("settings.tab1.form.vatNumber.validation.length") ||
-          "VAT number  must be at least 1 characters!"
+        4,
+        l("settings.tab1.form.address.validation.length") ||
+          "Address must be at least 4 characters!"
       ),
-    address: Yup.string().required(
-      l("settings.tab1.form.address.validation.required") ||
-        "Address is required!"
+    zipCode: Yup.string()
+      .required(
+        l("register.step1.form.zipCode.validation.required") ||
+          "Zip code is required!"
+      )
+      .min(
+        4,
+        l("settings.tab1.form.zipCode.validation.length") ||
+          "Zip code must be at least 4 characters!"
+      ),
+    country: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Country is required!"
+    ),
+    phoneNumber: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Phone number is required!"
     ),
   });
 
