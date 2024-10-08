@@ -33,13 +33,13 @@ function RegisterStep4() {
           <RegisterStepper activeStep={3} />
           <div>
             <div className="flex_center flex-col mt-12 mb-8">
-              <h1 className="text-2xl md:text-3xl font-semibold mb-4">
+              <h1 className="text-2xl text-center md:text-3xl font-semibold mb-4 md:mb-12">
                 {l("register.step4.header") ||
                   "You are successfully registered"}
               </h1>
-              <p className="text-base text-center">
+              <p className="text-base text-center md:font-semibold">
                 {l("register.step2.description1") ||
-                  "We evaluate your company information and will send an verification email to ................."}{" "}
+                  "We evaluate your company information and will send an verification email to ......."}{" "}
                 {email}
                 {l("register.step2.description2") || "very soon."}
               </p>
