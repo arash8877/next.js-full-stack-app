@@ -8,7 +8,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      redirect("/login");
+      redirect("/register/step1");
     } else {
       redirect("/register/step1");
     }
