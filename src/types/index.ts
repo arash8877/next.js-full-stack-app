@@ -1,7 +1,6 @@
 import { MouseEventHandler } from "react";
 import { FormikProps } from "formik";
 
-
 //------------- CustomButton ---------------------
 export interface CustomButtonProps {
   title: string;
@@ -34,22 +33,22 @@ export interface RegisterNavbarProps {
 }
 
 //------- RegisterStep1Form.tsx --------
-export interface Step1FormValues {
+export interface CompanyInfoProps {
   companyName: string;
   vatNumber: string;
   address: string;
   zipCode: string;
   country: string;
-  consentedToTerms: boolean;
   phoneNumber: string;
+  consentedToTerms: boolean;
 }
 
 export interface Step1FormProps {
   label: string;
-  name: keyof Step1FormValues;
+  name: keyof CompanyInfoProps;
   type: string;
   placeholder: string;
-  formik: FormikProps<Step1FormValues>;
+  formik: FormikProps<CompanyInfoProps>;
   icon?: string;
 }
 
@@ -119,7 +118,7 @@ export interface iCategoryProps {
 }
 
 export interface iTrialCategoryProps {
- medicalCategory: iCategoryProps;
+  medicalCategory: iCategoryProps;
 }
 
 export interface iUserType {
@@ -149,7 +148,6 @@ export interface iTrialCardProps {
   // underReview?: boolean;
 }
 
-
 //------------------ company -------------------------
 export interface iCompany {
   companyId: number;
@@ -169,8 +167,6 @@ export interface iTrialSite {
   iconUrl: string;
   siteInfo: string;
 }
-
-
 
 //------------------trialDetails-----------------------
 export interface iTrialDetailsProps {
@@ -195,9 +191,6 @@ export interface iTrialDetailsProps {
   userApplication: iUserTrialApplication | null;
   diseases: string[];
 }
-
-
-
 
 //--------------- application -------------------------
 export interface iApplicationStateProps {
@@ -225,7 +218,7 @@ export interface iApplicationProps {
 }
 
 // ------------------ create-trial ------------------------
-export interface CreateTrialStep1FormValues {
+export interface CreateTrialCompanyInfoProps {
   title: string;
   shortDescription: string;
   longDescription: string;
@@ -233,10 +226,10 @@ export interface CreateTrialStep1FormValues {
 
 export interface CreateTrialStep1FormProps {
   label: string;
-  name: keyof CreateTrialStep1FormValues;
+  name: keyof CreateTrialCompanyInfoProps;
   type: string;
   placeholder: string;
-  formik: FormikProps<CreateTrialStep1FormValues>;
+  formik: FormikProps<CreateTrialCompanyInfoProps>;
   icon?: string;
 }
 
@@ -265,7 +258,6 @@ export interface CreateTrialStep3FormValues {
   gender: string;
 }
 
-
 //------------------ filtering ------------------------
 export interface iTrialFilteringProps {
   searchValue: string | null;
@@ -282,21 +274,42 @@ export interface iTrialFilterBarProps {
   onFilterChange: (filters: iTrialFilteringProps) => void;
 }
 
-
 //------------------ applicationStates -----------------
 
 interface iApplicationStateLayoutProps {
-  icon: string
+  icon: string;
   stateText: string;
   stateKey: string;
   color: string;
 }
 
-export const applicationStates: {[key: number]: iApplicationStateLayoutProps} = {
-  1: {icon: "/Awaiting.png", stateText: "Pending", stateKey: "trialdetails.applicationstate.pending", color: "#FFEBB9"},
-  2: {icon: "/in-process.png", stateText: "Processesing", stateKey: "trialdetails.applicationstate.processesing", color: "#CCCCCC"},
-  3: {icon: "/approved.png", stateText: "Approved", stateKey: "trialdetails.applicationstate.approved", color: "#B5E6B2"},
-  4: {icon: "/not-approved.png", stateText: "Declined", stateKey: "trialdetails.applicationstate.declined", color: "#F47F7F"}
-}
+export const applicationStates: {
+  [key: number]: iApplicationStateLayoutProps;
+} = {
+  1: {
+    icon: "/Awaiting.png",
+    stateText: "Pending",
+    stateKey: "trialdetails.applicationstate.pending",
+    color: "#FFEBB9",
+  },
+  2: {
+    icon: "/in-process.png",
+    stateText: "Processesing",
+    stateKey: "trialdetails.applicationstate.processesing",
+    color: "#CCCCCC",
+  },
+  3: {
+    icon: "/approved.png",
+    stateText: "Approved",
+    stateKey: "trialdetails.applicationstate.approved",
+    color: "#B5E6B2",
+  },
+  4: {
+    icon: "/not-approved.png",
+    stateText: "Declined",
+    stateKey: "trialdetails.applicationstate.declined",
+    color: "#F47F7F",
+  },
+};
 
 //-----------------------  -------------------

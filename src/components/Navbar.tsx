@@ -77,7 +77,7 @@ const Navbar = ({
           className={`flex items-center justify-between gap-1.5 ${displayLogin}`}
         >
           <p className="text-xs md:text-base">{l("navbar.register.cta.login.text") || "Already have an account?"}</p>
-          <Link href="/" className="text-xs md:text-base font-medium underline">
+          <Link href="/login" className="text-xs md:text-base font-medium underline">
             {l("navbar.register.cta.login.url.text") || "Log In"}
           </Link>
         </div>

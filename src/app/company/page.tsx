@@ -1,13 +1,23 @@
+"use client";
+
 import { SidebarLayout } from "@/components/SidebarLayout";
+import CompanyInfoForm from "@/components/CompanyInfoForm";
+import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
+import useLanguageStore from "@/stores/language-store";
 
 export default function CompanyPage() {
+  const {companyData} = useGetCompanyInfo();
+
+  const { l } = useLanguageStore();
+
   return (
     <SidebarLayout>
-          <h2>Welcome to the Company page</h2>
-          <p>include the same inputs as register-step1 & editable</p>
-          <button className="border p-2">Update</button>
-
-          <p>If you wish to delete the company account please contact support@trialsync.com</p>
+      <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+        {l("settings.title") || "Company Information"}
+      </h1>
+      <div className="flex flex-col bg-white rounded-3xl wrapper">
+      <CompanyInfoForm {...companyData} />
+      </div>
     </SidebarLayout>
   );
 }
