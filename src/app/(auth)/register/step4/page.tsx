@@ -39,9 +39,9 @@ function RegisterStep4() {
               </h1>
               <p className="text-base text-center md:font-semibold">
                 {l("register.step2.description1") ||
-                  "We evaluate your company information and will send an verification email to ......."}{" "}
+                  "We are currently processing your information and will send a verification email to...... soon."}{" "}
                 {email}
-                {l("register.step2.description2") || "very soon."}
+                {l("register.step2.description2") || ""}
               </p>
               <p className="text-base text-center pt-6">
                 {l("settings.tab4.email.warning") ||

@@ -58,6 +58,7 @@ export interface Step2FormValues {
   firstName: string;
   lastName: string;
   jobTitle: string;
+  phoneNumber: string;
   email: string;
   password: string;
   repeatedPassword: string;
