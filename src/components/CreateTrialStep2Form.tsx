@@ -5,7 +5,7 @@ import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import CountryDropdown from "./CountryDropdown";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import {
   CreateTrialStep2FormProps,
   CreateTrialStep2FormValues,
@@ -61,6 +61,7 @@ const CreateTrialStep2Form = () => {
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
+  // eslint-disable-next-line
   const formSchema = Yup.object({
     place: Yup.string()
       .required(
@@ -103,10 +104,11 @@ const CreateTrialStep2Form = () => {
     initialValues: {
       place: "",
       address: "",
-      ZipCode: "",
+      zipCode: "",
       country: "",
     },
     //-----onSubmit-------
+    // eslint-disable-next-line
     onSubmit: async (values) => {
       try {
         // const response = await axios.post(

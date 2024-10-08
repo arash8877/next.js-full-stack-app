@@ -7,7 +7,7 @@ import Link from "next/link";
 import CustomButton from "./CustomButton";
 import CountryDropdown from "./CountryDropdown";
 import Consent from "./Consent";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Step1FormProps } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
 
@@ -63,6 +63,7 @@ const RegisterStep1Form = () => {
   const { l } = useLanguageStore(); 
 
   //----------------- Yup validation ---------------
+ // eslint-disable-next-line 
 const formSchema = Yup.object({
   companyName: Yup.string()
     .required(l("settings.tab1.form.companyName.validation.required") || "Company name is required!")
@@ -78,6 +79,8 @@ const formSchema = Yup.object({
     .min(4, (l("settings.tab1.form.zipCode.validation.length") || "Zip code must be at least 4 characters!")),
   country: Yup.string()
     .required(l("register.step1.form.country.validation.required") || "Country is required!"),
+  phoneNumber: Yup.string()
+    .required(l("register.step1.form.country.validation.required") || "Phone number is required!"),
   consentedToTerms: Yup.boolean().oneOf(
     [true],
     (l("register.step1.form.termsandconditions.validation.required") || "You must accept the terms and conditions.")
@@ -93,25 +96,27 @@ const formSchema = Yup.object({
       address: "",
       zipCode: "",
       country: "",
+      phoneNumber: "",
       consentedToTerms: false,
     },
     //-----onSubmit-------
+ // eslint-disable-next-line 
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-          {
-            verifyURL: `${window.location.origin}/register/step2`,
-            companyName: values.companyName,
-            vatNumber: values.vatNumber,
-            address: values.address,
-            zipCode: values.zipCode,
-            country: values.country,
-            consentedToTerms: values.consentedToTerms,
-          }
-        );
+        // const response = await axios.post(
+        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
+        //   {
+        //     verifyURL: `${window.location.origin}/register/step2`,
+        //     companyName: values.companyName,
+        //     vatNumber: values.vatNumber,
+        //     address: values.address,
+        //     zipCode: values.zipCode,
+        //     country: values.country,
+        //     consentedToTerms: values.consentedToTerms,
+        //   }
+        // );
 
-        localStorage.setItem("token", response.data.token);
+        // localStorage.setItem("token", response.data.token);
 
         router.push("/register/step2");
       } catch (error) {
@@ -124,7 +129,7 @@ const formSchema = Yup.object({
         }
       }
     },
-    validationSchema: formSchema,
+    // validationSchema: formSchema,
   });
 
 
@@ -175,6 +180,13 @@ const formSchema = Yup.object({
           {formik.touched.country && formik.errors.country}
         </small>
       </div>
+      <InputField
+        label={l("register.step1.form.password.label") || "Phone number"}
+        name="phoneNumber"
+        type="text"
+        placeholder={l("register.step1.form.phoneNumber.placeholder") || "Company phone number"}
+        formik={formik}
+      />
       <div className="md:pr-20">
         <Consent
           title={l("register.step1.form.termsandconditions.title") || "Consent to Terms and Conditions"}

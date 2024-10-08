@@ -41,6 +41,7 @@ export interface Step1FormValues {
   zipCode: string;
   country: string;
   consentedToTerms: boolean;
+  phoneNumber: string;
 }
 
 export interface Step1FormProps {

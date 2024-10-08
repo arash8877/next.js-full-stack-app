@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
 import Consent from "./Consent";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Step2FormProps } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
 
@@ -61,6 +61,7 @@ const RegisterStep2Form = () => {
   const { l } = useLanguageStore(); 
 
   //----------------- Yup validation ---------------
+  // eslint-disable-next-line 
 const formSchema = Yup.object({
   firstName: Yup.string()
     .required(l("settings.tab1.form.firstname.validation.required") || "First name is required!")
@@ -109,24 +110,25 @@ const formSchema = Yup.object({
       hasConsentedToMarketing: false,
     },
     //-----onSubmit-------
+ // eslint-disable-next-line 
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-          {
-            verifyURL: `${window.location.origin}/register/step2`,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            jobTitle: values.jobTitle,
-            email: values.email,
-            password: values.password,
-            repeatedPassword: values.repeatedPassword,
-            consentedToTerms: values.consentedToTerms,
-            hasConsentedToMarketing: values.hasConsentedToMarketing,
-          }
-        );
+        // const response = await axios.post(
+        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
+        //   {
+        //     verifyURL: `${window.location.origin}/register/step2`,
+        //     firstName: values.firstName,
+        //     lastName: values.lastName,
+        //     jobTitle: values.jobTitle,
+        //     email: values.email,
+        //     password: values.password,
+        //     repeatedPassword: values.repeatedPassword,
+        //     consentedToTerms: values.consentedToTerms,
+        //     hasConsentedToMarketing: values.hasConsentedToMarketing,
+        //   }
+        // );
 
-        localStorage.setItem("token", response.data.token);
+        // localStorage.setItem("token", response.data.token);
 
         router.push("/register/step3");
       } catch (error) {
@@ -139,7 +141,8 @@ const formSchema = Yup.object({
         }
       }
     },
-    validationSchema: formSchema,
+ // eslint-disable-next-line 
+    // validationSchema: formSchema,
   });
 
 

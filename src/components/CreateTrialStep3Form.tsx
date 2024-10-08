@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
-import CountryDropdown from "./CountryDropdown";
-import axios, { AxiosError } from "axios";
+import GenderDropdown from "./GenderDropdown";
+import { AxiosError } from "axios";
 import useLanguageStore from "@/stores/language-store";
 
 
@@ -15,52 +14,37 @@ import useLanguageStore from "@/stores/language-store";
 const CreateTrialStep3Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const [country, setCountry] = useState("Denmark");
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
+  // eslint-disable-next-line
   const formSchema = Yup.object({
     startDate: Yup.string()
       .required(
         l("settings.tab1.form.place.validation.required") ||
-          "Place is required!"
-      )
-      .min(
-        4,
-        l("settings.tab1.form.place.validation.length") ||
-          "Place must be at least 2 characters!"
+          "Start date is required!"
       ),
     endDate: Yup.string()
       .required(
         l("settings.tab1.form.address.validation.required") ||
-          "Address is required!"
-      )
-      .min(
-        4,
-        l("settings.tab1.form.address.validation.length") ||
-          "Address must be at least 4 characters!"
+          "End date is required!"
       ),
     deadline: Yup.string()
       .required(
         l("register.step1.form.zipCode.validation.required") ||
-          "Zip code is required!"
-      )
-      .min(
-        4,
-        l("settings.tab1.form.zipCode.validation.length") ||
-          "Zip code must be at least 4 characters!"
+          "Deadline is required!"
       ),
     ageStart: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
-        "Country is required!"
+        "Age is required!"
     ),
     ageEnd: Yup.string().required(
         l("register.step1.form.country.validation.required") ||
-          "Country is required!"
+          "Age is required!"
       ),
       gender: Yup.string().required(
         l("register.step1.form.country.validation.required") ||
-          "Country is required!"
+          "Gender is required!"
       ),
   });
 
@@ -75,6 +59,7 @@ const CreateTrialStep3Form = () => {
       gender: "",
     },
     //-----onSubmit-------
+    // eslint-disable-next-line
     onSubmit: async (values) => {
       try {
         // const response = await axios.post(
@@ -87,7 +72,7 @@ const CreateTrialStep3Form = () => {
         //   }
         // );
         // console.log(response)
-        router.push("/create-trial/step3");
+        router.push("/trials");
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response && error.response.data) {
@@ -116,7 +101,7 @@ const CreateTrialStep3Form = () => {
 
       <div className="flex flex-col gap-2 w-full sm:w-1/2">
         <label htmlFor="startDate">
-          {l("register.step3.form.startDate.label") || "Start Date"}
+          {l("register.step3.form.startDate.label") || "Start Study Date"}
           <span className="ml-1">*</span>
         </label>
         <CustomDateInput
@@ -133,7 +118,7 @@ const CreateTrialStep3Form = () => {
 
       <div className="flex flex-col gap-2 w-full sm:w-1/2">
         <label htmlFor="endDate">
-          {l("register.step3.form.endDate.label") || "End Date"}
+          {l("register.step3.form.endDate.label") || "End Study Date"}
           <span className="ml-1">*</span>
         </label>
         <CustomDateInput
@@ -148,23 +133,73 @@ const CreateTrialStep3Form = () => {
 
 
 
-      <div className="flex flex-col">
-        <label htmlFor="country" className="mb-2">
-          {l("register.step3.form.country.label") || "Country"}
+      <div className="flex flex-col gap-2 w-full sm:w-1/2">
+        <label htmlFor="deadline">
+          {l("register.step3.form.deadline.label") || "Enrolment Deadline"}
           <span className="ml-1">*</span>
         </label>
-        <CountryDropdown
-          country={country}
-          setCountry={setCountry}
-          borderColor="black"
+        <CustomDateInput
+          value={formik.values.endDate}
+          onChange={(date) => formik.setFieldValue("deadline", date)}
+          onBlur={formik.handleBlur("deadline")}
         />
         <small className="text-red-600">
-          {formik.touched.country && formik.errors.country}
+          {formik.touched.deadline && formik.errors.deadline}
         </small>
       </div>
+
+      <div className="flex flex-col gap-2 w-full sm:w-1/2">
+          <label htmlFor="ageStart">{l("register.step3.form.ageStart.label") || "From Age"}<span className="ml-1">*</span></label>
+          <input
+            type="text"
+            placeholder={l("register.step3.form.ageStart.placeholder") || "e.g. 18 years"}
+            value={formik.values.ageStart}
+            onChange={formik.handleChange("ageStart")}
+            onBlur={formik.handleBlur("ageStart")}
+            className="register_input focus:border-blue-500"
+          />
+          <small className="text-red-600">
+            {formik.touched.ageStart && formik.errors.ageStart}
+          </small>
+        </div>
+
+
+        <div className="flex flex-col gap-2 w-full sm:w-1/2">
+          <label htmlFor="ageEnd">{l("register.step3.form.ageEnd.label") || "To Age"}<span className="ml-1">*</span></label>
+          <input
+            type="text"
+            placeholder={l("register.step3.form.ageEnd.placeholder") || "e.g. 90 years"}
+            value={formik.values.ageStart}
+            onChange={formik.handleChange("ageEnd")}
+            onBlur={formik.handleBlur("ageEnd")}
+            className="register_input focus:border-blue-500"
+          />
+          <small className="text-red-600">
+            {formik.touched.ageEnd && formik.errors.ageEnd}
+          </small>
+        </div>
+
+
+        <div className="flex flex-col w-full sm:w-1/2">
+          <label htmlFor="gender" className="mb-2">
+            {l("register.step3.form.gender.label") || "Biological sex"}<span className="ml-1">*</span>
+          </label>
+          <GenderDropdown
+            gender={formik.values.gender}
+            setGender={(value) => formik.setFieldValue("gender", value)}
+            borderColor="black"
+          />
+          <small className="text-red-600">
+            {formik.touched.gender && formik.errors.gender}
+          </small>
+        </div>
+
+
+
+
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
-          title={l("register.step1.form.cta.btn") || "Next"}
+          title={l("register.step1.form.cta.btn") || "Create"}
           containerStyles="rounded-lg gradient-green1 hover1"
           btnType="submit"
         />

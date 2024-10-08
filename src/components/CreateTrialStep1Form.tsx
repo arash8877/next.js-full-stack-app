@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { CreateTrialStep1FormProps, CreateTrialStep1FormValues } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
 
@@ -59,6 +59,7 @@ const CreateTrialStep1Form = () => {
   const { l } = useLanguageStore(); 
 
   //----------------- Yup validation ---------------
+  // eslint-disable-next-line
 const formSchema = Yup.object({
   title: Yup.string()
     .required(l("settings.tab1.form.title.validation.required") || "Title is required!")
@@ -80,6 +81,7 @@ const formSchema = Yup.object({
       longDescription: "",
     },
     //-----onSubmit-------
+    // eslint-disable-next-line
     onSubmit: async (values) => {
       try {
         // const response = await axios.post(
