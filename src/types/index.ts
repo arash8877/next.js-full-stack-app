@@ -32,7 +32,7 @@ export interface RegisterNavbarProps {
   displayLogin?: string;
 }
 
-//------- RegisterStep1Form.tsx --------
+//------- RegisterStep1Form --------
 export interface CompanyInfoProps {
   companyName: string;
   vatNumber: string;
@@ -52,7 +52,7 @@ export interface Step1FormProps {
   icon?: string;
 }
 
-//------- RegisterStep2Form.tsx --------
+//------- RegisterStep2Form --------
 export interface Step2FormValues {
   firstName: string;
   lastName: string;
@@ -257,6 +257,14 @@ export interface CreateTrialStep3FormValues {
   ageStart: number;
   ageEnd: number;
   gender: string;
+}
+
+//------- Employees --------
+export interface employeesInfoProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+  lastLogin: string;
 }
 
 //------------------ filtering ------------------------
