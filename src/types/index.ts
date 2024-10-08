@@ -81,6 +81,7 @@ export interface iUserProps {
   lastName: string;
   email: string;
   jobTitle: string;
+  phoneNumber: string;
   consentedToTerms: boolean;
   hasConsentedToMarketing: boolean;
   preferredLanguage: string;
