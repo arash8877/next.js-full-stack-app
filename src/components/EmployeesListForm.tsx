@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
+import DeleteEmployeeModal from "./DeleteEmployeeModal";
 import axios from "axios";
 import { employeesInfoProps } from "@/types/index";
 import { toast } from "react-toastify";
@@ -15,6 +16,7 @@ const EmployeesListForm = ({
   lastLogin,
 }: employeesInfoProps) => {
   const [isEditable, setIsEditable] = useState(false);
+  const [isDeleteEmployeeModalOpen, setIsDeleteEmployeeModalOpen] = useState(false);
   const { l } = useLanguageStore();
 
   //---------------- update user ---------------
@@ -113,6 +115,15 @@ const EmployeesListForm = ({
   const handleToggleEdit = () => {
     setIsEditable((prev) => !prev);
   };
+
+  //---- open/close delete modal ----
+  function openDeleteEmployeeModal() {
+    setIsDeleteEmployeeModalOpen(!isDeleteEmployeeModalOpen);
+  }
+
+  function closeDeleteEmployeeModal() {
+    setIsDeleteEmployeeModalOpen(false);
+  }
 
   //--------------------------Return---------------------------------
   return (
@@ -217,8 +228,13 @@ const EmployeesListForm = ({
           containerStyles="rounded-lg h-[48px] bg-bgColor-red hover1"
           textStyles="text-white"
           btnType="button"
+          handleClick={openDeleteEmployeeModal}
         />
       </div>
+      <DeleteEmployeeModal
+        open={isDeleteEmployeeModalOpen}
+        onClose={closeDeleteEmployeeModal}
+        />
     </form>
   );
 };
