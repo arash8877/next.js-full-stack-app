@@ -4,6 +4,7 @@ import { SidebarLayout } from "@/components/SidebarLayout";
 import CustomButton from "@/components/CustomButton";
 import EmployeesListForm from "@/components/EmployeesListForm";
 import useGetEmployeesInfo from "@/hooks/useGetEmployeesInfo";
+import { useRouter } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
 
 const dummyEmployees = [
@@ -33,11 +34,18 @@ const dummyEmployees = [
   },
 ];
 
+//------------------------- Main Function ----------------------------------
 export default function CompanyPage() {
   const { employeeData } = useGetEmployeesInfo();
-
+  const router = useRouter();
   const { l } = useLanguageStore();
 
+
+  function redirectToInviteForm() {
+    router.push("/employees/invite");
+  }
+
+  //--------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
       <div className="flex flex-col justify-between md:flex-row md:items-center">
@@ -49,6 +57,7 @@ export default function CompanyPage() {
             title={l("settings.form.save") || "Invite Employee"}
             containerStyles="rounded-lg h-[48px] gradient-green1 hover1"
             btnType="button"
+            handleClick={redirectToInviteForm}
           />
         </div>
       </div>
