@@ -259,12 +259,19 @@ export interface CreateTrialStep3FormValues {
   gender: string;
 }
 
-//------- Employees --------
+//-------------- Employees -------------
 export interface employeesInfoProps {
   firstName: string;
   lastName: string;
   email: string;
   lastLogin: string;
+}
+
+//--------------- Invoices --------------
+export interface invoicesInfoProps {
+  invNumber: string;
+  amount: string;
+  isPaid: boolean;
 }
 
 //------------------ filtering ------------------------

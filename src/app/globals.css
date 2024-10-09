@@ -42,6 +42,9 @@ p {
 .custom-width-btn {
   width: 100% !important;
 }
+.custom-padding {
+  padding-inline: 18px !important;
+}
 .gradient-green1 {
   @apply bg-gradient-to-r from-primary-800 to-primary-1100;
 }

@@ -1,20 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { employeesInfoProps } from "@/types";
+import { invoicesInfoProps } from "@/types";
 import useSWR from "swr";
 
 //----------------------------------- Main Function ---------------------------------------
-const useGetEmployeesInfo = (): {
-  employeeData: employeesInfoProps;
-  employeeError: Error | null;
-  employeeIsLoading: boolean;
+const useGetInvoicesInfo = (): {
+  invoiceData: invoicesInfoProps;
+  invoiceError: Error | null;
+  invoiceIsLoading: boolean;
 } => {
-  //--- Initial Employee Info ---
-  const initialEmployeeInfo: employeesInfoProps = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    lastLogin: "",
+  //--- Initial invoice Info ---
+  const initialInvoiceInfo: invoicesInfoProps = {
+    invNumber: "",
+    amount: "",
+    isPaid: false,
   };
 
   //--- Fetcher Function ---
@@ -32,20 +31,20 @@ const useGetEmployeesInfo = (): {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  //--- GET Employee Info ---
+  //--- GET invoice Info ---
   const { data, error, isLoading } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
     fetcher
   );
-  const [employeesInfo, setEmployeesInfo] = useState<employeesInfoProps>(initialEmployeeInfo);
+  const [invoicesInfo, setInvoicesInfo] = useState<invoicesInfoProps>(initialInvoiceInfo);
   useEffect(() => {
     if (data) {
-        setEmployeesInfo(data);
+        setInvoicesInfo(data);
     }
   }, [data]);
 
-  //  console.log(employeesInfo)
-  return { employeeData: employeesInfo, employeeError: error, employeeIsLoading: isLoading };
+  //  console.log(invoicesInfo)
+  return { invoiceData: invoicesInfo, invoiceError: error, invoiceIsLoading: isLoading };
 };
 
-export default useGetEmployeesInfo;
+export default useGetInvoicesInfo;

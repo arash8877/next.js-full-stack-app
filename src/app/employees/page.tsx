@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarLayout } from "@/components/SidebarLayout";
-import EmployeesList from "@/components/EmployeesList";
+import EmployeesListForm from "@/components/EmployeesListForm";
 import useGetEmployeesInfo from "@/hooks/useGetEmployeesInfo";
 import useLanguageStore from "@/stores/language-store";
 
@@ -43,8 +43,11 @@ export default function CompanyPage() {
         {l("settings.title") || "Employees List"}
       </h1>
       {dummyEmployees.map((employee, index) => (
-        <div key={index} className="flex flex-col bg-white rounded-3xl mb-4 wrapper">
-          <EmployeesList {...employeeData} />
+        <div
+          key={index}
+          className="flex flex-col bg-white rounded-3xl mb-4 wrapper"
+        >
+          <EmployeesListForm {...employeeData} />
         </div>
       ))}
     </SidebarLayout>

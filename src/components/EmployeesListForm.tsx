@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
 
 //------------------------------------ main function -----------------------------------
-const EmployeesList = ({
+const EmployeesListForm = ({
   firstName,
   lastName,
   email,
@@ -223,4 +223,4 @@ const EmployeesList = ({
   );
 };
 
-export default EmployeesList;
+export default EmployeesListForm;

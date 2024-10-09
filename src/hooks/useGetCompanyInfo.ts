@@ -9,7 +9,7 @@ const useGetCompanyInfo = (): {
   companyError: Error | null;
   companyIsLoading: boolean;
 } => {
-  //--- Initial User Info ---
+  //--- Initial Company Info ---
   const initialUserInfo: CompanyInfoProps = {
     companyName: "",
     vatNumber: "",
@@ -35,7 +35,7 @@ const useGetCompanyInfo = (): {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  //--- GET User Info ---
+  //--- GET Company Info ---
   const { data, error, isLoading } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
     fetcher
@@ -47,7 +47,7 @@ const useGetCompanyInfo = (): {
     }
   }, [data]);
 
-  //  console.log(userInfo)
+  //  console.log(companyInfo)
   return { companyData: companyInfo, companyError: error, companyIsLoading: isLoading };
 };
 
