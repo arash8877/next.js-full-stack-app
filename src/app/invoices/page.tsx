@@ -46,16 +46,16 @@ export default function CompanyPage() {
               <th className="py-3 px-6">Invoice Number</th>
               <th className="py-3 px-6">Amount</th>
               <th className="py-3 px-6">Status</th>
-              <th className="py-3 px-6">Action</th>
+              <th className="py-3 px-6 text-right">Action</th>
             </tr>
           </thead>
           <tbody>
             {invoices.map((item, index) => (
               <tr key={index} className="border-b">
                 <td className="py-4 px-6">{item.invNumber}</td>
-                <td className="py-4 px-6">${item.amount.toFixed(2)}</td>
+                <td className="py-4 p-6">${item.amount.toFixed(2)}</td>
                 <td className="py-4 px-6">{item.isPaid ? "Paid" : "Unpaid"}</td>
-                <td className="py-4 px-6">
+                <td className="py-4 px-6 flex justify-end">
                   <CustomButton
                     title={l("forgotpassword.form.submit") || "View"}
                     containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom-padding "

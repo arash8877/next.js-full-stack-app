@@ -259,7 +259,7 @@ export interface CreateTrialStep3FormValues {
   gender: string;
 }
 
-//-------------- Employees -------------
+//------------------------------ Employees ----------------------------
 export interface employeesInfoProps {
   firstName: string;
   lastName: string;
@@ -267,14 +267,31 @@ export interface employeesInfoProps {
   lastLogin: string;
 }
 
-//--------------- Invoices --------------
+//------- Invite Employee Form --------
+export interface InviteEmployeeFormValues {
+  firstName: string;
+  lastName: string;
+  jobTitle: string;
+  email: string;
+}
+
+export interface InviteEmployeeFormProps {
+  label: string;
+  name: keyof InviteEmployeeFormValues;
+  type: string;
+  placeholder: string;
+  formik: FormikProps<InviteEmployeeFormValues>;
+  icon?: string;
+}
+
+//--------------------------- Invoices --------------------------
 export interface invoicesInfoProps {
   invNumber: string;
   amount: string;
   isPaid: boolean;
 }
 
-//------------------ filtering ------------------------
+//------------------------- filtering ----------------------------
 export interface iTrialFilteringProps {
   searchValue: string | null;
   medicalCategories: number[] | null;
