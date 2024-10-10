@@ -167,19 +167,19 @@ export interface iTrialSite {
   country: string;
   iconUrl: string;
   siteInfo: string;
+  location: string;
 }
 
 //------------------trialDetails-----------------------
-export interface iTrialDetailsProps {
+export interface iTrialInfoProps {
   trialId: number;
   title: string;
   shortDescription: string;
   fullDescription: string;
   urlStub: string;
-  company: iCompany;
+  // company: iCompany;
   trialSite: iTrialSite | null;
   medicalCategories: iTrialCategoryProps[];
-  isRecruiting: boolean;
   media: iMediaProps;
   ageMin: number;
   ageMax: number;
@@ -191,6 +191,8 @@ export interface iTrialDetailsProps {
   isCompleted: boolean;
   userApplication: iUserTrialApplication | null;
   diseases: string[];
+  applicantsNumber: number;
+  recruitingStatus: string;
 }
 
 //--------------- application -------------------------
@@ -214,7 +216,7 @@ export interface iPaginationProps {
 export interface iApplicationProps {
   applicationId: number;
   applicationStates: iApplicationStateProps[];
-  trial: iTrialDetailsProps;
+  trial: iTrialInfoProps;
   userMessage: string;
 }
 

@@ -1,9 +1,11 @@
 import { SidebarLayout } from "@/components/SidebarLayout";
+import TrialForm from "@/components/TrialForm";
+import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 
-export default function TrialPage() {
+export default function TrialPage () {
+  const { trialData } = useGetSingleTrialInfo();
   return (
     <SidebarLayout>
-          <h2>This is Product number .....</h2>
-    </SidebarLayout>
-  );
+      <TrialForm {...trialData}/>
+    </SidebarLayout>  )
 }

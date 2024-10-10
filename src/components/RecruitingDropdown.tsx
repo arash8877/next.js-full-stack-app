@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,30 +8,33 @@ import Typography from "@mui/material/Typography";
 import { SelectChangeEvent } from "@mui/material/Select";
 import useLanguageStore from "@/stores/language-store";
 
-interface GenderDropdownProps {
-  gender: string;
-  setGender: React.Dispatch<React.SetStateAction<string>>;
+interface RecruitingDropdownProps {
+  status: string;
+  setStatus: React.Dispatch<React.SetStateAction<string>>;
   borderColor: string;
 }
 
-
 //---------------------------------- main function ------------------------------------------
-export default function GenderDropdown({ gender, setGender, borderColor }: GenderDropdownProps) {
+export default function RecruitingDropdown({
+  status,
+  setStatus,
+  borderColor,
+}: RecruitingDropdownProps) {
   const { l } = useLanguageStore();
   const handleChange = (event: SelectChangeEvent<string>) => {
-    setGender(event.target.value);
+    setStatus(event.target.value);
   };
-//------------ return -------------------
+  //------------ return -------------------
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <Select
           displayEmpty
-          value={gender}
+          value={status}
           onChange={handleChange}
           sx={{
-            borderRadius: "8px",
             backgroundColor: "white",
+            borderRadius: "8px",
             height: "48px",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: borderColor,
@@ -39,13 +42,18 @@ export default function GenderDropdown({ gender, setGender, borderColor }: Gende
           }}
         >
           <MenuItem disabled value="">
-            <Typography sx={{ fontStyle: "normal", fontWeight: "400", color: "#aaaaaa" }}>
-              {l("dropdown.gender.info") || "Select gender"}
+            <Typography
+              sx={{ fontStyle: "normal", fontWeight: "400", color: "#aaaaaa" }}
+            >
+              {l("dropdown.gender.info") || "Select one ..."}
             </Typography>
           </MenuItem>
-          <MenuItem value="Male">{l("dropdown.gender.male") || "Male"}</MenuItem>
-          <MenuItem value="Female">{l("dropdown.gender.female") || "Female"}</MenuItem>
-          <MenuItem value="Intersex">{l("dropdown.gender.intersex") || "Intersex"}</MenuItem>
+          <MenuItem value="Male">
+            {l("dropdown.gender.male") || "Recruiting"}
+          </MenuItem>
+          <MenuItem value="Female">
+            {l("dropdown.gender.female") || "Soon Recruiting"}
+          </MenuItem>
         </Select>
       </FormControl>
     </Box>

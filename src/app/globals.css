@@ -154,3 +154,8 @@ p {
 .not_editable_div{
   @apply bg-bgColor-100 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
 }
+
+/*---------------------------- Text-area ----------------------------- */
+.textarea_input {
+  @apply w-full p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
+}
