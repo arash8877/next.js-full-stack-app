@@ -6,13 +6,12 @@ import * as Yup from "yup";
 import Image from "next/image";
 import Link from "next/link";
 import { iTrialInfoProps, iUserTrialApplication } from "@/types";
-import StatusBox from "@/components/StatusBox";
 import axios from "axios";
 import RecruitingDropdown from "./RecruitingDropdown";
+import CustomButton from "./CustomButton";
 import GenderDropdown from "./GenderDropdown";
+import DeleteTrialModal from "./DeleteTrialModal";
 import CountryDropdown from "./CountryDropdown";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { toast } from "react-toastify";
 import useIsAuthenticated from "@/hooks/useIsAuthenticated";
 import useLanguageStore from "@/stores/language-store";
@@ -101,33 +100,23 @@ export default function TrialDetailsLayout({
     title: Yup.string()
       .required(
         l("settings.tab1.form.firstname.validation.required") ||
-          "First name is required!"
-      )
-      .matches(
-        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
-        l("settings.tab1.form.firstname.validation.format") ||
-          "First name should only contain letters!"
+          "Title is required!"
       )
       .min(
-        2,
+        5,
         l("settings.tab1.form.firstname.validation.length") ||
-          "First name must be at least 2 characters!"
+          "Title must be at least 5 characters!"
       ),
 
     shortDescription: Yup.string()
       .required(
         l("settings.tab1.form.lastname.validation.required") ||
-          "Last name is required!"
-      )
-      .matches(
-        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
-        l("settings.tab1.form.lastname.validation.format") ||
-          "Last name should only contain letters!"
+          "Short description is required!"
       )
       .min(
-        1,
+        10,
         l("settings.tab1.form.lastname.validation.length") ||
-          "Last name must be at least 1 characters!"
+          "Short description must be at least 10 characters!"
       ),
   });
 
@@ -290,6 +279,16 @@ export default function TrialDetailsLayout({
   //     setIsRedirectToRegisterModalOpen(true);
   //   };
 
+  //--- open/close modal ----
+  const [isDeleteTrialModalOpen, setIsDeleteTrialModalOpen] = useState(false);
+
+  function handleOpenDeleteTrialModal() {
+    setIsDeleteTrialModalOpen(!isDeleteTrialModalOpen);
+  }
+
+  function closeDeleteTrialModal() {
+    setIsDeleteTrialModalOpen(false);
+  }
   //-------------------------------------------- return -----------------------------------------------
   return (
     <section className="flex flex-col px-4 xs:px-8 md:mt-12  bg-bgColor-200">
@@ -298,8 +297,8 @@ export default function TrialDetailsLayout({
         <p className="text-sm font-light	">{trialId}</p>
       </div>
       <form onSubmit={formik.handleSubmit}>
-        <div className="flex flex-col justify-between gap-8 lg:flex-row-reverse lg:gap-28">
-          <div className="flex flex-col gap-4 lg:max-w-96 lg:sticky md:top-[50px] lg:h-[calc(100vh-50px)]">
+        <div className="flex flex-col justify-between gap-8 xl:flex-row-reverse xl:gap-16">
+          <div className="flex flex-col gap-4 w-full xl:max-w-96 xl:sticky md:top-[50px] ">
             <div className="flex gap-2">
               <Image
                 src="/add_user_icon.svg"
@@ -309,7 +308,8 @@ export default function TrialDetailsLayout({
               />
               <div className="flex gap-2 items-center">
                 <label htmlFor="password" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Status"}
+                  {l("settings.tab4.form.password.label") || "Status:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="recruitingStatus"
@@ -326,10 +326,11 @@ export default function TrialDetailsLayout({
               </div>
             </div>
 
-            <div className="flex justify-between">
-              <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="location" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Location"}
+                  {l("settings.tab4.form.password.label") || "Location:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="location"
@@ -344,9 +345,10 @@ export default function TrialDetailsLayout({
                 </small>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="address" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Address"}
+                  {l("settings.tab4.form.password.label") || "Address:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="address"
@@ -362,10 +364,11 @@ export default function TrialDetailsLayout({
               </div>
             </div>
 
-            <div className="flex justify-between">
-              <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="zipCode" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Zip Code"}
+                  {l("settings.tab4.form.password.label") || "Zip Code:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="zipCode"
@@ -380,9 +383,9 @@ export default function TrialDetailsLayout({
                 </small>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 gap-2 w-1/2">
                 <label htmlFor="country" className="text-sm font-semibold">
-                  {l("settings.tab1.form.country.label") || "Country"}
+                  {l("settings.tab1.form.country.label") || "Country:"}
                   <span className="ml-1">*</span>
                 </label>
                 <CountryDropdown
@@ -396,10 +399,11 @@ export default function TrialDetailsLayout({
               </div>
             </div>
 
-            <div className="flex justify-between">
-              <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="minAge" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Min. Age"}
+                  {l("settings.tab4.form.password.label") || "Min. Age:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="ageMin"
@@ -414,9 +418,10 @@ export default function TrialDetailsLayout({
                 </small>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="ageMax" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Max. Age"}
+                  {l("settings.tab4.form.password.label") || "Max. Ag:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="ageMax"
@@ -432,11 +437,12 @@ export default function TrialDetailsLayout({
               </div>
             </div>
 
-            <div className="flex justify-between">
-              <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="startDate" className="text-sm font-semibold">
                   {l("settings.tab4.form.password.label") ||
                     "Start Study Date:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="startDate"
@@ -451,9 +457,10 @@ export default function TrialDetailsLayout({
                 </small>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="endDate" className="text-sm font-semibold">
                   {l("settings.tab4.form.password.label") || "End Study Date:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="endDate"
@@ -469,14 +476,15 @@ export default function TrialDetailsLayout({
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label
                   htmlFor="submissionDeadline"
                   className="text-sm font-semibold"
                 >
                   {l("settings.tab4.form.password.label") ||
                     "Enrolment Deadline:"}
+                  <span className="ml-1">*</span>
                 </label>
                 <input
                   name="submissionDeadline"
@@ -492,36 +500,100 @@ export default function TrialDetailsLayout({
                 </small>
               </div>
 
-              <div className="flex gap-2 flex-col">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="gender" className="text-sm font-semibold">
-                  {l("register.step3.form.gender.label") || "Biological sex"}
+                  {l("register.step3.form.gender.label") || "Biological sex:"}
                   <span className="ml-1">*</span>
                 </label>
                 <GenderDropdown
                   gender={formik.values.gender}
                   setGender={(value) => formik.setFieldValue("gender", value)}
                   borderColor="#DFF2DF"
-                  className= "register_input custom-border"
                 />
                 <small className="text-red-600">
                   {formik.touched.gender && formik.errors.gender}
                 </small>
               </div>
             </div>
-
-
           </div>
 
-          <div className="flex-1 flex-col gap-8">
-            <div className="flex flex-col gap-4">
-              <h1 className="text-2xl font-semibold">{title}</h1>
-              <Markdown remarkPlugins={[remarkGfm]}>
-                {shortDescription}
-              </Markdown>
+          <div className="flex flex-col gap-4 xl:w-1/2">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="title" className="text-sm font-semibold">
+                {l("settings.tab4.form.password.label") || "Title:"}
+              </label>
+              <input
+                name="title"
+                type="text"
+                value={formik.values.title}
+                onChange={formik.handleChange("title")}
+                onBlur={formik.handleBlur("title")}
+                className="register_input custom-border"
+              />
+              <small className="text-red-600">
+                {formik.touched.title && formik.errors.title}
+              </small>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="shortDescription"
+                className="text-sm font-semibold"
+              >
+                {l("settings.tab4.form.password.label") || "Short Description:"}
+              </label>
+              <textarea
+                name="shortDescription"
+                value={formik.values.shortDescription}
+                onChange={formik.handleChange("shortDescription")}
+                onBlur={formik.handleBlur("shortDescription")}
+                className="textarea_input custom-border h-32"
+              />
+              <small className="text-red-600">
+                {formik.touched.shortDescription &&
+                  formik.errors.shortDescription}
+              </small>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="fullDescription"
+                className="text-sm font-semibold"
+              >
+                {l("settings.tab4.form.password.label") || "Full Description:"}
+              </label>
+              <textarea
+                name="fullDescription"
+                value={formik.values.fullDescription}
+                onChange={formik.handleChange("fullDescription")}
+                onBlur={formik.handleBlur("fullDescription")}
+                className="textarea_input custom-border h-52"
+              />
+              <small className="text-red-600">
+                {formik.touched.fullDescription &&
+                  formik.errors.fullDescription}
+              </small>
             </div>
           </div>
         </div>
+        <div className="flex justify-center xs:justify-end gap-4 mt-8">
+          <CustomButton
+            title={l("settings.form.submit") || "Update"}
+            containerStyles="rounded-lg gradient-green1 hover1"
+            btnType="submit"
+          />
+          <CustomButton
+            title={l("settings.tab3.btn.text") || "Delete user"}
+            containerStyles="bg-bgColor-red rounded-lg"
+            textStyles="text-white"
+            handleClick={handleOpenDeleteTrialModal}
+          />
+        </div>
       </form>
+      <DeleteTrialModal
+        open={isDeleteTrialModalOpen}
+        onClose={closeDeleteTrialModal}
+      />
     </section>
   );
 }

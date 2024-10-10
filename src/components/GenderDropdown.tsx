@@ -12,25 +12,25 @@ interface GenderDropdownProps {
   gender: string;
   setGender: React.Dispatch<React.SetStateAction<string>>;
   borderColor: string;
-  className?: string;
 }
 
 
 //---------------------------------- main function ------------------------------------------
-export default function GenderDropdown({ gender, setGender, borderColor, className }: GenderDropdownProps) {
+export default function GenderDropdown({ gender, setGender, borderColor }: GenderDropdownProps) {
   const { l } = useLanguageStore();
   const handleChange = (event: SelectChangeEvent<string>) => {
     setGender(event.target.value);
   };
 //------------ return -------------------
   return (
-    <Box className={className}>
+    <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <Select
           displayEmpty
           value={gender}
           onChange={handleChange}
           sx={{
+            borderRadius: "8px",
             backgroundColor: "white",
             height: "48px",
             "& .MuiOutlinedInput-notchedOutline": {
