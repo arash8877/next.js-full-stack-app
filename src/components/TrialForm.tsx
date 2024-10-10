@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
-import Link from "next/link";
-import { iTrialInfoProps, iUserTrialApplication } from "@/types";
+import { iTrialInfoProps } from "@/types";
 import axios from "axios";
 import RecruitingDropdown from "./RecruitingDropdown";
 import CustomButton from "./CustomButton";
@@ -13,18 +12,18 @@ import GenderDropdown from "./GenderDropdown";
 import DeleteTrialModal from "./DeleteTrialModal";
 import CountryDropdown from "./CountryDropdown";
 import { toast } from "react-toastify";
-import useIsAuthenticated from "@/hooks/useIsAuthenticated";
+// import useIsAuthenticated from "@/hooks/useIsAuthenticated";
 import useLanguageStore from "@/stores/language-store";
 
-function formatDate(dateString: string): string {
-  const options: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  };
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", options);
-}
+// function formatDate(dateString: string): string {
+//   const options: Intl.DateTimeFormatOptions = {
+//     day: "numeric",
+//     month: "long",
+//     year: "numeric",
+//   };
+//   const date = new Date(dateString);
+//   return date.toLocaleDateString("en-US", options);
+// }
 
 //--------------------------------Main function--------------------------------
 export default function TrialDetailsLayout({
@@ -42,23 +41,24 @@ export default function TrialDetailsLayout({
   recruitingStatus,
   applicantsNumber,
 }: iTrialInfoProps) {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [isWarningModalOpen, setWarningModalOpen] = useState(false);
-  const [currentApplicationState, setCurrentApplicationState] =
-    useState<number>(0);
-  const [trialHasBeenApplied, setTrialHasBeenApplied] = useState(false);
-  const [applyForTrialButtonState, setApplyForTrialButtonState] = useState(1);
+  // const [isModalOpen, setModalOpen] = useState(false);
+  // const [isWarningModalOpen, setWarningModalOpen] = useState(false);
+  // const [currentApplicationState, setCurrentApplicationState] =
+  //   useState<number>(0);
+  // const [trialHasBeenApplied, setTrialHasBeenApplied] = useState(false);
+  // const [applyForTrialButtonState, setApplyForTrialButtonState] = useState(1);
   //   const [currentApplicationId, setCurrentApplicationId] = useState(
   //     userApplication?.applicationId
   //   );
-  const [currentShortDescription, setCurrentShortDescription] =
-    useState(shortDescription);
-  const [isRedirectToRegisterModalOpen, setIsRedirectToRegisterModalOpen] =
-    useState(false);
-  const authenticated = useIsAuthenticated();
+  // const [currentShortDescription, setCurrentShortDescription] =
+  //   useState(shortDescription);
+  // const [isRedirectToRegisterModalOpen, setIsRedirectToRegisterModalOpen] =
+  //   useState(false);
+  // const authenticated = useIsAuthenticated();
   const { l } = useLanguageStore();
 
   //---------------- update trial ---------------
+   // eslint-disable-next-line
   const updateTrial = async (data: iTrialInfoProps) => {
     //function will be called in onSubmit
     try {
@@ -124,9 +124,9 @@ export default function TrialDetailsLayout({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: "",
-      shortDescription: "",
-      fullDescription: "",
+      title: title || "",
+      shortDescription: shortDescription || "",
+      fullDescription: fullDescription || "",
       trialSite: trialSite || "",
       recruitingStatus: recruitingStatus || false,
       ageMin: ageMin || "",
@@ -143,14 +143,16 @@ export default function TrialDetailsLayout({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
+       // eslint-disable-next-line
       const data = {
+        trialId: trialId, // Add trialId property
         title: values.title,
         shortDescription: values.shortDescription,
         fullDescription: values.fullDescription,
-        trialSite: values.trialSite,
+        trialSite: typeof values.trialSite === "string" ? null : values.trialSite,
         recruitingStatus: values.recruitingStatus,
-        ageMin: values.ageMin,
-        ageMax: values.ageMax,
+        ageMin: Number(values.ageMin),
+        ageMax: Number(values.ageMax),
         applicantsNumber: values.applicantsNumber,
         startDate: values.startDate,
         endDate: values.endDate,
@@ -160,9 +162,12 @@ export default function TrialDetailsLayout({
         zipCode: values.zipCode,
         country: values.country,
         gender: values.gender,
+        urlStub: "hhhh", // Add appropriate value
+        approvedOn: new Date().toISOString(), // Convert Date to string
+        isCompleted: false, // Add appropriate value
       };
 
-      updateTrial(data);
+      // updateTrial(data);
     },
     validationSchema: formSchema,
   });
@@ -383,7 +388,7 @@ export default function TrialDetailsLayout({
                 </small>
               </div>
 
-              <div className="flex flex-col gap-2 gap-2 w-1/2">
+              <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="country" className="text-sm font-semibold">
                   {l("settings.tab1.form.country.label") || "Country:"}
                   <span className="ml-1">*</span>

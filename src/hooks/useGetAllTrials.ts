@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { iTrialDetailsProps, iTrialFilteringProps } from "@/types";
+import { iTrialInfoProps, iTrialFilteringProps } from "@/types";
 import useSWR from "swr";
 
 
@@ -13,8 +13,8 @@ export default function useGetAllTrials({
 //   submissionDeadlineSortDirection,
 //   showExpiredTrials,
   pagination
-}: iTrialFilteringProps) : { allTrials: iTrialDetailsProps[], trialsError: Error | null, trialsIsLoading: boolean } {
-  const [allTrials, setAllTrials] = useState<iTrialDetailsProps[]>([]);
+}: iTrialFilteringProps) : { allTrials: iTrialInfoProps[], trialsError: Error | null, trialsIsLoading: boolean } {
+  const [allTrials, setAllTrials] = useState<iTrialInfoProps[]>([]);
 
   const fetcher = async (url: string, body: { searchValue: string }) => {
     const res = await axios.post(url, body, {

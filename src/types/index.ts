@@ -180,7 +180,6 @@ export interface iTrialInfoProps {
   // company: iCompany;
   trialSite: iTrialSite | null;
   // medicalCategories: iTrialCategoryProps[];
-  isRecruiting: boolean;
   // media: iMediaProps;
   ageMin: number;
   ageMax: number;
@@ -193,6 +192,7 @@ export interface iTrialInfoProps {
   // userApplication: iUserTrialApplication | null;
   // diseases: string[];
   applicantsNumber: number;
+  recruitingStatus: string;
 }
 
 //--------------- application -------------------------

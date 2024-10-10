@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { iTrialInfoProps } from "@/types";
@@ -17,7 +19,6 @@ const useGetSingleTrialInfo = (): {
     fullDescription: "",
     urlStub: "",
     trialSite: null,
-    isRecruiting: false,
     ageMin: 18,
     ageMax: 120,
     gender: "",
@@ -27,6 +28,7 @@ const useGetSingleTrialInfo = (): {
     submissionDeadline: "",
     isCompleted: false,
     applicantsNumber: 0,
+    recruitingStatus: "",
   };
 
   //--- Fetcher Function ---
