@@ -179,8 +179,8 @@ export interface iTrialInfoProps {
   urlStub: string;
   // company: iCompany;
   trialSite: iTrialSite | null;
-  // medicalCategories: iTrialCategoryProps[];
-  // media: iMediaProps;
+  medicalCategories: iTrialCategoryProps[];
+  media: iMediaProps;
   ageMin: number;
   ageMax: number;
   gender: string;
@@ -189,8 +189,8 @@ export interface iTrialInfoProps {
   endDate: string;
   submissionDeadline: string;
   isCompleted: boolean;
-  // userApplication: iUserTrialApplication | null;
-  // diseases: string[];
+  userApplication: iUserTrialApplication | null;
+  diseases: string[];
   applicantsNumber: number;
   recruitingStatus: string;
 }

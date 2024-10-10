@@ -22,13 +22,22 @@ const useGetSingleTrialInfo = (): {
     ageMin: 18,
     ageMax: 120,
     gender: "",
-    approvedOn: "", 
+    approvedOn: "",
     startDate: "",
     endDate: "",
     submissionDeadline: "",
     isCompleted: false,
     applicantsNumber: 0,
     recruitingStatus: "",
+    medicalCategories: [],
+    media: {
+      name: "",
+      filePath: "",
+      description: "",
+      alt: "",
+    },
+    userApplication: null,
+    diseases: [],
   };
 
   //--- Fetcher Function ---
@@ -54,7 +63,7 @@ const useGetSingleTrialInfo = (): {
   const [trialInfo, setTrialInfo] = useState<iTrialInfoProps>(initialTrialInfo);
   useEffect(() => {
     if (data) {
-        setTrialInfo(data);
+      setTrialInfo(data);
     }
   }, [data]);
 
