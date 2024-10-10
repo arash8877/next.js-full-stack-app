@@ -33,6 +33,8 @@ export default function RecruitingDropdown({
           value={status}
           onChange={handleChange}
           sx={{
+            backgroundColor: "white",
+            borderRadius: "8px",
             height: "48px",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: borderColor,

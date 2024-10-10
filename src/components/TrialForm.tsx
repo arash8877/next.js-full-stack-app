@@ -307,17 +307,17 @@ export default function TrialDetailsLayout({
                 height={32}
               />
               <div className="flex gap-2 items-center">
-                <label htmlFor="password" className="text-sm font-semibold">
+                <label
+                  htmlFor="recruitingStatus"
+                  className="text-sm font-semibold"
+                >
                   {l("settings.tab4.form.password.label") || "Status:"}
                   <span className="ml-1">*</span>
                 </label>
-                <input
-                  name="recruitingStatus"
-                  type="text"
-                  value={formik.values.recruitingStatus}
-                  onChange={formik.handleChange("recruitingStatus")}
-                  onBlur={formik.handleBlur("recruitingStatus")}
-                  className="register_input custom-border"
+                <RecruitingDropdown
+                  status={formik.values.gender}
+                  setStatus={(value) => formik.setFieldValue("gender", value)}
+                  borderColor="#DFF2DF"
                 />
                 <small className="text-red-600">
                   {formik.touched.recruitingStatus &&
