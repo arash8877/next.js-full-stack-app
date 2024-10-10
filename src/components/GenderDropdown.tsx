@@ -12,24 +12,26 @@ interface GenderDropdownProps {
   gender: string;
   setGender: React.Dispatch<React.SetStateAction<string>>;
   borderColor: string;
+  className?: string;
 }
 
 
 //---------------------------------- main function ------------------------------------------
-export default function GenderDropdown({ gender, setGender, borderColor }: GenderDropdownProps) {
+export default function GenderDropdown({ gender, setGender, borderColor, className }: GenderDropdownProps) {
   const { l } = useLanguageStore();
   const handleChange = (event: SelectChangeEvent<string>) => {
     setGender(event.target.value);
   };
 //------------ return -------------------
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box className={className}>
       <FormControl fullWidth>
         <Select
           displayEmpty
           value={gender}
           onChange={handleChange}
           sx={{
+            backgroundColor: "white",
             height: "48px",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: borderColor,
@@ -38,7 +40,7 @@ export default function GenderDropdown({ gender, setGender, borderColor }: Gende
         >
           <MenuItem disabled value="">
             <Typography sx={{ fontStyle: "normal", fontWeight: "400", color: "#aaaaaa" }}>
-              {l("dropdown.gender.info") || "Select Biological Sex"}
+              {l("dropdown.gender.info") || "Select gender"}
             </Typography>
           </MenuItem>
           <MenuItem value="Male">{l("dropdown.gender.male") || "Male"}</MenuItem>

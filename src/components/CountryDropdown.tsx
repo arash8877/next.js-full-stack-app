@@ -41,6 +41,7 @@ export default function CountryDropdown({
           value={country}
           onChange={handleChange}
           sx={{
+            backgroundColor: "white",
             height: "48px",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: borderColor,

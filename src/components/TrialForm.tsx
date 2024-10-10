@@ -9,6 +9,8 @@ import { iTrialInfoProps, iUserTrialApplication } from "@/types";
 import StatusBox from "@/components/StatusBox";
 import axios from "axios";
 import RecruitingDropdown from "./RecruitingDropdown";
+import GenderDropdown from "./GenderDropdown";
+import CountryDropdown from "./CountryDropdown";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "react-toastify";
@@ -380,15 +382,13 @@ export default function TrialDetailsLayout({
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="country" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "country"}
+                  {l("settings.tab1.form.country.label") || "Country"}
+                  <span className="ml-1">*</span>
                 </label>
-                <input
-                  name="country"
-                  type="text"
-                  value={formik.values.country}
-                  onChange={formik.handleChange("country")}
-                  onBlur={formik.handleBlur("country")}
-                  className="register_input custom-border"
+                <CountryDropdown
+                  country={formik.values.country}
+                  setCountry={(value) => formik.setFieldValue("country", value)}
+                  borderColor="#DFF2DF"
                 />
                 <small className="text-red-600">
                   {formik.touched.country && formik.errors.country}
@@ -432,11 +432,11 @@ export default function TrialDetailsLayout({
               </div>
             </div>
 
-
             <div className="flex justify-between">
               <div className="flex flex-col gap-2">
                 <label htmlFor="startDate" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Start Study Date:"}
+                  {l("settings.tab4.form.password.label") ||
+                    "Start Study Date:"}
                 </label>
                 <input
                   name="startDate"
@@ -469,11 +469,14 @@ export default function TrialDetailsLayout({
               </div>
             </div>
 
-
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between">
               <div className="flex flex-col gap-2">
-                <label htmlFor="submissionDeadline" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Enrolment Deadline:"}
+                <label
+                  htmlFor="submissionDeadline"
+                  className="text-sm font-semibold"
+                >
+                  {l("settings.tab4.form.password.label") ||
+                    "Enrolment Deadline:"}
                 </label>
                 <input
                   name="submissionDeadline"
@@ -484,21 +487,21 @@ export default function TrialDetailsLayout({
                   className="register_input custom-border"
                 />
                 <small className="text-red-600">
-                  {formik.touched.submissionDeadline && formik.errors.submissionDeadline}
+                  {formik.touched.submissionDeadline &&
+                    formik.errors.submissionDeadline}
                 </small>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex gap-2 flex-col">
                 <label htmlFor="gender" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Biological Sex:"}
+                  {l("register.step3.form.gender.label") || "Biological sex"}
+                  <span className="ml-1">*</span>
                 </label>
-                <input
-                  name="gender"
-                  type="text"
-                  value={formik.values.gender}
-                  onChange={formik.handleChange("gender")}
-                  onBlur={formik.handleBlur("gender")}
-                  className="register_input custom-border"
+                <GenderDropdown
+                  gender={formik.values.gender}
+                  setGender={(value) => formik.setFieldValue("gender", value)}
+                  borderColor="#DFF2DF"
+                  className= "register_input custom-border"
                 />
                 <small className="text-red-600">
                   {formik.touched.gender && formik.errors.gender}
@@ -507,30 +510,10 @@ export default function TrialDetailsLayout({
             </div>
 
 
-
-            <div className="flex flex-col">
-              <button />
-              <small className="text-xs mt-1.5	text-center">
-                {l("trialdetails.cta.privacypolicy.description") ||
-                  "If you are interesting in how we store and use your data, you can read more about in our"}{" "}
-                <Link
-                  href="https://trialsync.com/privacy"
-                  target="_blank"
-                  className="text-xs font-bold underline"
-                >
-                  {l("trialdetails.cta.privacypolicy.text") || "Privacy Policy"}
-                </Link>
-              </small>
-            </div>
           </div>
 
           <div className="flex-1 flex-col gap-8">
             <div className="flex flex-col gap-4">
-              {trialHasBeenApplied ? (
-                <div className="hidden md:block">
-                  <MessageBox currentState={currentApplicationState} />
-                </div>
-              ) : null}
               <h1 className="text-2xl font-semibold">{title}</h1>
               <Markdown remarkPlugins={[remarkGfm]}>
                 {shortDescription}
