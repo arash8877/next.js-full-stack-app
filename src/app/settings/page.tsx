@@ -87,7 +87,7 @@ export default function SettingsPage() {
             >
               {l("settings.tab3.name") || "Delete User"}
             </button>
-            <button
+            {/* <button
               id="4"
               disabled={currentTab === "4"}
               onClick={handleTabClick}
@@ -98,7 +98,7 @@ export default function SettingsPage() {
               }`}
             >
               {l("settings.tab4.name") || "Fourth Tab"}
-            </button>
+            </button> */}
           </div>
         </div>
 

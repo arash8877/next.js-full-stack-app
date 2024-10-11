@@ -15,7 +15,6 @@ const EmployeesListForm = ({
   email,
   lastLogin,
 }: employeesInfoProps) => {
-  const [isEditable, setIsEditable] = useState(false);
   const [isDeleteEmployeeModalOpen, setIsDeleteEmployeeModalOpen] = useState(false);
   const { l } = useLanguageStore();
 
@@ -106,7 +105,6 @@ const EmployeesListForm = ({
       };
 
       updateEmployee(data);
-      setIsEditable(false);
     },
     validationSchema: formSchema,
   });
@@ -141,7 +139,6 @@ const EmployeesListForm = ({
             onChange={formik.handleChange("firstName")}
             onBlur={formik.handleBlur("firstName")}
             className="register_input custom-border"
-            disabled={!isEditable}
           />
           <small className="text-red-600">
             {formik.touched.firstName && formik.errors.firstName}
@@ -161,7 +158,6 @@ const EmployeesListForm = ({
             onChange={formik.handleChange("lastName")}
             onBlur={formik.handleBlur("lastName")}
             className="register_input custom-border"
-            disabled={!isEditable}
           />
           <small className="text-red-600">
             {formik.touched.lastName && formik.errors.lastName}
@@ -181,7 +177,6 @@ const EmployeesListForm = ({
             onChange={formik.handleChange("email")}
             onBlur={formik.handleBlur("email")}
             className="register_input custom-border"
-            disabled={!isEditable}
           />
           <small className="text-red-600">
             {formik.touched.email && formik.errors.email}
