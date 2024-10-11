@@ -224,7 +224,7 @@ export interface iApplicationProps {
 export interface CreateTrialCompanyInfoProps {
   title: string;
   shortDescription: string;
-  longDescription: string;
+  fullDescription: string;
 }
 
 export interface CreateTrialStep1FormProps {

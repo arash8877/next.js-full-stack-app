@@ -41,7 +41,7 @@ const InputField: React.FC<
         }
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        className="register_input mt-2"
+        className="register_input mt-2 custom-border"
         style={icon ? { paddingLeft: "2.5rem" } : {}}
       />
     </div>
@@ -81,14 +81,14 @@ const CreateTrialStep1Form = () => {
         l("settings.tab1.form.shortDescription.validation.length") ||
           "Short description must be at least 4 characters!"
       ),
-    longDescription: Yup.string()
+    fullDescription: Yup.string()
       .required(
-        l("register.step1.form.longDescription.validation.required") ||
+        l("register.step1.form.fullDescription.validation.required") ||
           "Long Description is required!"
       )
       .min(
         4,
-        l("settings.tab1.form.longDescription.validation.length") ||
+        l("settings.tab1.form.fullDescription.validation.length") ||
           "Long description must be at least 4 characters!"
       ),
   });
@@ -98,7 +98,7 @@ const CreateTrialStep1Form = () => {
     initialValues: {
       title: "",
       shortDescription: "",
-      longDescription: "",
+      fullDescription: "",
     },
     //-----onSubmit-------
     // eslint-disable-next-line
@@ -110,7 +110,7 @@ const CreateTrialStep1Form = () => {
         //     verifyURL: `${window.location.origin}/register/step2`,
         //     title: values.title,
         //     shortDescription: values.shortDescription,
-        //     longDescription: values.longDescription,
+        //     fullDescription: values.fullDescription,
         //   }
         // );
         // console.log(response)
@@ -137,34 +137,50 @@ const CreateTrialStep1Form = () => {
       <div className="flex justify-center">
         <p className=" text-red-600">{error}</p>
       </div>
-      <InputField
-        label={l("register.step1.form.title.label") || "Title"}
-        name="title"
-        type="text"
-        placeholder={l("register.step1.form.title.placeholder") || "Title"}
-        formik={formik}
-      />
-      <InputField
-        label={
-          l("register.step1.form.shortDescription.label") || "Short Description"
-        }
-        name="shortDescription"
-        type="text"
-        placeholder={
-          l("register.step1.form.shortDescription.placeholder") ||
-          "Short Description"
-        }
-        formik={formik}
-      />
-      <InputField
-        label={l("register.step1.form.email.label") || "Long Description"}
-        name="longDescription"
-        type="text"
-        placeholder={
-          l("register.step1.form.email.placeholder") || "Long Description"
-        }
-        formik={formik}
-      />
+
+      <div className="flex flex-col gap-6 xl:w-3/4">
+        <InputField
+          label={l("register.step1.form.title.label") || "Title"}
+          name="title"
+          type="text"
+          placeholder={l("register.step1.form.title.placeholder") || "Title"}
+          formik={formik}
+        />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="shortDescription" className="text-sm font-semibold">
+            {l("settings.tab4.form.password.label") || "Short Description:"}
+          </label>
+          <textarea
+            name="shortDescription"
+            value={formik.values.shortDescription}
+            onChange={formik.handleChange("shortDescription")}
+            onBlur={formik.handleBlur("shortDescription")}
+            className="textarea_input custom-border h-32"
+            placeholder="Short Description"
+          />
+          <small className="text-red-600">
+            {formik.touched.shortDescription && formik.errors.shortDescription}
+          </small>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="fullDescription" className="text-sm font-semibold">
+            {l("settings.tab4.form.password.label") || "Full Description:"}
+          </label>
+          <textarea
+            name="fullDescription"
+            value={formik.values.fullDescription}
+            onChange={formik.handleChange("fullDescription")}
+            onBlur={formik.handleBlur("fullDescription")}
+            className="textarea_input custom-border h-52"
+            placeholder="Full Description"
+          />
+          <small className="text-red-600">
+            {formik.touched.fullDescription && formik.errors.fullDescription}
+          </small>
+        </div>
+      </div>
+
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
