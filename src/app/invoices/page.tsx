@@ -43,16 +43,16 @@ export default function CompanyPage() {
         <table className="min-w-full bg-white ">
           <thead>
             <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
-              <th className="py-3 px-6">Invoice Number</th>
+              <th className="py-3 px-6 hidden md:table-cell">Invoice Number</th>
               <th className="py-3 px-6">Amount</th>
-              <th className="py-3 px-6">Status</th>
+              <th className="py-3 px-6 ">Status</th>
               <th className="py-3 px-6 text-right">Action</th>
             </tr>
           </thead>
           <tbody>
             {invoices.map((item, index) => (
               <tr key={index} className="border-b">
-                <td className="py-4 px-6">{item.invNumber}</td>
+                <td className="py-4 px-6 hidden md:table-cell">{item.invNumber}</td>
                 <td className="py-4 p-6">${item.amount.toFixed(2)}</td>
                 <td className="py-4 px-6">{item.isPaid ? "Paid" : "Unpaid"}</td>
                 <td className="py-4 px-6 flex justify-end">

@@ -2,12 +2,10 @@
 
 import { SidebarLayout } from "@/components/SidebarLayout";
 import CustomButton from "@/components/CustomButton";
-import EmployeesListForm from "@/components/EmployeesListForm";
-import useGetEmployeesInfo from "@/hooks/useGetEmployeesInfo";
 import { useRouter } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
 
-const dummyEmployees = [
+const employees = [
   {
     firstName: "John",
     lastName: "Doe",
@@ -34,41 +32,54 @@ const dummyEmployees = [
   },
 ];
 
-//------------------------- Main Function ----------------------------------
-export default function CompanyPage() {
-  const { employeeData } = useGetEmployeesInfo();
+//------------------------------------ main function -----------------------------------
+export default function EmployeesPage() {
   const router = useRouter();
   const { l } = useLanguageStore();
 
-
-  function redirectToInviteForm() {
-    router.push("/employees/invite");
+  function redirectToEmployeeDetails(employeeId: string) {
+    router.push(`/employees/${employeeId}`);
   }
 
-  //--------------------------------- JSX -----------------------------------
+  //------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between md:flex-row md:items-center">
-        <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
-          {l("settings.title") || "Employees List"}
-        </h1>
-        <div className="flex justify-center xs:justify-end gap-4 xl:items-end pb-4 xs:pb-8">
-          <CustomButton
-            title={l("settings.form.save") || "Invite Employee"}
-            containerStyles="rounded-lg h-[48px] gradient-green1 hover1"
-            btnType="button"
-            handleClick={redirectToInviteForm}
-          />
-        </div>
+      <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+        {l("settings.title") || "Employees"}
+      </h1>
+      <div className="overflow-x-auto bg-white wrapper rounded-3xl">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
+              <th className="py-3 px-6">First Name</th>
+              <th className="py-3 px-6">Last Name</th>
+              <th className="py-3 px-6 hidden lg:table-cell">Email</th> {/* Hidden on small screens */}
+              <th className="py-3 px-6 hidden lg:table-cell">Last Login</th> {/* Hidden on small screens */}
+              <th className="py-3 px-6 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee, index) => (
+              <tr key={index} className="border-b">
+                <td className="py-4 px-6">{employee.firstName}</td>
+                <td className="py-4 px-6">{employee.lastName}</td>
+                <td className="py-4 px-6 hidden lg:table-cell break-all max-w-xs whitespace-normal">
+                  {employee.email}
+                </td> {/* Email should break into multiple lines */}
+                <td className="py-4 px-6 hidden lg:table-cell">{employee.lastLogin}</td>
+                <td className="py-4 px-6 flex justify-end">
+                  <CustomButton
+                    title={l("forgotpassword.form.submit") || "View"}
+                    containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom-padding"
+                    btnType="button"
+                    handleClick={() => redirectToEmployeeDetails(employee.email)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      {dummyEmployees.map((employee, index) => (
-        <div
-          key={index}
-          className="flex flex-col bg-white rounded-3xl mb-4 wrapper"
-        >
-          <EmployeesListForm {...employeeData} />
-        </div>
-      ))}
     </SidebarLayout>
   );
 }
