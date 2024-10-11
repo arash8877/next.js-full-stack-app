@@ -4,7 +4,7 @@ import CustomButton from "./CustomButton";
 import axios from "axios";
 import { iUserProps, iUserUpdateProps } from "@/types/index";
 import { toast } from "react-toastify";
-import LanguageDropdown from "./LanguageDropdown";
+// import LanguageDropdown from "./LanguageDropdown";
 import useLanguageStore from "@/stores/language-store";
 
 //------------------------------------ main function -----------------------------------
@@ -177,9 +177,9 @@ const SettingUserInfoForm = ({
             </small>
           </div>
         </div>
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <LanguageDropdown />
-        </div>
+        </div> */}
       </div>
 
       <div>

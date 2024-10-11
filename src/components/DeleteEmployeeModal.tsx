@@ -70,7 +70,7 @@ export default function DeleteEmployeeModal({ open, onClose }: DeleteUserProps) 
           sx={{ fontSize: "24px" }}
         >
           {l("modal.deleteuser.header") ||
-            "Are you sure you want to delete the employee's account?"}
+            "Are you sure you want to delete the employee?"}
         </Typography>
         <Divider
           sx={{

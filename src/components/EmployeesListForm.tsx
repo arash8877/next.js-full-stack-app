@@ -111,10 +111,6 @@ const EmployeesListForm = ({
     validationSchema: formSchema,
   });
 
-  //---- toggle edit button ----
-  const handleToggleEdit = () => {
-    setIsEditable((prev) => !prev);
-  };
 
   //---- open/close delete modal ----
   function openDeleteEmployeeModal() {
@@ -128,10 +124,10 @@ const EmployeesListForm = ({
   //--------------------------Return---------------------------------
   return (
     <form
-      className="flex flex-col gap-6 xl:flex-row"
+      className="flex flex-col gap-6"
       onSubmit={formik.handleSubmit}
     >
-      <div className="grid gap-7 md:gap-6 xl:w-4/5 md:grid-cols-2">
+      <div className="grid gap-7 md:gap-6 xl:w-4/5 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">
             {l("settings.tab1.form.firstName.label") || "First Name"}
@@ -173,7 +169,7 @@ const EmployeesListForm = ({
         </div>
       </div>
 
-      <div className="grid gap-7 md:gap-6 xl:w-4/5 md:grid-cols-2">
+      <div className="grid gap-7 md:gap-6 xl:w-4/5 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="email">
             {l("settings.tab1.form.email.label") || "Email"}
@@ -213,15 +209,9 @@ const EmployeesListForm = ({
 
       <div className="flex justify-center xs:justify-end gap-4 xl:items-end xl:pb-2">
         <CustomButton
-          title={isEditable ? l("settings.form.save") || "Save" : l("settings.form.edit") || "Edit"}
-          containerStyles={`rounded-lg h-[48px] ${isEditable ? 'bg-blue-300' : 'gradient-green1'} hover1`}
-          btnType="button"
-          handleClick={() => {
-            if (isEditable) {
-              formik.handleSubmit();
-            }
-            handleToggleEdit();
-          }}
+          title={l("settings.form.edit") || "Update"}
+          containerStyles="rounded-lg h-[48px] gradient-green1 hover1"
+          btnType="submit"
         />
         <CustomButton
           title={l("settings.form.submit") || "Delete"}
