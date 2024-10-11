@@ -1,23 +1,22 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { CompanyInfoProps } from "@/types";
+import { applicantsInfoProps } from "@/types";
 import useSWR from "swr";
 
 //----------------------------------- Main Function ---------------------------------------
-const useGetCompanyInfo = (): {
-  companyData: CompanyInfoProps;
-  companyError: Error | null;
-  companyIsLoading: boolean;
+const useGetApplicantsInfo = (): {
+  applicantData: applicantsInfoProps;
+  applicantError: Error | null;
+  applicantIsLoading: boolean;
 } => {
-  //--- Initial Company Info ---
-  const initialCompanyInfo: CompanyInfoProps = {
-    companyName: "",
-    vatNumber: "",
-    address: "",
+  //--- Initial applicant Info ---
+  const initialApplicantInfo: applicantsInfoProps = {
+    applicantsNumber: 0,
+    firstName: "",
+    lastName: "",
+    age: "", 
     zipCode: "",
     country: "",
-    phoneNumber: "",
-    consentedToTerms: true
   };
 
   //--- Fetcher Function ---
@@ -35,20 +34,20 @@ const useGetCompanyInfo = (): {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  //--- GET Company Info ---
+  //--- GET applicant Info ---
   const { data, error, isLoading } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
     fetcher
   );
-  const [companyInfo, setCompanyInfo] = useState<CompanyInfoProps>(initialCompanyInfo);
+  const [applicantInfo, setApplicantInfo] = useState<applicantsInfoProps>(initialApplicantInfo);
   useEffect(() => {
     if (data) {
-        setCompanyInfo(data);
+        setApplicantInfo(data);
     }
   }, [data]);
 
-  //  console.log(companyInfo)
-  return { companyData: companyInfo, companyError: error, companyIsLoading: isLoading };
+  //  console.log(applicantInfo)
+  return { applicantData: applicantInfo, applicantError: error, applicantIsLoading: isLoading };
 };
 
-export default useGetCompanyInfo;
+export default useGetApplicantsInfo;
