@@ -181,7 +181,7 @@ const SettingUserInfoForm = ({
             name="zipCode"
             type="text"
             value={formik.values.zipCode}
-            onChange={formik.handleChange("companyName")}
+            onChange={formik.handleChange("zipCode")}
             onBlur={formik.handleBlur("zipCode")}
             className="register_input custom-border"
           />

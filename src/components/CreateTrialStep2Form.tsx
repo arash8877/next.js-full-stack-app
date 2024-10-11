@@ -42,7 +42,7 @@ const InputField: React.FC<
         }
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        className="register_input mt-2"
+        className="register_input mt-2 custom-border"
         style={icon ? { paddingLeft: "2.5rem" } : {}}
       />
     </div>
@@ -144,46 +144,50 @@ const CreateTrialStep2Form = () => {
       <div className="flex justify-center">
         <p className=" text-red-600">{error}</p>
       </div>
-      <InputField
-        label={l("register.step1.form.place.label") || "Place"}
-        name="place"
-        type="text"
-        placeholder={
-          l("register.step1.form.place.placeholder") ||
-          "e.g. Copenhagen University"
-        }
-        formik={formik}
-      />
-      <InputField
-        label={l("register.step1.form.address.label") || "Address"}
-        name="address"
-        type="text"
-        placeholder={
-          l("register.step1.form.address.placeholder") || "e.g. Street 1"
-        }
-        formik={formik}
-      />
-      <InputField
-        label={l("register.step1.form.email.label") || "Zip code"}
-        name="zipCode"
-        type="text"
-        placeholder={l("register.step1.form.email.placeholder") || "Zip code"}
-        formik={formik}
-      />
-      <div className="flex flex-col">
-        <label htmlFor="country" className="mb-2">
-          {l("register.step3.form.country.label") || "Country"}
-          <span className="ml-1">*</span>
-        </label>
-        <CountryDropdown
-          country={country}
-          setCountry={setCountry}
-          borderColor="black"
+
+      <div className="flex flex-col gap-6 xl:w-3/4">
+        <InputField
+          label={l("register.step1.form.place.label") || "Place"}
+          name="place"
+          type="text"
+          placeholder={
+            l("register.step1.form.place.placeholder") ||
+            "e.g. Copenhagen University"
+          }
+          formik={formik}
         />
-        <small className="text-red-600">
-          {formik.touched.country && formik.errors.country}
-        </small>
+        <InputField
+          label={l("register.step1.form.address.label") || "Address"}
+          name="address"
+          type="text"
+          placeholder={
+            l("register.step1.form.address.placeholder") || "e.g. Street 1"
+          }
+          formik={formik}
+        />
+        <InputField
+          label={l("register.step1.form.email.label") || "Zip code"}
+          name="zipCode"
+          type="text"
+          placeholder={l("register.step1.form.email.placeholder") || "Zip code"}
+          formik={formik}
+        />
+        <div className="flex flex-col">
+          <label htmlFor="country" className="mb-2">
+            {l("register.step3.form.country.label") || "Country"}
+            <span className="ml-1">*</span>
+          </label>
+          <CountryDropdown
+            country={country}
+            setCountry={setCountry}
+            borderColor="#dff2df"
+          />
+          <small className="text-red-600">
+            {formik.touched.country && formik.errors.country}
+          </small>
+        </div>
       </div>
+
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
