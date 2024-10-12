@@ -293,6 +293,16 @@ export interface invoicesInfoProps {
   isPaid: boolean;
 }
 
+//------- Applicants --------
+export interface applicantsInfoProps {
+  applicantsNumber: number;
+  firstName: string;
+  lastName: string;
+  age: string;
+  zipCode: string;
+  country: string;
+}
+
 //------------------------- filtering ----------------------------
 export interface iTrialFilteringProps {
   searchValue: string | null;
