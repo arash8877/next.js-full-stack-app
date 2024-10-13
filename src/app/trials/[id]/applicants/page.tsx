@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
+import UnlockApplicantsModal from "@/components/UnlockApplicantsModal";
 import CustomButton from "@/components/CustomButton";
 import useLanguageStore from "@/stores/language-store";
 
@@ -40,12 +41,25 @@ const applicants = [
 //------------------------------------ main function -----------------------------------
 export default function ApplicantsPage() {
   const [unlock, setUnlock] = useState(false);
+  const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
   const applicantsNumber = 535;
   const { l } = useLanguageStore();
 
-  function handleUnlock() {
-    setUnlock(true);
-  }
+  const handleUnlock = async () => {
+    try {
+      //   await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/users`, {
+      //       // request
+      //       headers: {
+      //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+      //         },
+      //     });
+
+      setIsUnlockModalOpen(false);
+      setUnlock(true);
+    } catch (error) {
+      console.error("Error in unlock modal:", error);
+    }
+  };
 
   //------------------------------- JSX -----------------------------------
   return (
@@ -66,10 +80,12 @@ export default function ApplicantsPage() {
           typesetting industry. Lorem Ipsum has been the industry standard dummy
         </h2>
         <CustomButton
-          title={l("forgotpassword.form.submit") || "Unlock"}
+          title={unlock ? l("forgotpassword.form.submit") || "Unlocked" : l("forgotpassword.form.submit") || "Unlock" }
           containerStyles="rounded-lg flex_center bg-gradient-button h-11"
+          disabledContainerStyles="rounded-lg flex_center bg-gray-300 h-11 text-white"
           btnType="button"
-          handleClick={handleUnlock}
+          handleClick={() => setIsUnlockModalOpen(true)}
+          disabled={unlock}
         />
       </div>
       <div className="overflow-x-auto bg-white wrapper rounded-3xl">
@@ -80,9 +96,7 @@ export default function ApplicantsPage() {
               <th className="py-3 px-6">Last Name</th>
               <th className="py-3 px-6">Age</th>
               <th className="py-3 px-6 hidden lg:table-cell">ZIP Code</th>{" "}
-              {/* Hidden on small screens */}
               <th className="py-3 px-6 hidden lg:table-cell">Country</th>{" "}
-              {/* Hidden on small screens */}
             </tr>
           </thead>
 
@@ -104,6 +118,11 @@ export default function ApplicantsPage() {
             ))}
           </tbody>
         </table>
+        <UnlockApplicantsModal
+        open={isUnlockModalOpen}
+        onClose={() => setIsUnlockModalOpen(false)}
+        onUnlock={handleUnlock}
+        />
       </div>
     </SidebarLayout>
   );
