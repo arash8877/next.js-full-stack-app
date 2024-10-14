@@ -48,7 +48,7 @@ export default function SidebarDashboard() {
         }`}
       >
         <div className="flex flex-col">
-          <Link href="https://app.trialsync.com/trials">
+          <Link href="https://sponsor.trialsync.com/trials">
             <div
               className={`flex gap-2 items-center sidebar_animation ${
                 isSidebarOpen ? "pl-9 mt-11" : "pl-3 my-11"
