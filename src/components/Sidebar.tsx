@@ -73,7 +73,7 @@ export default function SidebarDashboard() {
             </div>
           </Link>
           {isSidebarOpen && (
-          <p className="text-center mb-6 text-primary-1400">Sponsor</p>
+          <h3 className="text-center mb-6 text-primary-1400">Sponsor</h3>
           )}
         </div>
         <hr className="border border-gray-200 w-full mb-9 sidebar_animation" />
