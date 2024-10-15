@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useMemo, useCallback } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -10,6 +12,10 @@ import {
   CreateTrialCompanyInfoProps,
 } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
+import Editor from "@/components/Editor";
+import { withReact } from "slate-react";
+import { createEditor, Descendant } from "slate";
+import { withHistory } from "slate-history";
 
 //--------- Reusable Input Component ---------
 const InputField: React.FC<
@@ -114,7 +120,8 @@ const CreateTrialStep1Form = () => {
         //   }
         // );
         // console.log(response)
-        router.push("/create-trial/step2");
+        console.log(values)
+        // router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response && error.response.data) {
@@ -127,6 +134,28 @@ const CreateTrialStep1Form = () => {
     },
     // validationSchema: formSchema,
   });
+
+   //----- Handlers for both editors -----
+   const editorShortDescription = useMemo(() => withHistory(withReact(createEditor())), []);
+   const editorFullDescription = useMemo(() => withHistory(withReact(createEditor())), []);
+
+   const handleShortDescriptionChange = useCallback(
+    (value: Descendant[]) => {
+      const serializedContent = JSON.stringify(value);
+      console.log('Short Description changed:', serializedContent);
+      formik.setFieldValue("shortDescription", serializedContent);
+    },
+    [formik]
+  );
+
+  const handleFullDescriptionChange = useCallback(
+    (value: Descendant[]) => {
+      const serializedContent = JSON.stringify(value);
+      console.log('Full Description changed:', serializedContent);
+      formik.setFieldValue("fullDescription", serializedContent);
+    },
+    [formik]
+  );
 
   //--------------------------------------------------Return---------------------------------------------
   return (
@@ -146,35 +175,35 @@ const CreateTrialStep1Form = () => {
           placeholder={l("register.step1.form.title.placeholder") || "Title"}
           formik={formik}
         />
-        <div className="flex flex-col gap-2">
+        <div className="flex-col w-full">
           <label htmlFor="shortDescription" className="text-sm font-semibold">
-            {l("settings.tab4.form.password.label") || "Short Description:"}
+            Short Description:<span className="ml-1">*</span>
           </label>
-          <textarea
-            name="shortDescription"
-            value={formik.values.shortDescription}
-            onChange={formik.handleChange("shortDescription")}
-            onBlur={formik.handleBlur("shortDescription")}
-            className="textarea_input custom-border h-32"
-            placeholder="Short Description"
-          />
+          <Editor
+            editor={editorShortDescription}
+            onChange={handleShortDescriptionChange}
+            initialValue={initialValue}
+          >
+            <Editor.ToolBar />
+            <Editor.Input />
+          </Editor>
           <small className="text-red-600">
             {formik.touched.shortDescription && formik.errors.shortDescription}
           </small>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex-col w-full">
           <label htmlFor="fullDescription" className="text-sm font-semibold">
-            {l("settings.tab4.form.password.label") || "Full Description:"}
+            Full Description:<span className="ml-1">*</span>
           </label>
-          <textarea
-            name="fullDescription"
-            value={formik.values.fullDescription}
-            onChange={formik.handleChange("fullDescription")}
-            onBlur={formik.handleBlur("fullDescription")}
-            className="textarea_input custom-border h-52"
-            placeholder="Full Description"
-          />
+          <Editor
+            editor={editorFullDescription}
+            onChange={handleFullDescriptionChange}
+            initialValue={initialValue}
+          >
+            <Editor.ToolBar />
+            <Editor.Input />
+          </Editor>
           <small className="text-red-600">
             {formik.touched.fullDescription && formik.errors.fullDescription}
           </small>
@@ -191,5 +220,12 @@ const CreateTrialStep1Form = () => {
     </form>
   );
 };
+
+const initialValue: Descendant[] = [
+  {
+    type: "paragraph",
+    children: [{ text: "" }],
+  },
+];
 
 export default CreateTrialStep1Form;
