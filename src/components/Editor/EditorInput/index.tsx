@@ -40,9 +40,9 @@ const EditorInput = (props: EditorInputProps) => {
       case "list-item":
         return <ListItem {...props} />;
       case "ordered-list":
-        return <List {...props} />;
+        return <List {...(props as RenderElementProps & { element: { type: "ordered-list" } })} />;
       case "unordered-list":
-        return <List {...props} />;
+        return <List as="ul" {...(props as RenderElementProps & { element: { type: "unordered-list" } })} />;
       default:
         return <DefaultElement {...props} />;
     }

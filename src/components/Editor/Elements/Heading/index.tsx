@@ -2,8 +2,8 @@ import React from "react";
 
 type HeadingProps = {
   as: "h1" | "h2";
-  attributes?: React.HTMLAttributes<HTMLHeadingElement>; // Make attributes optional and typed for heading elements
-  element: { align?: "left" | "center" | "right" }; // Adjust the type for align
+  attributes?: React.HTMLAttributes<HTMLHeadingElement>; 
+  element: { align?: "left" | "center" | "right" }; 
   size: "xl" | "lg";
   children: React.ReactNode;
 };
