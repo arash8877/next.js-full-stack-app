@@ -1,24 +1,37 @@
 import { useCallback } from "react";
-import { Editable } from "slate-react";
-
+import { BaseEditor } from "slate";
+import {Editable, RenderElementProps, RenderLeafProps, ReactEditor} from "slate-react";
 import CustomEditor from "@/components/CustomEditor";
-
 import Heading from "../Elements/Heading";
 import DefaultElement from "../Elements/DefaultElement";
 import List from "../Elements/List";
 import ListItem from "../Elements/ListItem";
-
 import Leaf from "../Leaves/Leaf";
 
 type EditorInputProps = {
-  editor?: any;
+  editor?: typeof CustomEditor;
   readOnly?: boolean;
 };
 
+type CustomElement = { type: string; align?: "left" | "center" | "right";};
+type CustomText = { text: string; };
+
+declare module "slate" {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor;
+    Element: CustomElement;
+    Text: CustomText;
+  }
+}
+
+
+
+
+//------------------------------ main function --------------------------
 const EditorInput = (props: EditorInputProps) => {
   const { editor, readOnly = false } = props;
 
-  const renderElement = useCallback((props) => {
+  const renderElement = useCallback((props: RenderElementProps) => {
     switch (props.element.type) {
       case "heading-one":
         return <Heading as="h1" size="xl" {...props} />;
@@ -35,7 +48,7 @@ const EditorInput = (props: EditorInputProps) => {
     }
   }, []);
 
-  const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
+  const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
 
   return (
     <Editable

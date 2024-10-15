@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
@@ -59,13 +59,12 @@ const InputField: React.FC<
 );
 
 //-------------------------------------- main function-----------------------------------------
+// Your form component
 const CreateTrialStep1Form = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
-  //----------------- Yup validation ---------------
-  // eslint-disable-next-line
   const formSchema = Yup.object({
     title: Yup.string()
       .required(
@@ -75,7 +74,7 @@ const CreateTrialStep1Form = () => {
       .min(
         4,
         l("settings.tab1.form.title.validation.length") ||
-          "Title must be at least 2 characters!"
+          "Title must be at least 4 characters!"
       ),
     shortDescription: Yup.string()
       .required(
@@ -90,126 +89,138 @@ const CreateTrialStep1Form = () => {
     fullDescription: Yup.string()
       .required(
         l("register.step1.form.fullDescription.validation.required") ||
-          "Long Description is required!"
+          "Full Description is required!"
       )
       .min(
         4,
         l("settings.tab1.form.fullDescription.validation.length") ||
-          "Long description must be at least 4 characters!"
+          "Full description must be at least 4 characters!"
       ),
   });
 
-  //-------------formik----------------
   const formik = useFormik({
     initialValues: {
       title: "",
       shortDescription: "",
       fullDescription: "",
     },
-    //-----onSubmit-------
-    // eslint-disable-next-line
+    validationSchema: formSchema,
     onSubmit: async (values) => {
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     title: values.title,
-        //     shortDescription: values.shortDescription,
-        //     fullDescription: values.fullDescription,
-        //   }
-        // );
-        // console.log(response)
-        console.log(values)
+        // Extract the text from the serialized Slate JSON for shortDescription and fullDescription
+        const extractedShortDescription = extractTextFromSlateValue(
+          values.shortDescription
+        );
+        const extractedFullDescription = extractTextFromSlateValue(
+          values.fullDescription
+        );
+
+        // Now submit the form with the extracted plain text values
+        const submissionData = {
+          title: values.title,
+          shortDescription: extractedShortDescription, 
+          fullDescription: extractedFullDescription, 
+        };
+
+        console.log("Form submitted with values:", submissionData);
         // router.push("/create-trial/step2");
       } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response && error.response.data) {
-            setError(error.response.data);
-          } else {
-            setError("An unknown error occurred");
-          }
+        if (error instanceof AxiosError && error.response) {
+          setError(error.response.data.message || "An unknown error occurred");
+        } else {
+          setError("An unknown error occurred");
         }
       }
     },
-    // validationSchema: formSchema,
   });
 
-   //----- Handlers for both editors -----
-   const editorShortDescription = useMemo(() => withHistory(withReact(createEditor())), []);
-   const editorFullDescription = useMemo(() => withHistory(withReact(createEditor())), []);
+  //----- Create editor instances ----
+  const editorShortDescription = useMemo(
+    () => withHistory(withReact(createEditor())),
+    []
+  );
+  const editorFullDescription = useMemo(
+    () => withHistory(withReact(createEditor())),
+    []
+  );
 
-   const handleShortDescriptionChange = useCallback(
-    (value: Descendant[]) => {
-      const serializedContent = JSON.stringify(value);
-      console.log('Short Description changed:', serializedContent);
-      formik.setFieldValue("shortDescription", serializedContent);
+  //---- Handle Short Description change and update formik state ----
+  const handleShortDescriptionChange = useCallback(
+    (value: string) => {
+      console.log(value);
+      formik.setFieldValue("shortDescription", value);
     },
     [formik]
   );
 
+  //---- Handle Full Description change and update formik state ----
   const handleFullDescriptionChange = useCallback(
-    (value: Descendant[]) => {
-      const serializedContent = JSON.stringify(value);
-      console.log('Full Description changed:', serializedContent);
-      formik.setFieldValue("fullDescription", serializedContent);
+    (value: string) => {
+      formik.setFieldValue("fullDescription", value);
     },
     [formik]
   );
 
-  //--------------------------------------------------Return---------------------------------------------
+  const extractTextFromSlateValue = (value: string) => {
+    try {
+      const parsedValue = JSON.parse(value); // Parse the JSON string
+      return parsedValue
+        .map((node: { children: { text: string }[] }) =>
+          node.children.map((child: { text: string }) => child.text).join(" ")
+        )
+        .join("\n");
+    } catch (error) {
+      console.error("Error parsing Slate value:", error);
+      return "";
+    }
+  };
+
+  //----------------------------------- JSX ----------------------------------------------
   return (
     <form
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex justify-center">
-        <p className=" text-red-600">{error}</p>
-      </div>
+      {error && <p className="text-red-600">{error}</p>}
 
-      <div className="flex flex-col gap-6 xl:w-3/4">
-        <InputField
-          label={l("register.step1.form.title.label") || "Title"}
-          name="title"
-          type="text"
-          placeholder={l("register.step1.form.title.placeholder") || "Title"}
-          formik={formik}
+      <InputField
+        label={l("register.step1.form.title.label") || "Title"}
+        name="title"
+        type="text"
+        placeholder={l("register.step1.form.title.placeholder") || "Title"}
+        formik={formik}
+      />
+
+      <div className="flex-col w-full">
+        <label htmlFor="shortDescription" className="text-sm font-semibold">
+          Short Description:<span className="ml-1">*</span>
+        </label>
+        <Editor
+          editor={editorShortDescription}
+          initialValue={initialValue}
+          onChange={handleShortDescriptionChange} 
         />
-        <div className="flex-col w-full">
-          <label htmlFor="shortDescription" className="text-sm font-semibold">
-            Short Description:<span className="ml-1">*</span>
-          </label>
-          <Editor
-            editor={editorShortDescription}
-            onChange={handleShortDescriptionChange}
-            initialValue={initialValue}
-          >
-            <Editor.ToolBar />
-            <Editor.Input />
-          </Editor>
-          <small className="text-red-600">
-            {formik.touched.shortDescription && formik.errors.shortDescription}
-          </small>
-        </div>
-
-        <div className="flex-col w-full">
-          <label htmlFor="fullDescription" className="text-sm font-semibold">
-            Full Description:<span className="ml-1">*</span>
-          </label>
-          <Editor
-            editor={editorFullDescription}
-            onChange={handleFullDescriptionChange}
-            initialValue={initialValue}
-          >
-            <Editor.ToolBar />
-            <Editor.Input />
-          </Editor>
-          <small className="text-red-600">
-            {formik.touched.fullDescription && formik.errors.fullDescription}
-          </small>
-        </div>
+        <small className="text-red-600">
+          {formik.touched.shortDescription && formik.errors.shortDescription}
+        </small>
       </div>
 
+      {/* Full Description Editor */}
+      <div className="flex-col w-full">
+        <label htmlFor="fullDescription" className="text-sm font-semibold">
+          Full Description:<span className="ml-1">*</span>
+        </label>
+        <Editor
+          editor={editorFullDescription}
+          initialValue={initialValue}
+          onChange={handleFullDescriptionChange} // Pass formik handler to Editor
+        />
+        <small className="text-red-600">
+          {formik.touched.fullDescription && formik.errors.fullDescription}
+        </small>
+      </div>
+
+      {/* Submit Button */}
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}

@@ -1,32 +1,20 @@
 import React from "react";
-import { createEditor, BaseEditor, Descendant } from "slate";
-import { Slate, withReact, ReactEditor } from "slate-react";
-
+import { Slate, ReactEditor } from "slate-react";
+import { BaseEditor, Descendant } from "slate";
 import EditorInput from "./EditorInput";
 import ToolBar from "./Toolbar";
 
-type CustomElementType =
-  | "code"
-  | "link"
-  | "my4x4_attachment"
-  | "my4x4_manufacturer"
-  | "my4x4_manufacturer_model"
-  | "my4x4_manufacturer_part"
-  | "my4x4_project"
-  | "paragraph"
-  | "youtube";
-
+// Custom Types for Slate
+type CustomElementType = "code" | "paragraph";
 type CustomElement = {
   type: CustomElementType;
   children: CustomText[];
-  href?: string;
 };
-
 type CustomText = {
-  attachmentId?: string;
   text: string;
 };
 
+// Declare module for Slate
 declare module "slate" {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor;
@@ -35,37 +23,32 @@ declare module "slate" {
   }
 }
 
-export const createWrappedEditor = () => withReact(createEditor());
-
-type EditorProps = {
-  children: React.ReactNode;
-  editor: any;
-  initialValue?: Descendant[];
-  onChange: (value: Descendant[]) => void;
-};;
-
-const Editor = (props: EditorProps) => {
-  const { children, editor, initialValue , onChange } = props;
-
+//----------------------------- main function ------------------------------
+const Editor = ({
+  editor,
+  initialValue,
+  onChange,
+}: {
+  editor: BaseEditor & ReactEditor;
+  initialValue: Descendant[];
+  onChange: (value: string) => void;
+}) => {
   return (
     <Slate
       editor={editor}
-      initialValue={initialValue}
-      onChange={(value) => {
+      initialValue={initialValue || []}
+      onChange={(value: Descendant[]) => {
         const isAstChange = editor.operations.some(
           (op) => op.type !== "set_selection"
         );
-
         if (isAstChange) {
-          // Save the value to Local Storage.
           const content = JSON.stringify(value);
-          localStorage.setItem("content", content);
+          onChange(content); // Call the formik setFieldValue from the parent
         }
       }}
     >
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, { editor })
-      )}
+      <ToolBar />
+      <EditorInput />
     </Slate>
   );
 };
