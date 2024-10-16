@@ -113,6 +113,7 @@ const CreateTrialStep1Form = () => {
           fullDescription: JSON.stringify(values.fullDescription),
         };
         // const response = await axios.post('/your-api-endpoint', payload);
+        console.log(payload)
         // router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {
