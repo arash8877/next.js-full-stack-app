@@ -181,7 +181,6 @@ const CreateTrialStep1Form = () => {
         </small>
       </div>
 
-      {/* Full Description Editor */}
       <div className="flex-col w-full">
         <label htmlFor="fullDescription" className="text-sm font-semibold">
           Full Description:<span className="ml-1">*</span>
@@ -196,7 +195,6 @@ const CreateTrialStep1Form = () => {
         </small>
       </div>
 
-      {/* Submit Button */}
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}

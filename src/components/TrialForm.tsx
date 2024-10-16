@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
@@ -8,6 +8,10 @@ import { iTrialInfoProps } from "@/types";
 import axios from "axios";
 import RecruitingDropdown from "./RecruitingDropdown";
 import CustomButton from "./CustomButton";
+import Editor from "@/components/Editor";
+import { createEditor, Descendant } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
 import GenderDropdown from "./GenderDropdown";
 import DeleteTrialModal from "./DeleteTrialModal";
 import CountryDropdown from "./CountryDropdown";
@@ -58,7 +62,7 @@ export default function TrialDetailsLayout({
   const { l } = useLanguageStore();
 
   //---------------- update trial ---------------
-   // eslint-disable-next-line
+  // eslint-disable-next-line
   const updateTrial = async (data: iTrialInfoProps) => {
     //function will be called in onSubmit
     try {
@@ -143,13 +147,14 @@ export default function TrialDetailsLayout({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-       // eslint-disable-next-line
+      // eslint-disable-next-line
       const data = {
-        trialId: trialId, 
+        trialId: trialId,
         title: values.title,
         shortDescription: values.shortDescription,
         fullDescription: values.fullDescription,
-        trialSite: typeof values.trialSite === "string" ? null : values.trialSite,
+        trialSite:
+          typeof values.trialSite === "string" ? null : values.trialSite,
         recruitingStatus: values.recruitingStatus,
         ageMin: Number(values.ageMin),
         ageMax: Number(values.ageMax),
@@ -162,9 +167,9 @@ export default function TrialDetailsLayout({
         zipCode: values.zipCode,
         country: values.country,
         gender: values.gender,
-        urlStub: "hhhh", 
+        urlStub: "hhhh",
         approvedOn: new Date().toISOString(), // Convert Date to string
-        isCompleted: false, 
+        isCompleted: false,
       };
 
       // updateTrial(data);
@@ -283,6 +288,39 @@ export default function TrialDetailsLayout({
   //   const openRedirectToRegisterModal = () => {
   //     setIsRedirectToRegisterModalOpen(true);
   //   };
+
+  //----- Create editor instances ----
+  const editorShortDescription = useMemo(
+    () => withHistory(withReact(createEditor())),
+    []
+  );
+  const editorFullDescription = useMemo(
+    () => withHistory(withReact(createEditor())),
+    []
+  );
+
+  //---- Handle Short Description change and update formik state ----
+  const handleShortDescriptionChange = useCallback(
+    (value: string) => {
+      formik.setFieldValue("shortDescription", value);
+    },
+    [formik]
+  );
+
+  //---- Handle Full Description change and update formik state ----
+  const handleFullDescriptionChange = useCallback(
+    (value: string) => {
+      formik.setFieldValue("fullDescription", value);
+    },
+    [formik]
+  );
+
+  const initialValue: Descendant[] = [
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ];
 
   //--- open/close modal ----
   const [isDeleteTrialModalOpen, setIsDeleteTrialModalOpen] = useState(false);
@@ -540,19 +578,17 @@ export default function TrialDetailsLayout({
               </small>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex-col w-full">
               <label
                 htmlFor="shortDescription"
                 className="text-sm font-semibold"
               >
-                {l("settings.tab4.form.password.label") || "Short Description:"}
+                Short Description:<span className="ml-1">*</span>
               </label>
-              <textarea
-                name="shortDescription"
-                value={formik.values.shortDescription}
-                onChange={formik.handleChange("shortDescription")}
-                onBlur={formik.handleBlur("shortDescription")}
-                className="textarea_input custom-border h-32"
+              <Editor
+                editor={editorShortDescription}
+                initialValue={initialValue}
+                onChange={handleShortDescriptionChange}
               />
               <small className="text-red-600">
                 {formik.touched.shortDescription &&
@@ -560,25 +596,24 @@ export default function TrialDetailsLayout({
               </small>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex-col w-full">
               <label
                 htmlFor="fullDescription"
                 className="text-sm font-semibold"
               >
-                {l("settings.tab4.form.password.label") || "Full Description:"}
+                Full Description:<span className="ml-1">*</span>
               </label>
-              <textarea
-                name="fullDescription"
-                value={formik.values.fullDescription}
-                onChange={formik.handleChange("fullDescription")}
-                onBlur={formik.handleBlur("fullDescription")}
-                className="textarea_input custom-border h-52"
+              <Editor
+                editor={editorFullDescription}
+                initialValue={initialValue}
+                onChange={handleFullDescriptionChange} // Pass formik handler to Editor
               />
               <small className="text-red-600">
                 {formik.touched.fullDescription &&
                   formik.errors.fullDescription}
               </small>
             </div>
+            
           </div>
         </div>
         <div className="flex justify-center xs:justify-end gap-4 mt-8">
