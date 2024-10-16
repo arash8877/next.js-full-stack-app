@@ -25,7 +25,7 @@ import useLanguageStore from "@/stores/language-store";
 //   return date.toLocaleDateString("en-US", options);
 // }
 
-//--------------------------------Main function--------------------------------
+//----------------------------------- Main function -----------------------------------
 export default function TrialDetailsLayout({
   trialId,
   title,
@@ -145,7 +145,7 @@ export default function TrialDetailsLayout({
     onSubmit: async (values) => {
        // eslint-disable-next-line
       const data = {
-        trialId: trialId, // Add trialId property
+        trialId: trialId, 
         title: values.title,
         shortDescription: values.shortDescription,
         fullDescription: values.fullDescription,
@@ -162,9 +162,9 @@ export default function TrialDetailsLayout({
         zipCode: values.zipCode,
         country: values.country,
         gender: values.gender,
-        urlStub: "hhhh", // Add appropriate value
+        urlStub: "hhhh", 
         approvedOn: new Date().toISOString(), // Convert Date to string
-        isCompleted: false, // Add appropriate value
+        isCompleted: false, 
       };
 
       // updateTrial(data);
@@ -296,7 +296,7 @@ export default function TrialDetailsLayout({
   }
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col px-4 xs:px-8 md:mt-12  bg-bgColor-200">
+    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200">
       <div className="inline-flex items-center border border-primary-500 px-2 rounded-200 md:mr-4 mb-4 py-2 w-fit">
         <p className="text-sm font-bold">{l("trialdetails.id") || "ID:"}</p>
         <p className="text-sm font-light	">{trialId}</p>
@@ -588,7 +588,7 @@ export default function TrialDetailsLayout({
             btnType="submit"
           />
           <CustomButton
-            title={l("settings.tab3.btn.text") || "Delete user"}
+            title={l("settings.tab3.btn.text") || "Delete Trial"}
             containerStyles="bg-bgColor-red rounded-lg"
             textStyles="text-white"
             handleClick={handleOpenDeleteTrialModal}
