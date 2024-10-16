@@ -1,6 +1,8 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useMemo, useCallback } from "react";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
@@ -10,6 +12,10 @@ import {
   CreateTrialCompanyInfoProps,
 } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
+import Editor from "@/components/Editor";
+import { withReact } from "slate-react";
+import { createEditor, Descendant } from "slate";
+import { withHistory } from "slate-history";
 
 //--------- Reusable Input Component ---------
 const InputField: React.FC<
@@ -53,13 +59,12 @@ const InputField: React.FC<
 );
 
 //-------------------------------------- main function-----------------------------------------
+// Your form component
 const CreateTrialStep1Form = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
-  //----------------- Yup validation ---------------
-  // eslint-disable-next-line
   const formSchema = Yup.object({
     title: Yup.string()
       .required(
@@ -69,7 +74,7 @@ const CreateTrialStep1Form = () => {
       .min(
         4,
         l("settings.tab1.form.title.validation.length") ||
-          "Title must be at least 2 characters!"
+          "Title must be at least 4 characters!"
       ),
     shortDescription: Yup.string()
       .required(
@@ -84,103 +89,113 @@ const CreateTrialStep1Form = () => {
     fullDescription: Yup.string()
       .required(
         l("register.step1.form.fullDescription.validation.required") ||
-          "Long Description is required!"
+          "Full Description is required!"
       )
       .min(
         4,
         l("settings.tab1.form.fullDescription.validation.length") ||
-          "Long description must be at least 4 characters!"
+          "Full description must be at least 4 characters!"
       ),
   });
 
-  //-------------formik----------------
   const formik = useFormik({
     initialValues: {
       title: "",
       shortDescription: "",
       fullDescription: "",
     },
-    //-----onSubmit-------
-    // eslint-disable-next-line
+    validationSchema: formSchema,
     onSubmit: async (values) => {
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     title: values.title,
-        //     shortDescription: values.shortDescription,
-        //     fullDescription: values.fullDescription,
-        //   }
-        // );
-        // console.log(response)
-        router.push("/create-trial/step2");
+        const payload = {
+          ...values,
+          shortDescription: JSON.stringify(values.shortDescription),
+          fullDescription: JSON.stringify(values.fullDescription),
+        };
+        // const response = await axios.post('/your-api-endpoint', payload);
+        // router.push("/create-trial/step2");
       } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response && error.response.data) {
-            setError(error.response.data);
-          } else {
-            setError("An unknown error occurred");
-          }
+        if (error instanceof AxiosError && error.response) {
+          setError(error.response.data.message || "An unknown error occurred");
+        } else {
+          setError("An unknown error occurred");
         }
       }
     },
-    // validationSchema: formSchema,
   });
 
-  //--------------------------------------------------Return---------------------------------------------
+  //----- Create editor instances ----
+  const editorShortDescription = useMemo(
+    () => withHistory(withReact(createEditor())),
+    []
+  );
+  const editorFullDescription = useMemo(
+    () => withHistory(withReact(createEditor())),
+    []
+  );
+
+  //---- Handle Short Description change and update formik state ----
+  const handleShortDescriptionChange = useCallback(
+    (value: string) => {
+      formik.setFieldValue("shortDescription", value);
+    },
+    [formik]
+  );
+
+  //---- Handle Full Description change and update formik state ----
+  const handleFullDescriptionChange = useCallback(
+    (value: string) => {
+      formik.setFieldValue("fullDescription", value);
+    },
+    [formik]
+  );
+
+  //----------------------------------- JSX ----------------------------------------------
   return (
     <form
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex justify-center">
-        <p className=" text-red-600">{error}</p>
-      </div>
+      {error && <p className="text-red-600">{error}</p>}
 
-      <div className="flex flex-col gap-6 xl:w-3/4">
-        <InputField
-          label={l("register.step1.form.title.label") || "Title"}
-          name="title"
-          type="text"
-          placeholder={l("register.step1.form.title.placeholder") || "Title"}
-          formik={formik}
+      <InputField
+        label={l("register.step1.form.title.label") || "Title"}
+        name="title"
+        type="text"
+        placeholder={l("register.step1.form.title.placeholder") || "Title"}
+        formik={formik}
+      />
+
+      <div className="flex-col w-full">
+        <label htmlFor="shortDescription" className="text-sm font-semibold">
+          Short Description:<span className="ml-1">*</span>
+        </label>
+        <Editor
+          editor={editorShortDescription}
+          initialValue={initialValue}
+          onChange={handleShortDescriptionChange}
         />
-        <div className="flex flex-col gap-2">
-          <label htmlFor="shortDescription" className="text-sm font-semibold">
-            {l("settings.tab4.form.password.label") || "Short Description:"}
-          </label>
-          <textarea
-            name="shortDescription"
-            value={formik.values.shortDescription}
-            onChange={formik.handleChange("shortDescription")}
-            onBlur={formik.handleBlur("shortDescription")}
-            className="textarea_input custom-border h-32"
-            placeholder="Short Description"
-          />
-          <small className="text-red-600">
-            {formik.touched.shortDescription && formik.errors.shortDescription}
-          </small>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="fullDescription" className="text-sm font-semibold">
-            {l("settings.tab4.form.password.label") || "Full Description:"}
-          </label>
-          <textarea
-            name="fullDescription"
-            value={formik.values.fullDescription}
-            onChange={formik.handleChange("fullDescription")}
-            onBlur={formik.handleBlur("fullDescription")}
-            className="textarea_input custom-border h-52"
-            placeholder="Full Description"
-          />
-          <small className="text-red-600">
-            {formik.touched.fullDescription && formik.errors.fullDescription}
-          </small>
-        </div>
+        <small className="text-red-600">
+          {formik.touched.shortDescription && formik.errors.shortDescription}
+        </small>
       </div>
 
+      {/* Full Description Editor */}
+      <div className="flex-col w-full">
+        <label htmlFor="fullDescription" className="text-sm font-semibold">
+          Full Description:<span className="ml-1">*</span>
+        </label>
+        <Editor
+          editor={editorFullDescription}
+          initialValue={initialValue}
+          onChange={handleFullDescriptionChange} // Pass formik handler to Editor
+        />
+        <small className="text-red-600">
+          {formik.touched.fullDescription && formik.errors.fullDescription}
+        </small>
+      </div>
+
+      {/* Submit Button */}
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
@@ -191,5 +206,12 @@ const CreateTrialStep1Form = () => {
     </form>
   );
 };
+
+const initialValue: Descendant[] = [
+  {
+    type: "paragraph",
+    children: [{ text: "" }],
+  },
+];
 
 export default CreateTrialStep1Form;
