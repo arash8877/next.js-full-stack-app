@@ -357,4 +357,35 @@ export const applicationStates: {
   },
 };
 
-//-----------------------  -------------------
+//------------------------- Editor ----------------------------
+import { BaseEditor } from "slate";
+import { ReactEditor } from "slate-react";
+
+export type CustomText = {
+  text: string;
+  [key: string]: unknown;
+};
+
+export type CustomElement = {
+  type:
+    | "paragraph"
+    | "heading-one"
+    | "heading-two"
+    | "list-item"
+    | "ordered-list"
+    | "unordered-list"
+    | "default";
+  align?: "left" | "center" | "right";
+  children: CustomText[];
+  [key: string]: unknown;
+};
+
+declare module "slate" {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor;
+    Element: CustomElement;
+    Text: CustomText;
+  }
+}
+
+//-------------------------  ----------------------------

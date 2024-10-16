@@ -107,22 +107,12 @@ const CreateTrialStep1Form = () => {
     validationSchema: formSchema,
     onSubmit: async (values) => {
       try {
-        // Extract the text from the serialized Slate JSON for shortDescription and fullDescription
-        const extractedShortDescription = extractTextFromSlateValue(
-          values.shortDescription
-        );
-        const extractedFullDescription = extractTextFromSlateValue(
-          values.fullDescription
-        );
-
-        // Now submit the form with the extracted plain text values
-        const submissionData = {
-          title: values.title,
-          shortDescription: extractedShortDescription, 
-          fullDescription: extractedFullDescription, 
+        const payload = {
+          ...values,
+          shortDescription: JSON.stringify(values.shortDescription),
+          fullDescription: JSON.stringify(values.fullDescription),
         };
-
-        console.log("Form submitted with values:", submissionData);
+        // const response = await axios.post('/your-api-endpoint', payload);
         // router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {
@@ -147,7 +137,6 @@ const CreateTrialStep1Form = () => {
   //---- Handle Short Description change and update formik state ----
   const handleShortDescriptionChange = useCallback(
     (value: string) => {
-      console.log(value);
       formik.setFieldValue("shortDescription", value);
     },
     [formik]
@@ -160,20 +149,6 @@ const CreateTrialStep1Form = () => {
     },
     [formik]
   );
-
-  const extractTextFromSlateValue = (value: string) => {
-    try {
-      const parsedValue = JSON.parse(value); // Parse the JSON string
-      return parsedValue
-        .map((node: { children: { text: string }[] }) =>
-          node.children.map((child: { text: string }) => child.text).join(" ")
-        )
-        .join("\n");
-    } catch (error) {
-      console.error("Error parsing Slate value:", error);
-      return "";
-    }
-  };
 
   //----------------------------------- JSX ----------------------------------------------
   return (
@@ -198,7 +173,7 @@ const CreateTrialStep1Form = () => {
         <Editor
           editor={editorShortDescription}
           initialValue={initialValue}
-          onChange={handleShortDescriptionChange} 
+          onChange={handleShortDescriptionChange}
         />
         <small className="text-red-600">
           {formik.touched.shortDescription && formik.errors.shortDescription}

@@ -1,20 +1,24 @@
 import { useCallback } from "react";
 import { BaseEditor } from "slate";
-import {Editable, RenderElementProps, RenderLeafProps, ReactEditor} from "slate-react";
+import {
+  Editable,
+  RenderElementProps,
+  RenderLeafProps,
+  ReactEditor,
+} from "slate-react";
+import { CustomElement } from "@/types";
 import CustomEditor from "@/components/CustomEditor";
 import Heading from "../Elements/Heading";
 import DefaultElement from "../Elements/DefaultElement";
 import List from "../Elements/List";
 import ListItem from "../Elements/ListItem";
 import Leaf from "../Leaves/Leaf";
+import { CustomText } from "@/types";
 
 type EditorInputProps = {
-  editor?: typeof CustomEditor;
+  editor?: BaseEditor & ReactEditor;
   readOnly?: boolean;
 };
-
-type CustomElement = { type: string; align?: "left" | "center" | "right";};
-type CustomText = { text: string; };
 
 declare module "slate" {
   interface CustomTypes {
@@ -23,9 +27,6 @@ declare module "slate" {
     Text: CustomText;
   }
 }
-
-
-
 
 //------------------------------ main function --------------------------
 const EditorInput = (props: EditorInputProps) => {
@@ -40,15 +41,31 @@ const EditorInput = (props: EditorInputProps) => {
       case "list-item":
         return <ListItem {...props} />;
       case "ordered-list":
-        return <List {...(props as RenderElementProps & { element: { type: "ordered-list" } })} />;
+        return (
+          <List
+            {...(props as RenderElementProps & {
+              element: { type: "ordered-list" };
+            })}
+          />
+        );
       case "unordered-list":
-        return <List as="ul" {...(props as RenderElementProps & { element: { type: "unordered-list" } })} />;
+        return (
+          <List
+            as="ul"
+            {...(props as RenderElementProps & {
+              element: { type: "unordered-list" };
+            })}
+          />
+        );
       default:
         return <DefaultElement {...props} />;
     }
   }, []);
 
-  const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
+  const renderLeaf = useCallback(
+    (props: RenderLeafProps) => <Leaf {...props} />,
+    []
+  );
 
   return (
     <Editable
@@ -64,12 +81,12 @@ const EditorInput = (props: EditorInputProps) => {
         switch (event.key) {
           case "b": {
             event.preventDefault();
-            CustomEditor.toggleMark(editor, "bold");
+            if (editor) CustomEditor.toggleMark(editor, "bold");
             break;
           }
           case "i": {
             event.preventDefault();
-            CustomEditor.toggleMark(editor, "italic");
+            if (editor) CustomEditor.toggleMark(editor, "italic");
             break;
           }
         }
@@ -79,9 +96,9 @@ const EditorInput = (props: EditorInputProps) => {
       renderLeaf={renderLeaf}
       style={{
         minHeight: readOnly ? undefined : 180,
-        border: "1px solid #dff2df", // Add border
-        padding: "10px", // Add padding
-        borderRadius: "8px", // Add border radius (optional)
+        border: "1px solid #dff2df",
+        padding: "10px",
+        borderRadius: "8px",
       }}
     />
   );

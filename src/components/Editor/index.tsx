@@ -3,18 +3,9 @@ import { Slate, ReactEditor } from "slate-react";
 import { BaseEditor, Descendant } from "slate";
 import EditorInput from "./EditorInput";
 import ToolBar from "./Toolbar";
+import { CustomElement ,CustomText} from "@/types";
 
-// Custom Types for Slate
-type CustomElementType = "code" | "paragraph";
-type CustomElement = {
-  type: CustomElementType;
-  children: CustomText[];
-};
-type CustomText = {
-  text: string;
-};
 
-// Declare module for Slate
 declare module "slate" {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor;

@@ -1,9 +1,25 @@
 import { Editor, Element as SlateElement, Transforms } from "slate";
+type CustomEditorType = {
+  isBlockActive: (editor: Editor, format: BlockType, blockType?: string) => boolean;
+  isMarkActive: (editor: Editor, type: string) => boolean;
+  toggleBlock: (editor: Editor, format: BlockType) => void;
+  toggleMark: (editor: Editor, type: string) => void;
+};
+
+type BlockType=
+  | "paragraph"
+  | "heading-one"
+  | "heading-two"
+  | "list-item"
+  | "ordered-list"
+  | "unordered-list"
+  | "default";
+
 
 const LIST_TYPES = ["ordered-list", "unordered-list"];
 const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 
-const CustomEditor = {
+const CustomEditor: CustomEditorType = {
   isBlockActive(editor, format, blockType = "type") {
     const { selection } = editor;
     if (!selection) return false;
@@ -26,7 +42,7 @@ const CustomEditor = {
     return marks ? marks[type] === true : false;
   },
 
-  toggleBlock(editor, format) {
+  toggleBlock(editor, format: BlockType) {
     const isActive = CustomEditor.isBlockActive(
       editor,
       format,
@@ -45,7 +61,7 @@ const CustomEditor = {
     let newProperties: Partial<SlateElement>;
     if (TEXT_ALIGN_TYPES.includes(format)) {
       newProperties = {
-        align: isActive ? undefined : format,
+        align: isActive ? undefined : (format as "left" | "center" | "right"),
       };
     } else {
       newProperties = {
