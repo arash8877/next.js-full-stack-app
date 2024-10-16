@@ -99,6 +99,7 @@ const EditorInput = (props: EditorInputProps) => {
         border: "1px solid #dff2df",
         padding: "10px",
         borderRadius: "8px",
+        background: "white",
       }}
     />
   );
