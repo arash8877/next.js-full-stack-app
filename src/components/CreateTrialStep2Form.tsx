@@ -102,7 +102,7 @@ const CreateTrialStep2Form = () => {
   //-------------formik----------------
   const formik = useFormik({
     initialValues: {
-      place: "",
+      location: "",
       address: "",
       zipCode: "",
       country: "",
@@ -147,11 +147,11 @@ const CreateTrialStep2Form = () => {
 
       <div className="flex flex-col gap-6 xl:w-3/4">
         <InputField
-          label={l("register.step1.form.place.label") || "Place"}
-          name="place"
+          label={l("register.step1.form.location.label") || "Location"}
+          name="location"
           type="text"
           placeholder={
-            l("register.step1.form.place.placeholder") ||
+            l("register.step1.form.location.placeholder") ||
             "e.g. Copenhagen University"
           }
           formik={formik}
