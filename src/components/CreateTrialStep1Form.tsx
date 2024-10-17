@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { useFormik } from "formik";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
@@ -61,7 +61,7 @@ const InputField: React.FC<
 //-------------------------------------- main function-----------------------------------------
 // Your form component
 const CreateTrialStep1Form = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
@@ -114,7 +114,7 @@ const CreateTrialStep1Form = () => {
         };
         // const response = await axios.post('/your-api-endpoint', payload);
         console.log(payload)
-        // router.push("/create-trial/step2");
+        router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {
           setError(error.response.data.message || "An unknown error occurred");

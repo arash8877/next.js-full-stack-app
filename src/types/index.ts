@@ -237,7 +237,7 @@ export interface CreateTrialStep1FormProps {
 }
 
 export interface CreateTrialStep2FormValues {
-  place: string;
+  location: string;
   address: string;
   zipCode: string;
   country: string;
