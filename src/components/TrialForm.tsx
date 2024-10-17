@@ -8,6 +8,7 @@ import { iTrialInfoProps } from "@/types";
 import axios from "axios";
 import RecruitingDropdown from "./RecruitingDropdown";
 import CustomButton from "./CustomButton";
+import CustomDateInput from "./CustomDateInput";
 import AgeDropdown from "./AgeDropdown";
 import Editor from "@/components/Editor";
 import { createEditor, Descendant } from "slate";
@@ -104,122 +105,115 @@ export default function TrialDetailsLayout({
   const formSchema = Yup.object({
     title: Yup.string()
       .required(
-        l("settings.tab1.form.title.validation.required") || 
-        "Title is required!"
+        l("settings.tab1.form.title.validation.required") ||
+          "Title is required!"
       )
       .min(
         5,
-        l("settings.tab1.form.title.validation.length") || 
-        "Title must be at least 5 characters!"
+        l("settings.tab1.form.title.validation.length") ||
+          "Title must be at least 5 characters!"
       ),
-  
+
     shortDescription: Yup.string()
       .required(
-        l("settings.tab1.form.shortDescription.validation.required") || 
-        "Short description is required!"
+        l("settings.tab1.form.shortDescription.validation.required") ||
+          "Short description is required!"
       )
       .min(
         10,
-        l("settings.tab1.form.shortDescription.validation.length") || 
-        "Short description must be at least 10 characters!"
+        l("settings.tab1.form.shortDescription.validation.length") ||
+          "Short description must be at least 10 characters!"
       ),
-  
-    fullDescription: Yup.string()
-      .required(
-        l("settings.tab1.form.fullDescription.validation.required") || 
+
+    fullDescription: Yup.string().required(
+      l("settings.tab1.form.fullDescription.validation.required") ||
         "Full description is required!"
-      ),
-  
+    ),
+
     trialSite: Yup.object({
-      location: Yup.string()
-        .required(
-          l("settings.tab1.form.location.validation.required") || 
+      location: Yup.string().required(
+        l("settings.tab1.form.location.validation.required") ||
           "Location is required!"
-        ),
-      address: Yup.string()
-        .required(
-          l("settings.tab1.form.address.validation.required") || 
+      ),
+      address: Yup.string().required(
+        l("settings.tab1.form.address.validation.required") ||
           "Address is required!"
-        ),
+      ),
       zipCode: Yup.string()
         .required(
-          l("settings.tab1.form.zipCode.validation.required") || 
-          "ZIP Code is required!"
+          l("settings.tab1.form.zipCode.validation.required") ||
+            "ZIP Code is required!"
         )
-        .matches(/^[0-9]{5}$/, "ZIP Code must be exactly 5 digits"),
-      country: Yup.string()
-        .required(
-          l("settings.tab1.form.country.validation.required") || 
-          "Country is required!"
-        ),
     }),
-  
-    recruitingStatus: Yup.boolean()
-      .oneOf([true, false], "Recruiting status is required"),
-  
+
+    recruitingStatus: Yup.boolean().oneOf(
+      [true, false],
+      "Recruiting status is required"
+    ),
+
     ageMin: Yup.number()
       .required(
-        l("settings.tab1.form.ageMin.validation.required") || 
-        "Minimum age is required!"
+        l("settings.tab1.form.ageMin.validation.required") ||
+          "Minimum age is required!"
       )
       .min(0, "Minimum age must be greater than or equal to 0"),
-  
+
     ageMax: Yup.number()
       .required(
-        l("settings.tab1.form.ageMax.validation.required") || 
-        "Maximum age is required!"
+        l("settings.tab1.form.ageMax.validation.required") ||
+          "Maximum age is required!"
       )
       .min(0, "Maximum age must be greater than or equal to 0")
-      .when('ageMin', {
+      .when("ageMin", {
         is: (ageMin: number) => ageMin !== undefined && ageMin !== null,
-        then: schema => schema.min(Yup.ref('ageMin'), "Maximum age must be greater than or equal to minimum age!"),
-        otherwise: schema => schema
+        then: (schema) =>
+          schema.min(
+            Yup.ref("ageMin"),
+            "Maximum age must be greater than or equal to minimum age!"
+          ),
+        otherwise: (schema) => schema,
       }),
-  
+
     applicantsNumber: Yup.number()
       .required(
-        l("settings.tab1.form.applicantsNumber.validation.required") || 
-        "Number of applicants is required!"
+        l("settings.tab1.form.applicantsNumber.validation.required") ||
+          "Number of applicants is required!"
       )
       .min(1, "Number of applicants must be at least 1"),
-  
+
     startDate: Yup.date()
       .required(
-        l("settings.tab1.form.startDate.validation.required") || 
-        "Start date is required!"
+        l("settings.tab1.form.startDate.validation.required") ||
+          "Start date is required!"
       )
       .typeError("Please enter a valid start date"),
-  
+
     endDate: Yup.date()
       .required(
-        l("settings.tab1.form.endDate.validation.required") || 
-        "End date is required!"
+        l("settings.tab1.form.endDate.validation.required") ||
+          "End date is required!"
       )
       .typeError("Please enter a valid end date"),
-  
+
     submissionDeadline: Yup.date()
       .required(
-        l("settings.tab1.form.submissionDeadline.validation.required") || 
-        "Submission deadline is required!"
+        l("settings.tab1.form.submissionDeadline.validation.required") ||
+          "Submission deadline is required!"
       )
       .typeError("Please enter a valid submission deadline"),
-  
-    gender: Yup.string()
-      .required(
-        l("settings.tab1.form.gender.validation.required") || 
+
+    gender: Yup.string().required(
+      l("settings.tab1.form.gender.validation.required") ||
         "Gender is required!"
-      ),
-  
+    ),
+
     email: Yup.string()
       .required(
-        l("settings.tab1.form.email.validation.required") || 
-        "Email is required!"
+        l("settings.tab1.form.email.validation.required") ||
+          "Email is required!"
       )
       .email("Please enter a valid email address"),
   });
-  
-  
-  
 
   //--------------- formik ----------------
   const formik = useFormik({
@@ -578,13 +572,11 @@ export default function TrialDetailsLayout({
                     "Start Study Date:"}
                   <span className="ml-1">*</span>
                 </label>
-                <input
-                  name="startDate"
-                  type="text"
+                <CustomDateInput
                   value={formik.values.startDate}
-                  onChange={formik.handleChange("startDate")}
-                  onBlur={formik.handleBlur("startDate")}
-                  className="register_input custom-border"
+                  onChange={(date) => formik.setFieldValue("startDate", date)}
+                  onBlur={formik.handleBlur}
+                  borderColor="custom-border"
                 />
                 <small className="text-red-600">
                   {formik.touched.startDate && formik.errors.startDate}
@@ -596,13 +588,11 @@ export default function TrialDetailsLayout({
                   {l("settings.tab4.form.password.label") || "End Study Date:"}
                   <span className="ml-1">*</span>
                 </label>
-                <input
-                  name="endDate"
-                  type="text"
+                <CustomDateInput
                   value={formik.values.endDate}
-                  onChange={formik.handleChange("endDate")}
-                  onBlur={formik.handleBlur("endDate")}
-                  className="register_input custom-border"
+                  onChange={(date) => formik.setFieldValue("endDate", date)}
+                  onBlur={formik.handleBlur}
+                  borderColor="custom-border"
                 />
                 <small className="text-red-600">
                   {formik.touched.endDate && formik.errors.endDate}
@@ -620,13 +610,13 @@ export default function TrialDetailsLayout({
                     "Enrolment Deadline:"}
                   <span className="ml-1">*</span>
                 </label>
-                <input
-                  name="submissionDeadline"
-                  type="text"
+                <CustomDateInput
                   value={formik.values.submissionDeadline}
-                  onChange={formik.handleChange("submissionDeadline")}
-                  onBlur={formik.handleBlur("submissionDeadline")}
-                  className="register_input custom-border"
+                  onChange={(date) =>
+                    formik.setFieldValue("submissionDeadline", date)
+                  }
+                  onBlur={formik.handleBlur}
+                  borderColor="custom-border"
                 />
                 <small className="text-red-600">
                   {formik.touched.submissionDeadline &&
