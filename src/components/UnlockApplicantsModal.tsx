@@ -70,7 +70,7 @@ export default function UnlockApplicantsModal({
         />
         <Typography id="modal-modal-description" sx={{ mt: 1 }}>
           {l("modal.deleteuser.description") ||
-            "We will issue an invoice for EUR 250"}
+            "We will issue an invoice for EUR 250.00."}
             <br/>
           {l("modal.deleteuser.description") ||
             "By clicking you confirm our terms and conditions."}
