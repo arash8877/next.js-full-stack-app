@@ -100,23 +100,23 @@ export default function ApplicantsPage() {
             </tr>
           </thead>
 
-          <tbody>
+       {unlock && (   <tbody>
             {applicants.map((applicant, index) => (
               <tr key={index} className="border-b">
                 <td className="py-4 px-6">{applicant.firstName}</td>
                 <td className="py-4 px-6">
-                  {unlock ? applicant.firstName : "xxxx"}
+                  { applicant.firstName }
                 </td>
-                <td className="py-4 px-6">{unlock ? applicant.age : "xxxx"}</td>
+                <td className="py-4 px-6">{applicant.age }</td>
                 <td className="py-4 px-6 hidden lg:table-cell">
-                  {unlock ? applicant.zipCode : "xxxx"}
+                  { applicant.zipCode }
                 </td>
                 <td className="py-4 px-6 hidden lg:table-cell">
-                  {unlock? applicant.country : "xxxx"}
+                  { applicant.country }
                 </td>
               </tr>
             ))}
-          </tbody>
+          </tbody>)}
         </table>
         <UnlockApplicantsModal
         open={isUnlockModalOpen}
