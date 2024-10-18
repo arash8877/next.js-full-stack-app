@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -12,10 +12,10 @@ import {
   CreateTrialCompanyInfoProps,
 } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
-import Editor from "@/components/Editor";
-import { withReact } from "slate-react";
-import { createEditor, Descendant } from "slate";
-import { withHistory } from "slate-history";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+import "react-quill/dist/quill.snow.css";
 
 //--------- Reusable Input Component ---------
 const InputField: React.FC<
@@ -113,7 +113,7 @@ const CreateTrialStep1Form = () => {
           fullDescription: JSON.stringify(values.fullDescription),
         };
         // const response = await axios.post('/your-api-endpoint', payload);
-        console.log(payload)
+        console.log(payload);
         router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {
@@ -125,32 +125,6 @@ const CreateTrialStep1Form = () => {
     },
   });
 
-  //----- Create editor instances ----
-  const editorShortDescription = useMemo(
-    () => withHistory(withReact(createEditor())),
-    []
-  );
-  const editorFullDescription = useMemo(
-    () => withHistory(withReact(createEditor())),
-    []
-  );
-
-  //---- Handle Short Description change and update formik state ----
-  const handleShortDescriptionChange = useCallback(
-    (value: string) => {
-      formik.setFieldValue("shortDescription", value);
-    },
-    [formik]
-  );
-
-  //---- Handle Full Description change and update formik state ----
-  const handleFullDescriptionChange = useCallback(
-    (value: string) => {
-      formik.setFieldValue("fullDescription", value);
-    },
-    [formik]
-  );
-
   //----------------------------------- JSX ----------------------------------------------
   return (
     <form
@@ -159,40 +133,42 @@ const CreateTrialStep1Form = () => {
     >
       {error && <p className="text-red-600">{error}</p>}
 
-      <InputField
-        label={l("register.step1.form.title.label") || "Title"}
-        name="title"
-        type="text"
-        placeholder={l("register.step1.form.title.placeholder") || "Title"}
-        formik={formik}
-      />
-
-      <div className="flex-col w-full">
-        <label htmlFor="shortDescription" className="text-sm font-semibold">
-          Short Description:<span className="ml-1">*</span>
-        </label>
-        <Editor
-          editor={editorShortDescription}
-          initialValue={initialValue}
-          onChange={handleShortDescriptionChange}
+      <div className="flex flex-col gap-6 lg:w-2/3">
+        <InputField
+          label={l("register.step1.form.title.label") || "Title"}
+          name="title"
+          type="text"
+          placeholder={l("register.step1.form.title.placeholder") || "Title"}
+          formik={formik}
         />
-        <small className="text-red-600">
-          {formik.touched.shortDescription && formik.errors.shortDescription}
-        </small>
-      </div>
 
-      <div className="flex-col w-full">
-        <label htmlFor="fullDescription" className="text-sm font-semibold">
-          Full Description:<span className="ml-1">*</span>
-        </label>
-        <Editor
-          editor={editorFullDescription}
-          initialValue={initialValue}
-          onChange={handleFullDescriptionChange} // Pass formik handler to Editor
-        />
-        <small className="text-red-600">
-          {formik.touched.fullDescription && formik.errors.fullDescription}
-        </small>
+        <div className="flex flex-col gap-2 w-full">
+          <label htmlFor="shortDescription" className="text-sm font-semibold">
+            Short Description:<span className="ml-1">*</span>
+          </label>
+          <ReactQuill
+            value={formik.values.shortDescription}
+            onChange={(value) =>
+              formik.setFieldValue("shortDescription", value)
+            }
+          />
+          <small className="text-red-600">
+            {formik.touched.shortDescription && formik.errors.shortDescription}
+          </small>
+        </div>
+
+        <div className="flex flex-col gap-2 w-full">
+          <label htmlFor="fullDescription" className="text-sm font-semibold">
+            Full Description:<span className="ml-1">*</span>
+          </label>
+          <ReactQuill
+            value={formik.values.fullDescription}
+            onChange={(value) => formik.setFieldValue("fullDescription", value)}
+          />
+          <small className="text-red-600">
+            {formik.touched.fullDescription && formik.errors.fullDescription}
+          </small>
+        </div>
       </div>
 
       <div className="flex justify-center xs:justify-end gap-4">
@@ -205,12 +181,5 @@ const CreateTrialStep1Form = () => {
     </form>
   );
 };
-
-const initialValue: Descendant[] = [
-  {
-    type: "paragraph",
-    children: [{ text: "" }],
-  },
-];
 
 export default CreateTrialStep1Form;

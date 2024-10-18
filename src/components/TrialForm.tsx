@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
@@ -10,10 +10,8 @@ import RecruitingDropdown from "./RecruitingDropdown";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import AgeDropdown from "./AgeDropdown";
-import Editor from "@/components/Editor";
-import { createEditor, Descendant } from "slate";
-import { withHistory } from "slate-history";
-import { withReact } from "slate-react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import GenderDropdown from "./GenderDropdown";
 import DeleteTrialModal from "./DeleteTrialModal";
 import CountryDropdown from "./CountryDropdown";
@@ -139,11 +137,10 @@ export default function TrialDetailsLayout({
         l("settings.tab1.form.address.validation.required") ||
           "Address is required!"
       ),
-      zipCode: Yup.string()
-        .required(
-          l("settings.tab1.form.zipCode.validation.required") ||
-            "ZIP Code is required!"
-        )
+      zipCode: Yup.string().required(
+        l("settings.tab1.form.zipCode.validation.required") ||
+          "ZIP Code is required!"
+      ),
     }),
 
     recruitingStatus: Yup.boolean().oneOf(
@@ -379,39 +376,6 @@ export default function TrialDetailsLayout({
   //   const openRedirectToRegisterModal = () => {
   //     setIsRedirectToRegisterModalOpen(true);
   //   };
-
-  //----- Create editor instances ----
-  const editorShortDescription = useMemo(
-    () => withHistory(withReact(createEditor())),
-    []
-  );
-  const editorFullDescription = useMemo(
-    () => withHistory(withReact(createEditor())),
-    []
-  );
-
-  //---- Handle Short Description change and update formik state ----
-  const handleShortDescriptionChange = useCallback(
-    (value: string) => {
-      formik.setFieldValue("shortDescription", value);
-    },
-    [formik]
-  );
-
-  //---- Handle Full Description change and update formik state ----
-  const handleFullDescriptionChange = useCallback(
-    (value: string) => {
-      formik.setFieldValue("fullDescription", value);
-    },
-    [formik]
-  );
-
-  const initialValue: Descendant[] = [
-    {
-      type: "paragraph",
-      children: [{ text: "" }],
-    },
-  ];
 
   //--- open/close modal ----
   const [isDeleteTrialModalOpen, setIsDeleteTrialModalOpen] = useState(false);
@@ -659,17 +623,18 @@ export default function TrialDetailsLayout({
               </small>
             </div>
 
-            <div className="flex-col w-full">
+            <div className="flex flex-col gap-2 w-full">
               <label
                 htmlFor="shortDescription"
                 className="text-sm font-semibold"
               >
                 Short Description:<span className="ml-1">*</span>
               </label>
-              <Editor
-                editor={editorShortDescription}
-                initialValue={initialValue}
-                onChange={handleShortDescriptionChange}
+              <ReactQuill
+                value={formik.values.shortDescription}
+                onChange={(value) =>
+                  formik.setFieldValue("shortDescription", value)
+                }
               />
               <small className="text-red-600">
                 {formik.touched.shortDescription &&
@@ -677,17 +642,18 @@ export default function TrialDetailsLayout({
               </small>
             </div>
 
-            <div className="flex-col w-full">
+            <div className="flex flex-col gap-2 w-full">
               <label
                 htmlFor="fullDescription"
                 className="text-sm font-semibold"
               >
                 Full Description:<span className="ml-1">*</span>
               </label>
-              <Editor
-                editor={editorFullDescription}
-                initialValue={initialValue}
-                onChange={handleFullDescriptionChange} // Pass formik handler to Editor
+              <ReactQuill
+                value={formik.values.fullDescription}
+                onChange={(value) =>
+                  formik.setFieldValue("fullDescription", value)
+                }
               />
               <small className="text-red-600">
                 {formik.touched.fullDescription &&
