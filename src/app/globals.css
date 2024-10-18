@@ -68,6 +68,7 @@ p {
 .custom_height {
   height: calc(100vh - 55px);
 }
+
 .custom-border {
   border-color: #dff2df !important;
 }
