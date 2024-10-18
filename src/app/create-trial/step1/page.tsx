@@ -1,5 +1,4 @@
 "use client";
-
 import { SidebarLayout } from "@/components/SidebarLayout";
 import CreateTrialStepper from "@/components/CreateTrialStepper";
 import CreateTrialStep1Form from "@/components/CreateTrialStep1Form";

@@ -12,7 +12,9 @@ import {
   CreateTrialCompanyInfoProps,
 } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
-import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
 import "react-quill/dist/quill.snow.css";
 
 //--------- Reusable Input Component ---------
@@ -140,7 +142,7 @@ const CreateTrialStep1Form = () => {
           formik={formik}
         />
 
-        <div className="flex-col w-full">
+        <div className="flex flex-col gap-2 w-full">
           <label htmlFor="shortDescription" className="text-sm font-semibold">
             Short Description:<span className="ml-1">*</span>
           </label>
@@ -155,7 +157,7 @@ const CreateTrialStep1Form = () => {
           </small>
         </div>
 
-        <div className="flex-col w-full">
+        <div className="flex flex-col gap-2 w-full">
           <label htmlFor="fullDescription" className="text-sm font-semibold">
             Full Description:<span className="ml-1">*</span>
           </label>
