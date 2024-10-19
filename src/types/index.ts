@@ -236,21 +236,27 @@ export interface CreateTrialStep1FormProps {
   icon?: string;
 }
 
-export interface CreateTrialStep2FormValues {
+export interface SiteFormValues {
   location: string;
   address: string;
   zipCode: string;
   country: string;
 }
 
+export interface CreateTrialStep2FormValues {
+  sites: SiteFormValues[]; 
+}
+
+
 export interface CreateTrialStep2FormProps {
   label: string;
-  name: keyof CreateTrialStep2FormValues;
+  name: keyof SiteFormValues; 
   type: string;
   placeholder: string;
   formik: FormikProps<CreateTrialStep2FormValues>;
   icon?: string;
 }
+
 
 export interface CreateTrialStep3FormValues {
   startDate: string;
