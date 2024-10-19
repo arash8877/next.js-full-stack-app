@@ -19,7 +19,7 @@ import useLanguageStore from "@/stores/language-store";
 const InputField: React.FC<
   CreateTrialStep2FormProps & {
     formik: ReturnType<typeof useFormik<CreateTrialStep2FormValues>>;
-    siteIndex: number; 
+    siteIndex: number;
   }
 > = ({ label, name, type, placeholder, formik, icon, siteIndex }) => (
   <div className="flex flex-col">
@@ -38,8 +38,8 @@ const InputField: React.FC<
         />
       )}
       <input
-        id={`${name}-${siteIndex}`} 
-        name={`sites[${siteIndex}].${name}`} 
+        id={`${name}-${siteIndex}`}
+        name={`sites[${siteIndex}].${name}`}
         type={type}
         placeholder={placeholder}
         value={formik.values.sites[siteIndex][name]}
@@ -50,7 +50,11 @@ const InputField: React.FC<
       />
     </div>
     <small className="text-red-600">
-    {(formik.errors.sites as FormikErrors<SiteFormValues>[] | undefined)?.[siteIndex]?.[name]}
+      {
+        (formik.errors.sites as FormikErrors<SiteFormValues>[] | undefined)?.[
+          siteIndex
+        ]?.[name]
+      }
     </small>
   </div>
 );
@@ -101,20 +105,19 @@ const CreateTrialStep2Form = () => {
     },
     validationSchema: formSchema,
     //---------onSubmit--------------
-     // eslint-disable-next-line
+    // eslint-disable-next-line
     onSubmit: async (values) => {
       try {
-        
-          // const response = await axios.post(
-          //   ${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic, //post request
-          //   {
-          //     verifyURL: ${window.location.origin}/register/step2,
-          //     title: values.title,
-          //     address: values.address,
-          //     longDescription: values.longDescription,
-          //   }
-          // );
-          // console.log(response)
+        // const response = await axios.post(
+        //   ${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic, //post request
+        //   {
+        //     verifyURL: ${window.location.origin}/register/step2,
+        //     title: values.title,
+        //     address: values.address,
+        //     longDescription: values.longDescription,
+        //   }
+        // );
+        // console.log(response)
         router.push("/create-trial/step3");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -134,10 +137,10 @@ const CreateTrialStep2Form = () => {
           location: "",
           address: "",
           zipCode: "",
-          country: "Denmark", 
+          country: "Denmark",
         },
       ],
-      false 
+      false
     );
   };
 
@@ -152,12 +155,20 @@ const CreateTrialStep2Form = () => {
       </div>
 
       {formik.values.sites.map((_, index) => (
-        <div key={index} className="flex flex-col gap-6 xl:w-1/2">
+        <div
+          key={index}
+          className={`flex flex-col gap-6 xl:w-1/2 ${
+            index > 0 ? "border-t-2 border-gray-300 pt-12 " : ""
+          }`}
+        >
           <InputField
             label={l("register.step1.form.location.label") || "Location"}
             name="location"
             type="text"
-            placeholder={l("register.step1.form.location.placeholder") || "e.g. Copenhagen University"}
+            placeholder={
+              l("register.step1.form.location.placeholder") ||
+              "e.g. Copenhagen University"
+            }
             formik={formik}
             siteIndex={index}
           />
@@ -165,7 +176,9 @@ const CreateTrialStep2Form = () => {
             label={l("register.step1.form.address.label") || "Address"}
             name="address"
             type="text"
-            placeholder={l("register.step1.form.address.placeholder") || "e.g. Street 1"}
+            placeholder={
+              l("register.step1.form.address.placeholder") || "e.g. Street 1"
+            }
             formik={formik}
             siteIndex={index}
           />
@@ -173,7 +186,9 @@ const CreateTrialStep2Form = () => {
             label={l("register.step1.form.zipCode.label") || "Zip code"}
             name="zipCode"
             type="text"
-            placeholder={l("register.step1.form.zipCode.placeholder") || "Zip code"}
+            placeholder={
+              l("register.step1.form.zipCode.placeholder") || "Zip code"
+            }
             formik={formik}
             siteIndex={index}
           />
@@ -191,13 +206,17 @@ const CreateTrialStep2Form = () => {
             />
             <small className="text-red-600">
               {formik.touched.sites?.[index]?.country &&
-                (formik.errors.sites as FormikErrors<SiteFormValues>[] | undefined)?.[index]?.country}
+                (
+                  formik.errors.sites as
+                    | FormikErrors<SiteFormValues>[]
+                    | undefined
+                )?.[index]?.country}
             </small>
           </div>
         </div>
       ))}
 
-      <div className="flex justify-center xs:justify-end gap-4">
+      <div className="flex justify-center xs:justify-start gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Add another site"}
           containerStyles="rounded-lg bg-secondary-50 hover1"
