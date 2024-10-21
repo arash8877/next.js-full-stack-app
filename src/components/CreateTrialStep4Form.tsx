@@ -25,10 +25,13 @@ const CreateTrialStep4Form = () => {
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      shortDescription: "",
       inclusionDisease: [],
       exclusionDisease: [],
       participantActivities: "",
+      drivingCompensation: false,
+      monetaryCompensation: false,
+      otherCompensation: "",
+      additionalInfo: "",
     },
     validationSchema: formSchema,
     //---------onSubmit--------------
@@ -54,6 +57,12 @@ const CreateTrialStep4Form = () => {
     },
   });
 
+  //--------toggle textarea---------
+  const [isOtherClicked, setIsOtherClicked] = useState(false);
+  const toggleOtherCompensation = () => {
+    setIsOtherClicked(!isOtherClicked);
+  };
+
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
     <form
@@ -66,21 +75,19 @@ const CreateTrialStep4Form = () => {
 
       <div className="flex flex-col gap-6 xl:w-2/3 2xl:w-1/2">
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="shortDescription" className="text-sm font-semibold">
-            Short Description:<span className="ml-1">*</span>
+          <label
+            htmlFor="participantActivities"
+            className="text-sm font-semibold"
+          >
+            Describe participant activities:
           </label>
-          <input
-            name="gggg"
-            type="text"
-            value={formik.values.shortDescription}
+          <ReactQuill
+            value={formik.values.participantActivities}
             onChange={(value) =>
-              formik.setFieldValue("shortDescription", value)
+              formik.setFieldValue("participantActivities", value)
             }
-            className="register_input mt-2 custom-border"
+            placeholder="Outline participant activities"
           />
-          <small className="text-red-600">
-            {formik.touched.shortDescription && formik.errors.shortDescription}
-          </small>
         </div>
 
         <div className="flex flex-col gap-2 w-full">
@@ -108,74 +115,108 @@ const CreateTrialStep4Form = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="participantActivities" className="text-sm font-semibold">
-            Description of participant activities:
+          <label htmlFor="additionalInfo" className="text-sm font-semibold">
+            Additional Information:
           </label>
-          <ReactQuill
-            value={formik.values.participantActivities}
-            onChange={(value) => formik.setFieldValue("participantActivities", value)}
+          <input
+            name="additionalInfo"
+            type="text"
+            value={formik.values.additionalInfo}
+            onChange={(value) => formik.setFieldValue("additionalInfo", value)}
+            placeholder="Briefly describe additional information"
+            className="register_input custom-border"
           />
         </div>
 
-
-
-       
-            <fieldset className="flex flex-col w-full">
-              <legend className="text-sm font-semibold mb-2">Compensation:</legend>
-              <div className="flex flex-col justify-between xl:flex-row">
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="comments"
-                      name="comments"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label htmlFor="comments" className="font-medium text-gray-900">
-                    Driving compensation
-                    </label>
-                  </div>
-                </div>
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="candidates"
-                      name="candidates"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label htmlFor="candidates" className="font-medium text-gray-900">
-                    Monetary compensation
-                    </label>
-                  </div>
-                </div>
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="offers"
-                      name="offers"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label htmlFor="offers" className="font-medium text-gray-900">
-                    Other compensation
-                    </label>
-                  </div>
-                </div>
+        <fieldset className="flex flex-col w-full">
+          <legend className="text-sm font-semibold mb-2">Compensation:</legend>
+          <div className="flex flex-col justify-between xl:flex-row">
+            <div className="relative flex gap-x-3">
+              <div className="flex h-6 items-center">
+                <input
+                  id="drivingCompensation"
+                  name="drivingCompensation"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  onChange={() =>
+                    formik.setFieldValue(
+                      "drivingCompensation",
+                      !formik.values.drivingCompensation
+                    )
+                  }
+                />
               </div>
-              </fieldset>
+              <div className="text-sm leading-6">
+                <label
+                  htmlFor="drivingCompensation"
+                  className="font-medium text-gray-900"
+                >
+                  Driving compensation
+                </label>
+              </div>
+            </div>
+            <div className="relative flex gap-x-3">
+              <div className="flex h-6 items-center">
+                <input
+                  id="monetaryCompensation"
+                  name="monetaryCompensation"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  onChange={() =>
+                    formik.setFieldValue(
+                      "monetaryCompensation",
+                      !formik.values.monetaryCompensation
+                    )
+                  }
+                />
+              </div>
+              <div className="text-sm leading-6">
+                <label
+                  htmlFor="monetaryCompensation"
+                  className="font-medium text-gray-900"
+                >
+                  Monetary compensation
+                </label>
+              </div>
+            </div>
+            <div className="relative flex gap-x-3">
+              <div className="flex h-6 items-center">
+                <input
+                  id="otherCompensation"
+                  name="otherCompensation"
+                  type="checkbox"
+                  onClick={toggleOtherCompensation}
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                />
+              </div>
+              <div className="text-sm leading-6">
+                <label
+                  htmlFor="otherCompensation"
+                  className="font-medium text-gray-900"
+                >
+                  Other compensation
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
 
-
-
-
-
-
+        <div hidden={!isOtherClicked}>
+          <div className="flex flex-col justify-start gap-2 mb-12">
+            <p className="text-sm font-semibold mb-2">
+              {l("register.step4.other.description") ||
+                "Inform other compensation:"}
+            </p>
+            <textarea
+              value={formik.values.otherCompensation}
+              onChange={(e) =>
+                formik.setFieldValue("otherCompensation", e.target.value)
+              }
+              className="h-24 p-3 border border-[#dff2df] rounded-lg"
+              placeholder="Please inform other compensation"
+            ></textarea>
+          </div>
+        </div>
       </div>
 
       <div className="flex justify-center xs:justify-end gap-4">
