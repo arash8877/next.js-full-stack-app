@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
@@ -10,14 +11,15 @@ import RecruitingDropdown from "./RecruitingDropdown";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import AgeDropdown from "./AgeDropdown";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+
 import GenderDropdown from "./GenderDropdown";
 import DeleteTrialModal from "./DeleteTrialModal";
 import CountryDropdown from "./CountryDropdown";
 import { toast } from "react-toastify";
 // import useIsAuthenticated from "@/hooks/useIsAuthenticated";
 import useLanguageStore from "@/stores/language-store";
+import "react-quill/dist/quill.snow.css";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 // function formatDate(dateString: string): string {
 //   const options: Intl.DateTimeFormatOptions = {
@@ -605,6 +607,8 @@ export default function TrialDetailsLayout({
             </div>
           </div>
 
+
+
           <div className="flex flex-col gap-4 xl:w-1/2">
             <div className="flex flex-col gap-2">
               <label htmlFor="title" className="text-sm font-semibold">
@@ -622,6 +626,8 @@ export default function TrialDetailsLayout({
                 {formik.touched.title && formik.errors.title}
               </small>
             </div>
+
+            <div className="flex flex-col gap-4 xl:gap-16">
 
             <div className="flex flex-col gap-2 w-full">
               <label
@@ -643,7 +649,7 @@ export default function TrialDetailsLayout({
             </div>
 
             <div className="flex flex-col gap-2 w-full">
-              <label
+            <label
                 htmlFor="fullDescription"
                 className="text-sm font-semibold"
               >
@@ -660,8 +666,18 @@ export default function TrialDetailsLayout({
                   formik.errors.fullDescription}
               </small>
             </div>
+            </div>
           </div>
+
+
+
+
+
         </div>
+
+
+
+
         <div className="flex justify-center xs:justify-end gap-4 mt-8">
           <CustomButton
             title={l("settings.form.submit") || "Update"}

@@ -67,7 +67,7 @@ const CreateTrialStep3Form = () => {
         //   }
         // );
         // console.log(response)
-        router.push("/trials");
+        router.push("/create-trial/step4");
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response && error.response.data) {
@@ -201,7 +201,7 @@ const CreateTrialStep3Form = () => {
 
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
-          title={l("register.step1.form.cta.btn") || "Create"}
+          title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"
           btnType="submit"
         />

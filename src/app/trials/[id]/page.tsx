@@ -1,3 +1,5 @@
+"use client";
+
 import { SidebarLayout } from "@/components/SidebarLayout";
 import TrialForm from "@/components/TrialForm";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
