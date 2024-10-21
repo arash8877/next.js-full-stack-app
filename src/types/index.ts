@@ -270,6 +270,7 @@ export interface CreateTrialStep4FormProps {
   exclusionDisease: string[];
   participantActivities: string;
   additionalInfo: string;
+  expectedParticipants: number | null;
   drivingCompensation: boolean;
   monetaryCompensation: boolean;
   otherCompensation: string;

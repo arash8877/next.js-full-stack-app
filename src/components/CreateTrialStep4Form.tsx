@@ -20,7 +20,14 @@ const CreateTrialStep4Form = () => {
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
-  const formSchema = Yup.object({});
+  const formSchema = Yup.object({
+    expectedParticipants: Yup.number()
+      .required(
+        l("register.step3.form.country.validation.required") ||
+          "Expected number of participants is required!"
+      )
+      .min(1, "Expected number of participants must be greater than zero!"),
+  });
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
@@ -28,6 +35,7 @@ const CreateTrialStep4Form = () => {
       inclusionDisease: [],
       exclusionDisease: [],
       participantActivities: "",
+      expectedParticipants: null,
       drivingCompensation: false,
       monetaryCompensation: false,
       otherCompensation: "",
@@ -112,6 +120,37 @@ const CreateTrialStep4Form = () => {
               formik.setFieldValue("exclusionDisease", value)
             }
           />
+        </div>
+
+        <div className="flex flex-col gap-2 w-full">
+          <label
+            htmlFor="expectedParticipants"
+            className="text-sm font-semibold"
+          >
+            Expected number of participants:
+          </label>
+          <input
+            name="expectedParticipants"
+            type="number"
+            value={
+              formik.values.expectedParticipants !== null
+                ? formik.values.expectedParticipants
+                : ""
+            }
+            onChange={(e) =>
+              formik.setFieldValue(
+                "expectedParticipants",
+                Number(e.target.value)
+              )
+            }
+            onBlur={formik.handleBlur("expectedParticipants")}
+            placeholder="Enter the expected number of participants"
+            className="register_input custom-border"
+          />
+          <small className="text-red-600">
+            {formik.touched.expectedParticipants &&
+              formik.errors.expectedParticipants}
+          </small>
         </div>
 
         <div className="flex flex-col gap-2 w-full">
