@@ -267,6 +267,12 @@ export interface CreateTrialStep3FormValues {
   gender: string;
 }
 
+export interface CreateTrialStep4FormProps {
+  shortDescription: string;
+  inclusionDisease: string[]; 
+  exclusionDisease: string[]; 
+}
+
 //------------------------------ Employees ----------------------------
 export interface employeesInfoProps {
   firstName: string;

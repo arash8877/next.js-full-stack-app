@@ -218,7 +218,7 @@ const CreateTrialStep2Form = () => {
 
       <div className="flex justify-center xs:justify-start gap-4">
         <CustomButton
-          title={l("register.step1.form.cta.btn") || "Add another site"}
+          title={l("register.step1.form.cta.btn") || "+ Add another site"}
           containerStyles="rounded-lg bg-secondary-50 hover1"
           handleClick={addSite}
         />
