@@ -271,6 +271,7 @@ export interface CreateTrialStep4FormProps {
   shortDescription: string;
   inclusionDisease: string[]; 
   exclusionDisease: string[]; 
+  participantActivities: string;
 }
 
 //------------------------------ Employees ----------------------------
