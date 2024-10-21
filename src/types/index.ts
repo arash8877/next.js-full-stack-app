@@ -244,19 +244,17 @@ export interface SiteFormValues {
 }
 
 export interface CreateTrialStep2FormValues {
-  sites: SiteFormValues[]; 
+  sites: SiteFormValues[];
 }
-
 
 export interface CreateTrialStep2FormProps {
   label: string;
-  name: keyof SiteFormValues; 
+  name: keyof SiteFormValues;
   type: string;
   placeholder: string;
   formik: FormikProps<CreateTrialStep2FormValues>;
   icon?: string;
 }
-
 
 export interface CreateTrialStep3FormValues {
   startDate: string;
@@ -268,9 +266,13 @@ export interface CreateTrialStep3FormValues {
 }
 
 export interface CreateTrialStep4FormProps {
-  shortDescription: string;
-  inclusionDisease: string[]; 
-  exclusionDisease: string[]; 
+  inclusionDisease: string[];
+  exclusionDisease: string[];
+  participantActivities: string;
+  additionalInfo: string;
+  drivingCompensation: boolean;
+  monetaryCompensation: boolean;
+  otherCompensation: string;
 }
 
 //------------------------------ Employees ----------------------------
@@ -368,7 +370,5 @@ export const applicationStates: {
     color: "#F47F7F",
   },
 };
-
-
 
 //-------------------------  ----------------------------

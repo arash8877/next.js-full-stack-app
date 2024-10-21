@@ -203,3 +203,9 @@ p {
 .ql-editor a:hover {
   color: #005bb5; /* Optional: Customize hover color */
 }
+
+.ql-editor::before {
+  color: #b6babe !important; /* Lighter gray for placeholder */
+  font-style: normal !important; /* Remove italic style */
+  font-size: 0.875rem !important;
+}
