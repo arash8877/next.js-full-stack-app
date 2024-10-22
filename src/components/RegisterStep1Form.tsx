@@ -79,8 +79,6 @@ const formSchema = Yup.object({
     .min(4, (l("settings.tab1.form.zipCode.validation.length") || "Zip code must be at least 4 characters!")),
   country: Yup.string()
     .required(l("register.step1.form.country.validation.required") || "Country is required!"),
-  phoneNumber: Yup.string()
-    .required(l("register.step1.form.country.validation.required") || "Phone number is required!"),
   consentedToTerms: Yup.boolean().oneOf(
     [true],
     (l("register.step1.form.termsandconditions.validation.required") || "You must accept the terms and conditions.")
@@ -180,13 +178,6 @@ const formSchema = Yup.object({
           {formik.touched.country && formik.errors.country}
         </small>
       </div>
-      <InputField
-        label={l("register.step1.form.password.label") || "Phone number"}
-        name="phoneNumber"
-        type="text"
-        placeholder={l("register.step1.form.phoneNumber.placeholder") || "Company phone number"}
-        formik={formik}
-      />
       <div className="md:pr-20">
         <Consent
           title={l("register.step1.form.termsandconditions.title") || "Consent to Terms and Conditions"}
