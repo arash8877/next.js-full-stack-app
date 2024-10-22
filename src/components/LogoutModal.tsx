@@ -39,9 +39,11 @@ export default function LogoutModal({ open, onClose }: LogoutModalProps) {
   const { l } = useLanguageStore();
 
   const handleLogout = () => {
-    localStorage.removeItem("trialId");
     localStorage.removeItem("token");
+    localStorage.removeItem("sponsorId");
+    localStorage.removeItem("trialId");
     sessionStorage.removeItem("diseaseModalShown");
+    document.cookie = "token=; path=/; max-age=0; SameSite=Strict; Secure";
     router.push("/login");
   };
 
