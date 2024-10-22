@@ -11,7 +11,7 @@ const Stepper: React.FC<StepperProps> = ({ activeStep }) => {
   
   const steps = [
     l("register.stepper.step1") || "Title",
-    l("register.stepper.step2") || "Location",
+    l("register.stepper.step2") || "Site",
     l("register.stepper.step3") || "Time",
     l("register.stepper.step4") || "More Info",
   ];

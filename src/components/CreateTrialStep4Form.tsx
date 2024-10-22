@@ -127,7 +127,7 @@ const CreateTrialStep4Form = () => {
             htmlFor="expectedParticipants"
             className="text-sm font-semibold"
           >
-            Expected number of participants:
+            Expected number of participants:<span className="ml-1">*</span>
           </label>
           <input
             name="expectedParticipants"
