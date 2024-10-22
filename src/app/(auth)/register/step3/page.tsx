@@ -26,6 +26,8 @@ function RegisterStep3() {
       setSelectedLang(initialLang ? initialLang.code : "en");
     }, [setSelectedLang]);
 
+
+  //------------- Handle Next Step ---------------
   useEffect(() => {
     async function handleNextStep() {
       const token = searchParams.get("invite_token");
@@ -33,7 +35,7 @@ function RegisterStep3() {
       if (token) {
         try {
           const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/v1/invites/verify`, //Request
+            `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/verify`, //Request
             {
               token: token,
             }

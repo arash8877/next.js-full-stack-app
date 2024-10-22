@@ -11,13 +11,11 @@ const useGetCompanyInfo = (): {
 } => {
   //--- Initial Company Info ---
   const initialCompanyInfo: CompanyInfoProps = {
-    companyName: "",
+    sponsorName: "",
     vatNumber: "",
     address: "",
     zipCode: "",
     country: "",
-    phoneNumber: "",
-    consentedToTerms: true
   };
 
   //--- Fetcher Function ---
