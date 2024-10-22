@@ -19,18 +19,25 @@ const CreateTrialStep3Form = () => {
   //----------------- Yup validation ---------------
   // eslint-disable-next-line
   const formSchema = Yup.object({
-    startDate: Yup.string().required(
+    startDate: Yup.date().required(
       l("settings.tab1.form.place.validation.required") ||
         "Start date is required!"
     ),
-    endDate: Yup.string().required(
-      l("settings.tab1.form.address.validation.required") ||
-        "End date is required!"
-    ),
-    deadline: Yup.string().required(
-      l("register.step1.form.zipCode.validation.required") ||
-        "Deadline is required!"
-    ),
+    endDate: Yup.date()
+      .required(
+        l("settings.tab1.form.address.validation.required") ||
+          "End date is required!"
+      )
+      .min(Yup.ref("startDate"), "End date must be later than start date"),
+    deadline: Yup.date()
+      .required(
+        l("register.step1.form.zipCode.validation.required") ||
+          "Deadline is required!"
+      )
+      .max(
+        Yup.ref("endDate"),
+        "Deadline should not be later than End Study Date"
+      ),
     ageMin: Yup.string().required(
       l("register.step1.form.country.validation.required") || "Age is required!"
     ),
@@ -78,7 +85,7 @@ const CreateTrialStep3Form = () => {
         }
       }
     },
-    // validationSchema: formSchema,
+    validationSchema: formSchema,
   });
 
   //--------------------------------------------------Return---------------------------------------------
@@ -131,7 +138,7 @@ const CreateTrialStep3Form = () => {
               <span className="ml-1">*</span>
             </label>
             <CustomDateInput
-              value={formik.values.endDate}
+              value={formik.values.deadline}
               onChange={(date) => formik.setFieldValue("deadline", date)}
               onBlur={formik.handleBlur("deadline")}
             />
