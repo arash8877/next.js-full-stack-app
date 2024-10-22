@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -5,6 +7,7 @@ import Image from "next/image";
 import * as Yup from "yup";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
+import axios from "axios";
 import Consent from "./Consent";
 import { AxiosError } from "axios";
 import { Step2FormProps } from "@/types/index";
@@ -56,6 +59,7 @@ const RegisterStep2Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
+  const sponsorId = typeof window !== "undefined" ? localStorage.getItem("sponsorId") : null;
 
   //----------------- Yup validation ---------------
   // eslint-disable-next-line
@@ -158,23 +162,26 @@ const RegisterStep2Form = () => {
     // eslint-disable-next-line
     onSubmit: async (values) => {
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     firstName: values.firstName,
-        //     lastName: values.lastName,
-        //     jobTitle: values.jobTitle,
-        //     phoneNumber: values.phoneNumber,
-        //     email: values.email,
-        //     password: values.password,
-        //     repeatedPassword: values.repeatedPassword,
-        //     consentedToTerms: values.consentedToTerms,
-        //     hasConsentedToMarketing: values.hasConsentedToMarketing,
-        //   }
-        // );
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/user`, //post request
+          {
+            verifyURL: `${window.location.origin}/register/step3`,
+            sponsorId: sponsorId,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            jobTitle: values.jobTitle,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            password: values.password,
+            repeatedPassword: values.repeatedPassword,
+            consentedToTerms: values.consentedToTerms,
+            hasConsentedToMarketing: values.hasConsentedToMarketing,
+          }
+        );
 
-        // localStorage.setItem("token", response.data.token);
+        console.log("step2 response:", response);
+
+        localStorage.setItem("token", response.data.token);
 
         router.push("/register/step3");
       } catch (error) {
@@ -188,7 +195,7 @@ const RegisterStep2Form = () => {
       }
     },
     // eslint-disable-next-line
-    // validationSchema: formSchema,
+    validationSchema: formSchema,
   });
 
   //--------------------------------------------------Return---------------------------------------------

@@ -4,6 +4,7 @@ import RegisterStepper from "@/components/RegisterStepper";
 import Navbar from "@/components/Navbar";
 import { Suspense, useEffect } from "react";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
+import axios from "axios";
 import { languages } from "@/lib/languageInfo";
 import useLanguageStore from "@/stores/language-store";
 
@@ -19,6 +20,28 @@ function RegisterStep4() {
     );
     setSelectedLang(initialLang ? initialLang.code : "en");
   }, [setSelectedLang]);
+
+  //------- call end point -------
+  useEffect(() => {
+    async function callEndpoint() {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/complete`, //Request
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              accept: "application/json",
+            },
+          }
+        );
+        console.log("step4 response:", response);
+      } catch (error) {
+        console.log("Error in verifying token:", error);
+      }
+    }
+    callEndpoint();
+  }, []);
 
   //------------ get user email ------------
   const { userData } = useGetUserInfo();
@@ -39,13 +62,12 @@ function RegisterStep4() {
               </h1>
               <p className="text-base text-center md:font-semibold">
                 {l("register.step2.description1") ||
-                  "We are currently processing your information and will send a verification email to...... soon."}{" "}
+                  "We will review your information and will send an status update email to"}{" "}
                 {email}
-                {l("register.step2.description2") || ""}
               </p>
               <p className="text-base text-center pt-6">
                 {l("settings.tab4.email.warning") ||
-                  "For more information please contact "}
+                  "Our support team is always ready to help you. Any questions, please contact us at"}{" "}
                 <a
                   className="italic underline"
                   href="mailto:support@trialsync.com"
@@ -55,7 +77,7 @@ function RegisterStep4() {
                     "support@trialsync.com"}
                 </a>
               </p>
-              <p className="text-base text-center">
+              <p className="text-base text-center mt-8">
                 {l("register.step2.description1") ||
                   "You can close this window."}{" "}
               </p>

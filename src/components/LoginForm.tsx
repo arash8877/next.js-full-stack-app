@@ -43,39 +43,43 @@ const LoginForm = () => {
             password: values.password,
           }
         );
-        console.log(response.data)
+        console.log("response in login form:", response.data)
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("language", response.data.user.preferredLanguage);
+        router.push("/trials");
 
         //-- check if user is verified (clicked on email after step1) --
-        const verifiedResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/users/verified`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        // const verifiedResponse = await axios.get(
+        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/users/verified`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //     },
+        //   }
+        // );
 
-        if (verifiedResponse.data == false) {
-          router.push("/register/step2");
-        } else {
-          //-- check if user completed the registration --
-          const completedResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/v1/users/completed`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
+        // if (verifiedResponse.data == false) {
+        //   router.push("/register/step2");
+        // } else {
+        //   //-- check if user completed the registration --
+        //   const completedResponse = await axios.get(
+        //     `${process.env.NEXT_PUBLIC_API_URL}/v1/users/completed`,
+        //     {
+        //       headers: {
+        //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //       },
+        //     }
+        //   );
 
-          if (completedResponse.data == false) {
-            router.push("/register/step3");
-          } else {
-            router.push("/trials");
-          }
-        }
+        //   if (completedResponse.data == false) {
+        //     router.push("/register/step3");
+        //   } else {
+        //     router.push("/trials");
+        //   }
+        // }
+
+
+
       } catch (error) {
         console.error("catch error in login", error);
         // --- Cast error to AxiosError to resolve the type ---

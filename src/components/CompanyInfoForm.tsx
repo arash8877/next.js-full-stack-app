@@ -9,12 +9,11 @@ import useLanguageStore from "@/stores/language-store";
 
 //------------------------------------ main function -----------------------------------
 const SettingUserInfoForm = ({
-  companyName,
+  sponsorName,
   vatNumber,
   address,
   zipCode,
   country,
-  phoneNumber,
 }: CompanyInfoProps) => {
   const { l } = useLanguageStore();
 
@@ -101,21 +100,20 @@ const SettingUserInfoForm = ({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      companyName: companyName,
+      companyName: sponsorName,
       vatNumber: vatNumber || "",
       address: address || "",
       zipCode: zipCode || "",
       country: country || "",
-      phoneNumber: phoneNumber || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
       const data = {
+        sponsorName: sponsorName,
         companyName: values.companyName,
         address: values.address,
         zipCode: values.zipCode,
         country: values.country,
-        phoneNumber: values.phoneNumber,
         vatNumber: vatNumber || "",
         consentedToTerms: true,
       };
@@ -223,23 +221,6 @@ const SettingUserInfoForm = ({
               {l("settings.tab4.email.support.mail") || "support@trialsync.com"}
             </a>
           </p>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="phoneNumber">
-            {l("settings.tab1.form.phoneNumber.label") || "Phone number"}
-          </label>
-          <input
-            name="phoneNumber"
-            type="text"
-            defaultValue={address}
-            onChange={formik.handleChange("phoneNumber")}
-            onBlur={formik.handleBlur("phoneNumber")}
-            className="register_input custom-border"
-          />
-          <small className="text-red-600">
-            {formik.touched.phoneNumber && formik.errors.phoneNumber}
-          </small>
         </div>
       </div>
 

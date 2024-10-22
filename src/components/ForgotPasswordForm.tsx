@@ -38,7 +38,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordProps> = ({ onSuccess }) => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/invites/resetpassword`,
+          `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/resetpassword`,
           {
             redirectURL: `${window.location.origin}/resetpassword`,
             email: values.email,

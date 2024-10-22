@@ -34,13 +34,12 @@ export interface RegisterNavbarProps {
 
 //------- RegisterStep1Form --------
 export interface CompanyInfoProps {
-  companyName: string;
+  sponsorName: string;
   vatNumber: string;
   address: string;
   zipCode: string;
   country: string;
-  phoneNumber: string;
-  consentedToTerms: boolean;
+  // consentedToTerms: boolean;
 }
 
 export interface Step1FormProps {
