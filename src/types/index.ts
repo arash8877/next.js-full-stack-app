@@ -265,9 +265,11 @@ export interface CreateTrialStep3FormValues {
 }
 
 export interface CreateTrialStep4FormProps {
-  inclusionDisease: string[];
-  exclusionDisease: string[];
   participantActivities: string;
+  inclusionDisease: string[];
+  inclusionRequirements: string;
+  exclusionDisease: string[];
+  exclusionRequirements: string;
   additionalInfo: string;
   expectedParticipants: number | null;
   drivingCompensation: boolean;

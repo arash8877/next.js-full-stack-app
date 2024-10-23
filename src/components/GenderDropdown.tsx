@@ -46,6 +46,7 @@ export default function GenderDropdown({ gender, setGender, borderColor }: Gende
           <MenuItem value="Male">{l("dropdown.gender.male") || "Male"}</MenuItem>
           <MenuItem value="Female">{l("dropdown.gender.female") || "Female"}</MenuItem>
           <MenuItem value="Intersex">{l("dropdown.gender.intersex") || "Intersex"}</MenuItem>
+          <MenuItem value="all">{l("dropdown.gender.all") || "All"}</MenuItem>
         </Select>
       </FormControl>
     </Box>
