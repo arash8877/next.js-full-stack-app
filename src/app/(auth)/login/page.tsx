@@ -1,14 +1,32 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import LoginForm from "@/components/LoginForm";
 import useLanguageStore from "@/stores/language-store";
 
 //---------------------------- main function -----------------------------
 export default function LoginPage() {
-  const { l } = useLanguageStore(); 
+  const router = useRouter();
 
+  const { l } = useLanguageStore();
+
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          router.push("/trials");
+        } catch (error) {
+          console.error("Error checking if user is completed", error);
+        }
+      }
+    };
+
+    checkUserStatus();
+  }, [router]);
 
   // ------------------------------ return -------------------------------
   return (
@@ -29,8 +47,7 @@ export default function LoginPage() {
             <LoginForm />
             <div className="flex_center mt-3 md:mt-6">
               <p className="text-sm">
-                {l("login.cta.signup.description") ||
-                  "Don't have an account?"}
+                {l("login.cta.signup.description") || "Don't have an account?"}
               </p>
               <Link href="/register/step1" className="text-sm underline ml-1">
                 {l("login.cta.signup.text") || "Sign Up"}
