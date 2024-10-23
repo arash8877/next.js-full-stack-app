@@ -107,8 +107,7 @@ const formSchema = Yup.object({
         );
         console.log("step1 response:",response)
         localStorage.setItem("sponsorId", response.data.sponsorId);
-
-        // localStorage.setItem("token", response.data.token);
+        document.cookie = "step1Completed=true; Path=/;";
 
         router.push("/register/step2");
       } catch (error) {

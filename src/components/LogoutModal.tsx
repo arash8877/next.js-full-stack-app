@@ -44,6 +44,7 @@ export default function LogoutModal({ open, onClose }: LogoutModalProps) {
     localStorage.removeItem("trialId");
     sessionStorage.removeItem("diseaseModalShown");
     document.cookie = "token=; path=/; max-age=0; SameSite=Strict; Secure";
+    document.cookie = "step1Completed=; path=/; max-age=0; SameSite=Strict; Secure";
     router.push("/login");
   };
 
