@@ -38,12 +38,17 @@ const CreateTrialStep3Form = () => {
         Yup.ref("endDate"),
         "Deadline should not be later than End Study Date"
       ),
-    ageMin: Yup.string().required(
-      l("register.step1.form.country.validation.required") || "Age is required!"
-    ),
-    ageMax: Yup.string().required(
-      l("register.step1.form.country.validation.required") || "Age is required!"
-    ),
+    ageMin: Yup.number()
+      .required(
+        l("register.step1.form.country.validation.required") ||
+          "Age is required!"
+      )
+      .min(18, "Minimum age should be 18 years or older"),
+    ageMax: Yup.number().min(
+      Yup.ref("ageMin"),
+      "Maximum age should be greater than or equal to minimum age"
+    )
+    .max(120, "Maximum age should be less than or equal to 120 years"),
     gender: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Gender is required!"
@@ -194,7 +199,7 @@ const CreateTrialStep3Form = () => {
               placeholder={
                 l("register.step3.form.ageMax.placeholder") || "e.g. 90 years"
               }
-              value={formik.values.ageMin}
+              value={formik.values.ageMax}
               onChange={formik.handleChange("ageMax")}
               onBlur={formik.handleBlur("ageMax")}
               className="register_input focus:border-blue-500"
