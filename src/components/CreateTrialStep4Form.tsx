@@ -32,14 +32,16 @@ const CreateTrialStep4Form = () => {
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      inclusionDisease: [],
-      exclusionDisease: [],
       participantActivities: "",
+      inclusionDisease: [],
+      inclusionRequirements: "",
+      exclusionDisease: [],
+      exclusionRequirements: "",
       expectedParticipants: null,
+      additionalInfo: "",
       drivingCompensation: false,
       monetaryCompensation: false,
       otherCompensation: "",
-      additionalInfo: "",
     },
     validationSchema: formSchema,
     //---------onSubmit--------------
@@ -81,7 +83,7 @@ const CreateTrialStep4Form = () => {
         <p className="text-red-600">{error}</p>
       </div>
 
-      <div className="flex flex-col gap-6 xl:w-2/3 2xl:w-1/2">
+      <div className="flex flex-col gap-6 2xl:w-2/3">
         <div className="flex flex-col gap-2 w-full">
           <label
             htmlFor="participantActivities"
@@ -98,73 +100,119 @@ const CreateTrialStep4Form = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="inclusionDisease" className="text-sm font-semibold">
-            Inclusion Disease:
-          </label>
-          <DiseaseDropdown
-            value={formik.values.inclusionDisease}
-            onChange={(value) =>
-              formik.setFieldValue("inclusionDisease", value)
-            }
-          />
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="inclusionDisease" className="text-sm font-semibold">
+              Inclusion Disease:
+            </label>
+            <DiseaseDropdown
+              value={formik.values.inclusionDisease}
+              onChange={(value) =>
+                formik.setFieldValue("inclusionDisease", value)
+              }
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <label
+              htmlFor="inclusionRequirements"
+              className="text-sm font-semibold"
+            >
+              Inclusion Requirements:
+            </label>
+            <input
+              name="inclusionRequirements"
+              type="text"
+              value={formik.values.inclusionRequirements}
+              onChange={(value) =>
+                formik.setFieldValue("inclusionRequirements", value)
+              }
+              placeholder="Enter the eventual inclusion requirements"
+              className="register_input custom-border"
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="exclusionDisease" className="text-sm font-semibold">
-            Exclusion Disease:
-          </label>
-          <DiseaseDropdown
-            value={formik.values.exclusionDisease}
-            onChange={(value) =>
-              formik.setFieldValue("exclusionDisease", value)
-            }
-          />
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="exclusionDisease" className="text-sm font-semibold">
+              Exclusion Disease:
+            </label>
+            <DiseaseDropdown
+              value={formik.values.exclusionDisease}
+              onChange={(value) =>
+                formik.setFieldValue("exclusionDisease", value)
+              }
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <label
+              htmlFor="exclusionRequirements"
+              className="text-sm font-semibold"
+            >
+              Exclusion Requirements:
+            </label>
+            <input
+              name="exclusionRequirements"
+              type="text"
+              value={formik.values.exclusionRequirements}
+              onChange={(value) =>
+                formik.setFieldValue("inclusionRequirements", value)
+              }
+              placeholder="Enter the eventual exclusion requirements"
+              className="register_input custom-border"
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <label
-            htmlFor="expectedParticipants"
-            className="text-sm font-semibold"
-          >
-            Expected number of participants:<span className="ml-1">*</span>
-          </label>
-          <input
-            name="expectedParticipants"
-            type="number"
-            value={
-              formik.values.expectedParticipants !== null
-                ? formik.values.expectedParticipants
-                : ""
-            }
-            onChange={(e) =>
-              formik.setFieldValue(
-                "expectedParticipants",
-                Number(e.target.value)
-              )
-            }
-            onBlur={formik.handleBlur("expectedParticipants")}
-            placeholder="Enter the expected number of participants"
-            className="register_input custom-border"
-          />
-          <small className="text-red-600">
-            {formik.touched.expectedParticipants &&
-              formik.errors.expectedParticipants}
-          </small>
-        </div>
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <div className="flex flex-col gap-2 w-full">
+            <label
+              htmlFor="expectedParticipants"
+              className="text-sm font-semibold"
+            >
+              Expected number of participants:<span className="ml-1">*</span>
+            </label>
+            <input
+              name="expectedParticipants"
+              type="number"
+              value={
+                formik.values.expectedParticipants !== null
+                  ? formik.values.expectedParticipants
+                  : ""
+              }
+              onChange={(e) =>
+                formik.setFieldValue(
+                  "expectedParticipants",
+                  Number(e.target.value)
+                )
+              }
+              onBlur={formik.handleBlur("expectedParticipants")}
+              placeholder="Enter the expected number of participants"
+              className="register_input custom-border"
+            />
+            <small className="text-red-600">
+              {formik.touched.expectedParticipants &&
+                formik.errors.expectedParticipants}
+            </small>
+          </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="additionalInfo" className="text-sm font-semibold">
-            Additional Information:
-          </label>
-          <input
-            name="additionalInfo"
-            type="text"
-            value={formik.values.additionalInfo}
-            onChange={(value) => formik.setFieldValue("additionalInfo", value)}
-            placeholder="Briefly describe additional information"
-            className="register_input custom-border"
-          />
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="additionalInfo" className="text-sm font-semibold">
+              Additional Information:
+            </label>
+            <input
+              name="additionalInfo"
+              type="text"
+              value={formik.values.additionalInfo}
+              onChange={(value) =>
+                formik.setFieldValue("additionalInfo", value)
+              }
+              placeholder="Briefly describe additional information"
+              className="register_input custom-border"
+            />
+          </div>
         </div>
 
         <fieldset className="flex flex-col w-full">
