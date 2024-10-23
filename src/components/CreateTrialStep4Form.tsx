@@ -49,12 +49,18 @@ const CreateTrialStep4Form = () => {
     onSubmit: async (values) => {
       try {
         // const response = await axios.post(
-        //   ${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic, //post request
+        //   ${process.env.NEXT_PUBLIC_API_URL}/v1/.........., //post request
         //   {
-        //     verifyURL: ${window.location.origin}/register/step2,
-        //     title: values.title,
-        //     address: values.address,
-        //     longDescription: values.longDescription,
+        //     participantActivities: values.participantActivities,
+        //     inclusionDisease: values.inclusionDisease,
+        //     inclusionRequirements: values.inclusionRequirements,
+        //     exclusionDisease: values.exclusionDisease,
+        //     exclusionRequirements: values.exclusionRequirements,
+        //     expectedParticipants: values.expectedParticipants,
+        //     additionalInfo: values.additionalInfo,
+        //     drivingCompensation: values.drivingCompensation,
+        //     monetaryCompensation: values.monetaryCompensation,
+        //     otherCompensation: values.otherCompensation,
         //   }
         // );
         // console.log(response)
