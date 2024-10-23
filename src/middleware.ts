@@ -4,6 +4,8 @@ import type { NextRequest } from 'next/server';
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('token');
 
+
+
   if (!token) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
@@ -13,5 +15,9 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/trials*', '/company*', '/employees*', '/invoices*', '/create-trial*', '/settings*', ],
+  matcher: ['/trials', '/company', '/employees', '/invoices', '/create-trial/step1', '/settings'],
 };
+
+
+
+
