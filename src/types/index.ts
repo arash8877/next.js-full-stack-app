@@ -265,15 +265,19 @@ export interface CreateTrialStep3FormValues {
 }
 
 export interface CreateTrialStep4FormProps {
-  participantActivities: string;
   inclusionDisease: string[];
   inclusionRequirements: string;
   exclusionDisease: string[];
   exclusionRequirements: string;
-  additionalInfo: string;
+  selectedMedicalCategories:[];
+}
+
+export interface CreateTrialStep5FormProps {
+  participantActivities: string;  
   expectedParticipants: number | null;
-  drivingCompensation: boolean;
-  monetaryCompensation: boolean;
+  additionalInfo: string;
+  drivingCompensation: boolean; 
+  monetaryCompensation: boolean
   otherCompensation: string;
 }
 
