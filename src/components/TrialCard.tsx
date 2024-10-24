@@ -7,26 +7,25 @@ import { iTrialCardProps } from "@/types";
 import TrialStatusBadge from "./TrialStatusBadge";
 import useLanguageStore from "@/stores/language-store";
 
-
 //--------------------------------- main function -------------------------------
 export default function TrialCard({
-//   trialId,
+  //   trialId,
   title,
   shortDescription,
-  urlStub,
   startDate,
   endDate,
   address,
   submissionDeadline,
-//   media,
   userApplication,
   medicalCategories,
   diseases,
-}: // imageSrc,
+}: // applicantsNumber
+// imageSrc,
 // underReview,
 iTrialCardProps) {
-  const { l } = useLanguageStore(); 
+  const { l } = useLanguageStore();
 
+  const applicantsNumber = 250;
 
   //--------------------------------- return ------------------------------------------------
   return (
@@ -35,8 +34,12 @@ iTrialCardProps) {
         <div className="flex justify-between gap-1">
           {medicalCategories?.map((category, index) => (
             <Image
-            key={index}
-              src={category.medicalCategory.media ? category.medicalCategory.media.filePath : ""}
+              key={index}
+              src={
+                category.medicalCategory.media
+                  ? category.medicalCategory.media.filePath
+                  : ""
+              }
               alt={
                 category.medicalCategory.media
                   ? category.medicalCategory.media.alt
@@ -52,12 +55,16 @@ iTrialCardProps) {
         )}
       </div>
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
-      <h3 className="text-sm font-bold text-primary-600 line-clamp-1">{diseases}</h3>
+      <h3 className="text-sm font-bold text-primary-600 line-clamp-1">
+        {diseases}
+      </h3>
       <hr />
       <p className="text-sm line-clamp-2">{shortDescription}</p>
       <hr />
       <div className="flex justify-between">
-        <p className="text-xs font-medium">{l("trialcard.period") || "Trial Period"}</p>
+        <p className="text-xs font-medium">
+          {l("trialcard.period") || "Trial Period"}
+        </p>
         <p className="text-xs font-light">
           {startDate}-{endDate}
         </p>
@@ -66,23 +73,54 @@ iTrialCardProps) {
       {address && (
         <>
           <div className="flex justify-between">
-            <p className="text-xs font-medium">{l("trialcard.location") || "Location"}</p>
+            <p className="text-xs font-medium">
+              {l("trialcard.location") || "Location"}
+            </p>
             <p className="text-xs font-light">{address}</p>
           </div>
           <hr />
         </>
       )}
       <div className="flex justify-between">
-        <p className="text-xs font-medium">{l("trialcard.deadline") || "Submission Deadline"}</p>
+        <p className="text-xs font-medium">
+          {l("trialcard.deadline") || "Submission Deadline"}
+        </p>
         <p className="text-xs font-light">{submissionDeadline}</p>
       </div>
-      <Link href={`/trial/${encodeURIComponent(urlStub)}`}>
-        <CustomButton
-          title={l("trialcard.cta.text") || "View Trial"}
-          containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
-          btnType="submit"
-        />
-      </Link>
+      <div className="flex flex-col justify-between">
+        <Link href={`/trials/1/applicants`}>
+          <CustomButton
+            title={
+              <div className="flex items-center justify-between w-full">
+                <span>{l("trialcard.cta.text") || "Applicants"}</span>
+                {applicantsNumber > 0 && (
+                  <span className="ml-2 bg-red-400 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    {applicantsNumber}
+                  </span>
+                )}
+              </div>
+            }
+            containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
+            btnType="button"
+          />
+        </Link>
+        <div className="flex flex-col">
+          <Link href={`/trials`}>
+            <CustomButton
+              title={l("trialcard.cta.text") || "View Trial"}
+              containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
+              btnType="submit"
+            />
+          </Link>
+          <Link href={`/trials/1`}>
+            <CustomButton
+              title={l("trialcard.cta.text") || "Edit Trial"}
+              containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
+              btnType="button"
+            />
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }
