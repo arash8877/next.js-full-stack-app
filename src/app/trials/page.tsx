@@ -94,6 +94,7 @@ export default function TrialsPage() {
                   userApplication={trial.userApplication}
                   medicalCategories={trial.medicalCategories}
                   diseases={trial.diseases}
+                  applicantsNumber={trial.applicantsNumber}
                 />
               ))}
           </div>

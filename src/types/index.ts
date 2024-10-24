@@ -3,7 +3,7 @@ import { FormikProps } from "formik";
 
 //------------- CustomButton ---------------------
 export interface CustomButtonProps {
-  title: string;
+  title: string | JSX.Element;
   containerStyles?: string;
   handleClick?: MouseEventHandler<HTMLButtonElement>;
   btnType?: "button" | "submit";
@@ -143,6 +143,7 @@ export interface iTrialCardProps {
   userApplication: iUserTrialApplication | null;
   medicalCategories: iTrialCategoryProps[];
   diseases: string[];
+  applicantsNumber: number;
   //medicalCategories: iCategoryProps[];
   // imageSrc: string;
   // underReview?: boolean;
