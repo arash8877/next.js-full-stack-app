@@ -21,7 +21,7 @@ const InputField: React.FC<
   CreateTrialStep1FormProps & {
     formik: ReturnType<typeof useFormik<CreateTrialCompanyInfoProps>>;
   }
-> = ({ label, name, type, placeholder, formik, icon }) => (
+> = ({ label, name, id, type, placeholder, formik, icon }) => (
   <div className="flex flex-col">
     <label htmlFor={name}>
       {label}
@@ -39,6 +39,7 @@ const InputField: React.FC<
       )}
       <input
         name={name}
+        id={id}
         type={type}
         placeholder={placeholder}
         value={
@@ -136,6 +137,7 @@ const CreateTrialStep1Form = () => {
         <InputField
           label={l("register.step1.form.title.label") || "Title"}
           name="title"
+          id="title"
           type="text"
           placeholder={l("register.step1.form.title.placeholder") || "Title"}
           formik={formik}

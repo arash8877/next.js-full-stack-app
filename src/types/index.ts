@@ -229,6 +229,7 @@ export interface CreateTrialCompanyInfoProps {
 export interface CreateTrialStep1FormProps {
   label: string;
   name: keyof CreateTrialCompanyInfoProps;
+  id: string;
   type: string;
   placeholder: string;
   formik: FormikProps<CreateTrialCompanyInfoProps>;
