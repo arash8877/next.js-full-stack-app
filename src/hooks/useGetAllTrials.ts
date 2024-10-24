@@ -32,6 +32,7 @@ export default function useGetAllTrials({
     ([url, body]) => fetcher(url, body)
   );
 
+
   useEffect(() => {
     if (data) {
       setAllTrials(data);

@@ -127,12 +127,12 @@ const CreateTrialStep1Form = () => {
   //----------------------------------- JSX ----------------------------------------------
   return (
     <form
-      className="flex flex-col gap-6 wrapper"
+      className="flex flex-col gap-6 w-full wrapper"
       onSubmit={formik.handleSubmit}
     >
       {error && <p className="text-red-600">{error}</p>}
 
-      <div className="flex flex-col gap-6 lg:w-2/3">
+      <div className="flex flex-col gap-40">
         <InputField
           label={l("register.step1.form.title.label") || "Title"}
           name="title"
@@ -145,12 +145,16 @@ const CreateTrialStep1Form = () => {
           <label htmlFor="shortDescription" className="text-sm font-semibold">
             Short Description:<span className="ml-1">*</span>
           </label>
-          <ReactQuill
-            value={formik.values.shortDescription}
-            onChange={(value) =>
-              formik.setFieldValue("shortDescription", value)
-            }
-          />
+          <div className="h-[30px]">
+            <ReactQuill
+              value={formik.values.shortDescription}
+              onChange={(value) =>
+                formik.setFieldValue("shortDescription", value)
+              }
+              className="h-full"
+            />
+          </div>
+
           <small className="text-red-600">
             {formik.touched.shortDescription && formik.errors.shortDescription}
           </small>
@@ -160,10 +164,16 @@ const CreateTrialStep1Form = () => {
           <label htmlFor="fullDescription" className="text-sm font-semibold">
             Full Description:<span className="ml-1">*</span>
           </label>
-          <ReactQuill
-            value={formik.values.fullDescription}
-            onChange={(value) => formik.setFieldValue("fullDescription", value)}
-          />
+          <div className="h-48">
+            <ReactQuill
+              value={formik.values.fullDescription}
+              onChange={(value) =>
+                formik.setFieldValue("fullDescription", value)
+              }
+              className="h-full"
+            />
+          </div>
+
           <small className="text-red-600">
             {formik.touched.fullDescription && formik.errors.fullDescription}
           </small>
