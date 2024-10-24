@@ -139,7 +139,7 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
         <div className="md:flex gap-4">
           <div className="flex_center rounded-lg py-[6px] h-[44px] bg-secondary-50 cursor-pointer">
             <button
-              className="text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8"
+              className="flex_center text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8"
               onClick={redirectToCreateTrialPage}
             >
               {l("filter.btn.suggestion") || "Create Trial"}

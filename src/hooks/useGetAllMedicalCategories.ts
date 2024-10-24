@@ -26,7 +26,7 @@ export default function useGetAllMedicalCategories(): UseGetAllMedicalCategories
 
   const { data, error, isLoading } = useSWR(
     authenticated
-      ? `${process.env.NEXT_PUBLIC_API_URL}/v1/medicalCategories`
+      ? `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/medicalCategories`
       : null,
     fetcher
   );

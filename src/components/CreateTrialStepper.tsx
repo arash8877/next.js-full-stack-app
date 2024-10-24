@@ -21,7 +21,7 @@ const Stepper: React.FC<StepperProps> = ({ activeStep }) => {
 
   //-------------------------------------- jsx ---------------------------------------
   return (
-    <div className="w-full grid grid-cols-2 gap-y-8 gap-x-3 sm:gap-x-7 md:gap-x-7 md:flex md:justify-between md:gap-6 px-8 xl:w-1/2 mx-auto">
+    <div className="w-full grid grid-cols-2 gap-y-8 gap-x-3 sm:gap-x-7 md:gap-x-7 lg:flex md:justify-between md:gap-6 px-8 2xl:w-2/3 mx-auto">
       {steps.map((step, index) => (
         <div
           className="flex justify-start items-center text-xs md:text-sm"

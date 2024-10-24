@@ -27,9 +27,7 @@ const CreateTrialStep4Form = () => {
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
-  const formSchema = Yup.object({
-
-  });
+  const formSchema = Yup.object({});
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
@@ -39,13 +37,12 @@ const CreateTrialStep4Form = () => {
       exclusionDisease: [],
       exclusionRequirements: "",
       selectedMedicalCategories: [],
- 
     },
     validationSchema: formSchema,
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      console.log('Submitting...', values);
+      console.log("Submitting...", values);
       try {
         // const response = await axios.post(
         //   ${process.env.NEXT_PUBLIC_API_URL}/v1/.........., //post request
@@ -91,14 +88,14 @@ const CreateTrialStep4Form = () => {
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
     <form
-      className="flex flex-col gap-6 wrapper"
+      className="flex flex-col gap-6 mx-auto wrapper"
       onSubmit={formik.handleSubmit}
     >
       <div className="flex justify-center">
         <p className="text-red-600">{error}</p>
       </div>
 
-      <div className="flex flex-col gap-6 2xl:w-2/3">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="inclusionDisease" className="text-sm font-semibold">
@@ -123,9 +120,11 @@ const CreateTrialStep4Form = () => {
               name="inclusionRequirements"
               type="text"
               value={formik.values.inclusionRequirements}
-              onChange={(e) => formik.setFieldValue("inclusionRequirements", e.target.value)}
+              onChange={(e) =>
+                formik.setFieldValue("inclusionRequirements", e.target.value)
+              }
               placeholder="Enter the eventual inclusion requirements"
-              className="register_input custom-border"
+              className="register_input custom-border custom_height2"
             />
           </div>
         </div>
@@ -154,37 +153,42 @@ const CreateTrialStep4Form = () => {
               name="exclusionRequirements"
               type="text"
               value={formik.values.exclusionRequirements}
-              onChange={(e) => formik.setFieldValue("exclusionRequirements", e.target.value)}
+              onChange={(e) =>
+                formik.setFieldValue("exclusionRequirements", e.target.value)
+              }
               placeholder="Enter the eventual exclusion requirements"
-              className="register_input custom-border"
+              className="register_input custom-border custom_height2"
             />
           </div>
         </div>
-
-        <div className="flex flex-col gap-6 xl:flex-row">
-          {categories.map((category: iCategoryProps, index) => (
-            <Tag
-              key={index}
-              title={category.name}
-              handleClick={() => {
-                if (category.medicalCategoryId !== undefined) {
-                  handleClick(category.medicalCategoryId);
+        <div className="flex flex-col gap-2 w-full mt-8">
+          <label className="text-sm font-semibold">
+            Medical Categories:</label>
+          <div>
+            {categories.map((category: iCategoryProps, index) => (
+              <Tag
+                key={index}
+                title={category.name}
+                handleClick={() => {
+                  if (category.medicalCategoryId !== undefined) {
+                    handleClick(category.medicalCategoryId);
+                  }
+                }}
+                isSelected={selectedCategoriesId.includes(
+                  category.medicalCategoryId || -1
+                )}
+                icon={
+                  <Image
+                    src={category.media.filePath}
+                    alt={category.media.alt}
+                    height={20}
+                    width={20}
+                    className="w-5 h-5 sm:w-6 sm:h-6"
+                  />
                 }
-              }}
-              isSelected={selectedCategoriesId.includes(
-                category.medicalCategoryId || -1
-              )}
-              icon={
-                <Image
-                  src={category.media.filePath}
-                  alt={category.media.alt}
-                  height={20}
-                  width={20}
-                  className="w-5 h-5 sm:w-6 sm:h-6"
-                />
-              }
-            />
-          ))}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

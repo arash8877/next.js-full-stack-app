@@ -21,7 +21,7 @@ const InputField: React.FC<
   CreateTrialStep1FormProps & {
     formik: ReturnType<typeof useFormik<CreateTrialCompanyInfoProps>>;
   }
-> = ({ label, name, type, placeholder, formik, icon }) => (
+> = ({ label, name, id, type, placeholder, formik, icon }) => (
   <div className="flex flex-col">
     <label htmlFor={name}>
       {label}
@@ -39,6 +39,7 @@ const InputField: React.FC<
       )}
       <input
         name={name}
+        id={id}
         type={type}
         placeholder={placeholder}
         value={
@@ -127,30 +128,35 @@ const CreateTrialStep1Form = () => {
   //----------------------------------- JSX ----------------------------------------------
   return (
     <form
-      className="flex flex-col gap-6 wrapper"
+      className="flex flex-col gap-6 w-full wrapper"
       onSubmit={formik.handleSubmit}
     >
       {error && <p className="text-red-600">{error}</p>}
 
-      <div className="flex flex-col gap-6 lg:w-2/3">
+      <div className="flex flex-col gap-6">
         <InputField
           label={l("register.step1.form.title.label") || "Title"}
           name="title"
+          id="title"
           type="text"
           placeholder={l("register.step1.form.title.placeholder") || "Title"}
           formik={formik}
         />
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-2 w-full mb-12">
           <label htmlFor="shortDescription" className="text-sm font-semibold">
             Short Description:<span className="ml-1">*</span>
           </label>
-          <ReactQuill
-            value={formik.values.shortDescription}
-            onChange={(value) =>
-              formik.setFieldValue("shortDescription", value)
-            }
-          />
+          <div className="h-[200px]">
+            <ReactQuill
+              value={formik.values.shortDescription}
+              onChange={(value) =>
+                formik.setFieldValue("shortDescription", value)
+              }
+              className="h-full"
+            />
+          </div>
+
           <small className="text-red-600">
             {formik.touched.shortDescription && formik.errors.shortDescription}
           </small>
@@ -160,17 +166,23 @@ const CreateTrialStep1Form = () => {
           <label htmlFor="fullDescription" className="text-sm font-semibold">
             Full Description:<span className="ml-1">*</span>
           </label>
-          <ReactQuill
-            value={formik.values.fullDescription}
-            onChange={(value) => formik.setFieldValue("fullDescription", value)}
-          />
+          <div className="h-[400px]">
+            <ReactQuill
+              value={formik.values.fullDescription}
+              onChange={(value) =>
+                formik.setFieldValue("fullDescription", value)
+              }
+              className="h-full"
+            />
+          </div>
+
           <small className="text-red-600">
             {formik.touched.fullDescription && formik.errors.fullDescription}
           </small>
         </div>
       </div>
 
-      <div className="flex justify-center xs:justify-end gap-4">
+      <div className="flex justify-center xs:justify-end gap-4 mt-20">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"
