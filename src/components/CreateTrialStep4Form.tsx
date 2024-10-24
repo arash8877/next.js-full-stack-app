@@ -88,14 +88,14 @@ const CreateTrialStep4Form = () => {
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
     <form
-      className="flex flex-col gap-6 wrapper"
+      className="flex flex-col gap-6 mx-auto wrapper"
       onSubmit={formik.handleSubmit}
     >
       <div className="flex justify-center">
         <p className="text-red-600">{error}</p>
       </div>
 
-      <div className="flex flex-col gap-6 2xl:w-2/3">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="inclusionDisease" className="text-sm font-semibold">

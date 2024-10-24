@@ -132,7 +132,7 @@ const CreateTrialStep1Form = () => {
     >
       {error && <p className="text-red-600">{error}</p>}
 
-      <div className="flex flex-col gap-40">
+      <div className="flex flex-col gap-6">
         <InputField
           label={l("register.step1.form.title.label") || "Title"}
           name="title"
@@ -141,11 +141,11 @@ const CreateTrialStep1Form = () => {
           formik={formik}
         />
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-2 w-full mb-12">
           <label htmlFor="shortDescription" className="text-sm font-semibold">
             Short Description:<span className="ml-1">*</span>
           </label>
-          <div className="h-[30px]">
+          <div className="h-[200px]">
             <ReactQuill
               value={formik.values.shortDescription}
               onChange={(value) =>
@@ -164,7 +164,7 @@ const CreateTrialStep1Form = () => {
           <label htmlFor="fullDescription" className="text-sm font-semibold">
             Full Description:<span className="ml-1">*</span>
           </label>
-          <div className="h-48">
+          <div className="h-[400px]">
             <ReactQuill
               value={formik.values.fullDescription}
               onChange={(value) =>
@@ -180,7 +180,7 @@ const CreateTrialStep1Form = () => {
         </div>
       </div>
 
-      <div className="flex justify-center xs:justify-end gap-4">
+      <div className="flex justify-center xs:justify-end gap-4 mt-20">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"

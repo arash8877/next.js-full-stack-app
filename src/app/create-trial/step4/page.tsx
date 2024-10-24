@@ -15,6 +15,10 @@ export default function CreateTrialStep4Page() {
       </h1>
       <div className="flex flex-col bg-white rounded-3xl py-8	">
         <CreateTrialStepper activeStep={3} />
+        <h3 className="text-lg font-medium text-center px-6 mt-12">
+          {l("settings.title") ||
+            "Please enter the exclusion and inclusion requirements and medical categories"}
+        </h3>
         <CreateTrialStep4Form />
       </div>
     </SidebarLayout>
