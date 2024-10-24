@@ -106,7 +106,7 @@ function RegisterStep3() {
                 </h1>
                 <p className="text-base text-center">
                   {l("register.step2.description1") ||
-                    "You should have received a verification email at ......."}{" "}
+                    "You should have received a verification email at"}{" "}
                   {email}
                   {l("register.step2.description2") ||
                     ". If not, click the button below to resend the email."}
