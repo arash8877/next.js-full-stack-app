@@ -3,6 +3,7 @@
 import { SidebarLayout } from "@/components/SidebarLayout";
 import CreateTrialStepper from "@/components/CreateTrialStepper";
 import useLanguageStore from "@/stores/language-store";
+import CreateTrialStep6Form from "@/components/CreateTrialStep6Form";
 
 export default function CreateTrialStep4Page() {
   const { l } = useLanguageStore();
@@ -14,6 +15,11 @@ export default function CreateTrialStep4Page() {
       </h1>
       <div className="flex flex-col bg-white rounded-3xl py-8	">
         <CreateTrialStepper activeStep={5} />
+        <h3 className="text-lg font-medium text-center px-6 mt-12">
+          {l("settings.title") ||
+            "Please Review the Trial information before creating it."}
+        </h3>
+        <CreateTrialStep6Form />
       </div>
     </SidebarLayout>
   );
