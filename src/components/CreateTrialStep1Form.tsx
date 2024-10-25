@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
@@ -105,15 +106,33 @@ const CreateTrialStep1Form = () => {
       fullDescription: "",
     },
     validationSchema: formSchema,
+
+
+// eslint-disable-next-line
     onSubmit: async (values) => {
+      const token = localStorage.getItem("token");
+      // const sponsorId = localStorage.getItem("sponsorId");
+      // eslint-disable-next-line
+      const sponsorId = 11;
       try {
+        // const payload = {
+        //   sponsorId,
+        //   title: values.title,
+        //   shortDescription: values.shortDescription,
+        //   fullDescription: values.fullDescription ,
+        // };
         const payload = {
-          ...values,
-          shortDescription: JSON.stringify(values.shortDescription),
-          fullDescription: JSON.stringify(values.fullDescription),
+          sponsorId: 11,
+          title: "Sample Title",
+          shortDescription: "Sample short description",
+          fullDescription: "Sample full description",
         };
-        // const response = await axios.post('/your-api-endpoint', payload);
-        console.log(payload);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/v1/trials`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("response in step1:", response);
         router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {
@@ -157,7 +176,7 @@ const CreateTrialStep1Form = () => {
             />
           </div>
 
-          <small className="text-red-600">
+          <small className="text-red-600 mt-10">
             {formik.touched.shortDescription && formik.errors.shortDescription}
           </small>
         </div>
@@ -176,7 +195,7 @@ const CreateTrialStep1Form = () => {
             />
           </div>
 
-          <small className="text-red-600">
+          <small className="text-red-600 mt-10">
             {formik.touched.fullDescription && formik.errors.fullDescription}
           </small>
         </div>
