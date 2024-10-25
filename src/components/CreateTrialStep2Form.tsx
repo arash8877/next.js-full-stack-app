@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
+import axios from "axios";
 import CountryDropdown from "./CountryDropdown";
 import { AxiosError } from "axios";
 import {
@@ -107,17 +108,20 @@ const CreateTrialStep2Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
+      const token = localStorage.getItem("token");
+      const trialId = 1;
       try {
-        // const response = await axios.post(
-        //   ${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic, //post request
-        //   {
-        //     verifyURL: ${window.location.origin}/register/step2,
-        //     title: values.title,
-        //     address: values.address,
-        //     longDescription: values.longDescription,
-        //   }
-        // );
-        // console.log(response)
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`, 
+          {
+          },          
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response in step2:", response)
         router.push("/create-trial/step3");
       } catch (error) {
         if (error instanceof AxiosError) {
