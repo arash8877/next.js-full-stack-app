@@ -1,9 +1,24 @@
-import { SidebarLayout } from "@/components/SidebarLayout";
+"use client"
 
-export default function EditTrialPage() {
+import TrialForm from "@/components/TrialForm";
+//import { iTrialInfoProps } from "@/types";
+import { SidebarLayout } from "@/components/SidebarLayout";
+import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
+import { useEffect } from "react";
+
+type Props = {
+  params: { id: string };
+}
+
+export default function EditTrialPage({ params }: Props) {
+  console.log("params", params)
+  const { trialData } = useGetSingleTrialInfo(params.id);
+  useEffect(() => {
+    console.log(trialData);
+  }, [trialData])
   return (
     <SidebarLayout>
-          <h2>This is Edit trial page for trial number .....</h2>
+        <TrialForm {...trialData} />
     </SidebarLayout>
   );
 }

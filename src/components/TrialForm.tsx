@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
 import { iTrialInfoProps } from "@/types";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import RecruitingDropdown from "./RecruitingDropdown";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
@@ -37,7 +37,7 @@ export default function TrialDetailsLayout({
   title,
   shortDescription,
   fullDescription,
-  trialSite,
+  trialSites,
   startDate,
   endDate,
   submissionDeadline,
@@ -62,7 +62,10 @@ export default function TrialDetailsLayout({
   //   useState(false);
   // const authenticated = useIsAuthenticated();
   const { l } = useLanguageStore();
-
+  useEffect(() => {
+    console.log("Sites", trialSites);
+  }, [trialSites])
+  
   //---------------- update trial ---------------
   // eslint-disable-next-line
   const updateTrial = async (data: iTrialInfoProps) => {
@@ -216,12 +219,14 @@ export default function TrialDetailsLayout({
 
   //--------------- formik ----------------
   const formik = useFormik({
+    validateOnBlur: false,
+    validateOnChange: false,
+    validateOnMount: false,
     enableReinitialize: true,
     initialValues: {
       title: title || "",
       shortDescription: shortDescription || "",
       fullDescription: fullDescription || "",
-      trialSite: trialSite || "",
       recruitingStatus: recruitingStatus || false,
       ageMin: ageMin || "",
       ageMax: ageMax || "",
@@ -229,22 +234,21 @@ export default function TrialDetailsLayout({
       startDate: startDate,
       endDate: endDate,
       submissionDeadline: submissionDeadline,
-      location: trialSite?.location || "",
-      address: trialSite?.address || "",
-      zipCode: trialSite?.zipCode || "",
-      country: trialSite?.country || "",
+      location: trialSites?.[0]?.name || "",
+      address: trialSites?.[0]?.address || "",
+      zipCode: trialSites?.[0]?.zipCode || "",
+      country: trialSites?.[0]?.country || "",
       gender: gender || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
+      console.log("Submit")
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
         title: values.title,
         shortDescription: values.shortDescription,
         fullDescription: values.fullDescription,
-        trialSite:
-          typeof values.trialSite === "string" ? null : values.trialSite,
         recruitingStatus: values.recruitingStatus,
         ageMin: Number(values.ageMin),
         ageMax: Number(values.ageMax),
@@ -262,122 +266,35 @@ export default function TrialDetailsLayout({
         isCompleted: false,
       };
 
-      // updateTrial(data);
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`, {
+            title: data.title,
+            shortDescription: data.shortDescription,
+            fullDescription: data.fullDescription,
+            isRecruiting: data.recruitingStatus,
+            ageMin: data.ageMin,
+            ageMax: data.ageMax,
+            gender: data.gender,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            submissionDeadline: data.submissionDeadline
+          },          
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response in step2:", response)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.error(error);
+        }
+      }
     },
-    validationSchema: formSchema,
   });
-
-  //---------------- GET trial details ---------------------
-  //   async function getTrialDetails(
-  //     id: number
-  //   ): Promise<iTrialInfoProps | null> {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const res = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${id}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             accept: "application/json",
-  //           },
-  //         }
-  //       );
-  //       return res.data;
-  //     } catch (error) {
-  //       console.error(`Error in /v1/trials/${id}`, error);
-  //       return null;
-  //     }
-  //   }
-
-  //   function setNewestState(
-  //     userApplication: iUserTrialApplication | null | undefined
-  //   ) {
-  //     if (userApplication) {
-  //       setTrialHasBeenApplied(true);
-  //       setCurrentApplicationId(userApplication.applicationId);
-  //       if (userApplication) {
-  //         const lastState =
-  //           userApplication.applicationStates[
-  //             userApplication.applicationStates.length - 1
-  //           ].state;
-  //         setCurrentApplicationState(lastState);
-  //         setApplyForTrialButtonState(getButtonState(userApplication));
-  //       } else {
-  //         // Handle the case where userApplication is null
-  //         setCurrentApplicationState(0); // Or whatever default state is appropriate
-  //         setApplyForTrialButtonState(1); // Assuming 1 is the default state for the button
-  //       }
-  //     } else {
-  //       setTrialHasBeenApplied(false);
-  //       setCurrentApplicationState(0); // Or whatever default state is appropriate
-  //       setApplyForTrialButtonState(1); // Assuming 1 is the default state for the button
-  //     }
-  //   }
-
-  //   //----------------------------------------------
-  //   async function getNewestState() {
-  //     try {
-  //       getTrialDetails(trialId).then((trial) =>
-  //         setNewestState(trial?.userApplication)
-  //       );
-  //     } catch (error) {
-  //       console.error("Error getting newest state:", error);
-  //     }
-  //   }
-
-  //   //--------- set modal open and close ---------
-  //   const handleApplyForTrial = () => {
-  //     if (applyForTrialButtonState == 1) {
-  //       setModalOpen(true);
-  //     } else if (applyForTrialButtonState == 4) {
-  //       setWarningModalOpen(true);
-  //     }
-  //   };
-
-  //   const handleCloseModal = () => {
-  //     setModalOpen(false);
-  //     getNewestState();
-  //   };
-
-  //   const getButtonState = (userApplication: iUserTrialApplication | null) => {
-  //     if (!isRecruiting) {
-  //       return 2;
-  //     }
-
-  //     if (Date.parse(submissionDeadline) < Date.now()) {
-  //       return 2;
-  //     }
-
-  //     if (userApplication) {
-  //       if (
-  //         userApplication.applicationStates[
-  //           userApplication.applicationStates.length - 1
-  //         ].state == 1
-  //       ) {
-  //         return 4;
-  //       } else {
-  //         return 3;
-  //       }
-  //     }
-
-  //     return 1;
-  //   };
-
-  //   //--------- Check userApplication on component load -------------
-  //   useEffect(() => {
-  //     if (userApplication) {
-  //       setNewestState(userApplication);
-  //     }
-  //   }, [userApplication]);
-
-  //   useEffect(() => {
-  //     setApplyForTrialButtonState(getButtonState(userApplication));
-  //   }, [isRecruiting]);
-
-  //   //---- open and close modal -----
-  //   const openRedirectToRegisterModal = () => {
-  //     setIsRedirectToRegisterModalOpen(true);
-  //   };
 
   //--- open/close modal ----
   const [isDeleteTrialModalOpen, setIsDeleteTrialModalOpen] = useState(false);
@@ -668,15 +585,7 @@ export default function TrialDetailsLayout({
             </div>
             </div>
           </div>
-
-
-
-
-
         </div>
-
-
-
 
         <div className="flex justify-center xs:justify-end gap-4 mt-8">
           <CustomButton
@@ -693,6 +602,7 @@ export default function TrialDetailsLayout({
         </div>
       </form>
       <DeleteTrialModal
+        trialId={trialId}
         open={isDeleteTrialModalOpen}
         onClose={closeDeleteTrialModal}
       />

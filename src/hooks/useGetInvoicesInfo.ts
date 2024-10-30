@@ -5,16 +5,12 @@ import useSWR from "swr";
 
 //----------------------------------- Main Function ---------------------------------------
 const useGetInvoicesInfo = (): {
-  invoiceData: invoicesInfoProps;
+  invoiceData: invoicesInfoProps[];
   invoiceError: Error | null;
   invoiceIsLoading: boolean;
 } => {
   //--- Initial invoice Info ---
-  const initialInvoiceInfo: invoicesInfoProps = {
-    invNumber: "",
-    amount: "",
-    isPaid: false,
-  };
+  const initialInvoiceInfo: invoicesInfoProps[] = [];
 
   //--- Fetcher Function ---
   const fetcher = async (url: string) => {
@@ -33,10 +29,10 @@ const useGetInvoicesInfo = (): {
 
   //--- GET invoice Info ---
   const { data, error, isLoading } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
+    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/invoices` : null,
     fetcher
   );
-  const [invoicesInfo, setInvoicesInfo] = useState<invoicesInfoProps>(initialInvoiceInfo);
+  const [invoicesInfo, setInvoicesInfo] = useState<invoicesInfoProps[]>(initialInvoiceInfo);
   useEffect(() => {
     if (data) {
         setInvoicesInfo(data);

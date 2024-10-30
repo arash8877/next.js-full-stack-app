@@ -4,38 +4,13 @@ import { SidebarLayout } from "@/components/SidebarLayout";
 import CustomButton from "@/components/CustomButton";
 import { useRouter } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
-
-const employees = [
-  {
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    lastLogin: "2024-10-07",
-  },
-  {
-    firstName: "Jane",
-    lastName: "Smith",
-    email: "jane.smith@example.com",
-    lastLogin: "2024-10-06",
-  },
-  {
-    firstName: "Alice",
-    lastName: "Johnson",
-    email: "alice.johnson@example.com",
-    lastLogin: "2024-10-05",
-  },
-  {
-    firstName: "Bob",
-    lastName: "Brown",
-    email: "bob.brown@example.com",
-    lastLogin: "2024-10-04",
-  },
-];
+import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 
 //------------------------------------ main function -----------------------------------
 export default function EmployeesPage() {
   const router = useRouter();
   const { l } = useLanguageStore();
+  const { companyData } = useGetCompanyInfo();
 
   function redirectToEmployeeDetails(employeeId: string) {
     router.push(`/employees/${employeeId}`);
@@ -59,7 +34,7 @@ export default function EmployeesPage() {
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee, index) => (
+            {companyData?.sponsorContacts?.map((employee, index) => (
               <tr key={index} className="border-b">
                 <td className="py-4 px-6">{employee.firstName}</td>
                 <td className="py-4 px-6">{employee.lastName}</td>

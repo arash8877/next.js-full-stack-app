@@ -11,7 +11,7 @@ import Tag from "./Tag";
 import { iCategoryProps } from "@/types/index";
 import { CreateTrialStep4FormProps } from "@/types/index";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
@@ -42,22 +42,25 @@ const CreateTrialStep4Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      console.log("Submitting...", values);
+      const token = localStorage.getItem("token");
+      const trialId = localStorage.getItem("currentTrialEditId");
       try {
-        // const response = await axios.post(
-        //   ${process.env.NEXT_PUBLIC_API_URL}/v1/.........., //post request
-        //   {
-        //     inclusionDisease: values.inclusionDisease,
-        //     inclusionRequirements: values.inclusionRequirements,
-        //     exclusionDisease: values.exclusionDisease,
-        //     exclusionRequirements: values.exclusionRequirements,
-        //     expectedParticipants: values.expectedParticipants,
-        //     medicalCategories: values.medicalCategories,
-
-        //   }
-        // );
-        // console.log(response)
-        console.log("Form create-trial-step4 submitted successfully!");
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, //post request
+          {
+            inclusionDiseases: values["inclusionDisease"],
+            inclusionRequirements: values["inclusionRequirements"],
+            exclusionDiseases: values["exclusionDisease"],
+            exclusionRequirements: values["exclusionRequirements"],
+            medicalCategories: selectedCategoriesId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response)
         router.push("/create-trial/step5");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -76,6 +79,7 @@ const CreateTrialStep4Form = () => {
 
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
+    console.log("category clicked:", id);
     if (selectedCategoriesId.includes(id)) {
       setSelectedCategoriesId(
         selectedCategoriesId.filter((categoryId) => categoryId !== id)

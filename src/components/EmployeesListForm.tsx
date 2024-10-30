@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
@@ -7,6 +7,12 @@ import axios from "axios";
 import { employeesInfoProps } from "@/types/index";
 import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
+
+interface sponsorUserUpdateProps {
+  firstName: string;
+  lastName: string;
+  //email: string;
+}
 
 //------------------------------------ main function -----------------------------------
 const EmployeesListForm = ({
@@ -18,12 +24,16 @@ const EmployeesListForm = ({
   const [isDeleteEmployeeModalOpen, setIsDeleteEmployeeModalOpen] = useState(false);
   const { l } = useLanguageStore();
 
+  useEffect(() => {
+    console.log("form data", {firstName, lastName, email, lastLogin})
+  }, [firstName])
+
   //---------------- update user ---------------
-  const updateEmployee = async (data: employeesInfoProps) => {
+  const updateEmployee = async (data: sponsorUserUpdateProps) => {
     //function will be called in onSubmit
     try {
       const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/users`, //PATCH request
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${email}`, //PATCH request
         data,
         {
           headers: {
@@ -100,10 +110,10 @@ const EmployeesListForm = ({
       const data = {
         firstName: values.firstName,
         lastName: lastName || "",
-        email: values.email,
-        lastLogin: values.lastLogin,
+        //email: values.email
+        //lastLogin: values.lastLogin,
       };
-
+      console.log(data)
       updateEmployee(data);
     },
     validationSchema: formSchema,
@@ -177,6 +187,7 @@ const EmployeesListForm = ({
             onChange={formik.handleChange("email")}
             onBlur={formik.handleBlur("email")}
             className="register_input custom-border"
+            disabled={true}
           />
           <small className="text-red-600">
             {formik.touched.email && formik.errors.email}
@@ -190,7 +201,7 @@ const EmployeesListForm = ({
           <input
             name="lastLogin"
             type="text"
-            defaultValue={email}
+            defaultValue={lastLogin}
             onChange={formik.handleChange("lastLogin")}
             onBlur={formik.handleBlur("lastLogin")}
             className="register_input custom-border"
@@ -217,6 +228,7 @@ const EmployeesListForm = ({
         />
       </div>
       <DeleteEmployeeModal
+        userId={email}
         open={isDeleteEmployeeModalOpen}
         onClose={closeDeleteEmployeeModal}
         />

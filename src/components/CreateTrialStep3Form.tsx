@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import GenderDropdown from "./GenderDropdown";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
@@ -68,17 +68,26 @@ const CreateTrialStep3Form = () => {
     //-----onSubmit-------
     // eslint-disable-next-line
     onSubmit: async (values) => {
+      const token = localStorage.getItem("token");
+      const trialId = localStorage.getItem("currentTrialEditId");
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     title: values.title,
-        //     address: values.address,
-        //     longDescription: values.longDescription,
-        //   }
-        // );
-        // console.log(response)
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //post request
+          {
+            startDate: values["startDate"],
+            endDate: values["endDate"],
+            submissionDeadline: values["deadline"],
+            ageMin: values["ageMin"],
+            ageMax: values["ageMax"],
+            gender: values["gender"]
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response)
         router.push("/create-trial/step4");
       } catch (error) {
         if (error instanceof AxiosError) {

@@ -28,7 +28,7 @@ export default function DiseaseDropdown({ value, onChange }: DiseaseDropdownProp
   async function getDiseaseList(searchValue: string) {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/diseases/${searchValue}`
+        `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/diseases/${searchValue}`
       );
       setAllDiseases(res.data);
     } catch (error) {

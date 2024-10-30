@@ -3,32 +3,11 @@
 import { SidebarLayout } from "@/components/SidebarLayout";
 import CustomButton from "@/components/CustomButton";
 import useLanguageStore from "@/stores/language-store";
+import useGetInvoicesInfo from "@/hooks/useGetInvoicesInfo";
 
 export default function CompanyPage() {
   const { l } = useLanguageStore();
-
-  const invoices = [
-    {
-      invNumber: "INV-001",
-      amount: 1500,
-      isPaid: true,
-    },
-    {
-      invNumber: "INV-002",
-      amount: 3000,
-      isPaid: false,
-    },
-    {
-      invNumber: "INV-003",
-      amount: 500,
-      isPaid: true,
-    },
-    {
-      invNumber: "INV-004",
-      amount: 1200,
-      isPaid: false,
-    },
-  ];
+  const { invoiceData } = useGetInvoicesInfo()
 
   function viewInvoicePdf() {
     console.log("View Invoice PDF");
@@ -50,10 +29,10 @@ export default function CompanyPage() {
             </tr>
           </thead>
           <tbody>
-            {invoices.map((item, index) => (
+            {invoiceData?.map((item, index) => (
               <tr key={index} className="border-b">
-                <td className="py-4 px-6 hidden md:table-cell">{item.invNumber}</td>
-                <td className="py-4 p-6">${item.amount.toFixed(2)}</td>
+                <td className="py-4 px-6 hidden md:table-cell">{item.invoiceId}</td>
+                <td className="py-4 p-6">${item.invoiceAmount.toFixed(2)}</td>
                 <td className="py-4 px-6">{item.isPaid ? "Paid" : "Unpaid"}</td>
                 <td className="py-4 px-6 flex justify-end">
                   <CustomButton

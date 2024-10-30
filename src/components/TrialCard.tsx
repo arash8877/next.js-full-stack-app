@@ -9,7 +9,8 @@ import useLanguageStore from "@/stores/language-store";
 
 //--------------------------------- main function -------------------------------
 export default function TrialCard({
-  //   trialId,
+  trialId,
+  applicationCount,
   title,
   shortDescription,
   startDate,
@@ -88,14 +89,14 @@ iTrialCardProps) {
         <p className="text-xs font-light">{submissionDeadline}</p>
       </div>
       <div className="flex flex-col justify-between">
-        <Link href={`/trials/1/applicants`}>
+        <Link href={`/trials/${trialId}/applicants`}>
           <CustomButton
             title={
               <div className="flex items-center justify-between w-full">
                 <span>{l("trialcard.cta.text") || "Applicants"}</span>
-                {applicantsNumber > 0 && (
+                {applicationCount > 0 && (
                   <span className="ml-2 bg-red-400 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    {applicantsNumber}
+                    {applicationCount}
                   </span>
                 )}
               </div>
@@ -112,7 +113,7 @@ iTrialCardProps) {
               btnType="submit"
             />
           </Link>
-          <Link href={`/trials/1`}>
+          <Link href={`/trials/${trialId}/edit`}>
             <CustomButton
               title={l("trialcard.cta.text") || "Edit Trial"}
               containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"

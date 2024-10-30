@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import CustomButton from "./CustomButton";
 // import axios from "axios";
 import useLanguageStore from "@/stores/language-store";
+import axios from "axios";
 
 //--------- style ---------
 const style = {
@@ -31,23 +32,24 @@ const style = {
 };
 
 interface DeleteUserProps {
+  userId: string;
   open: boolean;
   onClose: () => void;
 }
 
 //----------------------------------- main function ------------------------------------------------------
-export default function DeleteEmployeeModal({ open, onClose }: DeleteUserProps) {
+export default function DeleteEmployeeModal({ userId, open, onClose }: DeleteUserProps) {
 
   const { l } = useLanguageStore();
 
   const handleDeleteEmployee = async () => {
     try {
-    //   await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/users`, {
-    //     // request
-    //     headers: {
-    //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //     },
-    //   });
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${userId}`, {
+        // request
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
        onClose();
     } catch (error) {
       console.error("Error deleting user", error);

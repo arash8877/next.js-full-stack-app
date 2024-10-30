@@ -1,20 +1,25 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { employeesInfoProps } from "@/types";
+import { SponsorUserInfo, employeesInfoProps } from "@/types";
 import useSWR from "swr";
 
 //----------------------------------- Main Function ---------------------------------------
-const useGetEmployeesInfo = (): {
-  employeeData: employeesInfoProps;
+const useGetEmployeesInfo = (id: string): {
+  employeeData: SponsorUserInfo;
   employeeError: Error | null;
   employeeIsLoading: boolean;
 } => {
   //--- Initial Employee Info ---
-  const initialEmployeeInfo: employeesInfoProps = {
+  const initialEmployeeInfo: SponsorUserInfo = {
     firstName: "",
     lastName: "",
     email: "",
     lastLogin: "",
+    hasConsentedToMarketing: false,
+    jobTitle: "",
+    phoneNumber: "",
+    preferredLanguage: "",
+    sponsor: null
   };
 
   //--- Fetcher Function ---
@@ -34,12 +39,13 @@ const useGetEmployeesInfo = (): {
 
   //--- GET Employee Info ---
   const { data, error, isLoading } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
+    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${id}` : null,
     fetcher
   );
-  const [employeesInfo, setEmployeesInfo] = useState<employeesInfoProps>(initialEmployeeInfo);
+  const [employeesInfo, setEmployeesInfo] = useState<SponsorUserInfo>(initialEmployeeInfo);
   useEffect(() => {
     if (data) {
+        console.log("hook data", data);
         setEmployeesInfo(data);
     }
   }, [data]);

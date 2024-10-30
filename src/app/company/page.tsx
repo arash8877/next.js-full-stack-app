@@ -4,9 +4,14 @@ import { SidebarLayout } from "@/components/SidebarLayout";
 import CompanyInfoForm from "@/components/CompanyInfoForm";
 import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 import useLanguageStore from "@/stores/language-store";
+import { useEffect } from "react";
 
 export default function CompanyPage() {
   const {companyData} = useGetCompanyInfo();
+  
+  useEffect(() => {
+    console.log(companyData);
+  }, [companyData])
 
   const { l } = useLanguageStore();
 

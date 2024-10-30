@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import { CreateTrialStep5FormProps } from "@/types/index";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import useLanguageStore from "@/stores/language-store";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -28,6 +28,26 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
+  const getCompensationList = (values: {drivingCompensation: boolean, monetaryCompensation: boolean, otherCompensation: string}) => {
+    const compensation = [];
+
+    if (values.drivingCompensation) {
+      compensation.push("drivingCompensation");
+    }
+    
+    if (values.monetaryCompensation) {
+      compensation.push("monetaryCompensation");
+    }
+  
+    if (values.otherCompensation) {
+      compensation.push(values.otherCompensation);
+    }
+    
+    console.log(compensation);
+    
+    return compensation;
+  };
+
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
@@ -42,25 +62,35 @@ const CreateTrialStep5Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
+      console.log("submit");
+      const token = localStorage.getItem("token");
+      const trialId = localStorage.getItem("currentTrialEditId");
+      const compensation = getCompensationList({
+        drivingCompensation: values["drivingCompensation"],
+        monetaryCompensation: values["monetaryCompensation"],
+        otherCompensation: values["otherCompensation"]
+      });
+
+      console.log(compensation);
       try {
-        // const response = await axios.post(
-        //   ${process.env.NEXT_PUBLIC_API_URL}/v1/.........., //post request
-        //   {
-        //     participantActivities: values.participantActivities,
-        //     inclusionDisease: values.inclusionDisease,
-        //     inclusionRequirements: values.inclusionRequirements,
-        //     exclusionDisease: values.exclusionDisease,
-        //     exclusionRequirements: values.exclusionRequirements,
-        //     expectedParticipants: values.expectedParticipants,
-        //     additionalInfo: values.additionalInfo,
-        //     drivingCompensation: values.drivingCompensation,
-        //     monetaryCompensation: values.monetaryCompensation,
-        //     otherCompensation: values.otherCompensation,
-        //   }
-        // );
-        // console.log(response)
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //post request
+          {
+            participantActivities: values["participantActivities"],
+            expectedParticipants: values["expectedParticipants"],
+            additionalInfo: values["additionalInfo"],
+            compensations: compensation
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response)
         router.push("/create-trial/step6");
       } catch (error) {
+        console.error(error);
         if (error instanceof AxiosError) {
           setError(error.response?.data || "An unknown error occurred");
         }
@@ -73,6 +103,12 @@ const CreateTrialStep5Form = () => {
   const toggleOtherCompensation = () => {
     setIsOtherClicked(!isOtherClicked);
   };
+
+  function ChangeAdditionalInfoValue() {
+    const inputElement = document.getElementById("additionalInfo_txt") as HTMLInputElement | null;
+    const inputValue = inputElement?.value || "";  // Use empty string if null
+    formik.setFieldValue("additionalInfo", inputValue);
+  }
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -138,11 +174,12 @@ const CreateTrialStep5Form = () => {
               Additional Information:
             </label>
             <input
+              id="additionalInfo_txt"
               name="additionalInfo"
               type="text"
               value={formik.values.additionalInfo}
-              onChange={(value) =>
-                formik.setFieldValue("additionalInfo", value)
+              onChange={() =>
+                ChangeAdditionalInfoValue()
               }
               placeholder="Briefly describe additional information"
               className="register_input custom-border"

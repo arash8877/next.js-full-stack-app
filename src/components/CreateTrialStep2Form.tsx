@@ -109,11 +109,19 @@ const CreateTrialStep2Form = () => {
     // eslint-disable-next-line
     onSubmit: async (values) => {
       const token = localStorage.getItem("token");
-      const trialId = 1;
+      const trialId = localStorage.getItem("currentTrialEditId");
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`, 
-          {
+        
+        const trialSites = values.sites.map((site) => ({
+          name: site.location,
+          address: site.address,
+          zipCode: site.zipCode,
+          country: site.country,
+        }));
+
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`, {
+            trialSites
           },          
           {
             headers: {

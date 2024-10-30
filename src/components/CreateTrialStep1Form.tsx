@@ -16,6 +16,7 @@ import useLanguageStore from "@/stores/language-store";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
+import useJWTUserInfo from "@/hooks/useJWTUserInfo";
 
 //--------- Reusable Input Component ---------
 const InputField: React.FC<
@@ -65,6 +66,7 @@ const CreateTrialStep1Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
+  const jwtInfo = useJWTUserInfo();
 
   const formSchema = Yup.object({
     title: Yup.string()
@@ -110,7 +112,8 @@ const CreateTrialStep1Form = () => {
 
 // eslint-disable-next-line
     onSubmit: async (values) => {
-      const token = localStorage.getItem("token");
+      console.log("Title", values["title"]);
+      const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
       // const sponsorId = localStorage.getItem("sponsorId");
       // eslint-disable-next-line
       const sponsorId = 11;
@@ -122,10 +125,10 @@ const CreateTrialStep1Form = () => {
         //   fullDescription: values.fullDescription ,
         // };
         const payload = {
-          sponsorId: 11,
-          title: "Sample Title",
-          shortDescription: "Sample short description",
-          fullDescription: "Sample full description",
+          sponsorId: jwtInfo.jwtInfo?.sponsor_id,
+          title: values["title"],
+          shortDescription: values["shortDescription"],
+          fullDescription: values["fullDescription"],
         };
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/v1/trials`, payload, {
           headers: {
@@ -133,6 +136,7 @@ const CreateTrialStep1Form = () => {
           },
         });
         console.log("response in step1:", response);
+        localStorage.setItem("currentTrialEditId", response.data);
         router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {

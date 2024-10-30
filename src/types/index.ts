@@ -32,14 +32,26 @@ export interface RegisterNavbarProps {
   displayLogin?: string;
 }
 
+export interface SponsorUserInfo {
+  firstName: string;
+  lastName: string; 
+  email: string;
+  phoneNumber: string;
+  jobTitle: string; 
+  hasConsentedToMarketing: boolean;
+  preferredLanguage: string;
+  lastLogin: string;
+  sponsor: CompanyInfoProps | null;
+}
+
 //------- RegisterStep1Form --------
 export interface CompanyInfoProps {
-  sponsorName: string;
+  name: string;
   vatNumber: string;
   address: string;
   zipCode: string;
   country: string;
-  // consentedToTerms: boolean;
+  sponsorContacts: SponsorUserInfo[] | null;
 }
 
 export interface Step1FormProps {
@@ -132,6 +144,7 @@ export interface iUserType {
 //--------------- trialCard -------------------------
 export interface iTrialCardProps {
   trialId: number;
+  applicationCount: number;
   title: string;
   shortDescription: string;
   urlStub: string;
@@ -173,12 +186,13 @@ export interface iTrialSite {
 //------------------trialDetails-----------------------
 export interface iTrialInfoProps {
   trialId: number;
+  applicationCount: number;
   title: string;
   shortDescription: string;
   fullDescription: string;
   urlStub: string;
   // company: iCompany;
-  trialSite: iTrialSite | null;
+  trialSites: iTrialSite[];
   medicalCategories: iTrialCategoryProps[];
   media: iMediaProps;
   ageMin: number;
@@ -193,6 +207,21 @@ export interface iTrialInfoProps {
   diseases: string[];
   applicantsNumber: number;
   recruitingStatus: string;
+}
+
+export interface iTrialApplicationsInfo {
+  applicationId: number;
+  unlocked: boolean;
+  user: iTrialApplicationsUserInfo;
+  userMessage: string;
+}
+
+export interface iTrialApplicationsUserInfo {
+  firstName: string;
+  lastName: string;
+  Email: string;
+  phoneNumber: string;
+  gender: string;
 }
 
 //--------------- application -------------------------
@@ -310,9 +339,16 @@ export interface InviteEmployeeFormProps {
 
 //--------------------------- Invoices --------------------------
 export interface invoicesInfoProps {
-  invNumber: string;
-  amount: string;
+  invoiceId: string;
+  invoiceAmount: number;
+  paymentDueDate: string;
   isPaid: boolean;
+  invoiceLines: invoiceLineInfoProps[];
+}
+
+export interface invoiceLineInfoProps {
+  lineText: string;
+  lineAmount: number;
 }
 
 //------- Applicants --------

@@ -32,26 +32,26 @@ const style = {
 };
 
 interface DeleteTrialProps {
+  trialId: number
   open: boolean;
   onClose: () => void;
 }
 
 //----------------------------------- main function ------------------------------------------------------
-export default function DeleteTrialModal({ open, onClose }: DeleteTrialProps) {
+export default function DeleteTrialModal({ trialId, open, onClose }: DeleteTrialProps) {
   const router = useRouter();
 
   const { l } = useLanguageStore();
 
   const handleDeleteTrial = async () => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/users`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}`, {
         // request
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
-      localStorage.removeItem("token");
       router.push("/trials");
     } catch (error) {
       console.error("Error deleting trial", error);

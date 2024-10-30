@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { CompanyInfoProps } from "@/types";
+import { CompanyInfoProps, SponsorUserInfo } from "@/types";
 import useSWR from "swr";
+import { init } from "next/dist/compiled/webpack/webpack";
 
 //----------------------------------- Main Function ---------------------------------------
 const useGetCompanyInfo = (): {
@@ -10,13 +11,14 @@ const useGetCompanyInfo = (): {
   companyIsLoading: boolean;
 } => {
   //--- Initial Company Info ---
-  const initialCompanyInfo: CompanyInfoProps = {
-    sponsorName: "",
-    vatNumber: "",
+  const initialInfo: CompanyInfoProps = {
+    name: "",
     address: "",
-    zipCode: "",
     country: "",
-  };
+    vatNumber: "",
+    zipCode: "",
+    sponsorContacts: null
+  }
 
   //--- Fetcher Function ---
   const fetcher = async (url: string) => {
@@ -35,10 +37,10 @@ const useGetCompanyInfo = (): {
 
   //--- GET Company Info ---
   const { data, error, isLoading } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
+    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsors/current` : null,
     fetcher
   );
-  const [companyInfo, setCompanyInfo] = useState<CompanyInfoProps>(initialCompanyInfo);
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfoProps>(initialInfo);
   useEffect(() => {
     if (data) {
         setCompanyInfo(data);

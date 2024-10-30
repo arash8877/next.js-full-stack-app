@@ -4,16 +4,23 @@ import { SidebarLayout } from "@/components/SidebarLayout";
 import EmployeesListForm from "@/components/EmployeesListForm";
 import useGetEmployeesInfo from "@/hooks/useGetEmployeesInfo";
 import useLanguageStore from "@/stores/language-store";
+import { useEffect } from "react";
 
+type Props = {
+  params: { id: string };
+}
 
 
 //------------------------- Main Function ----------------------------------
-export default function EmployeesPage() {
-  const { employeeData } = useGetEmployeesInfo();
+export default function EmployeesPage({ params }: Props) {
+  const { employeeData } = useGetEmployeesInfo(params.id);
   const { l } = useLanguageStore();
 
+  useEffect(() => {
+    console.log("Params", params);
+    console.log("Data", employeeData)
 
-
+  }, [employeeData, params])
 
   //--------------------------------- JSX -----------------------------------
   return (

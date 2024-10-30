@@ -6,23 +6,32 @@ import axios from "axios";
 import { CompanyInfoProps } from "@/types/index";
 import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
+import useJWTUserInfo from "@/hooks/useJWTUserInfo";
+
+interface UpdateSponsorProps {
+  name: string,
+  address: string,
+  zipCode: string,
+  country: string
+}
 
 //------------------------------------ main function -----------------------------------
 const SettingUserInfoForm = ({
-  sponsorName,
+  name,
   vatNumber,
   address,
   zipCode,
   country,
 }: CompanyInfoProps) => {
   const { l } = useLanguageStore();
+  const { jwtInfo } = useJWTUserInfo();
 
   //---------------- update user ---------------
-  const updateUser = async (data: CompanyInfoProps) => {
+  const updateSponsorData = async (data: UpdateSponsorProps) => {
     //function will be called in onSubmit
     try {
       const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/users`, //PATCH request
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsors/${jwtInfo?.sponsor_id}`, //PATCH request
         data,
         {
           headers: {
@@ -56,7 +65,7 @@ const SettingUserInfoForm = ({
 
   //----Yup validation ---------
   const formSchema = Yup.object({
-    companyName: Yup.string()
+    name: Yup.string()
       .required(
         l("settings.tab1.form.companyName.validation.required") ||
           "Company name is required!"
@@ -100,7 +109,7 @@ const SettingUserInfoForm = ({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      companyName: sponsorName,
+      name: name,
       vatNumber: vatNumber || "",
       address: address || "",
       zipCode: zipCode || "",
@@ -109,18 +118,16 @@ const SettingUserInfoForm = ({
     //----onSubmit-------
     onSubmit: async (values) => {
       const data = {
-        sponsorName: sponsorName,
-        companyName: values.companyName,
+        name: values.name,
         address: values.address,
         zipCode: values.zipCode,
         country: values.country,
-        vatNumber: vatNumber || "",
-        consentedToTerms: true,
       };
 
-      updateUser(data);
+      console.log(data);
+      updateSponsorData(data);
     },
-    validationSchema: formSchema,
+    //validationSchema: formSchema,
   });
 
   //--------------------------Return---------------------------------
@@ -138,15 +145,15 @@ const SettingUserInfoForm = ({
           </label>
           <input
             id="companyName"
-            name="companyName"
+            name="name"
             type="text"
-            value={formik.values.companyName}
+            value={formik.values.name}
             onChange={formik.handleChange("companyName")}
             onBlur={formik.handleBlur("companyName")}
             className="register_input custom-border"
           />
           <small className="text-red-600">
-            {formik.touched.companyName && formik.errors.companyName}
+            {formik.touched.name && formik.errors.name}
           </small>
         </div>
 
