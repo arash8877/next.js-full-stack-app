@@ -115,7 +115,14 @@ const RegisterStep1Form = () => {
       address: "",
       zipCode: "",
       country: "",
-      sponsorContacts: [{}],
+      sponsorContacts: [
+        {
+          firstName: "",
+          lastName: "",
+          email: "",
+          lastLogin: "",
+        },
+      ],
     },
     //-----onSubmit-------
     onSubmit: async (values) => {
