@@ -26,7 +26,7 @@ const EmployeesListForm = ({
 
   useEffect(() => {
     console.log("form data", {firstName, lastName, email, lastLogin})
-  }, [firstName])
+  }, [firstName, lastName, email, lastLogin])
 
   //---------------- update user ---------------
   const updateEmployee = async (data: sponsorUserUpdateProps) => {

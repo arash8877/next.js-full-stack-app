@@ -105,6 +105,7 @@ export default function TrialDetailsLayout({
   };
 
   //----Yup validation ---------
+  // eslint-disable-next-line
   const formSchema = Yup.object({
     title: Yup.string()
       .required(

@@ -26,7 +26,6 @@ export default function TrialCard({
 iTrialCardProps) {
   const { l } = useLanguageStore();
 
-  const applicantsNumber = 250;
 
   //--------------------------------- return ------------------------------------------------
   return (

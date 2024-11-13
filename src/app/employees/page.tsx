@@ -36,7 +36,7 @@ export default function EmployeesPage() {
           <tbody>
             {companyData?.sponsorContacts?.map((employee, index) => (
               <tr key={index} className="border-b">
-                <td className="py-4 px-6">{employee.firstName}</td>
+                <td className="py-4 px-6">{employee.firstName}</td> 
                 <td className="py-4 px-6">{employee.lastName}</td>
                 <td className="py-4 px-6 hidden lg:table-cell break-all max-w-xs whitespace-normal">
                   {employee.email}

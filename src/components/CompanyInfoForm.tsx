@@ -64,6 +64,7 @@ const SettingUserInfoForm = ({
   };
 
   //----Yup validation ---------
+  // eslint-disable-next-line
   const formSchema = Yup.object({
     name: Yup.string()
       .required(

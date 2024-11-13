@@ -93,7 +93,7 @@ export default function TrialsPage() {
                   submissionDeadline={formatDate(trial["submissionDeadline"])}
                   media={trial.media}
                   userApplication={trial.userApplication}
-                  medicalCategories={trial.medicalCategories}
+                  medicalCategories={trial.medicalCategories || []}
                   diseases={trial.diseases}
                   applicantsNumber={trial.applicantsNumber}
                 />

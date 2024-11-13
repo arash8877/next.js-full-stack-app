@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { CompanyInfoProps, SponsorUserInfo } from "@/types";
+import { CompanyInfoProps } from "@/types";
 import useSWR from "swr";
-import { init } from "next/dist/compiled/webpack/webpack";
 
 //----------------------------------- Main Function ---------------------------------------
 const useGetCompanyInfo = (): {
@@ -17,7 +16,7 @@ const useGetCompanyInfo = (): {
     country: "",
     vatNumber: "",
     zipCode: "",
-    sponsorContacts: null
+    sponsorContacts: []
   }
 
   //--- Fetcher Function ---
@@ -47,7 +46,7 @@ const useGetCompanyInfo = (): {
     }
   }, [data]);
 
-  //  console.log(companyInfo)
+  //  console.log("companyInfo:", companyInfo)
   return { companyData: companyInfo, companyError: error, companyIsLoading: isLoading };
 };
 

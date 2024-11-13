@@ -45,13 +45,20 @@ export interface SponsorUserInfo {
 }
 
 //------- RegisterStep1Form --------
+export interface sponsorContact {
+  firstName: string;
+  lastName: string;
+  email: string;
+  lastLogin: string;
+}
+
 export interface CompanyInfoProps {
   name: string;
   vatNumber: string;
   address: string;
   zipCode: string;
   country: string;
-  sponsorContacts: SponsorUserInfo[] | null;
+  sponsorContacts: sponsorContact[];
 }
 
 export interface Step1FormProps {
@@ -131,6 +138,7 @@ export interface iCategoryProps {
 
 export interface iTrialCategoryProps {
   medicalCategory: iCategoryProps;
+  media: iMediaProps;
 }
 
 export interface iUserType {
@@ -193,7 +201,6 @@ export interface iTrialInfoProps {
   urlStub: string;
   // company: iCompany;
   trialSites: iTrialSite[];
-  medicalCategories: iTrialCategoryProps[];
   media: iMediaProps;
   ageMin: number;
   ageMax: number;
@@ -207,6 +214,12 @@ export interface iTrialInfoProps {
   diseases: string[];
   applicantsNumber: number;
   recruitingStatus: string;
+  expectedParticipants: number;
+  inclusionDiseases?: string[]; // Added this
+  inclusionRequirements?: string; // Added this
+  exclusionDiseases?: string[]; // Added this
+  exclusionRequirements?: string; // Added this
+  medicalCategories?: iTrialCategoryProps[];
 }
 
 export interface iTrialApplicationsInfo {
@@ -300,7 +313,7 @@ export interface CreateTrialStep4FormProps {
   inclusionRequirements: string;
   exclusionDisease: string[];
   exclusionRequirements: string;
-  selectedMedicalCategories:[];
+  selectedMedicalCategories:iCategoryProps[];
 }
 
 export interface CreateTrialStep5FormProps {
@@ -397,8 +410,8 @@ export const applicationStates: {
   },
   2: {
     icon: "/in-process.png",
-    stateText: "Processesing",
-    stateKey: "trialdetails.applicationstate.processesing",
+    stateText: "Processing",
+    stateKey: "trialdetails.applicationstate.Processing",
     color: "#CCCCCC",
   },
   3: {

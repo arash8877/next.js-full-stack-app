@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { SponsorUserInfo, employeesInfoProps } from "@/types";
+import { SponsorUserInfo } from "@/types";
 import useSWR from "swr";
 
 //----------------------------------- Main Function ---------------------------------------
