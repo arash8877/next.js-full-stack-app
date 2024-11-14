@@ -11,7 +11,7 @@ const NotFoundPage = () => {
           404 - Page Not Found
         </h1>
         <p className="text-lg md:text-xl text-center mb-7">
-          Oops! The page you are looking for does not exist.
+          Oops! The page you are looking for does not exist
         </p>
         <Link
           href="/login"
