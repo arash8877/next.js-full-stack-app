@@ -28,6 +28,21 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/webapp.zip'
     replaceExistingArchive: true
   displayName: 'Archive build output'
+
+  # Publish the zip file as an artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/webapp.zip'
+    artifactName: 'drop'
+    publishLocation: 'Pipeline'
+
+# Download artifact in deployment step (if in a separate job/stage)
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: 'drop'
+    downloadPath: '$(Pipeline.Workspace)'
   
 - task: AzureRmWebAppDeployment@4
   inputs:
