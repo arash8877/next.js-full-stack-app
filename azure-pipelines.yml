@@ -27,7 +27,7 @@ steps:
     condition: eq(variables.isMain, true)
     
   - script: |
-      cp $(System.DefaultWorkingDirectory)/development-environment.sample $(System.DefaultWorkingDirectory)/.env.development
+      cp $(System.DefaultWorkingDirectory)/development-environment.sample $(System.DefaultWorkingDirectory)/.env.production
     displayName: 'Set up development environment variables'
     condition: eq(variables.isTest, true)
 
