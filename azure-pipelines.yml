@@ -17,6 +17,10 @@ steps:
     displayName: 'Set Node.js version'
 
   - script: |
+      cp env.production.sample .env.production
+    displayName: 'Set up production environment variables'
+
+  - script: |
       npm install
       npm run build
       mv ./build/static ./build/standalone/build
