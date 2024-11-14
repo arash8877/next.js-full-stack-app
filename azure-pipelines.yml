@@ -17,6 +17,10 @@ steps:
     displayName: 'Set Node.js version'
 
   - script: |
+      ls -R
+    displayName: 'List files for debugging'
+    
+  - script: |
       cp env.production.sample .env.production
     displayName: 'Set up production environment variables'
 
