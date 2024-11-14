@@ -21,6 +21,10 @@ steps:
     displayName: 'List files for debugging'
     
   - script: |
+      git ls-files
+    displayName: 'List tracked files for debugging'
+
+  - script: |
       cp env.production.sample .env.production
     displayName: 'Set up production environment variables'
 
