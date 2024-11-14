@@ -1,43 +1,55 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+variables:
+  WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'  # Replace with your App Service name
+  NODE_VERSION: '20'                  # Specify the Node.js version
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
+  - task: UseNode@1
+    inputs:
+      version: $(NODE_VERSION)
+    displayName: 'Set Node.js version'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+  - script: |
+      ls -R
+    displayName: 'List files for debugging'
+    
+  - script: |
+      git ls-files
+    displayName: 'List tracked files for debugging'
 
-# Archive the build output
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/.next'  # Adjust as needed for your build output
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/webapp.zip'
-    replaceExistingArchive: true
-  displayName: 'Archive build output'
+  - script: |
+      cp $(System.DefaultWorkingDirectory)/env.production.sample $(System.DefaultWorkingDirectory)/.env.production
+    displayName: 'Set up production environment variables'
 
-# Publish the zip file as an artifact
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/webapp.zip'
-    artifactName: 'drop'
-    publishLocation: 'Pipeline'
+  - script: |
+      npm install
+      npm run build
+      mv ./build/static ./build/standalone/build
+      mv ./public ./build/standalone
+    displayName: 'Install dependencies and build'
 
-# Deploy using the published artifact directly
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
-    appType: 'webAppLinux'
-    WebAppName: 'web-trialsync-sponsor-platform-prod'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/webapp.zip'
-    RuntimeStack: 'NODE|20-lts'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: 'build/standalone'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(WEBAPP_NAME).zip'
+      replaceExistingArchive: true
+    displayName: 'Archive build output'
+
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
+      appType: 'webAppLinux'
+      WebAppName: 'web-trialsync-sponsor-platform-prod'
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(WEBAPP_NAME).zip'
+      RuntimeStack: 'NODE|20-lts'
+      StartupCommand: 'node server.js'
