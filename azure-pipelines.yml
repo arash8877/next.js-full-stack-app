@@ -2,12 +2,16 @@ trigger:
   branches:
     include:
       - main
+      - test
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'  # Replace with your App Service name
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  isTest: $[eq(variables['Build.SourceBranch'], 'refs/heads/test')]
+  TEST_WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'
+  PROD_WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'  # Replace with your App Service name
   NODE_VERSION: '20'                  # Specify the Node.js version
 
 steps:
@@ -17,16 +21,14 @@ steps:
     displayName: 'Set Node.js version'
 
   - script: |
-      ls -R
-    displayName: 'List files for debugging'
-    
-  - script: |
-      git ls-files
-    displayName: 'List tracked files for debugging'
-
-  - script: |
       cp $(System.DefaultWorkingDirectory)/production-environment.sample $(System.DefaultWorkingDirectory)/.env.production
     displayName: 'Set up production environment variables'
+    condition: eq(variables.isMain, true)
+    
+  - script: |
+      cp $(System.DefaultWorkingDirectory)/development-environment.sample $(System.DefaultWorkingDirectory)/.env.development
+    displayName: 'Set up development environment variables'
+    condition: eq(variables.isTest, true)
 
   - script: |
       npm install
@@ -45,11 +47,23 @@ steps:
     displayName: 'Archive build output'
 
   - task: AzureRmWebAppDeployment@4
+    condition: eq(variables.isMain, true)
     inputs:
       ConnectionType: 'AzureRM'
       azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
       appType: 'webAppLinux'
-      WebAppName: 'web-trialsync-sponsor-platform-prod'
+      WebAppName: $(PROD_WEBAPP_NAME)
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(WEBAPP_NAME).zip'
+      RuntimeStack: 'NODE|20-lts'
+      StartupCommand: 'node server.js'
+  
+  - task: AzureRmWebAppDeployment@4
+    condition: eq(variables.isTest, true)
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
+      appType: 'webAppLinux'
+      WebAppName: $(TEST_WEBAPP_NAME)
       packageForLinux: '$(Build.ArtifactStagingDirectory)/$(WEBAPP_NAME).zip'
       RuntimeStack: 'NODE|20-lts'
       StartupCommand: 'node server.js'
