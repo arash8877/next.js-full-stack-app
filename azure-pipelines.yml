@@ -1,8 +1,3 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - main
 
@@ -19,36 +14,30 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
-  
+
+# Archive the build output
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/.next'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/.next'  # Adjust as needed for your build output
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/webapp.zip'
     replaceExistingArchive: true
   displayName: 'Archive build output'
 
-  # Publish the zip file as an artifact
+# Publish the zip file as an artifact
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)/webapp.zip'
     artifactName: 'drop'
     publishLocation: 'Pipeline'
 
-# Download artifact in deployment step (if in a separate job/stage)
-- task: DownloadBuildArtifacts@0
-  inputs:
-    buildType: 'current'
-    downloadType: 'single'
-    artifactName: 'drop'
-    downloadPath: '$(Pipeline.Workspace)'
-  
+# Deploy using the published artifact directly
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
     appType: 'webAppLinux'
     WebAppName: 'web-trialsync-sponsor-platform-prod'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/webapp.zip'
     RuntimeStack: 'NODE|20-lts'
