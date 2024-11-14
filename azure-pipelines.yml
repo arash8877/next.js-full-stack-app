@@ -25,7 +25,7 @@ steps:
     displayName: 'List tracked files for debugging'
 
   - script: |
-      cp $(System.DefaultWorkingDirectory)/env.production.sample $(System.DefaultWorkingDirectory)/.env.production
+      cp $(System.DefaultWorkingDirectory)/production-environment.sample $(System.DefaultWorkingDirectory)/.env.production
     displayName: 'Set up production environment variables'
 
   - script: |
