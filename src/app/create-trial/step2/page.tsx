@@ -5,7 +5,7 @@ import CreateTrialStepper from "@/components/CreateTrialStepper";
 import CreateTrialStep2Form from "@/components/CreateTrialStep2Form";
 import useLanguageStore from "@/stores/language-store";
 
-export default function CreateTrialPage() {
+export default function CreateTrialStep2Page() {
   const { l } = useLanguageStore();
 
   return (

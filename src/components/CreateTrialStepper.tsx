@@ -11,15 +11,17 @@ const Stepper: React.FC<StepperProps> = ({ activeStep }) => {
   
   const steps = [
     l("register.stepper.step1") || "Title",
-    l("register.stepper.step2") || "Location",
+    l("register.stepper.step2") || "Site",
     l("register.stepper.step3") || "Time",
-    // l("register.stepper.step4") || "Done",
+    l("register.stepper.step4") || "Medical Info",
+    l("register.stepper.step4") || "More Info",
+    l("register.stepper.step4") || "Overview",
   ];
 
 
   //-------------------------------------- jsx ---------------------------------------
   return (
-    <div className="w-full grid grid-cols-2 gap-y-8 gap-x-3 sm:gap-x-7 md:gap-x-7 md:flex md:justify-between md:gap-6 px-8 xl:w-1/2 mx-auto">
+    <div className="w-full grid grid-cols-2 gap-y-8 gap-x-3 sm:gap-x-7 md:gap-x-7 lg:flex md:justify-between md:gap-6 px-8 2xl:w-2/3 mx-auto">
       {steps.map((step, index) => (
         <div
           className="flex justify-start items-center text-xs md:text-sm"

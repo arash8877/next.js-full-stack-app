@@ -39,7 +39,7 @@ const formSchema = Yup.object({
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/invites/resetpassword`, //post request
+          `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/changepassword`, //post request
           {
             token: token,
             password: values.password,

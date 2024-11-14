@@ -1,9 +1,23 @@
-import { SidebarLayout } from "@/components/SidebarLayout";
+"use client";
 
+import { SidebarLayout } from "@/components/SidebarLayout";
+//import TrialForm from "@/components/TrialForm";
+import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
+//import { iTrialInfoProps } from "@/types";
+console.log(useGetSingleTrialInfo);
+
+
+
+//--------------------------- main function ---------------------------            
 export default function TrialPage() {
+  //
+
+  
+
+  //-------------------------- JSX --------------------------
   return (
     <SidebarLayout>
-          <h2>This is Product number .....</h2>
+      <p>Test</p>
     </SidebarLayout>
   );
 }

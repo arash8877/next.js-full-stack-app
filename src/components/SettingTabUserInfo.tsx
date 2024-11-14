@@ -4,9 +4,8 @@ import CustomButton from "./CustomButton";
 import axios from "axios";
 import { iUserProps, iUserUpdateProps } from "@/types/index";
 import { toast } from "react-toastify";
-import LanguageDropdown from "./LanguageDropdown";
+// import LanguageDropdown from "./LanguageDropdown";
 import useLanguageStore from "@/stores/language-store";
-
 
 //------------------------------------ main function -----------------------------------
 const SettingUserInfoForm = ({
@@ -14,6 +13,7 @@ const SettingUserInfoForm = ({
   lastName,
   email,
   jobTitle,
+  phoneNumber,
 }: iUserProps) => {
   const { l } = useLanguageStore();
 
@@ -31,28 +31,40 @@ const SettingUserInfoForm = ({
           },
         }
       );
-      toast.success(l("settings.tab1.form.toast.success") || "Your profile is updated successfully!", {
-        position: "top-center",
-        autoClose: 2000,
-        className: "single_line_toast",
-      });
-      console.log(response)
+      toast.success(
+        l("settings.tab1.form.toast.success") ||
+          "Your profile is updated successfully!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
+      console.log(response);
     } catch (error) {
       console.error("Error in /users", error);
-      toast.error(l("settings.tab1.form.toast.error") || "Something went wrong!", {
-        position: "top-center",
-        autoClose: 2000,
-        className: "single_line_toast",
-      });
+      toast.error(
+        l("settings.tab1.form.toast.error") || "Something went wrong!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
     }
   };
 
   //----Yup validation ---------
   const formSchema = Yup.object({
-    password: Yup.string().min(8, l("settings.tab4.form.password.validation.format") || "Password must be at least 8 characters"),
+    password: Yup.string().min(
+      8,
+      l("settings.tab4.form.password.validation.format") ||
+        "Password must be at least 8 characters"
+    ),
     repeatedPassword: Yup.string().oneOf(
       [Yup.ref("password")],
-      l("settings.tab4.form.repeatpassword.validation.format") || "Passwords must match!"
+      l("settings.tab4.form.repeatpassword.validation.format") ||
+        "Passwords must match!"
     ),
     firstName: Yup.string()
       .required(
@@ -85,6 +97,10 @@ const SettingUserInfoForm = ({
         l("settings.tab1.form.lastname.validation.length") ||
           "Last name must be at least 1 characters!"
       ),
+    phoneNumber: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Phone number is required!"
+    ),
     jobTitle: Yup.string().required(
       l("settings.tab1.form.jobtitle.validation.required") ||
         "Job title is required!"
@@ -101,6 +117,7 @@ const SettingUserInfoForm = ({
       lastName: lastName || "",
       email: email || "",
       jobTitle: jobTitle || "",
+      phoneNumber: phoneNumber || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -110,6 +127,7 @@ const SettingUserInfoForm = ({
         firstName: values.firstName,
         lastName: values.lastName,
         jobTitle: values.jobTitle,
+        phoneNumber: values.phoneNumber,
       };
 
       updateUser(data);
@@ -123,7 +141,9 @@ const SettingUserInfoForm = ({
       <div className="flex flex-col-reverse md:flex-row md:justify-between">
         <div className="flex flex-col gap-[22px] md:w-2/5">
           <div className="flex flex-col gap-2">
-            <label htmlFor="password">{l("settings.tab4.form.password.label") || "Change password"}</label>
+            <label htmlFor="password">
+              {l("settings.tab4.form.password.label") || "Change password"}
+            </label>
             <input
               name="password"
               type="password"
@@ -138,7 +158,10 @@ const SettingUserInfoForm = ({
             </small>
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="repeatedPassword">{l("settings.tab4.form.repeatpassword.label") || "Repeat new password"}</label>
+            <label htmlFor="repeatedPassword">
+              {l("settings.tab4.form.repeatpassword.label") ||
+                "Repeat new password"}
+            </label>
             <input
               name="repeatedPassword"
               type="password"
@@ -154,9 +177,9 @@ const SettingUserInfoForm = ({
             </small>
           </div>
         </div>
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <LanguageDropdown />
-        </div>
+        </div> */}
       </div>
 
       <div>
@@ -180,7 +203,8 @@ const SettingUserInfoForm = ({
       <div className="grid gap-7 md:gap-6 md:w-4/5 md:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">
-            {l("settings.tab1.form.firstname.label") || "First Name"}<span className="ml-1">*</span>
+            {l("settings.tab1.form.firstname.label") || "First Name"}
+            <span className="ml-1">*</span>
           </label>
           <input
             id="firstName"
@@ -198,7 +222,8 @@ const SettingUserInfoForm = ({
 
         <div className="flex flex-col gap-2">
           <label htmlFor="lastName">
-          {l("settings.tab1.form.lastname.label") || "Last Name"}<span className="ml-1">*</span>
+            {l("settings.tab1.form.lastname.label") || "Last Name"}
+            <span className="ml-1">*</span>
           </label>
           <input
             name="lastName"
@@ -214,7 +239,10 @@ const SettingUserInfoForm = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="phoneNumber">{l("settings.tab1.form.jobtitle.label") || "Job Title"}</label>
+          <label htmlFor="phoneNumber">
+            {l("settings.tab1.form.jobtitle.label") || "Job Title"}
+            <span className="ml-1">*</span>
+          </label>
           <input
             name="jobTitle"
             type="text"
@@ -228,7 +256,23 @@ const SettingUserInfoForm = ({
           </small>
         </div>
 
-
+        <div className="flex flex-col gap-2">
+          <label htmlFor="phoneNumber">
+            {l("settings.tab1.form.jobtitle.label") || "Phone number"}
+            <span className="ml-1">*</span>
+          </label>
+          <input
+            name="phoneNumber"
+            type="text"
+            defaultValue={phoneNumber}
+            onChange={formik.handleChange("phoneNumber")}
+            onBlur={formik.handleBlur("phoneNumber")}
+            className="register_input custom-border"
+          />
+          <small className="text-red-600">
+            {formik.touched.phoneNumber && formik.errors.phoneNumber}
+          </small>
+        </div>
       </div>
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton

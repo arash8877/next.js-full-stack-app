@@ -79,21 +79,23 @@ export default function TrialsPage() {
                 <TrialCard
                   key={index}
                   trialId={trial["trialId"]}
+                  applicationCount={trial["applicationCount"]}
                   title={trial["title"]}
                   shortDescription={trial["shortDescription"]}
                   urlStub={trial["urlStub"]}
                   startDate={formatDate(trial["startDate"])}
                   endDate={formatDate(trial["endDate"])}
                   address={
-                    trial["trialSite"]
-                      ? trial["trialSite"]["address"]
+                    trial["trialSites"]
+                      ? trial["trialSites"]?.[0]?.["address"]
                       : undefined
                   }
                   submissionDeadline={formatDate(trial["submissionDeadline"])}
                   media={trial.media}
                   userApplication={trial.userApplication}
-                  medicalCategories={trial.medicalCategories}
+                  medicalCategories={trial.medicalCategories || []}
                   diseases={trial.diseases}
+                  applicantsNumber={trial.applicantsNumber}
                 />
               ))}
           </div>

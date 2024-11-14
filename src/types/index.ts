@@ -1,10 +1,9 @@
 import { MouseEventHandler } from "react";
 import { FormikProps } from "formik";
 
-
 //------------- CustomButton ---------------------
 export interface CustomButtonProps {
-  title: string;
+  title: string | JSX.Element;
   containerStyles?: string;
   handleClick?: MouseEventHandler<HTMLButtonElement>;
   btnType?: "button" | "submit";
@@ -33,31 +32,50 @@ export interface RegisterNavbarProps {
   displayLogin?: string;
 }
 
-//------- RegisterStep1Form.tsx --------
-export interface Step1FormValues {
-  companyName: string;
+export interface SponsorUserInfo {
+  firstName: string;
+  lastName: string; 
+  email: string;
+  phoneNumber: string;
+  jobTitle: string; 
+  hasConsentedToMarketing: boolean;
+  preferredLanguage: string;
+  lastLogin: string;
+  sponsor: CompanyInfoProps | null;
+}
+
+//------- RegisterStep1Form --------
+export interface sponsorContact {
+  firstName: string;
+  lastName: string;
+  email: string;
+  lastLogin: string;
+}
+
+export interface CompanyInfoProps {
+  name: string;
   vatNumber: string;
   address: string;
   zipCode: string;
   country: string;
-  consentedToTerms: boolean;
-  phoneNumber: string;
+  sponsorContacts: sponsorContact[];
 }
 
 export interface Step1FormProps {
   label: string;
-  name: keyof Step1FormValues;
+  name: keyof CompanyInfoProps;
   type: string;
   placeholder: string;
-  formik: FormikProps<Step1FormValues>;
+  formik: FormikProps<CompanyInfoProps>;
   icon?: string;
 }
 
-//------- RegisterStep2Form.tsx --------
+//------- RegisterStep2Form --------
 export interface Step2FormValues {
   firstName: string;
   lastName: string;
   jobTitle: string;
+  phoneNumber: string;
   email: string;
   password: string;
   repeatedPassword: string;
@@ -81,6 +99,7 @@ export interface iUserProps {
   lastName: string;
   email: string;
   jobTitle: string;
+  phoneNumber: string;
   consentedToTerms: boolean;
   hasConsentedToMarketing: boolean;
   preferredLanguage: string;
@@ -118,7 +137,8 @@ export interface iCategoryProps {
 }
 
 export interface iTrialCategoryProps {
- medicalCategory: iCategoryProps;
+  medicalCategory: iCategoryProps;
+  media: iMediaProps;
 }
 
 export interface iUserType {
@@ -132,6 +152,7 @@ export interface iUserType {
 //--------------- trialCard -------------------------
 export interface iTrialCardProps {
   trialId: number;
+  applicationCount: number;
   title: string;
   shortDescription: string;
   urlStub: string;
@@ -143,11 +164,11 @@ export interface iTrialCardProps {
   userApplication: iUserTrialApplication | null;
   medicalCategories: iTrialCategoryProps[];
   diseases: string[];
+  applicantsNumber: number;
   //medicalCategories: iCategoryProps[];
   // imageSrc: string;
   // underReview?: boolean;
 }
-
 
 //------------------ company -------------------------
 export interface iCompany {
@@ -167,21 +188,19 @@ export interface iTrialSite {
   country: string;
   iconUrl: string;
   siteInfo: string;
+  location: string;
 }
 
-
-
 //------------------trialDetails-----------------------
-export interface iTrialDetailsProps {
+export interface iTrialInfoProps {
   trialId: number;
+  applicationCount: number;
   title: string;
   shortDescription: string;
   fullDescription: string;
   urlStub: string;
-  company: iCompany;
-  trialSite: iTrialSite | null;
-  medicalCategories: iTrialCategoryProps[];
-  isRecruiting: boolean;
+  // company: iCompany;
+  trialSites: iTrialSite[];
   media: iMediaProps;
   ageMin: number;
   ageMax: number;
@@ -193,10 +212,30 @@ export interface iTrialDetailsProps {
   isCompleted: boolean;
   userApplication: iUserTrialApplication | null;
   diseases: string[];
+  applicantsNumber: number;
+  recruitingStatus: string;
+  expectedParticipants: number;
+  inclusionDiseases?: string[]; // Added this
+  inclusionRequirements?: string; // Added this
+  exclusionDiseases?: string[]; // Added this
+  exclusionRequirements?: string; // Added this
+  medicalCategories?: iTrialCategoryProps[];
 }
 
+export interface iTrialApplicationsInfo {
+  applicationId: number;
+  unlocked: boolean;
+  user: iTrialApplicationsUserInfo;
+  userMessage: string;
+}
 
-
+export interface iTrialApplicationsUserInfo {
+  firstName: string;
+  lastName: string;
+  Email: string;
+  phoneNumber: string;
+  gender: string;
+}
 
 //--------------- application -------------------------
 export interface iApplicationStateProps {
@@ -219,36 +258,41 @@ export interface iPaginationProps {
 export interface iApplicationProps {
   applicationId: number;
   applicationStates: iApplicationStateProps[];
-  trial: iTrialDetailsProps;
+  trial: iTrialInfoProps;
   userMessage: string;
 }
 
 // ------------------ create-trial ------------------------
-export interface CreateTrialStep1FormValues {
+export interface CreateTrialCompanyInfoProps {
   title: string;
   shortDescription: string;
-  longDescription: string;
+  fullDescription: string;
 }
 
 export interface CreateTrialStep1FormProps {
   label: string;
-  name: keyof CreateTrialStep1FormValues;
+  name: keyof CreateTrialCompanyInfoProps;
+  id: string;
   type: string;
   placeholder: string;
-  formik: FormikProps<CreateTrialStep1FormValues>;
+  formik: FormikProps<CreateTrialCompanyInfoProps>;
   icon?: string;
 }
 
-export interface CreateTrialStep2FormValues {
-  place: string;
+export interface SiteFormValues {
+  location: string;
   address: string;
   zipCode: string;
   country: string;
 }
 
+export interface CreateTrialStep2FormValues {
+  sites: SiteFormValues[];
+}
+
 export interface CreateTrialStep2FormProps {
   label: string;
-  name: keyof CreateTrialStep2FormValues;
+  name: keyof SiteFormValues;
   type: string;
   placeholder: string;
   formik: FormikProps<CreateTrialStep2FormValues>;
@@ -264,8 +308,73 @@ export interface CreateTrialStep3FormValues {
   gender: string;
 }
 
+export interface CreateTrialStep4FormProps {
+  inclusionDisease: string[];
+  inclusionRequirements: string;
+  exclusionDisease: string[];
+  exclusionRequirements: string;
+  selectedMedicalCategories:iCategoryProps[];
+}
 
-//------------------ filtering ------------------------
+export interface CreateTrialStep5FormProps {
+  participantActivities: string;  
+  expectedParticipants: number | null;
+  additionalInfo: string;
+  drivingCompensation: boolean; 
+  monetaryCompensation: boolean
+  otherCompensation: string;
+}
+
+//------------------------------ Employees ----------------------------
+export interface employeesInfoProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+  lastLogin: string;
+}
+
+//------- Invite Employee Form --------
+export interface InviteEmployeeFormValues {
+  firstName: string;
+  lastName: string;
+  jobTitle: string;
+  email: string;
+}
+
+export interface InviteEmployeeFormProps {
+  label: string;
+  name: keyof InviteEmployeeFormValues;
+  type: string;
+  placeholder: string;
+  formik: FormikProps<InviteEmployeeFormValues>;
+  icon?: string;
+}
+
+//--------------------------- Invoices --------------------------
+export interface invoicesInfoProps {
+  invoiceId: string;
+  invoiceAmount: number;
+  paymentDueDate: string;
+  isPaid: boolean;
+  invoiceLines: invoiceLineInfoProps[];
+}
+
+export interface invoiceLineInfoProps {
+  lineText: string;
+  lineAmount: number;
+}
+
+//------- Applicants --------
+export interface applicantsInfoProps {
+  applicantsNumber: number;
+  firstName: string;
+  lastName: string;
+  age: string;
+  zipCode: string;
+  country: string;
+}
+
+//------------------------- filtering ----------------------------
 export interface iTrialFilteringProps {
   searchValue: string | null;
   medicalCategories: number[] | null;
@@ -281,21 +390,42 @@ export interface iTrialFilterBarProps {
   onFilterChange: (filters: iTrialFilteringProps) => void;
 }
 
-
 //------------------ applicationStates -----------------
 
 interface iApplicationStateLayoutProps {
-  icon: string
+  icon: string;
   stateText: string;
   stateKey: string;
   color: string;
 }
 
-export const applicationStates: {[key: number]: iApplicationStateLayoutProps} = {
-  1: {icon: "/Awaiting.png", stateText: "Pending", stateKey: "trialdetails.applicationstate.pending", color: "#FFEBB9"},
-  2: {icon: "/in-process.png", stateText: "Processesing", stateKey: "trialdetails.applicationstate.processesing", color: "#CCCCCC"},
-  3: {icon: "/approved.png", stateText: "Approved", stateKey: "trialdetails.applicationstate.approved", color: "#B5E6B2"},
-  4: {icon: "/not-approved.png", stateText: "Declined", stateKey: "trialdetails.applicationstate.declined", color: "#F47F7F"}
-}
+export const applicationStates: {
+  [key: number]: iApplicationStateLayoutProps;
+} = {
+  1: {
+    icon: "/Awaiting.png",
+    stateText: "Pending",
+    stateKey: "trialdetails.applicationstate.pending",
+    color: "#FFEBB9",
+  },
+  2: {
+    icon: "/in-process.png",
+    stateText: "Processing",
+    stateKey: "trialdetails.applicationstate.Processing",
+    color: "#CCCCCC",
+  },
+  3: {
+    icon: "/approved.png",
+    stateText: "Approved",
+    stateKey: "trialdetails.applicationstate.approved",
+    color: "#B5E6B2",
+  },
+  4: {
+    icon: "/not-approved.png",
+    stateText: "Declined",
+    stateKey: "trialdetails.applicationstate.declined",
+    color: "#F47F7F",
+  },
+};
 
-//-----------------------  -------------------
+//-------------------------  ----------------------------

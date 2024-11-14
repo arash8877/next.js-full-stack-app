@@ -1,49 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import LoginForm from "@/components/LoginForm";
-import axios from "axios";
 import useLanguageStore from "@/stores/language-store";
 
 //---------------------------- main function -----------------------------
 export default function LoginPage() {
   const router = useRouter();
-  const { l } = useLanguageStore(); 
 
-
-  //---- check if user completed the registration ----
-  async function CheckUserCompleted(): Promise<boolean> {
-    try {
-      const token = localStorage.getItem("token");
-
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/users/completed`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            accept: "application/json",
-          },
-        }
-      );
-      return response.data; //boolean
-    } catch (error) {
-      console.error("Error in /completed", error);
-      return false;
-    }
-  }
+  const { l } = useLanguageStore();
 
   useEffect(() => {
     const checkUserStatus = async () => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const isCompleted = await CheckUserCompleted();
-          if (isCompleted) {
-            router.push("/trials");
-          }
+          router.push("/trials");
         } catch (error) {
           console.error("Error checking if user is completed", error);
         }
@@ -52,8 +27,6 @@ export default function LoginPage() {
 
     checkUserStatus();
   }, [router]);
-
-
 
   // ------------------------------ return -------------------------------
   return (
@@ -74,8 +47,7 @@ export default function LoginPage() {
             <LoginForm />
             <div className="flex_center mt-3 md:mt-6">
               <p className="text-sm">
-                {l("login.cta.signup.description") ||
-                  "Don't have an account?"}
+                {l("login.cta.signup.description") || "Don't have an account?"}
               </p>
               <Link href="/register/step1" className="text-sm underline ml-1">
                 {l("login.cta.signup.text") || "Sign Up"}

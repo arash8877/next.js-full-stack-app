@@ -42,6 +42,9 @@ p {
 .custom-width-btn {
   width: 100% !important;
 }
+.custom-padding {
+  padding-inline: 18px !important;
+}
 .gradient-green1 {
   @apply bg-gradient-to-r from-primary-800 to-primary-1100;
 }
@@ -65,6 +68,10 @@ p {
 .custom_height {
   height: calc(100vh - 55px);
 }
+.custom_height2 {
+  height: 56px !important;
+}
+
 .custom-border {
   border-color: #dff2df !important;
 }
@@ -146,3 +153,63 @@ p {
 .dropdown_animation {
   animation: dropdownOpen 0.3s ease-out forwards;
 }
+
+/*---------------------------- Company ----------------------------- */
+.not_editable_div{
+  @apply bg-bgColor-100 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
+}
+
+/*---------------------------- Text-area ----------------------------- */
+.textarea_input {
+  @apply w-full p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
+}
+
+
+
+/*---------------------------- Quill-Editor ----------------------------- */
+/* Customize the editor's toolbar */
+.ql-toolbar {
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  border: 1px solid #dff2df;
+}
+
+/* Customize the editor itself */
+.ql-container {
+  border: 2px solid #dff2df;
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+  margin-top: 20px;
+}
+
+.ql-editor {
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.6;
+  background-color: white;
+  border: 1px solid #dff2df;
+  border-radius: 8px;
+}
+
+/* Focused state */
+.ql-container.ql-snow .ql-editor:focus {
+  border: 2px solid #4272e1;
+}
+
+/* Change cursor to pointer when hovering over links */
+.ql-editor a {
+  cursor: pointer;
+  color: #0073e6; /* Optional: Customize link color */
+  text-decoration: underline;
+}
+
+.ql-editor a:hover {
+  color: #005bb5; /* Optional: Customize hover color */
+}
+
+.ql-editor::before {
+  color: #b6babe !important; /* Lighter gray for placeholder */
+  font-style: normal !important; /* Remove italic style */
+  font-size: 0.875rem !important;
+}
+

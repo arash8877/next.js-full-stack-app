@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -5,13 +7,11 @@ import Image from "next/image";
 import * as Yup from "yup";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
+import axios from "axios";
 import Consent from "./Consent";
 import { AxiosError } from "axios";
 import { Step2FormProps } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
-
-
-
 
 //--------- Reusable Input Component ---------
 const InputField: React.FC<Step2FormProps> = ({
@@ -58,44 +58,92 @@ const InputField: React.FC<Step2FormProps> = ({
 const RegisterStep2Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const { l } = useLanguageStore(); 
+  const { l } = useLanguageStore();
+  const sponsorId = typeof window !== "undefined" ? localStorage.getItem("sponsorId") : null;
 
   //----------------- Yup validation ---------------
-  // eslint-disable-next-line 
-const formSchema = Yup.object({
-  firstName: Yup.string()
-    .required(l("settings.tab1.form.firstname.validation.required") || "First name is required!")
-    .matches(
-      /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
-      (l("settings.tab1.form.firstname.validation.format") || "First name should only contain letters!")
-    )
-    .min(2, (l("settings.tab1.form.firstname.validation.length") || "First name must be at least 2 characters!")),
-  lastName: Yup.string()
-    .required(l("settings.tab1.form.lastname.validation.required") || "Last name is required!")
-    .matches(
-      /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
-      (l("settings.tab1.form.lastname.validation.format") || "Last name should only contain letters!")
-    )
-    .min(1, (l("settings.tab1.form.lastname.validation.length") || "Last name must be at least 1 characters!")),
-  jobTitle: Yup.string()
-    .required(l("settings.tab1.form.jobTitle.validation.required") || "Job title is required!")
-    .min(2, (l("settings.tab1.form.jobTitle.validation.length") || "Last name must be at least 2 characters!")),
-  email: Yup.string()
-    .required(l("register.step2.form.email.validation.required") || "Email is required!")
-    .email(l("register.step2.form.email.validation.format") || "Invalid email format"),
-  password: Yup.string()
-    .required(l("register.step2.form.password.validation.required") || "Password is required!")
-    .min(8, (l("register.step2.form.password.validation.format") || "Password must be at least 8 characters")),
-  repeatedPassword: Yup.string()
-    .required(l("register.step2.form.repeatpassword.validation.required") || "Please repeat the password!")
-    .oneOf([Yup.ref("password")], (l("register.step2.form.repeatpassword.validation.format") || "Passwords must match!")),
-  consentedToTerms: Yup.boolean().oneOf(
-    [true],
-    (l("register.step2.form.termsandconditions.validation.required") || "You must accept the terms and conditions.")
-  ),
-  hasConsentedToMarketing: Yup.boolean(),
-});
-
+  // eslint-disable-next-line
+  const formSchema = Yup.object({
+    firstName: Yup.string()
+      .required(
+        l("settings.tab1.form.firstname.validation.required") ||
+          "First name is required!"
+      )
+      .matches(
+        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
+        l("settings.tab1.form.firstname.validation.format") ||
+          "First name should only contain letters!"
+      )
+      .min(
+        2,
+        l("settings.tab1.form.firstname.validation.length") ||
+          "First name must be at least 2 characters!"
+      ),
+    lastName: Yup.string()
+      .required(
+        l("settings.tab1.form.lastname.validation.required") ||
+          "Last name is required!"
+      )
+      .matches(
+        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
+        l("settings.tab1.form.lastname.validation.format") ||
+          "Last name should only contain letters!"
+      )
+      .min(
+        1,
+        l("settings.tab1.form.lastname.validation.length") ||
+          "Last name must be at least 1 characters!"
+      ),
+    jobTitle: Yup.string()
+      .required(
+        l("settings.tab1.form.jobTitle.validation.required") ||
+          "Job title is required!"
+      )
+      .min(
+        2,
+        l("settings.tab1.form.jobTitle.validation.length") ||
+          "Last name must be at least 2 characters!"
+      ),
+    phoneNumber: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Phone number is required!"
+    ),
+    email: Yup.string()
+      .required(
+        l("register.step2.form.email.validation.required") ||
+          "Email is required!"
+      )
+      .email(
+        l("register.step2.form.email.validation.format") ||
+          "Invalid email format"
+      ),
+    password: Yup.string()
+      .required(
+        l("register.step2.form.password.validation.required") ||
+          "Password is required!"
+      )
+      .min(
+        8,
+        l("register.step2.form.password.validation.format") ||
+          "Password must be at least 8 characters"
+      ),
+    repeatedPassword: Yup.string()
+      .required(
+        l("register.step2.form.repeatpassword.validation.required") ||
+          "Please repeat the password!"
+      )
+      .oneOf(
+        [Yup.ref("password")],
+        l("register.step2.form.repeatpassword.validation.format") ||
+          "Passwords must match!"
+      ),
+    consentedToTerms: Yup.boolean().oneOf(
+      [true],
+      l("register.step2.form.termsandconditions.validation.required") ||
+        "You must accept the terms and conditions."
+    ),
+    hasConsentedToMarketing: Yup.boolean(),
+  });
 
   //-------------formik----------------
   const formik = useFormik({
@@ -103,6 +151,7 @@ const formSchema = Yup.object({
       firstName: "",
       lastName: "",
       jobTitle: "",
+      phoneNumber: "",
       email: "",
       password: "",
       repeatedPassword: "",
@@ -110,25 +159,29 @@ const formSchema = Yup.object({
       hasConsentedToMarketing: false,
     },
     //-----onSubmit-------
- // eslint-disable-next-line 
+    // eslint-disable-next-line
     onSubmit: async (values) => {
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     firstName: values.firstName,
-        //     lastName: values.lastName,
-        //     jobTitle: values.jobTitle,
-        //     email: values.email,
-        //     password: values.password,
-        //     repeatedPassword: values.repeatedPassword,
-        //     consentedToTerms: values.consentedToTerms,
-        //     hasConsentedToMarketing: values.hasConsentedToMarketing,
-        //   }
-        // );
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/user`, //post request
+          {
+            verifyURL: `${window.location.origin}/register/step3`,
+            sponsorId: sponsorId,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            jobTitle: values.jobTitle,
+            phoneNumber: values.phoneNumber,
+            email: values.email,
+            password: values.password,
+            repeatedPassword: values.repeatedPassword,
+            consentedToTerms: values.consentedToTerms,
+            hasConsentedToMarketing: values.hasConsentedToMarketing,
+          }
+        );
 
-        // localStorage.setItem("token", response.data.token);
+        console.log("step2 response:", response);
+
+        localStorage.setItem("token", response.data.token);
 
         router.push("/register/step3");
       } catch (error) {
@@ -141,10 +194,9 @@ const formSchema = Yup.object({
         }
       }
     },
- // eslint-disable-next-line 
-    // validationSchema: formSchema,
+    // eslint-disable-next-line
+    validationSchema: formSchema,
   });
-
 
   //--------------------------------------------------Return---------------------------------------------
   return (
@@ -156,28 +208,45 @@ const formSchema = Yup.object({
         label={l("register.step2.form.firstname.label") || "First name"}
         name="firstName"
         type="text"
-        placeholder={l("register.step2.form.firstname.placeholder") || "e.g. John"}
+        placeholder={
+          l("register.step2.form.firstname.placeholder") || "e.g. John"
+        }
         formik={formik}
       />
       <InputField
         label={l("register.step2.form.lastname.label") || "Last name"}
         name="lastName"
         type="text"
-        placeholder={l('register.step2.form.lastname.placeholder') || "e.g. Smith"}
+        placeholder={
+          l("register.step2.form.lastname.placeholder") || "e.g. Smith"
+        }
         formik={formik}
       />
       <InputField
         label={l("register.step2.form.lastname.label") || "Job title"}
         name="jobTitle"
         type="text"
-        placeholder={l('register.step2.form.lastname.placeholder') || "e.g. Manager"}
+        placeholder={
+          l("register.step2.form.lastname.placeholder") || "e.g. Manager"
+        }
+        formik={formik}
+      />
+      <InputField
+        label={l("register.step2.form.lastname.label") || "Phone number"}
+        name="phoneNumber"
+        type="text"
+        placeholder={
+          l("register.step2.form.lastname.placeholder") || "e.g. +45 12345678"
+        }
         formik={formik}
       />
       <InputField
         label={l("register.step2.form.email.label") || "Email"}
         name="email"
         type="email"
-        placeholder={l('register.step2.form.email.placeholder') || "youremail@email.com"}
+        placeholder={
+          l("register.step2.form.email.placeholder") || "youremail@email.com"
+        }
         formik={formik}
         icon="/email_icon.svg"
       />
@@ -185,20 +254,33 @@ const formSchema = Yup.object({
         label={l("register.step2.form.password.label") || "Enter your password"}
         name="password"
         type="password"
-        placeholder={l("register.step2.form.password.placeholder") || "Min. 8 characters"}
+        placeholder={
+          l("register.step2.form.password.placeholder") || "Min. 8 characters"
+        }
         formik={formik}
       />
       <InputField
-        label={l("register.step2.form.repeatpassword.label") || "Repeat password"}
+        label={
+          l("register.step2.form.repeatpassword.label") || "Repeat password"
+        }
         name="repeatedPassword"
         type="password"
-        placeholder={l("register.step2.form.repeatpassword.placeholder") || "Min. 8 characters"}
+        placeholder={
+          l("register.step2.form.repeatpassword.placeholder") ||
+          "Min. 8 characters"
+        }
         formik={formik}
       />
       <div className="md:pr-20">
         <Consent
-          title={l("register.step2.form.termsandconditions.title") || "Consent to Terms and Conditions"}
-          label={l("register.step2.form.termsandconditions.label") || "I have read and agree to the Terms and Conditions."}
+          title={
+            l("register.step2.form.termsandconditions.title") ||
+            "Consent to Terms and Conditions"
+          }
+          label={
+            l("register.step2.form.termsandconditions.label") ||
+            "I have read and agree to the Terms and Conditions."
+          }
           name="consentedToTerms"
           value={formik.values.consentedToTerms}
           onChange={formik.handleChange}
@@ -208,35 +290,47 @@ const formSchema = Yup.object({
           }
         >
           <small className="text-sm ">
-            {l("register.step2.form.termsandconditions.text1") || "By checking this box, you agree to TrialSync's"}{" "}
+            {l("register.step2.form.termsandconditions.text1") ||
+              "By checking this box, you agree to TrialSync's"}{" "}
             <Link
               href="https://www.trialsync.com/terms-and-conditions"
               target="_blank"
               className="font-bold underline"
             >
-              {l("register.step2.form.termsandconditions.cta.text") || "Terms and Conditions"}
+              {l("register.step2.form.termsandconditions.cta.text") ||
+                "Terms and Conditions"}
             </Link>{" "}
-            {l("register.step2.form.termsandconditions.text2") || "and acknowledge our"}{" "}
+            {l("register.step2.form.termsandconditions.text2") ||
+              "and acknowledge our"}{" "}
             <Link
               href="https://www.trialsync.com/privacy"
               target="_blank"
               className="font-bold underline"
             >
-              {l("register.step2.form.termsandconditions.privacy.cta.text") || "Privacy Policy"}
+              {l("register.step2.form.termsandconditions.privacy.cta.text") ||
+                "Privacy Policy"}
             </Link>
-            {l("register.step2.form.termsandconditions.text3") || ". We will not sell or share your personal information. Your data is used solely to enhance your experience with us."}
+            {l("register.step2.form.termsandconditions.text3") ||
+              ". We will not sell or share your personal information. Your data is used solely to enhance your experience with us."}
           </small>
         </Consent>
         <Consent
-          title={l("register.step2.form.marketingconsent.title") || "Consent to Email Marketing"}
-          label={l("register.step2.form.marketingconsent.label") || "I agree to receive marketing emails."}
+          title={
+            l("register.step2.form.marketingconsent.title") ||
+            "Consent to Email Marketing"
+          }
+          label={
+            l("register.step2.form.marketingconsent.label") ||
+            "I agree to receive marketing emails."
+          }
           name="hasConsentedToMarketing"
           value={formik.values.hasConsentedToMarketing}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         >
           <small className="text-sm">
-            {l("register.step2.form.marketingconsent.text1") || "By checking this box, you agree to receive marketings emails from TrialSync. You can opt-out at any time by following the unsubscribe link in our emails."}
+            {l("register.step2.form.marketingconsent.text1") ||
+              "By checking this box, you agree to receive marketings emails from TrialSync. You can opt-out at any time by following the unsubscribe link in our emails."}
           </small>
         </Consent>
       </div>

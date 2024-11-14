@@ -30,6 +30,8 @@ export default function GenderDropdown({ gender, setGender, borderColor }: Gende
           value={gender}
           onChange={handleChange}
           sx={{
+            borderRadius: "8px",
+            backgroundColor: "white",
             height: "48px",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: borderColor,
@@ -38,12 +40,13 @@ export default function GenderDropdown({ gender, setGender, borderColor }: Gende
         >
           <MenuItem disabled value="">
             <Typography sx={{ fontStyle: "normal", fontWeight: "400", color: "#aaaaaa" }}>
-              {l("dropdown.gender.info") || "Select Biological Sex"}
+              {l("dropdown.gender.info") || "Select gender"}
             </Typography>
           </MenuItem>
           <MenuItem value="Male">{l("dropdown.gender.male") || "Male"}</MenuItem>
           <MenuItem value="Female">{l("dropdown.gender.female") || "Female"}</MenuItem>
           <MenuItem value="Intersex">{l("dropdown.gender.intersex") || "Intersex"}</MenuItem>
+          <MenuItem value="all">{l("dropdown.gender.all") || "All"}</MenuItem>
         </Select>
       </FormControl>
     </Box>

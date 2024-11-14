@@ -8,7 +8,7 @@ import useLanguageStore from "@/stores/language-store";
 import { languages } from "@/lib/languageInfo";
 
 //----------------------------------- main function -----------------------------------------
-function VerifyAccountComponent() {
+function ResetPasswordPage() {
   const [tokenAvailable, setTokenAvailable] = useState(false);
   const searchParams = useSearchParams();
   const reset_token = searchParams.get("reset_token");
@@ -29,7 +29,7 @@ function VerifyAccountComponent() {
       if (reset_token) {
         try {
           const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/v1/invites/verify/persist`, //POST request
+            `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/verify/persist`, //POST request
 
             {
               token: reset_token,
@@ -84,12 +84,12 @@ function VerifyAccountComponent() {
   );
 }
 
-const ForgotPassword = () => {
+const resetPassword = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <VerifyAccountComponent />
+      <ResetPasswordPage />
     </Suspense>
   );
 };
 
-export default ForgotPassword;
+export default resetPassword;

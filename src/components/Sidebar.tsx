@@ -47,30 +47,35 @@ export default function SidebarDashboard() {
           isSidebarOpen ? "w-64" : "w-20"
         }`}
       >
-        <Link href="https://app.trialsync.com/trials">
-          <div
-            className={`flex gap-2 items-center my-11 sidebar_animation ${
-              isSidebarOpen ? "pl-9" : "pl-3"
-            }`}
-          >
-            <Image
-              src="/logo.svg"
-              width={43}
-              height={42}
-              style={{ width: "43px", height: "42px" }}
-              alt="logo"
-            />
-            {isSidebarOpen && (
+        <div className="flex flex-col">
+          <Link href="https://sponsor.trialsync.com/trials">
+            <div
+              className={`flex gap-2 items-center sidebar_animation ${
+                isSidebarOpen ? "pl-9 mt-11" : "pl-3 my-11"
+              }`}
+            >
               <Image
-                src="/company-name.svg"
-                width={108}
-                height={22}
-                style={{ width: "108px", height: "22px" }}
+                src="/logo.svg"
+                width={43}
+                height={42}
+                style={{ width: "43px", height: "42px" }}
                 alt="logo"
               />
-            )}
-          </div>
-        </Link>
+              {isSidebarOpen && (
+                <Image
+                  src="/company-name.svg"
+                  width={108}
+                  height={22}
+                  style={{ width: "108px", height: "22px" }}
+                  alt="logo"
+                />
+              )}
+            </div>
+          </Link>
+          {isSidebarOpen && (
+          <h3 className="text-center mb-6 text-primary-1400">Sponsor</h3>
+          )}
+        </div>
         <hr className="border border-gray-200 w-full mb-9 sidebar_animation" />
         <div className="flex flex-col">
           <div className="flex flex-col gap-3 sidebar_animation">
@@ -137,7 +142,6 @@ export default function SidebarDashboard() {
                 </div>
               </ActiveLink>
 
-
               <ActiveLink
                 href="/employees"
                 activeClassName="sidebar_item_active"
@@ -183,7 +187,6 @@ export default function SidebarDashboard() {
                     (l("common.header.company.text") || "Invoices")}
                 </div>
               </ActiveLink>
-
             </div>
           </div>
 

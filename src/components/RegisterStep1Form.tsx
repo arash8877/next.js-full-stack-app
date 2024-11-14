@@ -3,16 +3,12 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import * as Yup from "yup";
-import Link from "next/link";
 import CustomButton from "./CustomButton";
 import CountryDropdown from "./CountryDropdown";
-import Consent from "./Consent";
-import { AxiosError } from "axios";
+import axios from "axios";
+// import { AxiosError } from "axios";
 import { Step1FormProps } from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
-
-
-
 
 //--------- Reusable Input Component ---------
 const InputField: React.FC<Step1FormProps> = ({
@@ -50,7 +46,9 @@ const InputField: React.FC<Step1FormProps> = ({
       />
     </div>
     <small className="text-red-600">
-      {formik.touched[name] && formik.errors[name]}
+      {formik.touched[name] &&
+        formik.errors[name] &&
+        String(formik.errors[name])}
     </small>
   </div>
 );
@@ -58,118 +56,145 @@ const InputField: React.FC<Step1FormProps> = ({
 //-------------------------------------- main function-----------------------------------------
 const RegisterStep1Form = () => {
   const router = useRouter();
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [country, setCountry] = useState("Denmark");
-  const { l } = useLanguageStore(); 
+  const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
- // eslint-disable-next-line 
-const formSchema = Yup.object({
-  companyName: Yup.string()
-    .required(l("settings.tab1.form.companyName.validation.required") || "Company name is required!")
-    .min(2, (l("settings.tab1.form.companyName.validation.length") || "Company name must be at least 2 characters!")),
-  vatNumber: Yup.string()
-    .required(l("settings.tab1.form.vatNumber.validation.required") || "VAT number is required!")
-    .min(4, (l("settings.tab1.form.vatNumber.validation.length") || "VAT number must be at least 4 characters!")),
-  address: Yup.string()
-    .required(l("register.step1.form.address.validation.required") || "Address is required!")
-    .min(4, (l("settings.tab1.form.address.validation.length") || "Address must be at least 4 characters!")),
-  zipCode: Yup.string()
-    .required(l("register.step1.form.zipCode.validation.required") || "Zip code is required!")
-    .min(4, (l("settings.tab1.form.zipCode.validation.length") || "Zip code must be at least 4 characters!")),
-  country: Yup.string()
-    .required(l("register.step1.form.country.validation.required") || "Country is required!"),
-  phoneNumber: Yup.string()
-    .required(l("register.step1.form.country.validation.required") || "Phone number is required!"),
-  consentedToTerms: Yup.boolean().oneOf(
-    [true],
-    (l("register.step1.form.termsandconditions.validation.required") || "You must accept the terms and conditions.")
-  ),
-});
-
+  // eslint-disable-next-line
+  const formSchema = Yup.object({
+    name: Yup.string()
+      .required(
+        l("settings.tab1.form.sponsorName.validation.required") ||
+          "Company name is required!"
+      )
+      .min(
+        2,
+        l("settings.tab1.form.sponsorName.validation.length") ||
+          "Company name must be at least 2 characters!"
+      ),
+    vatNumber: Yup.string()
+      .required(
+        l("settings.tab1.form.vatNumber.validation.required") ||
+          "VAT number is required!"
+      )
+      .min(
+        4,
+        l("settings.tab1.form.vatNumber.validation.length") ||
+          "VAT number must be at least 4 characters!"
+      ),
+    address: Yup.string()
+      .required(
+        l("register.step1.form.address.validation.required") ||
+          "Address is required!"
+      )
+      .min(
+        4,
+        l("settings.tab1.form.address.validation.length") ||
+          "Address must be at least 4 characters!"
+      ),
+    zipCode: Yup.string()
+      .required(
+        l("register.step1.form.zipCode.validation.required") ||
+          "Zip code is required!"
+      )
+      .min(
+        4,
+        l("settings.tab1.form.zipCode.validation.length") ||
+          "Zip code must be at least 4 characters!"
+      ),
+    // country: Yup.string()
+    //   .required(l("register.step1.form.country.validation.required") || "Country is required!"),
+  });
 
   //-------------formik----------------
   const formik = useFormik({
     initialValues: {
-      companyName: "",
+      name: "",
       vatNumber: "",
       address: "",
       zipCode: "",
       country: "",
-      phoneNumber: "",
-      consentedToTerms: false,
+      sponsorContacts: [
+        {
+          firstName: "",
+          lastName: "",
+          email: "",
+          lastLogin: "",
+        },
+      ],
     },
     //-----onSubmit-------
- // eslint-disable-next-line 
     onSubmit: async (values) => {
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     companyName: values.companyName,
-        //     vatNumber: values.vatNumber,
-        //     address: values.address,
-        //     zipCode: values.zipCode,
-        //     country: values.country,
-        //     consentedToTerms: values.consentedToTerms,
-        //   }
-        // );
-
-        // localStorage.setItem("token", response.data.token);
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/sponsor`, //post request
+          {
+            name: values.name,
+            vatNumber: values.vatNumber,
+            address: values.address,
+            zipCode: values.zipCode,
+            country: country,
+          }
+        );
+        console.log("step1 response:", response);
+        localStorage.setItem("sponsorId", response.data.sponsorId);
+        document.cookie = "step1Completed=true; Path=/;";
 
         router.push("/register/step2");
       } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response && error.response.data) {
-            setError(error.response.data);
-          } else {
-            setError("An unknown error occurred");
-          }
-        }
+        console.log(error);
       }
     },
-    // validationSchema: formSchema,
+    validationSchema: formSchema,
   });
-
 
   //--------------------------------------------------Return---------------------------------------------
   return (
     <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
       <div className="flex justify-center">
-        <p className=" text-red-600">{error}</p>
+        {/* <p className=" text-red-600">{error}</p> */}
       </div>
       <InputField
-        label={l("register.step1.form.companyName.label") || "Company Name"}
-        name="companyName"
+        label={l("register.step1.form.sponsorName.label") || "Company Name"}
+        name="name"
         type="text"
-        placeholder={l("register.step1.form.companyName.placeholder") || "Company-name"}
+        placeholder={
+          l("register.step1.form.sponsorName.placeholder") || "Company-name"
+        }
         formik={formik}
       />
       <InputField
         label={l("register.step1.form.vatNumber.label") || "Company VAT number"}
         name="vatNumber"
         type="text"
-        placeholder={l('register.step1.form.vatNumber.placeholder') || "e.g. 12345678"}
+        placeholder={
+          l("register.step1.form.vatNumber.placeholder") || "e.g. 12345678"
+        }
         formik={formik}
       />
       <InputField
         label={l("register.step1.form.email.label") || "Address"}
         name="address"
         type="text"
-        placeholder={l('register.step1.form.email.placeholder') || "e.g. Street 1"}
+        placeholder={
+          l("register.step1.form.email.placeholder") || "e.g. Street 1"
+        }
         formik={formik}
       />
       <InputField
         label={l("register.step1.form.password.label") || "Zip code"}
         name="zipCode"
         type="text"
-        placeholder={l("register.step1.form.password.placeholder") || "e.g. 1234"}
+        placeholder={
+          l("register.step1.form.password.placeholder") || "e.g. 1234"
+        }
         formik={formik}
       />
       <div className="flex flex-col">
         <label htmlFor="country" className="mb-2">
-          {l("register.step3.form.country.label") ||"Country"}<span className="ml-1">*</span>
+          {l("register.step3.form.country.label") || "Country"}
+          <span className="ml-1">*</span>
         </label>
         <CountryDropdown
           country={country}
@@ -180,14 +205,7 @@ const formSchema = Yup.object({
           {formik.touched.country && formik.errors.country}
         </small>
       </div>
-      <InputField
-        label={l("register.step1.form.password.label") || "Phone number"}
-        name="phoneNumber"
-        type="text"
-        placeholder={l("register.step1.form.phoneNumber.placeholder") || "Company phone number"}
-        formik={formik}
-      />
-      <div className="md:pr-20">
+      {/* <div className="md:pr-20">
         <Consent
           title={l("register.step1.form.termsandconditions.title") || "Consent to Terms and Conditions"}
           label={l("register.step1.form.termsandconditions.label") || "I have read and agree to the Terms and Conditions."}
@@ -219,7 +237,7 @@ const formSchema = Yup.object({
             {l("register.step1.form.termsandconditions.text3") || ". We will not sell or share your company information. Your data is used solely to enhance your experience with us."}
           </small>
         </Consent>
-      </div>
+      </div> */}
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}

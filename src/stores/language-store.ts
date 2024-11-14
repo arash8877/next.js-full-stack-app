@@ -16,13 +16,16 @@ const useLanguageStore = create<iLanguageStore>((set, get) => ({
  
   setSelectedLang: (lang) => {
     set({ selectedLang: lang });
-    get().fetchLanguage(); // Fetch language data after changing selectedLang
+    if (typeof window !== "undefined") {
+      get().fetchLanguage(); // Fetch language data after changing selectedLang
+    }
   },
 
   // Function to fetch language data from the API
   fetchLanguage: async () => {
-    const selectedLang =
-      localStorage.getItem("languageLocalStorage") || get().selectedLang;
+    const selectedLang = typeof window !== "undefined"
+    ? window.localStorage.getItem("languageLocalStorage") || get().selectedLang
+    : get().selectedLang;
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/language/${selectedLang}`

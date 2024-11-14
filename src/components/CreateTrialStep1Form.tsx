@@ -1,25 +1,29 @@
+"use client";
+
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import Image from "next/image";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import { AxiosError } from "axios";
-import { CreateTrialStep1FormProps, CreateTrialStep1FormValues } from "@/types/index";
+import {
+  CreateTrialStep1FormProps,
+  CreateTrialCompanyInfoProps,
+} from "@/types/index";
 import useLanguageStore from "@/stores/language-store";
-
-
-
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
+import useJWTUserInfo from "@/hooks/useJWTUserInfo";
 
 //--------- Reusable Input Component ---------
-const InputField: React.FC<CreateTrialStep1FormProps & { formik: ReturnType<typeof useFormik<CreateTrialStep1FormValues>> }> = ({
-  label,
-  name,
-  type,
-  placeholder,
-  formik,
-  icon,
-}) => (
+const InputField: React.FC<
+  CreateTrialStep1FormProps & {
+    formik: ReturnType<typeof useFormik<CreateTrialCompanyInfoProps>>;
+  }
+> = ({ label, name, id, type, placeholder, formik, icon }) => (
   <div className="flex flex-col">
     <label htmlFor={name}>
       {label}
@@ -37,106 +41,171 @@ const InputField: React.FC<CreateTrialStep1FormProps & { formik: ReturnType<type
       )}
       <input
         name={name}
+        id={id}
         type={type}
         placeholder={placeholder}
-        value={formik.values[name as keyof CreateTrialStep1FormValues] as string}
+        value={
+          formik.values[name as keyof CreateTrialCompanyInfoProps] as string
+        }
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        className="register_input mt-2"
+        className="register_input mt-2 custom-border"
         style={icon ? { paddingLeft: "2.5rem" } : {}}
       />
     </div>
     <small className="text-red-600">
-      {formik.touched[name as keyof CreateTrialStep1FormValues] && formik.errors[name as keyof CreateTrialStep1FormValues]}
+      {formik.touched[name as keyof CreateTrialCompanyInfoProps] &&
+        formik.errors[name as keyof CreateTrialCompanyInfoProps]}
     </small>
   </div>
 );
 
 //-------------------------------------- main function-----------------------------------------
+// Your form component
 const CreateTrialStep1Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const { l } = useLanguageStore(); 
+  const { l } = useLanguageStore();
+  const jwtInfo = useJWTUserInfo();
 
-  //----------------- Yup validation ---------------
-  // eslint-disable-next-line
-const formSchema = Yup.object({
-  title: Yup.string()
-    .required(l("settings.tab1.form.title.validation.required") || "Title is required!")
-    .min(4, (l("settings.tab1.form.title.validation.length") || "Title must be at least 2 characters!")),
-  shortDescription: Yup.string()
-    .required(l("settings.tab1.form.shortDescription.validation.required") || "Short description is required!")
-    .min(4, (l("settings.tab1.form.shortDescription.validation.length") || "Short description must be at least 4 characters!")),
-  longDescription: Yup.string()
-    .required(l("register.step1.form.longDescription.validation.required") || "Long Description is required!")
-    .min(4, (l("settings.tab1.form.longDescription.validation.length") || "Long description must be at least 4 characters!")),
-});
+  const formSchema = Yup.object({
+    title: Yup.string()
+      .required(
+        l("settings.tab1.form.title.validation.required") ||
+          "Title is required!"
+      )
+      .min(
+        4,
+        l("settings.tab1.form.title.validation.length") ||
+          "Title must be at least 4 characters!"
+      ),
+    shortDescription: Yup.string()
+      .required(
+        l("settings.tab1.form.shortDescription.validation.required") ||
+          "Short description is required!"
+      )
+      .min(
+        4,
+        l("settings.tab1.form.shortDescription.validation.length") ||
+          "Short description must be at least 4 characters!"
+      ),
+    fullDescription: Yup.string()
+      .required(
+        l("register.step1.form.fullDescription.validation.required") ||
+          "Full Description is required!"
+      )
+      .min(
+        4,
+        l("settings.tab1.form.fullDescription.validation.length") ||
+          "Full description must be at least 4 characters!"
+      ),
+  });
 
-
-  //-------------formik----------------
   const formik = useFormik({
     initialValues: {
       title: "",
       shortDescription: "",
-      longDescription: "",
+      fullDescription: "",
     },
-    //-----onSubmit-------
-    // eslint-disable-next-line
+    validationSchema: formSchema,
+
+
+// eslint-disable-next-line
     onSubmit: async (values) => {
+      console.log("Title", values["title"]);
+      const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
+      // const sponsorId = localStorage.getItem("sponsorId");
+      // eslint-disable-next-line
+      const sponsorId = 11;
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/basic`, //post request
-        //   {
-        //     verifyURL: `${window.location.origin}/register/step2`,
-        //     title: values.title,
-        //     shortDescription: values.shortDescription,
-        //     longDescription: values.longDescription,
-        //   }
-        // );
-        // console.log(response)
+        // const payload = {
+        //   sponsorId,
+        //   title: values.title,
+        //   shortDescription: values.shortDescription,
+        //   fullDescription: values.fullDescription ,
+        // };
+        const payload = {
+          sponsorId: jwtInfo.jwtInfo?.sponsor_id,
+          title: values["title"],
+          shortDescription: values["shortDescription"],
+          fullDescription: values["fullDescription"],
+        };
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/v1/trials`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("response in step1:", response);
+        localStorage.setItem("currentTrialEditId", response.data);
         router.push("/create-trial/step2");
       } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response && error.response.data) {
-            setError(error.response.data);
-          } else {
-            setError("An unknown error occurred");
-          }
+        if (error instanceof AxiosError && error.response) {
+          setError(error.response.data.message || "An unknown error occurred");
+        } else {
+          setError("An unknown error occurred");
         }
       }
     },
-    // validationSchema: formSchema,
   });
 
-
-  //--------------------------------------------------Return---------------------------------------------
+  //----------------------------------- JSX ----------------------------------------------
   return (
-    <form className="flex flex-col gap-6 wrapper" onSubmit={formik.handleSubmit}>
-      <div className="flex justify-center">
-        <p className=" text-red-600">{error}</p>
+    <form
+      className="flex flex-col gap-6 w-full wrapper"
+      onSubmit={formik.handleSubmit}
+    >
+      {error && <p className="text-red-600">{error}</p>}
+
+      <div className="flex flex-col gap-6">
+        <InputField
+          label={l("register.step1.form.title.label") || "Title"}
+          name="title"
+          id="title"
+          type="text"
+          placeholder={l("register.step1.form.title.placeholder") || "Title"}
+          formik={formik}
+        />
+
+        <div className="flex flex-col gap-2 w-full mb-12">
+          <label htmlFor="shortDescription" className="text-sm font-semibold">
+            Short Description:<span className="ml-1">*</span>
+          </label>
+          <div className="h-[200px]">
+            <ReactQuill
+              value={formik.values.shortDescription}
+              onChange={(value) =>
+                formik.setFieldValue("shortDescription", value)
+              }
+              className="h-full"
+            />
+          </div>
+
+          <small className="text-red-600 mt-10">
+            {formik.touched.shortDescription && formik.errors.shortDescription}
+          </small>
+        </div>
+
+        <div className="flex flex-col gap-2 w-full">
+          <label htmlFor="fullDescription" className="text-sm font-semibold">
+            Full Description:<span className="ml-1">*</span>
+          </label>
+          <div className="h-[400px]">
+            <ReactQuill
+              value={formik.values.fullDescription}
+              onChange={(value) =>
+                formik.setFieldValue("fullDescription", value)
+              }
+              className="h-full"
+            />
+          </div>
+
+          <small className="text-red-600 mt-10">
+            {formik.touched.fullDescription && formik.errors.fullDescription}
+          </small>
+        </div>
       </div>
-      <InputField
-        label={l("register.step1.form.title.label") || "Title"}
-        name="title"
-        type="text"
-        placeholder={l("register.step1.form.title.placeholder") || "Title"}
-        formik={formik}
-      />
-      <InputField
-        label={l("register.step1.form.shortDescription.label") || "Short Description"}
-        name="shortDescription"
-        type="text"
-        placeholder={l('register.step1.form.shortDescription.placeholder') || "Short Description"}
-        formik={formik}
-      />
-      <InputField
-        label={l("register.step1.form.email.label") || "Long Description"}
-        name="longDescription"
-        type="text"
-        placeholder={l('register.step1.form.email.placeholder') || "Long Description"}
-        formik={formik}
-      />
-      <div className="flex justify-center xs:justify-end gap-4">
+
+      <div className="flex justify-center xs:justify-end gap-4 mt-20">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"
