@@ -10,8 +10,9 @@ pool:
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   isTest: $[eq(variables['Build.SourceBranch'], 'refs/heads/test')]
-  TEST_WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'
-  PROD_WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'  # Replace with your App Service name
+  TEST_WEBAPP_NAME: 'web-trialsync-sponsor-platform-test'
+  PROD_WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'
+  ARTIFACT_FOLDER: 'sponsor-platform'
   NODE_VERSION: '20'                  # Specify the Node.js version
 
 steps:
@@ -42,7 +43,7 @@ steps:
       rootFolderOrFile: 'build/standalone'
       includeRootFolder: false
       archiveType: 'zip'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/$(WEBAPP_NAME).zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'
       replaceExistingArchive: true
     displayName: 'Archive build output'
 
@@ -53,7 +54,7 @@ steps:
       azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
       appType: 'webAppLinux'
       WebAppName: $(PROD_WEBAPP_NAME)
-      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(WEBAPP_NAME).zip'
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'
       RuntimeStack: 'NODE|20-lts'
       StartupCommand: 'node server.js'
   
@@ -64,6 +65,6 @@ steps:
       azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
       appType: 'webAppLinux'
       WebAppName: $(TEST_WEBAPP_NAME)
-      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(WEBAPP_NAME).zip'
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'
       RuntimeStack: 'NODE|20-lts'
       StartupCommand: 'node server.js'
