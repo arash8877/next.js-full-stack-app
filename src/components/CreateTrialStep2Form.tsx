@@ -111,7 +111,6 @@ const CreateTrialStep2Form = () => {
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
-        
         const trialSites = values.sites.map((site) => ({
           name: site.location,
           address: site.address,
@@ -120,16 +119,17 @@ const CreateTrialStep2Form = () => {
         }));
 
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`, {
-            trialSites
-          },          
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
+          {
+            trialSites,
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("response in step2:", response)
+        console.log("response in step2:", response);
         router.push("/create-trial/step3");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -139,7 +139,7 @@ const CreateTrialStep2Form = () => {
     },
   });
 
-  //------------------Add another location----------------
+  //------------------Add another site ----------------
   const addSite = () => {
     formik.setFieldValue(
       "sites",
@@ -154,6 +154,13 @@ const CreateTrialStep2Form = () => {
       ],
       false
     );
+  };
+
+  //------------------ remove site ----------------
+  const removeSite = (index: number) => {
+    const updatedSites = [...formik.values.sites];
+    updatedSites.splice(index, 1);
+    formik.setFieldValue("sites", updatedSites, false);
   };
 
   //--------------------------------------------------Return---------------------------------------------
@@ -174,40 +181,32 @@ const CreateTrialStep2Form = () => {
           }`}
         >
           <InputField
-            label={l("register.step1.form.location.label") || "Location"}
+            label="Location"
             name="location"
             type="text"
-            placeholder={
-              l("register.step1.form.location.placeholder") ||
-              "e.g. Copenhagen University"
-            }
+            placeholder="e.g. Copenhagen University"
             formik={formik}
             siteIndex={index}
           />
           <InputField
-            label={l("register.step1.form.address.label") || "Address"}
+            label="Address"
             name="address"
             type="text"
-            placeholder={
-              l("register.step1.form.address.placeholder") || "e.g. Street 1"
-            }
+            placeholder="e.g. Street 1"
             formik={formik}
             siteIndex={index}
           />
           <InputField
-            label={l("register.step1.form.zipCode.label") || "Zip code"}
+            label="Zip code"
             name="zipCode"
             type="text"
-            placeholder={
-              l("register.step1.form.zipCode.placeholder") || "Zip code"
-            }
+            placeholder="Zip code"
             formik={formik}
             siteIndex={index}
           />
           <div className="flex flex-col">
             <label htmlFor={`country-${index}`} className="mb-2">
-              {l("register.step3.form.country.label") || "Country"}
-              <span className="ml-1">*</span>
+              Country<span className="ml-1">*</span>
             </label>
             <CountryDropdown
               country={formik.values.sites[index].country}
@@ -225,12 +224,22 @@ const CreateTrialStep2Form = () => {
                 )?.[index]?.country}
             </small>
           </div>
+          {index > 0 && (
+            <div className="flex justify-center xs:justify-start gap-4  ">
+              <CustomButton
+                title={l("settings.tab3.btn.text") || "Remove Trial"}
+                containerStyles="bg-bgColor-red rounded-lg"
+                textStyles="text-white"
+                handleClick={() => removeSite(index)}
+              />
+            </div>
+          )}
         </div>
       ))}
 
-      <div className="flex justify-center xs:justify-start gap-4">
+      <div className="flex justify-center xs:justify-end gap-4 xl:w-1/2">
         <CustomButton
-          title={l("register.step1.form.cta.btn") || "+ Add another site"}
+          title="+ Add another site"
           containerStyles="rounded-lg bg-secondary-50 hover1"
           handleClick={addSite}
         />
@@ -238,7 +247,7 @@ const CreateTrialStep2Form = () => {
 
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
-          title={l("register.step1.form.cta.btn") || "Next"}
+          title="Next"
           containerStyles="rounded-lg gradient-green1 hover1 mt-4"
           btnType="submit"
         />
