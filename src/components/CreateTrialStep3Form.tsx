@@ -226,7 +226,6 @@ const CreateTrialStep3Form = () => {
           <div className="flex flex-col gap-2 xl:w-1/2">
             <label htmlFor="ageMax">
               {l("register.step3.form.ageMax.label") || "Max. Age"}
-              <span className="ml-1">*</span>
             </label>
             <input
               type="text"
@@ -249,6 +248,8 @@ const CreateTrialStep3Form = () => {
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"
+          disabledContainerStyles="rounded-lg bg-gray-300"
+          disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>

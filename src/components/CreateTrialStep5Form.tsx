@@ -28,23 +28,27 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
-  const getCompensationList = (values: {drivingCompensation: boolean, monetaryCompensation: boolean, otherCompensation: string}) => {
+  const getCompensationList = (values: {
+    drivingCompensation: boolean;
+    monetaryCompensation: boolean;
+    otherCompensation: string;
+  }) => {
     const compensation = [];
 
     if (values.drivingCompensation) {
       compensation.push("drivingCompensation");
     }
-    
+
     if (values.monetaryCompensation) {
       compensation.push("monetaryCompensation");
     }
-  
+
     if (values.otherCompensation) {
       compensation.push(values.otherCompensation);
     }
-    
+
     console.log(compensation);
-    
+
     return compensation;
   };
 
@@ -68,7 +72,7 @@ const CreateTrialStep5Form = () => {
       const compensation = getCompensationList({
         drivingCompensation: values["drivingCompensation"],
         monetaryCompensation: values["monetaryCompensation"],
-        otherCompensation: values["otherCompensation"]
+        otherCompensation: values["otherCompensation"],
       });
 
       console.log(compensation);
@@ -79,7 +83,7 @@ const CreateTrialStep5Form = () => {
             participantActivities: values["participantActivities"],
             expectedParticipants: values["expectedParticipants"],
             additionalInfo: values["additionalInfo"],
-            compensations: compensation
+            compensations: compensation,
           },
           {
             headers: {
@@ -87,7 +91,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        console.log(response)
+        console.log(response);
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
@@ -98,17 +102,30 @@ const CreateTrialStep5Form = () => {
     },
   });
 
-  //--------toggle textarea---------
+  //-------- toggle textarea ---------
   const [isOtherClicked, setIsOtherClicked] = useState(false);
   const toggleOtherCompensation = () => {
     setIsOtherClicked(!isOtherClicked);
   };
 
   function ChangeAdditionalInfoValue() {
-    const inputElement = document.getElementById("additionalInfo_txt") as HTMLInputElement | null;
-    const inputValue = inputElement?.value || "";  // Use empty string if null
+    const inputElement = document.getElementById(
+      "additionalInfo_txt"
+    ) as HTMLInputElement | null;
+    const inputValue = inputElement?.value || ""; 
     formik.setFieldValue("additionalInfo", inputValue);
   }
+
+  //-------- Quill ---------
+  const modules = {
+    toolbar: [
+      [{ 'header': '2' }, { 'header': '3' }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'align': [] }],
+      ['bold', 'italic', 'underline'],
+      ['link'],
+    ],
+  };
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -128,13 +145,17 @@ const CreateTrialStep5Form = () => {
           >
             Describe participant activities:
           </label>
-          <ReactQuill
-            value={formik.values.participantActivities}
-            onChange={(value) =>
-              formik.setFieldValue("participantActivities", value)
-            }
-            placeholder="Outline participant activities"
-          />
+          <div className="h-[200px] mb-16">
+            <ReactQuill
+              value={formik.values.participantActivities}
+              onChange={(value) =>
+                formik.setFieldValue("participantActivities", value)
+              }
+              placeholder="Outline participant activities"
+              className="h-full"
+              modules={modules}
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-6 xl:flex-row">
@@ -178,9 +199,7 @@ const CreateTrialStep5Form = () => {
               name="additionalInfo"
               type="text"
               value={formik.values.additionalInfo}
-              onChange={() =>
-                ChangeAdditionalInfoValue()
-              }
+              onChange={() => ChangeAdditionalInfoValue()}
               placeholder="Briefly describe additional information"
               className="register_input custom-border"
             />
@@ -278,12 +297,12 @@ const CreateTrialStep5Form = () => {
         </div>
       </div>
 
-      
-
       <div className="flex justify-center xs:justify-end gap-4">
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1 mt-4"
+          disabledContainerStyles="rounded-lg bg-gray-300"
+          disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>
