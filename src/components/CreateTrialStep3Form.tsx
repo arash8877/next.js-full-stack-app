@@ -35,7 +35,7 @@ const CreateTrialStep3Form = () => {
           "Deadline is required!"
       )
       .max(
-        Yup.ref("endDate"),
+        Yup.ref("startDate"),
         "Deadline should not be later than End Study Date"
       ),
     ageMin: Yup.number()
@@ -44,11 +44,12 @@ const CreateTrialStep3Form = () => {
           "Age is required!"
       )
       .min(18, "Minimum age should be 18 years or older"),
-    ageMax: Yup.number().min(
-      Yup.ref("ageMin"),
-      "Maximum age should be greater than or equal to minimum age"
-    )
-    .max(120, "Maximum age should be less than or equal to 120 years"),
+    ageMax: Yup.number()
+      .min(
+        Yup.ref("ageMin"),
+        "Maximum age should be greater than or equal to minimum age"
+      )
+      .max(120, "Maximum age should be less than or equal to 120 years"),
     gender: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Gender is required!"
@@ -79,7 +80,7 @@ const CreateTrialStep3Form = () => {
             submissionDeadline: values["deadline"],
             ageMin: values["ageMin"],
             ageMax: values["ageMax"],
-            gender: values["gender"]
+            gender: values["gender"],
           },
           {
             headers: {
@@ -87,7 +88,7 @@ const CreateTrialStep3Form = () => {
             },
           }
         );
-        console.log(response)
+        console.log(response);
         router.push("/create-trial/step4");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -123,6 +124,7 @@ const CreateTrialStep3Form = () => {
               value={formik.values.startDate}
               onChange={(date) => formik.setFieldValue("startDate", date)}
               onBlur={formik.handleBlur("startDate")}
+              minDate={new Date()}
             />
             <small className="text-red-600">
               {formik.touched.startDate && formik.errors.startDate}
@@ -138,6 +140,11 @@ const CreateTrialStep3Form = () => {
               value={formik.values.endDate}
               onChange={(date) => formik.setFieldValue("endDate", date)}
               onBlur={formik.handleBlur("endDate")}
+              minDate={
+                formik.values.startDate
+                  ? new Date(formik.values.startDate)
+                  : undefined
+              }
             />
             <small className="text-red-600">
               {formik.touched.endDate && formik.errors.endDate}
@@ -155,6 +162,15 @@ const CreateTrialStep3Form = () => {
               value={formik.values.deadline}
               onChange={(date) => formik.setFieldValue("deadline", date)}
               onBlur={formik.handleBlur("deadline")}
+              maxDate={
+                formik.values.startDate
+                  ? new Date(
+                      new Date(formik.values.startDate).setDate(
+                        new Date(formik.values.startDate).getDate() - 1
+                      )
+                    )
+                  : undefined
+              }
             />
             <small className="text-red-600">
               {formik.touched.deadline && formik.errors.deadline}
