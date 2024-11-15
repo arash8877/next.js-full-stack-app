@@ -5,6 +5,8 @@
  */
 const nextConfig = {
     /* config options here */
+    reactStrictMode: true,
+    distDir: 'build',
     output: "standalone",
     images: {
         remotePatterns: [

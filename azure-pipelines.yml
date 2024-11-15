@@ -1,85 +1,70 @@
-# Docker
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
-  - staging
-  - main
-  - test
+  branches:
+    include:
+      - main
+      - test
 
-resources:
-  - repo: self
+pool:
+  vmImage: 'ubuntu-latest'
 
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   isTest: $[eq(variables['Build.SourceBranch'], 'refs/heads/test')]
-  appName: 'web-trialsync-sponsor-platform-prod'
-  azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
-  ResourceGroupName: 'eun-dev-trialsync-prod-rg'
-  testResourceGroupName: 'eun-dev-trialsync-test-rg'
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'e99afaf7-8086-450d-b3c6-f5c7046d7615'
-  imageRepository: 'trialsync-sponsor-platform'
-  containerRegistry: 'trialsynccontainerregistry.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/docker/production/Dockerfile'
-  test-dockerfilePath: '$(Build.SourcesDirectory)/docker/development/Dockerfile'
+  TEST_WEBAPP_NAME: 'web-trialsync-sponsor-platform-test'
+  PROD_WEBAPP_NAME: 'web-trialsync-sponsor-platform-prod'
+  ARTIFACT_FOLDER: 'sponsor-platform'
+  NODE_VERSION: '20'                  # Specify the Node.js version
 
-  tag: '$(Build.BuildId)'
+steps:
+  - task: UseNode@1
+    inputs:
+      version: $(NODE_VERSION)
+    displayName: 'Set Node.js version'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  - script: |
+      cp $(System.DefaultWorkingDirectory)/production-environment.sample $(System.DefaultWorkingDirectory)/.env.production
+    displayName: 'Set up production environment variables'
+    condition: eq(variables.isMain, true)
+    
+  - script: |
+      cp $(System.DefaultWorkingDirectory)/development-environment.sample $(System.DefaultWorkingDirectory)/.env.production
+    displayName: 'Set up development environment variables'
+    condition: eq(variables.isTest, true)
 
-stages:
-  - stage: Build
-    displayName: Build and push stage
-    jobs:
-      - job: Build
-        displayName: Build
-        pool:
-          vmImage: $(vmImageName)
-        steps:
-          - task: Docker@2
-            condition: eq(variables.isTest, false)
-            displayName: Build and push an image to container registry
-            inputs:
-              command: buildAndPush
-              repository: $(imageRepository)
-              dockerfile: $(dockerfilePath)
-              containerRegistry: $(dockerRegistryServiceConnection)
-              buildContext: .
-              tags: |
-                $(tag)
-          - task: Docker@2
-            condition: eq(variables.isTest, true)
-            displayName: Build and push an image to container registry
-            inputs:
-              command: buildAndPush
-              repository: $(imageRepository)
-              dockerfile: $(test-dockerfilePath)
-              containerRegistry: $(dockerRegistryServiceConnection)
-              buildContext: .
-              tags: |
-                $(tag)
-          - task: AzureRmWebAppDeployment@4
-            condition: and(succeeded(), eq(variables.isTest, false))
-            displayName: 'Azure Web App Deploy'
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
-              appType: 'webAppContainer'
-              WebAppName: 'web-trialsync-sponsor-plaform-prod'
-              DockerNamespace: '$(containerRegistry)'
-              DockerRepository: '$(imageRepository)'
-              DockerImageTag: '$(tag)'
-          
-          - task: AzureRmWebAppDeployment@4
-            condition: and(succeeded(), eq(variables.isTest, true))
-            displayName: 'Azure Web App Deploy'
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
-              appType: 'webAppContainer'
-              WebAppName: 'web-trialsync-sponsor-platform-test'
-              DockerNamespace: '$(containerRegistry)'
-              DockerRepository: '$(imageRepository)'
-              DockerImageTag: '$(tag)'
+  - script: |
+      npm install
+      npm run build
+      mv ./build/static ./build/standalone/build
+      mv ./public ./build/standalone
+    displayName: 'Install dependencies and build'
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: 'build/standalone'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'
+      replaceExistingArchive: true
+    displayName: 'Archive build output'
+
+  - task: AzureRmWebAppDeployment@4
+    condition: eq(variables.isMain, true)
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
+      appType: 'webAppLinux'
+      WebAppName: $(PROD_WEBAPP_NAME)
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'
+      RuntimeStack: 'NODE|20-lts'
+      StartupCommand: 'node server.js'
+  
+  - task: AzureRmWebAppDeployment@4
+    condition: eq(variables.isTest, true)
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
+      appType: 'webAppLinux'
+      WebAppName: $(TEST_WEBAPP_NAME)
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'
+      RuntimeStack: 'NODE|20-lts'
+      StartupCommand: 'node server.js'
