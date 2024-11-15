@@ -25,6 +25,7 @@ const CreateTrialStep5Form = () => {
         l("register.step3.form.country.validation.required") ||
           "Expected number of participants is required!"
       )
+      .integer("Expected number of participants must be an integer")
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
@@ -112,18 +113,18 @@ const CreateTrialStep5Form = () => {
     const inputElement = document.getElementById(
       "additionalInfo_txt"
     ) as HTMLInputElement | null;
-    const inputValue = inputElement?.value || ""; 
+    const inputValue = inputElement?.value || "";
     formik.setFieldValue("additionalInfo", inputValue);
   }
 
   //-------- Quill ---------
   const modules = {
     toolbar: [
-      [{ 'header': '2' }, { 'header': '3' }],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'align': [] }],
-      ['bold', 'italic', 'underline'],
-      ['link'],
+      [{ header: "2" }, { header: "3" }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["bold", "italic", "underline"],
+      ["link"],
     ],
   };
 

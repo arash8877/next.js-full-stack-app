@@ -12,6 +12,7 @@ import {
   CreateTrialStep1FormProps,
   CreateTrialCompanyInfoProps,
 } from "@/types/index";
+import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -67,6 +68,7 @@ const CreateTrialStep1Form = () => {
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
   const jwtInfo = useJWTUserInfo();
+  const { formData, setFormData } = useCreateTrialStore();
 
   const formSchema = Yup.object({
     title: Yup.string()
@@ -103,9 +105,9 @@ const CreateTrialStep1Form = () => {
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      shortDescription: "",
-      fullDescription: "",
+      title: formData?.step1Data?.title || "",
+      shortDescription: formData?.step1Data?.shortDescription || "",
+      fullDescription: formData?.step1Data?.fullDescription || "",
     },
     validationSchema: formSchema,
 
@@ -114,22 +116,17 @@ const CreateTrialStep1Form = () => {
     onSubmit: async (values) => {
       console.log("Title", values["title"]);
       const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
-      // const sponsorId = localStorage.getItem("sponsorId");
       // eslint-disable-next-line
       const sponsorId = 11;
       try {
-        // const payload = {
-        //   sponsorId,
-        //   title: values.title,
-        //   shortDescription: values.shortDescription,
-        //   fullDescription: values.fullDescription ,
-        // };
         const payload = {
           sponsorId: jwtInfo.jwtInfo?.sponsor_id,
           title: values["title"],
           shortDescription: values["shortDescription"],
           fullDescription: values["fullDescription"],
         };
+        setFormData({ step1Data: values });
+
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/v1/trials`, payload, {
           headers: {
             Authorization: `Bearer ${token}`,

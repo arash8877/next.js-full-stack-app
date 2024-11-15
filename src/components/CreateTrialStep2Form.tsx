@@ -14,6 +14,7 @@ import {
   CreateTrialStep2FormValues,
   SiteFormValues,
 } from "@/types/index";
+import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
 
 //--------- Reusable Input Component ---------
@@ -64,6 +65,7 @@ const InputField: React.FC<
 const CreateTrialStep2Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const { formData, setFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
@@ -95,13 +97,8 @@ const CreateTrialStep2Form = () => {
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep2FormValues>({
     initialValues: {
-      sites: [
-        {
-          location: "",
-          address: "",
-          zipCode: "",
-          country: "Denmark",
-        },
+      sites: formData?.step2Data?.sites || [
+        { location: "", address: "", zipCode: "", country: "" },
       ],
     },
     validationSchema: formSchema,
@@ -130,6 +127,7 @@ const CreateTrialStep2Form = () => {
           }
         );
         console.log("response in step2:", response);
+        setFormData({ step2Data: { sites: values.sites } });
         router.push("/create-trial/step3");
       } catch (error) {
         if (error instanceof AxiosError) {

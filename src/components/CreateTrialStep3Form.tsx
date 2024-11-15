@@ -52,6 +52,7 @@ const CreateTrialStep3Form = () => {
         Yup.ref("ageMin"),
         "Maximum age should be greater than or equal to minimum age"
       )
+      .integer("Minimum age must be an integer")
       .max(120, "Maximum age should be less than or equal to 120 years"),
     gender: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
