@@ -39,11 +39,14 @@ const CreateTrialStep3Form = () => {
         "Deadline should not be later than End Study Date"
       ),
     ageMin: Yup.number()
+      .typeError("Minimum age must be a valid number")
       .required(
         l("register.step1.form.country.validation.required") ||
           "Age is required!"
       )
-      .min(18, "Minimum age should be 18 years or older"),
+      .integer("Minimum age must be an integer")
+      .min(18, "Minimum age should be 18 years or older")
+      .max(119, "Minimum age should be less than 120 years"),
     ageMax: Yup.number()
       .min(
         Yup.ref("ageMin"),
@@ -205,7 +208,13 @@ const CreateTrialStep3Form = () => {
                 l("register.step3.form.ageMin.placeholder") || "e.g. 18 years"
               }
               value={formik.values.ageMin}
-              onChange={formik.handleChange("ageMin")}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d*$/.test(value)) {
+                  // Only allow digits
+                  formik.setFieldValue("ageMin", value);
+                }
+              }}
               onBlur={formik.handleBlur("ageMin")}
               className="register_input focus:border-blue-500"
             />
