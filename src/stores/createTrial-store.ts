@@ -18,8 +18,8 @@ interface FormData {
     startDate: string;
     endDate: string;
     deadline: string;
-    ageMin: number;
-    ageMax?: number;
+    ageMin: string;
+    ageMax?: string;
     gender: string;
   };
   step4Data: {
@@ -30,12 +30,12 @@ interface FormData {
     medicalCategories: [];
   };
   step5Data: {
-   participantActivities: string;
-   expectedBenefits: string;
-   additionalInfo: string;
-   drivingCompensation: boolean;
-   monetaryCompensation: boolean;
-   otherCompensation: string;
+    participantActivities: string;
+    expectedBenefits: string;
+    additionalInfo: string;
+    drivingCompensation: boolean;
+    monetaryCompensation: boolean;
+    otherCompensation: string;
   };
 }
 
@@ -48,21 +48,67 @@ interface FormStore {
 const useCreateTrialStore = create<FormStore>((set) => ({
   formData: {
     step1Data: { title: "", shortDescription: "", fullDescription: "" },
-    step2Data: { sites: [{ location: "", address: "", zipCode: "", country: "" }] },
-    step3Data: { startDate: "", endDate: "", deadline: "", ageMin: 0, gender: "" },
-    step4Data: { inclusionDisease: [], inclusionRequirements: "", exclusionDisease: [], exclusionRequirements: "", medicalCategories: [] },
-    step5Data: { participantActivities: "", expectedBenefits: "", additionalInfo: "", drivingCompensation: false, monetaryCompensation: false, otherCompensation: "" },
-  },
-  setFormData: (data) => set((state) => ({ formData: { ...state.formData, ...data } })),
-  resetFormData: () => set({
-    formData: {
-      step1Data: { title: "", shortDescription: "", fullDescription: "" },
-      step2Data: { sites: [{ location: "", address: "", zipCode: "", country: "" }] },
-      step3Data: { startDate: "", endDate: "", deadline: "", ageMin: 0, gender: "" },
-      step4Data: { inclusionDisease: [], inclusionRequirements: "", exclusionDisease: [], exclusionRequirements: "", medicalCategories: [] },
-      step5Data: { participantActivities: "", expectedBenefits: "", additionalInfo: "", drivingCompensation: false, monetaryCompensation: false, otherCompensation: "" },
+    step2Data: {
+      sites: [{ location: "", address: "", zipCode: "", country: "" }],
     },
-  }),
+    step3Data: {
+      startDate: "",
+      endDate: "",
+      deadline: "",
+      ageMin: "",
+      ageMax: "",
+      gender: "",
+    },
+    step4Data: {
+      inclusionDisease: [],
+      inclusionRequirements: "",
+      exclusionDisease: [],
+      exclusionRequirements: "",
+      medicalCategories: [],
+    },
+    step5Data: {
+      participantActivities: "",
+      expectedBenefits: "",
+      additionalInfo: "",
+      drivingCompensation: false,
+      monetaryCompensation: false,
+      otherCompensation: "",
+    },
+  },
+  setFormData: (data) =>
+    set((state) => ({ formData: { ...state.formData, ...data } })),
+  resetFormData: () =>
+    set({
+      formData: {
+        step1Data: { title: "", shortDescription: "", fullDescription: "" },
+        step2Data: {
+          sites: [{ location: "", address: "", zipCode: "", country: "" }],
+        },
+        step3Data: {
+          startDate: "",
+          endDate: "",
+          deadline: "",
+          ageMin: "",
+          ageMax: "",
+          gender: "",
+        },
+        step4Data: {
+          inclusionDisease: [],
+          inclusionRequirements: "",
+          exclusionDisease: [],
+          exclusionRequirements: "",
+          medicalCategories: [],
+        },
+        step5Data: {
+          participantActivities: "",
+          expectedBenefits: "",
+          additionalInfo: "",
+          drivingCompensation: false,
+          monetaryCompensation: false,
+          otherCompensation: "",
+        },
+      },
+    }),
 }));
 
 export default useCreateTrialStore;

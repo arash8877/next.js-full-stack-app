@@ -8,12 +8,14 @@ import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import GenderDropdown from "./GenderDropdown";
 import axios, { AxiosError } from "axios";
+import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const { formData, setFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
@@ -63,12 +65,12 @@ const CreateTrialStep3Form = () => {
   //-------------formik----------------
   const formik = useFormik({
     initialValues: {
-      startDate: "",
-      endDate: "",
-      deadline: "",
-      ageMin: "",
-      ageMax: "",
-      gender: "",
+      startDate: formData.step3Data.startDate || "",
+      endDate: formData.step3Data.endDate || "",
+      deadline: formData.step3Data.deadline || "",
+      ageMin: formData.step3Data.ageMin || "",
+      ageMax: formData.step3Data.ageMax || "",
+      gender: formData.step3Data.gender || "",
     },
     //-----onSubmit-------
     // eslint-disable-next-line
@@ -77,7 +79,7 @@ const CreateTrialStep3Form = () => {
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //post request
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //PATCH request
           {
             startDate: values["startDate"],
             endDate: values["endDate"],
@@ -93,6 +95,18 @@ const CreateTrialStep3Form = () => {
           }
         );
         console.log(response);
+        setFormData({
+          ...formData,
+          step3Data: {
+            ...formData.step3Data, 
+            startDate: values.startDate,
+            endDate: values.endDate,
+            deadline: values.deadline,
+            ageMin: values.ageMin,
+            ageMax: values.ageMax,
+            gender: values.gender,
+          },
+        });
         router.push("/create-trial/step4");
       } catch (error) {
         if (error instanceof AxiosError) {

@@ -202,8 +202,8 @@ export interface iTrialInfoProps {
   // company: iCompany;
   trialSites: iTrialSite[];
   media: iMediaProps;
-  ageMin: number;
-  ageMax: number;
+  ageMin: string;
+  ageMax: string;
   gender: string;
   approvedOn: string;
   startDate: string;
