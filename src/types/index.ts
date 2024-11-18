@@ -53,7 +53,7 @@ export interface sponsorContact {
 }
 
 export interface CompanyInfoProps {
-  name: string;
+  sponsorName: string;
   vatNumber: string;
   address: string;
   zipCode: string;
@@ -215,11 +215,12 @@ export interface iTrialInfoProps {
   applicantsNumber: number;
   recruitingStatus: string;
   expectedParticipants: number;
-  inclusionDiseases?: string[]; // Added this
-  inclusionRequirements?: string; // Added this
-  exclusionDiseases?: string[]; // Added this
-  exclusionRequirements?: string; // Added this
+  inclusionDiseases?: string[]; 
+  inclusionRequirements?: string; 
+  exclusionDiseases?: string[]; 
+  exclusionRequirements?: string; 
   medicalCategories?: iTrialCategoryProps[];
+  selectedMedicalCategories?: iCategoryProps[];
 }
 
 export interface iTrialApplicationsInfo {

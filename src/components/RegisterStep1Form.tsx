@@ -110,7 +110,7 @@ const RegisterStep1Form = () => {
   //-------------formik----------------
   const formik = useFormik({
     initialValues: {
-      name: "",
+      sponsorName: "",
       vatNumber: "",
       address: "",
       zipCode: "",
@@ -130,11 +130,14 @@ const RegisterStep1Form = () => {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/sponsor`, //post request
           {
-            name: values.name,
+            sponsorName: values.sponsorName,
             vatNumber: values.vatNumber,
             address: values.address,
             zipCode: values.zipCode,
             country: country,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
           }
         );
         console.log("step1 response:", response);
@@ -157,7 +160,7 @@ const RegisterStep1Form = () => {
       </div>
       <InputField
         label={l("register.step1.form.sponsorName.label") || "Company Name"}
-        name="name"
+        name="sponsorName"
         type="text"
         placeholder={
           l("register.step1.form.sponsorName.placeholder") || "Company-name"

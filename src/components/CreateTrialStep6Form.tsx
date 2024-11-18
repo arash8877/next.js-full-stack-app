@@ -15,11 +15,10 @@ const CreateTrialStep6Form = () => {
   const { trialData } = useGetSingleTrialInfo(trialId || "");
   const { l } = useLanguageStore();
 
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTrialId = localStorage.getItem("currentTrialEditId");
-      setTrialId(storedTrialId); 
+      setTrialId(storedTrialId);
     }
   }, []);
 
@@ -95,7 +94,7 @@ const CreateTrialStep6Form = () => {
           </div>
           <div className="text-sm mb-2">
             <strong>Full Description:</strong>
-            <div
+            <p
               dangerouslySetInnerHTML={{
                 __html: trialData?.fullDescription || "N/A",
               }}
@@ -104,7 +103,7 @@ const CreateTrialStep6Form = () => {
         </div>
 
         <div className="p-4 border rounded-md mt-4">
-          <h3 className="text-lg font-semibold mb-2">Trial Sites</h3>
+          {/* <h3 className="text-lg font-semibold mb-2">Trial Sites</h3> */}
           {trialData?.trialSites && trialData.trialSites.length > 0 ? (
             trialData.trialSites.map((site, index) => (
               <div key={index} className="mb-4 p-2">
@@ -151,12 +150,6 @@ const CreateTrialStep6Form = () => {
           </div>
         </div>
 
-
-
-
-
-
-
         <div className="p-4 border rounded-md mt-4">
           <h3 className="text-lg font-semibold mb-2">Trial Criteria</h3>
 
@@ -202,28 +195,21 @@ const CreateTrialStep6Form = () => {
             {trialData?.exclusionRequirements || "N/A"}
           </div>
 
-          {/* <div className="mb-4">
+          <div className="mb-4">
             <strong>Medical Categories:</strong>
-            {trialData?.medicalCategories &&
-            trialData.medicalCategories.length > 0 ? (
+            {trialData?.selectedMedicalCategories?.length ? (
               <ul className="list-disc pl-5">
-                {trialData.medicalCategories.map((category, index) => (
+                {trialData.selectedMedicalCategories.map((category, index) => (
                   <li key={index} className="text-sm">
-                    {category.medicalCategory || "N/A"}
+                    {category.name || "N/A"}
                   </li>
                 ))}
-                
               </ul>
             ) : (
               <p className="text-sm">No medical categories specified.</p>
             )}
-          </div> */}
+          </div>
         </div>
-
-
-
-
-        
       </div>
 
       <div className="flex justify-center xs:justify-end gap-4">

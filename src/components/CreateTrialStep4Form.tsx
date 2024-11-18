@@ -78,7 +78,7 @@ const CreateTrialStep4Form = () => {
             },
           }
         );
-        console.log("valuessss", values);
+        console.log("values in step4", values);
         setFormData({
           ...formData,
           step4Data: {

@@ -1,6 +1,6 @@
-// import { iCategoryProps } from "@/types";
 import { create } from "zustand";
-
+import { merge } from "lodash";
+//import { persist, createJSONStorage } from "zustand/middleware";
 interface FormData {
   step1Data: {
     title: string;
@@ -78,8 +78,12 @@ const useCreateTrialStore = create<FormStore>((set) => ({
       otherCompensationText: "",
     },
   },
+
   setFormData: (data) =>
-    set((state) => ({ formData: { ...state.formData, ...data } })),
+    set((state) => ({
+      formData: merge({}, state.formData, data),
+    })),
+
   resetFormData: () =>
     set({
       formData: {
@@ -114,5 +118,31 @@ const useCreateTrialStore = create<FormStore>((set) => ({
       },
     }),
 }));
+
+// const useCreateTrialStore = create<FormStore>()(
+//   persist(
+//     (set) => ({
+//       formData: {
+//         step1Data: { title: "", shortDescription: "", fullDescription: "" },
+//       },
+
+//       setFormData: (data) =>
+//         set((state) => ({
+//           formData: { ...state.formData, ...data },
+//         })),
+
+//       resetFormData: () =>
+//         set({
+//           formData: {
+//             step1Data: { title: "", shortDescription: "", fullDescription: "" },
+//           },
+//         }),
+//     }),
+//     {
+//       name: "create-trial-store-step1",
+//       storage: createJSONStorage(() => localStorage),
+//     }
+//   )
+// );
 
 export default useCreateTrialStore;

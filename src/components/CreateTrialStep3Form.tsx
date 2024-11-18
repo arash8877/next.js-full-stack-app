@@ -98,7 +98,7 @@ const CreateTrialStep3Form = () => {
         setFormData({
           ...formData,
           step3Data: {
-            ...formData.step3Data, 
+            ...formData.step3Data,
             startDate: values.startDate,
             endDate: values.endDate,
             deadline: values.deadline,
@@ -160,7 +160,7 @@ const CreateTrialStep3Form = () => {
               onBlur={formik.handleBlur("endDate")}
               minDate={
                 formik.values.startDate
-                  ? new Date(formik.values.startDate)
+                  ? new Date(formik.values.startDate) // Set minDate to start date for end date
                   : undefined
               }
             />
