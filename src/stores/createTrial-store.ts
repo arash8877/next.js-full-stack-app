@@ -1,3 +1,4 @@
+// import { iCategoryProps } from "@/types";
 import { create } from "zustand";
 
 interface FormData {
@@ -23,11 +24,11 @@ interface FormData {
     gender: string;
   };
   step4Data: {
-    inclusionDisease: [];
+    inclusionDisease: string[];
     inclusionRequirements: string;
-    exclusionDisease: [];
+    exclusionDisease: string[];
     exclusionRequirements: string;
-    medicalCategories: [];
+    medicalCategories: number[];
   };
   step5Data: {
     participantActivities: string;

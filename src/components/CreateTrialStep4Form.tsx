@@ -12,14 +12,16 @@ import { iCategoryProps } from "@/types/index";
 import { CreateTrialStep4FormProps } from "@/types/index";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 import axios, { AxiosError } from "axios";
+import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep4Form = () => {
+  const { formData, setFormData } = useCreateTrialStore();
   const { categoriesData, categoriesError, categoriesIsLoading } =
     useGetAllMedicalCategories();
   const [selectedCategoriesId, setSelectedCategoriesId] = useState<number[]>(
-    []
+    formData.step4Data.medicalCategories || []
   );
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
   const router = useRouter();
@@ -29,14 +31,29 @@ const CreateTrialStep4Form = () => {
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({});
 
+  //------get medical category id from selected categories-------
+  // const categoryIds = selectedCategories.map(
+  //   (category) => category.medicalCategoryId
+  // );
+  // const medicalCategories = selectedCategories.map((category) => ({
+  //   medicalCategoryId: category.medicalCategoryId,
+  //   optionalText: "string", // Replace "string" with actual optional text if available
+  // }));
+
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      inclusionDisease: [],
-      inclusionRequirements: "",
-      exclusionDisease: [],
-      exclusionRequirements: "",
-      selectedMedicalCategories: [],
+      inclusionDisease: formData.step4Data.inclusionDisease || [],
+      inclusionRequirements: formData.step4Data.inclusionRequirements || "",
+      exclusionDisease: formData.step4Data.exclusionDisease || [],
+      exclusionRequirements: formData.step4Data.exclusionRequirements || "",
+      selectedMedicalCategories: categories.filter(
+        (category) =>
+          category.medicalCategoryId !== undefined &&
+          formData.step4Data.medicalCategories.includes(
+            category.medicalCategoryId
+          )
+      ),
     },
     validationSchema: formSchema,
     //---------onSubmit--------------
@@ -45,6 +62,7 @@ const CreateTrialStep4Form = () => {
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, //post request
           {
@@ -60,7 +78,18 @@ const CreateTrialStep4Form = () => {
             },
           }
         );
-        console.log(response)
+        console.log("valuessss", values);
+        setFormData({
+          ...formData,
+          step4Data: {
+            ...formData.step4Data,
+            inclusionDisease: values.inclusionDisease,
+            inclusionRequirements: values.inclusionRequirements,
+            exclusionDisease: values.exclusionDisease,
+            exclusionRequirements: values.exclusionRequirements,
+            medicalCategories: selectedCategoriesId,
+          },
+        });
         router.push("/create-trial/step5");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -80,6 +109,7 @@ const CreateTrialStep4Form = () => {
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
     console.log("category clicked:", id);
+    console.log("selectedCategoriesId:", selectedCategoriesId);
     if (selectedCategoriesId.includes(id)) {
       setSelectedCategoriesId(
         selectedCategoriesId.filter((categoryId) => categoryId !== id)
@@ -166,8 +196,7 @@ const CreateTrialStep4Form = () => {
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full mt-8">
-          <label className="text-sm font-semibold">
-            Medical Categories:</label>
+          <label className="text-sm font-semibold">Medical Categories:</label>
           <div>
             {categories.map((category: iCategoryProps, index) => (
               <Tag

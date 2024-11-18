@@ -313,7 +313,7 @@ export interface CreateTrialStep4FormProps {
   inclusionRequirements: string;
   exclusionDisease: string[];
   exclusionRequirements: string;
-  selectedMedicalCategories:iCategoryProps[];
+  selectedMedicalCategories: iCategoryProps[];
 }
 
 export interface CreateTrialStep5FormProps {
