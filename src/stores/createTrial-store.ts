@@ -32,11 +32,12 @@ interface FormData {
   };
   step5Data: {
     participantActivities: string;
-    expectedBenefits: string;
+    expectedParticipants: number;
     additionalInfo: string;
     drivingCompensation: boolean;
     monetaryCompensation: boolean;
-    otherCompensation: string;
+    otherCompensation: boolean;
+    otherCompensationText?: string;
   };
 }
 
@@ -69,11 +70,12 @@ const useCreateTrialStore = create<FormStore>((set) => ({
     },
     step5Data: {
       participantActivities: "",
-      expectedBenefits: "",
+      expectedParticipants: 0,
       additionalInfo: "",
       drivingCompensation: false,
       monetaryCompensation: false,
-      otherCompensation: "",
+      otherCompensation: false,
+      otherCompensationText: "",
     },
   },
   setFormData: (data) =>
@@ -102,11 +104,12 @@ const useCreateTrialStore = create<FormStore>((set) => ({
         },
         step5Data: {
           participantActivities: "",
-          expectedBenefits: "",
+          expectedParticipants: 0,
           additionalInfo: "",
           drivingCompensation: false,
           monetaryCompensation: false,
-          otherCompensation: "",
+          otherCompensation: false,
+          otherCompensationText: "",
         },
       },
     }),

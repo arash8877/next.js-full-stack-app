@@ -318,11 +318,12 @@ export interface CreateTrialStep4FormProps {
 
 export interface CreateTrialStep5FormProps {
   participantActivities: string;  
-  expectedParticipants: number | null;
+  expectedParticipants: number;
   additionalInfo: string;
   drivingCompensation: boolean; 
   monetaryCompensation: boolean
-  otherCompensation: string;
+  otherCompensation: boolean;
+  otherCompensationText: string;
 }
 
 //------------------------------ Employees ----------------------------
