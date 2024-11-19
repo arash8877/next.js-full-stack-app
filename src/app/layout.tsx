@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Outfit } from "next/font/google";
+import ToastProvider from "@/lib/Toastify";
 
 //---- fonts ----
 const outfit = Outfit({
@@ -33,11 +34,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${outfit.variable} ${satoshi.variable}`}
-    >
-      <body>{children}</body>
+    <html lang="en" className={`${outfit.variable} ${satoshi.variable}`}>
+      <body>
+        <ToastProvider>{children}</ToastProvider>
+      </body>
     </html>
   );
 }
