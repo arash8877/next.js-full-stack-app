@@ -47,7 +47,7 @@ const CreateTrialStep5Form = () => {
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
       participantActivities: formData.step5Data?.participantActivities || "",
-      expectedParticipants: formData.step5Data?.expectedParticipants || 0,
+      expectedParticipants: formData.step5Data?.expectedParticipants || "",
       additionalInfo: formData.step5Data.additionalInfo || "",
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
