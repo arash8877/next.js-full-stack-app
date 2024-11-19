@@ -105,7 +105,7 @@ iTrialCardProps) {
           />
         </Link>
         <div className="flex flex-col">
-          <Link href={`/trials`}>
+          <Link href={`/trials/${trialId}`}>
             <CustomButton
               title={l("trialcard.cta.text") || "View Trial"}
               containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"

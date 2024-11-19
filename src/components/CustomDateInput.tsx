@@ -9,10 +9,12 @@ interface CustomDateInputProps {
   onChange: (date: string | null) => void; 
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   borderColor?: string;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 //---------------------------------- main function ------------------------------
-const CustomDateInput: React.FC<CustomDateInputProps> = ({ value, onChange, onBlur, borderColor }) => {
+const CustomDateInput: React.FC<CustomDateInputProps> = ({ value, onChange, onBlur, borderColor, minDate, maxDate }) => {
   const dateValue = value ? new Date(value) : null;
   const { l } = useLanguageStore(); 
 
@@ -39,6 +41,8 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({ value, onChange, onBl
       showYearDropdown
       showMonthDropdown
       dropdownMode="select"
+      minDate={minDate}
+      maxDate={maxDate}
     />
   );
 };

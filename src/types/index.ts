@@ -202,8 +202,8 @@ export interface iTrialInfoProps {
   // company: iCompany;
   trialSites: iTrialSite[];
   media: iMediaProps;
-  ageMin: number;
-  ageMax: number;
+  ageMin: string;
+  ageMax: string;
   gender: string;
   approvedOn: string;
   startDate: string;
@@ -313,16 +313,17 @@ export interface CreateTrialStep4FormProps {
   inclusionRequirements: string;
   exclusionDisease: string[];
   exclusionRequirements: string;
-  selectedMedicalCategories:iCategoryProps[];
+  selectedMedicalCategories: iCategoryProps[];
 }
 
 export interface CreateTrialStep5FormProps {
   participantActivities: string;  
-  expectedParticipants: number | null;
+  expectedParticipants: number;
   additionalInfo: string;
   drivingCompensation: boolean; 
   monetaryCompensation: boolean
-  otherCompensation: string;
+  otherCompensation: boolean;
+  otherCompensationText: string;
 }
 
 //------------------------------ Employees ----------------------------
