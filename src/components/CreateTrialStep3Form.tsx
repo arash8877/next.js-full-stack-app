@@ -8,12 +8,14 @@ import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import GenderDropdown from "./GenderDropdown";
 import axios, { AxiosError } from "axios";
+import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const { formData, setFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
@@ -35,20 +37,25 @@ const CreateTrialStep3Form = () => {
           "Deadline is required!"
       )
       .max(
-        Yup.ref("endDate"),
+        Yup.ref("startDate"),
         "Deadline should not be later than End Study Date"
       ),
     ageMin: Yup.number()
+      .typeError("Minimum age must be a valid number")
       .required(
         l("register.step1.form.country.validation.required") ||
           "Age is required!"
       )
-      .min(18, "Minimum age should be 18 years or older"),
-    ageMax: Yup.number().min(
-      Yup.ref("ageMin"),
-      "Maximum age should be greater than or equal to minimum age"
-    )
-    .max(120, "Maximum age should be less than or equal to 120 years"),
+      .integer("Minimum age must be an integer")
+      .min(18, "Minimum age should be 18 years or older")
+      .max(119, "Minimum age should be less than 120 years"),
+    ageMax: Yup.number()
+      .min(
+        Yup.ref("ageMin"),
+        "Maximum age should be greater than or equal to minimum age"
+      )
+      .integer("Minimum age must be an integer")
+      .max(120, "Maximum age should be less than or equal to 120 years"),
     gender: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Gender is required!"
@@ -58,12 +65,12 @@ const CreateTrialStep3Form = () => {
   //-------------formik----------------
   const formik = useFormik({
     initialValues: {
-      startDate: "",
-      endDate: "",
-      deadline: "",
-      ageMin: "",
-      ageMax: "",
-      gender: "",
+      startDate: formData.step3Data.startDate || "",
+      endDate: formData.step3Data.endDate || "",
+      deadline: formData.step3Data.deadline || "",
+      ageMin: formData.step3Data.ageMin || "",
+      ageMax: formData.step3Data.ageMax || "",
+      gender: formData.step3Data.gender || "",
     },
     //-----onSubmit-------
     // eslint-disable-next-line
@@ -72,14 +79,14 @@ const CreateTrialStep3Form = () => {
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //post request
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //PATCH request
           {
             startDate: values["startDate"],
             endDate: values["endDate"],
             submissionDeadline: values["deadline"],
             ageMin: values["ageMin"],
             ageMax: values["ageMax"],
-            gender: values["gender"]
+            gender: values["gender"],
           },
           {
             headers: {
@@ -87,7 +94,19 @@ const CreateTrialStep3Form = () => {
             },
           }
         );
-        console.log(response)
+        console.log(response);
+        setFormData({
+          ...formData,
+          step3Data: {
+            ...formData.step3Data, 
+            startDate: values.startDate,
+            endDate: values.endDate,
+            deadline: values.deadline,
+            ageMin: values.ageMin,
+            ageMax: values.ageMax,
+            gender: values.gender,
+          },
+        });
         router.push("/create-trial/step4");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -123,6 +142,7 @@ const CreateTrialStep3Form = () => {
               value={formik.values.startDate}
               onChange={(date) => formik.setFieldValue("startDate", date)}
               onBlur={formik.handleBlur("startDate")}
+              minDate={new Date()}
             />
             <small className="text-red-600">
               {formik.touched.startDate && formik.errors.startDate}
@@ -138,6 +158,11 @@ const CreateTrialStep3Form = () => {
               value={formik.values.endDate}
               onChange={(date) => formik.setFieldValue("endDate", date)}
               onBlur={formik.handleBlur("endDate")}
+              minDate={
+                formik.values.startDate
+                  ? new Date(formik.values.startDate)
+                  : undefined
+              }
             />
             <small className="text-red-600">
               {formik.touched.endDate && formik.errors.endDate}
@@ -155,6 +180,15 @@ const CreateTrialStep3Form = () => {
               value={formik.values.deadline}
               onChange={(date) => formik.setFieldValue("deadline", date)}
               onBlur={formik.handleBlur("deadline")}
+              maxDate={
+                formik.values.startDate
+                  ? new Date(
+                      new Date(formik.values.startDate).setDate(
+                        new Date(formik.values.startDate).getDate() - 1
+                      )
+                    )
+                  : undefined
+              }
             />
             <small className="text-red-600">
               {formik.touched.deadline && formik.errors.deadline}
@@ -189,7 +223,13 @@ const CreateTrialStep3Form = () => {
                 l("register.step3.form.ageMin.placeholder") || "e.g. 18 years"
               }
               value={formik.values.ageMin}
-              onChange={formik.handleChange("ageMin")}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d*$/.test(value)) {
+                  // Only allow digits
+                  formik.setFieldValue("ageMin", value);
+                }
+              }}
               onBlur={formik.handleBlur("ageMin")}
               className="register_input focus:border-blue-500"
             />
@@ -201,7 +241,6 @@ const CreateTrialStep3Form = () => {
           <div className="flex flex-col gap-2 xl:w-1/2">
             <label htmlFor="ageMax">
               {l("register.step3.form.ageMax.label") || "Max. Age"}
-              <span className="ml-1">*</span>
             </label>
             <input
               type="text"
@@ -224,6 +263,8 @@ const CreateTrialStep3Form = () => {
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"
+          disabledContainerStyles="rounded-lg bg-gray-300"
+          disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>
