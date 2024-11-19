@@ -40,6 +40,13 @@ const CreateTrialStep4Form = () => {
   //   optionalText: "string", // Replace "string" with actual optional text if available
   // }));
 
+  const x = categories.filter(
+    (category) =>
+      category.medicalCategoryId !== undefined &&
+      formData.step4Data.medicalCategories.includes(category.medicalCategoryId)
+  );
+  console.log("categories", x);
+
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
@@ -55,6 +62,7 @@ const CreateTrialStep4Form = () => {
           )
       ),
     },
+
     validationSchema: formSchema,
     //---------onSubmit--------------
     // eslint-disable-next-line
@@ -63,22 +71,24 @@ const CreateTrialStep4Form = () => {
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         // eslint-disable-next-line
+        const payload = {
+          inclusionDiseases: values["inclusionDisease"],
+          inclusionRequirements: values["inclusionRequirements"],
+          exclusionDiseases: values["exclusionDisease"],
+          exclusionRequirements: values["exclusionRequirements"],
+          medicalCategories: selectedCategoriesId,
+        };
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, //post request
-          {
-            inclusionDiseases: values["inclusionDisease"],
-            inclusionRequirements: values["inclusionRequirements"],
-            exclusionDiseases: values["exclusionDisease"],
-            exclusionRequirements: values["exclusionRequirements"],
-            medicalCategories: selectedCategoriesId,
-          },
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("values in step4", values);
+        console.log("payloadin step4", payload);
+        console.log(response);
         setFormData({
           ...formData,
           step4Data: {

@@ -1,6 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useState,
+  forwardRef,
+  MutableRefObject,
+  useRef,
+  useEffect,
+} from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
@@ -9,9 +15,23 @@ import { CreateTrialStep5FormProps } from "@/types/index";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
-import dynamic from "next/dynamic";
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import ReactQuill, { ReactQuillProps } from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
+
+// QuillEditor Component using forwardRef
+const QuillEditor = forwardRef<ReactQuill, ReactQuillProps>(
+  ({ value, onChange, className }, ref) => (
+    <ReactQuill
+      ref={ref as unknown as MutableRefObject<ReactQuill>}
+      value={value}
+      onChange={onChange}
+      className={className}
+    />
+  )
+);
+
+QuillEditor.displayName = "QuillEditor";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep5Form = () => {
@@ -19,6 +39,7 @@ const CreateTrialStep5Form = () => {
   const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
+  const quillActivityRef = useRef<ReactQuill | null>(null);
 
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({
@@ -43,10 +64,17 @@ const CreateTrialStep5Form = () => {
     return compensation;
   };
 
+  const normalizeValue = (
+    value: string | { ops: never[] } | undefined
+  ): string =>
+    typeof value === "string" ? value : JSON.stringify(value || "");
+
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
-      participantActivities: formData.step5Data?.participantActivities || "",
+      participantActivities: normalizeValue(
+        formData.step5Data?.participantActivities
+      ),
       expectedParticipants: formData.step5Data?.expectedParticipants || 0,
       additionalInfo: formData.step5Data.additionalInfo || "",
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
@@ -66,17 +94,22 @@ const CreateTrialStep5Form = () => {
         monetaryCompensation: values["monetaryCompensation"],
         otherCompensation: values["otherCompensationText"],
       });
+      const normalizedValues = {
+        ...values,
+        participantActivities: normalizeValue(values.participantActivities),
+      };
 
       console.log(compensation);
       try {
+        const payload = {
+          participantActivities: normalizedValues.participantActivities,
+          expectedParticipants: normalizedValues.expectedParticipants,
+          additionalInfo: normalizedValues.additionalInfo,
+          compensations: compensation,
+        };
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
-          {
-            participantActivities: values["participantActivities"],
-            expectedParticipants: values["expectedParticipants"],
-            additionalInfo: values["additionalInfo"],
-            compensations: compensation,
-          },
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,18 +117,8 @@ const CreateTrialStep5Form = () => {
           }
         );
         console.log(response);
-        setFormData({
-          ...formData,
-          step5Data: {
-            ...formData.step5Data,
-            participantActivities: values.participantActivities,
-            expectedParticipants: values.expectedParticipants,
-            additionalInfo: values.additionalInfo,
-            drivingCompensation: values.drivingCompensation,
-            monetaryCompensation: values.monetaryCompensation,
-            otherCompensation: values.otherCompensation,
-          },
-        });
+        setFormData({ step5Data: normalizedValues });
+        
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
@@ -133,6 +156,19 @@ const CreateTrialStep5Form = () => {
 
   console.log("Step 5 Data on Load:", formData.step5Data);
 
+  const handleEditorChange = () => {
+    const delta = quillActivityRef.current?.getEditor()?.getContents();
+    formik.setFieldValue("participantActivities", delta);
+  };
+
+  useEffect(() => {
+    if (quillActivityRef.current && formData.step5Data.participantActivities) {
+      quillActivityRef.current
+        .getEditor()
+        .setContents(JSON.parse(formData.step5Data.participantActivities));
+    }
+  }, [formData]);
+
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
     <form
@@ -152,11 +188,10 @@ const CreateTrialStep5Form = () => {
             Describe participant activities:
           </label>
           <div className="h-[200px] mb-16">
-            <ReactQuill
+            <QuillEditor
+              ref={quillActivityRef}
               value={formik.values.participantActivities}
-              onChange={(value) =>
-                formik.setFieldValue("participantActivities", value)
-              }
+              onChange={() => handleEditorChange()}
               placeholder="Outline participant activities"
               className="h-full"
               modules={modules}
