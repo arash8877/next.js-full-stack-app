@@ -14,7 +14,7 @@ export default function RegisterStep1() {
     <main className="min-h-screen my-6 mx-2 md:mx-14 lg:mx-16">
       <Navbar
         justify="justify-between"
-        items="items-end"
+        items="items-start"
         displayCompanyName="hidden sm:block"
       />
       <section className="register_step1_section">
