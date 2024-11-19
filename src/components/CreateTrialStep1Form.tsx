@@ -10,7 +10,7 @@ import CustomButton from "./CustomButton";
 import { AxiosError } from "axios";
 import {
   CreateTrialStep1FormProps,
-  CreateTrialCompanyInfoProps,
+  CreateTrialTitleStepProps,
 } from "@/types/index";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
@@ -22,7 +22,7 @@ import useJWTUserInfo from "@/hooks/useJWTUserInfo";
 //--------- Reusable Input Component ---------
 const InputField: React.FC<
   CreateTrialStep1FormProps & {
-    formik: ReturnType<typeof useFormik<CreateTrialCompanyInfoProps>>;
+    formik: ReturnType<typeof useFormik<CreateTrialTitleStepProps>>;
   }
 > = ({ label, name, id, type, placeholder, formik, icon }) => (
   <div className="flex flex-col">
@@ -45,9 +45,7 @@ const InputField: React.FC<
         id={id}
         type={type}
         placeholder={placeholder}
-        value={
-          formik.values[name as keyof CreateTrialCompanyInfoProps] as string
-        }
+        value={formik.values[name as keyof CreateTrialTitleStepProps] as string}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         className="register_input mt-2 custom-border"
@@ -55,8 +53,8 @@ const InputField: React.FC<
       />
     </div>
     <small className="text-red-600">
-      {formik.touched[name as keyof CreateTrialCompanyInfoProps] &&
-        formik.errors[name as keyof CreateTrialCompanyInfoProps]}
+      {formik.touched[name as keyof CreateTrialTitleStepProps] &&
+        formik.errors[name as keyof CreateTrialTitleStepProps]}
     </small>
   </div>
 );
@@ -111,11 +109,13 @@ const CreateTrialStep1Form = () => {
     },
     validationSchema: formSchema,
 
-
-// eslint-disable-next-line
+    // eslint-disable-next-line
     onSubmit: async (values) => {
       console.log("Title", values["title"]);
-      const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
+      const token =
+        typeof window !== "undefined"
+          ? window.localStorage.getItem("token")
+          : null;
       // eslint-disable-next-line
       const sponsorId = 11;
       try {
@@ -127,11 +127,15 @@ const CreateTrialStep1Form = () => {
         };
         setFormData({ step1Data: values });
 
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/v1/trials`, payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials`,
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         console.log("response in step1:", response);
         localStorage.setItem("currentTrialEditId", response.data);
         router.push("/create-trial/step2");
