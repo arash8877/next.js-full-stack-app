@@ -4,6 +4,7 @@ import "./globals.css";
 import { Outfit } from "next/font/google";
 import ToastProvider from "@/lib/Toastify";
 
+
 //---- fonts ----
 const outfit = Outfit({
   subsets: ["latin"],

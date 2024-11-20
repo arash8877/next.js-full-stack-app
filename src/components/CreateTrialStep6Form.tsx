@@ -109,7 +109,7 @@ const CreateTrialStep6Form = () => {
             trialData.trialSites.map((site, index) => (
               <div key={index} className="mb-4 p-2">
                 <div className="text-sm mb-1">
-                  <strong>Location:</strong> {site.name || "N/A"}
+                  <strong>Location:</strong> {site.location || "N/A"}
                 </div>
                 <div className="text-sm mb-1">
                   <strong>Address:</strong> {site.address || "N/A"}

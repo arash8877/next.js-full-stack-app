@@ -34,10 +34,10 @@ export interface RegisterNavbarProps {
 
 export interface SponsorUserInfo {
   firstName: string;
-  lastName: string; 
+  lastName: string;
   email: string;
   phoneNumber: string;
-  jobTitle: string; 
+  jobTitle: string;
   hasConsentedToMarketing: boolean;
   preferredLanguage: string;
   lastLogin: string;
@@ -182,13 +182,10 @@ export interface iCompany {
 //------------------- site ---------------------------
 export interface iTrialSite {
   trialSiteId: number;
-  name: string;
+  location: string;
   address: string | undefined;
   zipCode: string;
   country: string;
-  iconUrl: string;
-  siteInfo: string;
-  location: string;
 }
 
 //------------------trialDetails-----------------------
@@ -215,10 +212,10 @@ export interface iTrialInfoProps {
   applicantsNumber: number;
   recruitingStatus: string;
   expectedParticipants: number;
-  inclusionDiseases?: string[]; // Added this
-  inclusionRequirements?: string; // Added this
-  exclusionDiseases?: string[]; // Added this
-  exclusionRequirements?: string; // Added this
+  inclusionDiseases?: string[]; 
+  inclusionRequirements?: string; 
+  exclusionDiseases?: string[]; 
+  exclusionRequirements?: string; 
   medicalCategories?: iTrialCategoryProps[];
 }
 
@@ -263,7 +260,8 @@ export interface iApplicationProps {
 }
 
 // ------------------ create-trial ------------------------
-export interface CreateTrialCompanyInfoProps {
+export interface CreateTrialTitleStepProps {
+  trialId?: number;
   title: string;
   shortDescription: string;
   fullDescription: string;
@@ -271,11 +269,11 @@ export interface CreateTrialCompanyInfoProps {
 
 export interface CreateTrialStep1FormProps {
   label: string;
-  name: keyof CreateTrialCompanyInfoProps;
+  name: keyof CreateTrialTitleStepProps;
   id: string;
   type: string;
   placeholder: string;
-  formik: FormikProps<CreateTrialCompanyInfoProps>;
+  formik: FormikProps<CreateTrialTitleStepProps>;
   icon?: string;
 }
 
@@ -309,6 +307,7 @@ export interface CreateTrialStep3FormValues {
 }
 
 export interface CreateTrialStep4FormProps {
+  trialId?: number;
   inclusionDisease: string[];
   inclusionRequirements: string;
   exclusionDisease: string[];
@@ -317,11 +316,12 @@ export interface CreateTrialStep4FormProps {
 }
 
 export interface CreateTrialStep5FormProps {
-  participantActivities: string;  
+  trialId?: number;
+  participantActivities: string;
   expectedParticipants: string;
-  additionalInfo: string;
-  drivingCompensation: boolean; 
-  monetaryCompensation: boolean
+  additionalInformation: string;
+  drivingCompensation: boolean;
+  monetaryCompensation: boolean;
   otherCompensation: boolean;
   otherCompensationText: string;
 }
