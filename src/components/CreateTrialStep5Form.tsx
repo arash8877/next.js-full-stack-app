@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
@@ -73,7 +73,7 @@ const CreateTrialStep5Form = () => {
           drivingCompensation: normalizedValues.drivingCompensation,
           otherCompensation: normalizedValues.otherCompensation,
         };
-        console.log("payload", payload);
+        //console.log("payload", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
           payload,
@@ -83,7 +83,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        //console.log(response);
+        console.log(response);
         setFormData({ step5Data: normalizedValues });
 
         router.push("/create-trial/step6");

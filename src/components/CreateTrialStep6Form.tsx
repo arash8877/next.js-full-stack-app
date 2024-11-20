@@ -14,7 +14,7 @@ const CreateTrialStep6Form = () => {
   const [trialId, setTrialId] = useState<string | null>(null);
   const { trialData } = useGetSingleTrialInfo(trialId || "");
   const { l } = useLanguageStore();
-
+  console.log("$$$$$$$$$$", trialData);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTrialId = localStorage.getItem("currentTrialEditId");
@@ -36,7 +36,7 @@ const CreateTrialStep6Form = () => {
           }
         );
         setPreviewKey(response.data);
-        // console.log("previewKey:", previewKey);
+        console.log("previewKey:", previewKey);
       } catch (error) {
         console.error(error);
         if (error instanceof AxiosError) {
@@ -62,7 +62,7 @@ const CreateTrialStep6Form = () => {
           },
         }
       );
-      // console.log("response in createTrialStep6Form:", response);
+      console.log("response in createTrialStep6Form:", response);
       localStorage.removeItem("currentTrialEditId");
       router.push("/trials");
     } catch (error) {
@@ -108,7 +108,7 @@ const CreateTrialStep6Form = () => {
             trialData.trialSites.map((site, index) => (
               <div key={index} className="mb-4 p-2">
                 <div className="text-sm mb-1">
-                  <strong>Location:</strong> {site.name || "N/A"}
+                  <strong>Location:</strong> {site.location || "N/A"}
                 </div>
                 <div className="text-sm mb-1">
                   <strong>Address:</strong> {site.address || "N/A"}

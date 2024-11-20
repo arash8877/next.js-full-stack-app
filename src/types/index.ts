@@ -1,5 +1,3 @@
-
-
 import { MouseEventHandler } from "react";
 import { FormikProps } from "formik";
 
@@ -55,7 +53,7 @@ export interface sponsorContact {
 }
 
 export interface CompanyInfoProps {
-  name: string;
+  sponsorName: string;
   vatNumber: string;
   address: string;
   zipCode: string;
@@ -430,4 +428,3 @@ export const applicationStates: {
 };
 
 //-------------------------  ----------------------------
-

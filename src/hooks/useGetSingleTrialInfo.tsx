@@ -21,7 +21,6 @@ const useGetSingleTrialInfo = (
         accept: "application/json",
       },
     });
-    console.log("first response", response.data);
     return response.data;
   };
 
@@ -31,7 +30,7 @@ const useGetSingleTrialInfo = (
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${id}` : null,
     fetcher
   );
-  console.log("trial Data *********", data);
+  //console.log("trial Data *********", data);
   return { trialData: data, trialError: error, trialIsLoading: isLoading };
 };
 
