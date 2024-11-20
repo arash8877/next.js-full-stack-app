@@ -316,9 +316,10 @@ export interface CreateTrialStep4FormProps {
 }
 
 export interface CreateTrialStep5FormProps {
+  trialId?: number;
   participantActivities: string;
   expectedParticipants: string;
-  additionalInfo: string;
+  additionalInformation: string;
   drivingCompensation: boolean;
   monetaryCompensation: boolean;
   otherCompensation: boolean;

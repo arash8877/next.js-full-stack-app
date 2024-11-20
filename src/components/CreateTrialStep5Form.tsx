@@ -48,7 +48,7 @@ const CreateTrialStep5Form = () => {
     initialValues: {
       participantActivities: formData.step5Data?.participantActivities || "",
       expectedParticipants: formData.step5Data?.expectedParticipants || "",
-      additionalInfo: formData.step5Data.additionalInfo || "",
+      additionalInformation: formData.step5Data.additionalInformation || "",
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -74,7 +74,7 @@ const CreateTrialStep5Form = () => {
           {
             participantActivities: values["participantActivities"],
             expectedParticipants: values["expectedParticipants"],
-            additionalInfo: values["additionalInfo"],
+            additionalInformation: values["additionalInformation"],
             compensations: compensation,
           },
           {
@@ -90,7 +90,7 @@ const CreateTrialStep5Form = () => {
             ...formData.step5Data,
             participantActivities: values.participantActivities,
             expectedParticipants: values.expectedParticipants,
-            additionalInfo: values.additionalInfo,
+            additionalInformation: values.additionalInformation,
             drivingCompensation: values.drivingCompensation,
             monetaryCompensation: values.monetaryCompensation,
             otherCompensation: values.otherCompensation,
@@ -204,7 +204,7 @@ const CreateTrialStep5Form = () => {
               id="additionalInfo_txt"
               name="additionalInfo"
               type="text"
-              value={formik.values.additionalInfo}
+              value={formik.values.additionalInformation}
               onChange={() => ChangeAdditionalInfoValue()}
               placeholder="Briefly describe additional information"
               className="register_input custom-border"

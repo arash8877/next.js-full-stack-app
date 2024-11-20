@@ -8,6 +8,7 @@ import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import EditTrialTitleTab from "@/components/EditTrialTitleTab";
 import EditTrialSiteTab from "@/components/EditTrialSiteTab";
 import EditTrialTimeTab from "@/components/EditTrialTimeTab";
+// import EditTrialMoreInfoTab from "@/components/EditTrialMoreInfoTab";
 // import EditTrialMedicalTab  from "@/components/EditTrialMedicalTab";
 import useLanguageStore from "@/stores/language-store";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
@@ -60,7 +61,8 @@ export default function EditTrialPage({ params }: Props) {
     // },
     // {
     //   id: "5",
-    //   content: <EditTrialMorInfoTab />,
+    //   tabTitle: "Fifth Tab",
+    //   content: <EditTrialMoreInfoTab {...trialData}/>,
     // },
   ];
 
