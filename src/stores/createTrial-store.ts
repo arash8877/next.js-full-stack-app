@@ -1,6 +1,6 @@
-// import { iCategoryProps } from "@/types";
 import { create } from "zustand";
-
+import { merge } from "lodash";
+//import { persist, createJSONStorage } from "zustand/middleware";
 interface FormData {
   step1Data: {
     title: string;
@@ -33,7 +33,11 @@ interface FormData {
   step5Data: {
     participantActivities: string;
     expectedParticipants: string;
+<<<<<<< HEAD
+    additionalInfo: string;
+=======
     additionalInformation: string;
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
     drivingCompensation: boolean;
     monetaryCompensation: boolean;
     otherCompensation: boolean;
@@ -70,16 +74,25 @@ const useCreateTrialStore = create<FormStore>((set) => ({
     },
     step5Data: {
       participantActivities: "",
+<<<<<<< HEAD
+      expectedParticipants: "0",
+      additionalInfo: "",
+=======
       expectedParticipants: "",
       additionalInformation: "",
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
       drivingCompensation: false,
       monetaryCompensation: false,
       otherCompensation: false,
       otherCompensationText: "",
     },
   },
+
   setFormData: (data) =>
-    set((state) => ({ formData: { ...state.formData, ...data } })),
+    set((state) => ({
+      formData: merge({}, state.formData, data),
+    })),
+
   resetFormData: () =>
     set({
       formData: {
@@ -104,8 +117,13 @@ const useCreateTrialStore = create<FormStore>((set) => ({
         },
         step5Data: {
           participantActivities: "",
+<<<<<<< HEAD
+          expectedParticipants: "0",
+          additionalInfo: "",
+=======
           expectedParticipants: "",
           additionalInformation: "",
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
           drivingCompensation: false,
           monetaryCompensation: false,
           otherCompensation: false,
@@ -114,5 +132,31 @@ const useCreateTrialStore = create<FormStore>((set) => ({
       },
     }),
 }));
+
+// const useCreateTrialStore = create<FormStore>()(
+//   persist(
+//     (set) => ({
+//       formData: {
+//         step1Data: { title: "", shortDescription: "", fullDescription: "" },
+//       },
+
+//       setFormData: (data) =>
+//         set((state) => ({
+//           formData: { ...state.formData, ...data },
+//         })),
+
+//       resetFormData: () =>
+//         set({
+//           formData: {
+//             step1Data: { title: "", shortDescription: "", fullDescription: "" },
+//           },
+//         }),
+//     }),
+//     {
+//       name: "create-trial-store-step1",
+//       storage: createJSONStorage(() => localStorage),
+//     }
+//   )
+// );
 
 export default useCreateTrialStore;

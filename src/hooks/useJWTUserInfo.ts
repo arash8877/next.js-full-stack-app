@@ -13,7 +13,7 @@ const useJWTUserInfo = (): {
         return { jwtInfo: null}
 
     const decoded = jwtDecode<iJWTInfo>(token);
-    console.log(decoded);
+    // console.log(decoded);
     return { jwtInfo: decoded };
   };
   

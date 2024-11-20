@@ -13,6 +13,8 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
+import "react-quill/dist/quill.snow.css";
+
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep5Form = () => {
   const router = useRouter();
@@ -31,24 +33,24 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
-  const getCompensationList = (values: {
-    drivingCompensation: boolean;
-    monetaryCompensation: boolean;
-    otherCompensation: string;
-  }) => {
-    const compensation = [];
-    if (values.drivingCompensation) compensation.push("drivingCompensation");
-    if (values.monetaryCompensation) compensation.push("monetaryCompensation");
-    if (values.otherCompensation) compensation.push(values.otherCompensation);
-    return compensation;
+  // Function to convert HTML to plain text
+  const htmlToPlainText = (html: string): string => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
   };
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
       participantActivities: formData.step5Data?.participantActivities || "",
+<<<<<<< HEAD
+      expectedParticipants: formData.step5Data?.expectedParticipants || "0",
+      additionalInfo: formData.step5Data.additionalInfo || "",
+=======
       expectedParticipants: formData.step5Data?.expectedParticipants || "",
       additionalInformation: formData.step5Data.additionalInformation || "",
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -58,25 +60,37 @@ const CreateTrialStep5Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      console.log("submit");
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
-      const compensation = getCompensationList({
-        drivingCompensation: values["drivingCompensation"],
-        monetaryCompensation: values["monetaryCompensation"],
-        otherCompensation: values["otherCompensationText"],
-      });
 
-      console.log(compensation);
+      const normalizedValues = {
+        ...values,
+        participantActivities: htmlToPlainText(values.participantActivities),
+      };
+
+      //console.log("compensation", compensations);
       try {
+        const payload = {
+          participantActivities: normalizedValues.participantActivities,
+          expectedParticipants: normalizedValues.expectedParticipants,
+          additionalInfo: normalizedValues.additionalInfo,
+          monetaryCompensation: normalizedValues.monetaryCompensation,
+          drivingCompensation: normalizedValues.drivingCompensation,
+          otherCompensation: normalizedValues.otherCompensation,
+        };
+        //console.log("payload", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
+<<<<<<< HEAD
+          payload,
+=======
           {
             participantActivities: values["participantActivities"],
             expectedParticipants: values["expectedParticipants"],
             additionalInformation: values["additionalInformation"],
             compensations: compensation,
           },
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,6 +98,10 @@ const CreateTrialStep5Form = () => {
           }
         );
         console.log(response);
+<<<<<<< HEAD
+        setFormData({ step5Data: normalizedValues });
+
+=======
         setFormData({
           ...formData,
           step5Data: {
@@ -96,6 +114,7 @@ const CreateTrialStep5Form = () => {
             otherCompensation: values.otherCompensation,
           },
         });
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
@@ -131,7 +150,7 @@ const CreateTrialStep5Form = () => {
     ],
   };
 
-  console.log("Step 5 Data on Load:", formData.step5Data);
+  // console.log("Step 5 Data on Load:", formData.step5Data);
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -157,7 +176,6 @@ const CreateTrialStep5Form = () => {
               onChange={(value) =>
                 formik.setFieldValue("participantActivities", value)
               }
-              placeholder="Outline participant activities"
               className="h-full"
               modules={modules}
             />
@@ -222,8 +240,10 @@ const CreateTrialStep5Form = () => {
                   name="drivingCompensation"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.drivingCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.drivingCompensation;
+                    console.log("update value", updatedValue);
                     formik.setFieldValue("drivingCompensation", updatedValue);
                     setFormData({
                       ...formData,
@@ -251,6 +271,7 @@ const CreateTrialStep5Form = () => {
                   name="monetaryCompensation"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.monetaryCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.monetaryCompensation;
                     formik.setFieldValue("monetaryCompensation", updatedValue);
@@ -281,6 +302,7 @@ const CreateTrialStep5Form = () => {
                   type="checkbox"
                   onClick={toggleOtherCompensation}
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.otherCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.otherCompensation;
                     formik.setFieldValue("otherCompensation", updatedValue);
@@ -306,7 +328,7 @@ const CreateTrialStep5Form = () => {
           </div>
         </fieldset>
 
-        <div hidden={!isOtherClicked}>
+        <div hidden={!formik.values.otherCompensation}>
           <div className="flex flex-col justify-start gap-2 mb-12">
             <p className="text-sm font-semibold mb-2">
               {l("register.step4.other.description") ||

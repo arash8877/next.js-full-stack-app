@@ -53,7 +53,7 @@ export interface sponsorContact {
 }
 
 export interface CompanyInfoProps {
-  name: string;
+  sponsorName: string;
   vatNumber: string;
   address: string;
   zipCode: string;

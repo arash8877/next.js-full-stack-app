@@ -5,12 +5,14 @@ import { iTrialInfoProps } from "@/types";
 import useSWR from "swr";
 
 //----------------------------------- Main Function ---------------------------------------
-const useGetSingleTrialInfo = (id: string): {
+const useGetSingleTrialInfo = (
+  id: string
+): {
   trialData: iTrialInfoProps;
   trialError: Error | null;
   trialIsLoading: boolean;
 } => {
-  console.log("id", id);
+  //console.log("id", id);
   const fetcher = async (url: string) => {
     const token = localStorage.getItem("token");
     const response = await axios.get(url, {
@@ -22,12 +24,13 @@ const useGetSingleTrialInfo = (id: string): {
     return response.data;
   };
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const { data, error, isLoading } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${id}` : null,
     fetcher
   );
-
+  //console.log("trial Data *********", data);
   return { trialData: data, trialError: error, trialIsLoading: isLoading };
 };
 
