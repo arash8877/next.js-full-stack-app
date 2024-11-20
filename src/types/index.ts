@@ -212,10 +212,10 @@ export interface iTrialInfoProps {
   applicantsNumber: number;
   recruitingStatus: string;
   expectedParticipants: number;
-  inclusionDiseases?: string[]; // Added this
-  inclusionRequirements?: string; // Added this
-  exclusionDiseases?: string[]; // Added this
-  exclusionRequirements?: string; // Added this
+  inclusionDiseases?: string[]; 
+  inclusionRequirements?: string; 
+  exclusionDiseases?: string[]; 
+  exclusionRequirements?: string; 
   medicalCategories?: iTrialCategoryProps[];
 }
 
@@ -307,6 +307,7 @@ export interface CreateTrialStep3FormValues {
 }
 
 export interface CreateTrialStep4FormProps {
+  trialId?: number;
   inclusionDisease: string[];
   inclusionRequirements: string;
   exclusionDisease: string[];
@@ -315,9 +316,10 @@ export interface CreateTrialStep4FormProps {
 }
 
 export interface CreateTrialStep5FormProps {
+  trialId?: number;
   participantActivities: string;
   expectedParticipants: string;
-  additionalInfo: string;
+  additionalInformation: string;
   drivingCompensation: boolean;
   monetaryCompensation: boolean;
   otherCompensation: boolean;

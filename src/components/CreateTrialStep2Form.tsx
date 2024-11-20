@@ -225,7 +225,7 @@ const CreateTrialStep2Form = () => {
           {index > 0 && (
             <div className="flex justify-center xs:justify-start gap-4  ">
               <CustomButton
-                title={l("settings.tab3.btn.text") || "Remove Trial"}
+                title={l("settings.tab3.btn.text") || "Remove Site"}
                 containerStyles="bg-bgColor-red rounded-lg"
                 textStyles="text-white"
                 handleClick={() => removeSite(index)}

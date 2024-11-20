@@ -124,7 +124,7 @@ const RegisterStep1Form = () => {
         },
       ],
     },
-    //-----onSubmit-------
+    //-----onSubmit--------
     onSubmit: async (values) => {
       try {
         const response = await axios.post(

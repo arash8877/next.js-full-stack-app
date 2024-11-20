@@ -8,9 +8,9 @@ export default function Home() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      redirect("/register/step1");
+      redirect("/login");
     } else {
-      redirect("/register/step1");
+      redirect("/trials");
     }
   });
 }

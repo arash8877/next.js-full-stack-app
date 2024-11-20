@@ -44,8 +44,13 @@ const CreateTrialStep5Form = () => {
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
       participantActivities: formData.step5Data?.participantActivities || "",
+<<<<<<< HEAD
       expectedParticipants: formData.step5Data?.expectedParticipants || "0",
       additionalInfo: formData.step5Data.additionalInfo || "",
+=======
+      expectedParticipants: formData.step5Data?.expectedParticipants || "",
+      additionalInformation: formData.step5Data.additionalInformation || "",
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -76,7 +81,16 @@ const CreateTrialStep5Form = () => {
         //console.log("payload", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
+<<<<<<< HEAD
           payload,
+=======
+          {
+            participantActivities: values["participantActivities"],
+            expectedParticipants: values["expectedParticipants"],
+            additionalInformation: values["additionalInformation"],
+            compensations: compensation,
+          },
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,8 +98,23 @@ const CreateTrialStep5Form = () => {
           }
         );
         console.log(response);
+<<<<<<< HEAD
         setFormData({ step5Data: normalizedValues });
 
+=======
+        setFormData({
+          ...formData,
+          step5Data: {
+            ...formData.step5Data,
+            participantActivities: values.participantActivities,
+            expectedParticipants: values.expectedParticipants,
+            additionalInformation: values.additionalInformation,
+            drivingCompensation: values.drivingCompensation,
+            monetaryCompensation: values.monetaryCompensation,
+            otherCompensation: values.otherCompensation,
+          },
+        });
+>>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
@@ -193,7 +222,7 @@ const CreateTrialStep5Form = () => {
               id="additionalInfo_txt"
               name="additionalInfo"
               type="text"
-              value={formik.values.additionalInfo}
+              value={formik.values.additionalInformation}
               onChange={() => ChangeAdditionalInfoValue()}
               placeholder="Briefly describe additional information"
               className="register_input custom-border"

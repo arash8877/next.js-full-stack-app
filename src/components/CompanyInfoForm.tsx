@@ -30,6 +30,7 @@ const CompanyInfoForm = ({
   const updateSponsorData = async (data: UpdateSponsorProps) => {
     //function will be called in onSubmit
     try {
+      //eslint-disable-next-line
       const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsors/${jwtInfo?.sponsor_id}`, //PATCH request
         data,
@@ -42,14 +43,14 @@ const CompanyInfoForm = ({
       );
       toast.success(
         l("settings.tab1.form.toast.success") ||
-          "Your profile is updated successfully!",
+          "The company info is updated successfully!",
         {
           position: "top-center",
           autoClose: 2000,
           className: "single_line_toast",
         }
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error("Error in /users", error);
       toast.error(
