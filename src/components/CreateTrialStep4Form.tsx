@@ -8,8 +8,7 @@ import CustomButton from "./CustomButton";
 import Image from "next/image";
 import DiseaseDropdown from "./DiseaseDropdown";
 import Tag from "./Tag";
-import { iCategoryProps } from "@/types/index";
-import { CreateTrialStep4FormProps } from "@/types/index";
+import { CreateTrialStep4FormProps, iCategoryProps } from "@/types/index";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
@@ -195,6 +194,8 @@ const CreateTrialStep4Form = () => {
             />
           </div>
         </div>
+
+        
         <div className="flex flex-col gap-2 w-full mt-8">
           <label className="text-sm font-semibold">Medical Categories:</label>
           <div>

@@ -7,7 +7,11 @@ import { SidebarLayout } from "@/components/SidebarLayout";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import EditTrialTitleTab from "@/components/EditTrialTitleTab";
 import EditTrialSiteTab from "@/components/EditTrialSiteTab";
+import EditTrialTimeTab from "@/components/EditTrialTimeTab";
+// import EditTrialMedicalTab  from "@/components/EditTrialMedicalTab";
 import useLanguageStore from "@/stores/language-store";
+import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
+
 
 type Props = {
   params: { id: string };
@@ -19,6 +23,12 @@ export default function EditTrialPage({ params }: Props) {
   const { trialData } = useGetSingleTrialInfo(params.id);
   const [currentTab, setCurrentTab] = useState<string>("1");
   const { l } = useLanguageStore();
+
+
+  const { categoriesData } = useGetAllMedicalCategories();
+
+  console.log("categoriesData:", categoriesData)
+  console.log("trialData:", trialData)
 
   //------ tabs array ------
   // eslint-disable-next-line
@@ -33,14 +43,20 @@ export default function EditTrialPage({ params }: Props) {
       tabTitle: "Second Tab",
       content: <EditTrialSiteTab {...trialData}/>,
     },
-    // {
-    //   id: "3",
-    //   tabTitle: "Third Tab",
-    //   content: <EditTrialTimeTab />,
-    // },
+    {
+      id: "3",
+      tabTitle: "Third Tab",
+      content: <EditTrialTimeTab {...trialData}/>,
+    },
     // {
     //   id: "4",
-    //   content: <EditTrialMedicalTab />,
+    //   tabTitle: "Fourth Tab",
+    //   content: <EditTrialMedicalTab 
+    //   {...trialData} 
+    //   inclusionDisease={Array.isArray(trialData.inclusionDiseases) ? trialData.inclusionDiseases : []} 
+    //   exclusionDisease={Array.isArray(trialData.exclusionDiseases) ? trialData.exclusionDiseases : []} 
+    //   selectedMedicalCategories={Array.isArray(trialData.medicalCategories) ? trialData.medicalCategories : []} 
+    //   />,
     // },
     // {
     //   id: "5",

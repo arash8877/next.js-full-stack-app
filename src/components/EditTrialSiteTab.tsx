@@ -21,7 +21,6 @@ export default function EditTrialSiteTab({
     console.log("Sites", trialSites);
   }, [trialSites]);
 
-
   //---- Validation Schema ---------
   const formSchema = Yup.object({
     trialSites: Yup.array()
@@ -45,7 +44,11 @@ export default function EditTrialSiteTab({
           ),
         })
       )
-      .min(1, l("settings.tab1.form.validation.minSites") || "At least one site is required!"),
+      .min(
+        1,
+        l("settings.tab1.form.validation.minSites") ||
+          "At least one site is required!"
+      ),
   });
 
   //--------------- formik ----------------
@@ -56,7 +59,9 @@ export default function EditTrialSiteTab({
     validateOnMount: false,
     enableReinitialize: true,
     initialValues: {
-      trialSites: trialSites || [{ location: "", address: "", zipCode: "", country: "" }],
+      trialSites: trialSites || [
+        { location: "", address: "", zipCode: "", country: "" },
+      ],
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -76,7 +81,9 @@ export default function EditTrialSiteTab({
           }
         );
         console.log("response:", response);
-        toast.success(l("settings.form.success") || "Trial updated successfully!");
+        toast.success(
+          l("settings.form.success") || "Trial updated successfully!"
+        );
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
@@ -86,7 +93,7 @@ export default function EditTrialSiteTab({
     },
   });
 
-  // Function to remove a site
+  // --------- remove a site  -----------
   const removeSite = (index: number) => {
     const updatedSites = [...formik.values.trialSites];
     updatedSites.splice(index, 1);
@@ -97,102 +104,129 @@ export default function EditTrialSiteTab({
   return (
     <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200 rounded-lg p-4 xl:p-12">
       <form onSubmit={formik.handleSubmit}>
-        {formik.values.trialSites.map((site, index) => (
-          <div
-            key={index}
-            className="flex flex-col gap-4 w-full  border-b pb-4 mb-4"
-          >
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor={`trialSites.${index}.location`} className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Location:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <input
-                  name={`trialSites.${index}.location`}
-                  type="text"
-                  value={formik.values.trialSites[index].location}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className="register_input custom-border"
-                />
-                <small className="text-red-600">
-                  {formik.touched.trialSites?.[index]?.location &&
-                    typeof formik.errors.trialSites?.[index] === 'object' &&
-                    formik.errors.trialSites?.[index]?.location}
-                </small>
+        {formik.values.trialSites.map((site, index) => {
+          return (
+            <div
+              key={index}
+              className="flex flex-col gap-4 w-full  border-b pb-4 mb-12"
+            >
+              <div className="flex gap-4">
+                <div className="flex flex-col gap-2 w-1/2">
+                  <label
+                    htmlFor={`trialSites.${index}.location`}
+                    className="text-sm font-semibold"
+                  >
+                    {l("settings.tab4.form.password.label") || "Location:"}
+                    <span className="ml-1">*</span>
+                  </label>
+                  <input
+                    name={`trialSites.${index}.location`}
+                    type="text"
+                    value={formik.values.trialSites[index].location}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    className="register_input custom-border"
+                  />
+                  <small className="text-red-600">
+                    {formik.touched.trialSites?.[index]?.location &&
+                      typeof formik.errors.trialSites?.[index] === "object" &&
+                      formik.errors.trialSites?.[index]?.location}
+                  </small>
+                </div>
+
+                <div className="flex flex-col gap-2 w-1/2">
+                  <label
+                    htmlFor={`trialSites.${index}.address`}
+                    className="text-sm font-semibold"
+                  >
+                    {l("settings.tab4.form.password.label") || "Address:"}
+                    <span className="ml-1">*</span>
+                  </label>
+                  <input
+                    name={`trialSites.${index}.address`}
+                    type="text"
+                    value={formik.values.trialSites[index].address}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    className="register_input custom-border"
+                  />
+                  <small className="text-red-600">
+                    {formik.touched.trialSites?.[index]?.address &&
+                      typeof formik.errors.trialSites?.[index] === "object" &&
+                      formik.errors.trialSites?.[index]?.address}
+                  </small>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor={`trialSites.${index}.address`} className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Address:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <input
-                  name={`trialSites.${index}.address`}
-                  type="text"
-                  value={formik.values.trialSites[index].address}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className="register_input custom-border"
-                />
-                <small className="text-red-600">
-                  {formik.touched.trialSites?.[index]?.address &&
-                    typeof formik.errors.trialSites?.[index] === 'object' && formik.errors.trialSites?.[index]?.address}
-                </small>
+              <div className="flex gap-4">
+                <div className="flex flex-col gap-2 w-1/2">
+                  <label
+                    htmlFor={`trialSites.${index}.zipCode`}
+                    className="text-sm font-semibold"
+                  >
+                    {l("settings.tab4.form.password.label") || "Zip Code:"}
+                    <span className="ml-1">*</span>
+                  </label>
+                  <input
+                    name={`trialSites.${index}.zipCode`}
+                    type="text"
+                    value={formik.values.trialSites[index].zipCode}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    className="register_input custom-border"
+                  />
+                  <small className="text-red-600">
+                    {formik.touched.trialSites?.[index]?.zipCode &&
+                      typeof formik.errors.trialSites?.[index] === "object" &&
+                      formik.errors.trialSites?.[index]?.zipCode}
+                  </small>
+                </div>
+
+                <div className="flex flex-col gap-2 w-1/2">
+                  <label
+                    htmlFor={`trialSites.${index}.country`}
+                    className="text-sm font-semibold"
+                  >
+                    {l("settings.tab1.form.country.label") || "Country:"}
+                    <span className="ml-1">*</span>
+                  </label>
+                  <CountryDropdown
+                    country={formik.values.trialSites[index].country}
+                    setCountry={(value) =>
+                      formik.setFieldValue(`trialSites.${index}.country`, value)
+                    }
+                    borderColor="#DFF2DF"
+                  />
+                  <small className="text-red-600">
+                    {formik.touched.trialSites?.[index]?.country &&
+                      typeof formik.errors.trialSites?.[index] === "object" &&
+                      formik.errors.trialSites?.[index]?.country}
+                  </small>
+                </div>
               </div>
+
+              {index > 0 && (
+                <div className="flex justify-center gap-4 mt-8">
+                  <CustomButton
+                  title={l("settings.form.submit") || "Remove Site"}
+                    containerStyles="rounded-lg h-[48px] bg-bgColor-red hover1"
+                    textStyles="text-white"
+                    btnType="button"
+                    handleClick={() => removeSite(index)}
+                  />
+                </div>
+
+                // <button
+                //   type="button"
+                //   onClick={() => removeSite(index)}
+                //   className="text-red-600 text-sm underline"
+                // >
+                //   {l("settings.tab4.form.removeSite") || "Remove Site"}
+                // </button>
+              )}
             </div>
-
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor={`trialSites.${index}.zipCode`} className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Zip Code:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <input
-                  name={`trialSites.${index}.zipCode`}
-                  type="text"
-                  value={formik.values.trialSites[index].zipCode}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className="register_input custom-border"
-                />
-                <small className="text-red-600">
-                  {formik.touched.trialSites?.[index]?.zipCode &&
-                    typeof formik.errors.trialSites?.[index] === 'object' && formik.errors.trialSites?.[index]?.zipCode}
-                </small>
-              </div>
-
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor={`trialSites.${index}.country`} className="text-sm font-semibold">
-                  {l("settings.tab1.form.country.label") || "Country:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <CountryDropdown
-                  country={formik.values.trialSites[index].country}
-                  setCountry={(value) =>
-                    formik.setFieldValue(`trialSites.${index}.country`, value)
-                  }
-                  borderColor="#DFF2DF"
-                />
-                <small className="text-red-600">
-                  {formik.touched.trialSites?.[index]?.country &&
-                    typeof formik.errors.trialSites?.[index] === 'object' && formik.errors.trialSites?.[index]?.country}
-                </small>
-              </div>
-            </div>
-
-            {index > 0 && (
-              <button
-                type="button"
-                onClick={() => removeSite(index)}
-                className="text-red-600 text-sm underline"
-              >
-                {l("settings.tab4.form.removeSite") || "Remove Site"}
-              </button>
-            )}
-          </div>
-        ))}
+          );
+        })}
 
         <div className="flex justify-center xs:justify-end gap-4 mt-8">
           <CustomButton
