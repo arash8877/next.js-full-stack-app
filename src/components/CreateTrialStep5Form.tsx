@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useState,
-  forwardRef,
-  MutableRefObject,
-  useRef,
-  useEffect,
-} from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
@@ -15,23 +9,11 @@ import { CreateTrialStep5FormProps } from "@/types/index";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
-import ReactQuill, { ReactQuillProps } from "react-quill";
-
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
-// QuillEditor Component using forwardRef
-const QuillEditor = forwardRef<ReactQuill, ReactQuillProps>(
-  ({ value, onChange, className }, ref) => (
-    <ReactQuill
-      ref={ref as unknown as MutableRefObject<ReactQuill>}
-      value={value}
-      onChange={onChange}
-      className={className}
-    />
-  )
-);
-
-QuillEditor.displayName = "QuillEditor";
+import "react-quill/dist/quill.snow.css";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep5Form = () => {
@@ -39,7 +21,6 @@ const CreateTrialStep5Form = () => {
   const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
-  const quillActivityRef = useRef<ReactQuill | null>(null);
 
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({
@@ -52,30 +33,18 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
-  const getCompensationList = (values: {
-    drivingCompensation: boolean;
-    monetaryCompensation: boolean;
-    otherCompensation: string;
-  }) => {
-    const compensation = [];
-    if (values.drivingCompensation) compensation.push("drivingCompensation");
-    if (values.monetaryCompensation) compensation.push("monetaryCompensation");
-    if (values.otherCompensation) compensation.push(values.otherCompensation);
-    return compensation;
+  // Function to convert HTML to plain text
+  const htmlToPlainText = (html: string): string => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return doc.body.textContent || "";
   };
-
-  const normalizeValue = (
-    value: string | { ops: never[] } | undefined
-  ): string =>
-    typeof value === "string" ? value : JSON.stringify(value || "");
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
-      participantActivities: normalizeValue(
-        formData.step5Data?.participantActivities
-      ),
-      expectedParticipants: formData.step5Data?.expectedParticipants || 0,
+      participantActivities: formData.step5Data?.participantActivities || "",
+      expectedParticipants: formData.step5Data?.expectedParticipants || "0",
       additionalInfo: formData.step5Data.additionalInfo || "",
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
@@ -86,27 +55,25 @@ const CreateTrialStep5Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      console.log("submit");
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
-      const compensation = getCompensationList({
-        drivingCompensation: values["drivingCompensation"],
-        monetaryCompensation: values["monetaryCompensation"],
-        otherCompensation: values["otherCompensationText"],
-      });
+
       const normalizedValues = {
         ...values,
-        participantActivities: normalizeValue(values.participantActivities),
+        participantActivities: htmlToPlainText(values.participantActivities),
       };
 
-      console.log(compensation);
+      //console.log("compensation", compensations);
       try {
         const payload = {
           participantActivities: normalizedValues.participantActivities,
           expectedParticipants: normalizedValues.expectedParticipants,
           additionalInfo: normalizedValues.additionalInfo,
-          compensations: compensation,
+          monetaryCompensation: normalizedValues.monetaryCompensation,
+          drivingCompensation: normalizedValues.drivingCompensation,
+          otherCompensation: normalizedValues.otherCompensation,
         };
+        console.log("payload", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
           payload,
@@ -116,9 +83,9 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        console.log(response);
+        //console.log(response);
         setFormData({ step5Data: normalizedValues });
-        
+
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
@@ -154,20 +121,7 @@ const CreateTrialStep5Form = () => {
     ],
   };
 
-  console.log("Step 5 Data on Load:", formData.step5Data);
-
-  const handleEditorChange = () => {
-    const delta = quillActivityRef.current?.getEditor()?.getContents();
-    formik.setFieldValue("participantActivities", delta);
-  };
-
-  useEffect(() => {
-    if (quillActivityRef.current && formData.step5Data.participantActivities) {
-      quillActivityRef.current
-        .getEditor()
-        .setContents(JSON.parse(formData.step5Data.participantActivities));
-    }
-  }, [formData]);
+  // console.log("Step 5 Data on Load:", formData.step5Data);
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -188,11 +142,11 @@ const CreateTrialStep5Form = () => {
             Describe participant activities:
           </label>
           <div className="h-[200px] mb-16">
-            <QuillEditor
-              ref={quillActivityRef}
+            <ReactQuill
               value={formik.values.participantActivities}
-              onChange={() => handleEditorChange()}
-              placeholder="Outline participant activities"
+              onChange={(value) =>
+                formik.setFieldValue("participantActivities", value)
+              }
               className="h-full"
               modules={modules}
             />
@@ -257,8 +211,10 @@ const CreateTrialStep5Form = () => {
                   name="drivingCompensation"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.drivingCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.drivingCompensation;
+                    console.log("update value", updatedValue);
                     formik.setFieldValue("drivingCompensation", updatedValue);
                     setFormData({
                       ...formData,
@@ -286,6 +242,7 @@ const CreateTrialStep5Form = () => {
                   name="monetaryCompensation"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.monetaryCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.monetaryCompensation;
                     formik.setFieldValue("monetaryCompensation", updatedValue);
@@ -316,6 +273,7 @@ const CreateTrialStep5Form = () => {
                   type="checkbox"
                   onClick={toggleOtherCompensation}
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.otherCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.otherCompensation;
                     formik.setFieldValue("otherCompensation", updatedValue);
@@ -341,7 +299,7 @@ const CreateTrialStep5Form = () => {
           </div>
         </fieldset>
 
-        <div hidden={!isOtherClicked}>
+        <div hidden={!formik.values.otherCompensation}>
           <div className="flex flex-col justify-start gap-2 mb-12">
             <p className="text-sm font-semibold mb-2">
               {l("register.step4.other.description") ||

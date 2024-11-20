@@ -36,7 +36,7 @@ const CreateTrialStep6Form = () => {
           }
         );
         setPreviewKey(response.data);
-        console.log("previewKey:", previewKey);
+        // console.log("previewKey:", previewKey);
       } catch (error) {
         console.error(error);
         if (error instanceof AxiosError) {
@@ -62,7 +62,7 @@ const CreateTrialStep6Form = () => {
           },
         }
       );
-      console.log("response in createTrialStep6Form:", response);
+      // console.log("response in createTrialStep6Form:", response);
       localStorage.removeItem("currentTrialEditId");
       router.push("/trials");
     } catch (error) {
@@ -197,11 +197,11 @@ const CreateTrialStep6Form = () => {
 
           <div className="mb-4">
             <strong>Medical Categories:</strong>
-            {trialData?.selectedMedicalCategories?.length ? (
+            {trialData?.medicalCategories?.length ? (
               <ul className="list-disc pl-5">
-                {trialData.selectedMedicalCategories.map((category, index) => (
+                {trialData.medicalCategories.map((category, index) => (
                   <li key={index} className="text-sm">
-                    {category.name || "N/A"}
+                    {category.medicalCategory.name || "N/A"}
                   </li>
                 ))}
               </ul>
