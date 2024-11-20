@@ -235,7 +235,7 @@ export default function TrialDetailsLayout({
       startDate: startDate,
       endDate: endDate,
       submissionDeadline: submissionDeadline,
-      location: trialSites?.[0]?.name || "",
+      location: trialSites?.[0]?.location || "",
       address: trialSites?.[0]?.address || "",
       zipCode: trialSites?.[0]?.zipCode || "",
       country: trialSites?.[0]?.country || "",

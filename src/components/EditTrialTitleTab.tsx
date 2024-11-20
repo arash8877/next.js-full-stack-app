@@ -2,7 +2,7 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios, {AxiosError} from "axios";
+import axios, { AxiosError } from "axios";
 import CustomButton from "./CustomButton";
 import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
@@ -11,17 +11,14 @@ import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-
-
 //------------------------------------ main function ----------------------------------
 export default function EditTrialTitleTab({
-    trialId,
-    title,
-    shortDescription,
-    fullDescription,
+  trialId,
+  title,
+  shortDescription,
+  fullDescription,
 }: CreateTrialTitleStepProps) {
-    const { l } = useLanguageStore(); 
-
+  const { l } = useLanguageStore();
 
   //---------------- update trial ---------------
   // eslint-disable-next-line
@@ -38,15 +35,13 @@ export default function EditTrialTitleTab({
           },
         }
       );
-      toast.success(
-        l("settings.tab1.form.toast.success") ||
-          "Trial is updated successfully!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
+
+      toast.success("", {
+        position: "top-center",
+        autoClose: 2000,
+        className: "single_line_toast",
+      });
+      console.log("Toast success called");
       console.log(response);
     } catch (error) {
       console.error("Error in /users", error);
@@ -62,7 +57,6 @@ export default function EditTrialTitleTab({
   };
 
   //----Yup validation ---------
-  // eslint-disable-next-line
   const formSchema = Yup.object({
     title: Yup.string()
       .required(
@@ -94,6 +88,7 @@ export default function EditTrialTitleTab({
 
   //--------------- formik ----------------
   const formik = useFormik({
+    validationSchema: formSchema,
     validateOnBlur: false,
     validateOnChange: false,
     validateOnMount: false,
@@ -105,7 +100,7 @@ export default function EditTrialTitleTab({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Submit")
+      console.log("Submit");
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
@@ -117,18 +112,19 @@ export default function EditTrialTitleTab({
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`, {
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
+          {
             title: data.title,
             shortDescription: data.shortDescription,
             fullDescription: data.fullDescription,
-          },          
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("response in step2:", response)
+        console.log("response in step2:", response);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
@@ -139,15 +135,10 @@ export default function EditTrialTitleTab({
 
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200">
-      <div className="inline-flex items-center border border-primary-500 px-2 rounded-200 md:mr-4 mb-4 py-2 w-fit">
-        <p className="text-sm font-bold">{l("trialdetails.id") || "ID:"}</p>
-        <p className="text-sm font-light	">{trialId}</p>
-      </div>
+    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200 rounded-lg p-4 xl:p-12">
       <form onSubmit={formik.handleSubmit}>
-          <div className="flex flex-col gap-4 w-full xl:max-w-96 xl:sticky md:top-[50px] ">
-
-          <div className="flex flex-col gap-4 xl:w-1/2">
+        <div className="flex flex-col justify-between gap-8 xl:gap-16">
+          <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label htmlFor="title" className="text-sm font-semibold">
                 {l("settings.tab4.form.password.label") || "Title:"}
@@ -166,44 +157,43 @@ export default function EditTrialTitleTab({
             </div>
 
             <div className="flex flex-col gap-4 xl:gap-16">
+              <div className="flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="shortDescription"
+                  className="text-sm font-semibold"
+                >
+                  Short Description:<span className="ml-1">*</span>
+                </label>
+                <ReactQuill
+                  value={formik.values.shortDescription}
+                  onChange={(value) =>
+                    formik.setFieldValue("shortDescription", value)
+                  }
+                />
+                <small className="text-red-600">
+                  {formik.touched.shortDescription &&
+                    formik.errors.shortDescription}
+                </small>
+              </div>
 
-            <div className="flex flex-col gap-2 w-full">
-              <label
-                htmlFor="shortDescription"
-                className="text-sm font-semibold"
-              >
-                Short Description:<span className="ml-1">*</span>
-              </label>
-              <ReactQuill
-                value={formik.values.shortDescription}
-                onChange={(value) =>
-                  formik.setFieldValue("shortDescription", value)
-                }
-              />
-              <small className="text-red-600">
-                {formik.touched.shortDescription &&
-                  formik.errors.shortDescription}
-              </small>
-            </div>
-
-            <div className="flex flex-col gap-2 w-full">
-            <label
-                htmlFor="fullDescription"
-                className="text-sm font-semibold"
-              >
-                Full Description:<span className="ml-1">*</span>
-              </label>
-              <ReactQuill
-                value={formik.values.fullDescription}
-                onChange={(value) =>
-                  formik.setFieldValue("fullDescription", value)
-                }
-              />
-              <small className="text-red-600">
-                {formik.touched.fullDescription &&
-                  formik.errors.fullDescription}
-              </small>
-            </div>
+              <div className="flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="fullDescription"
+                  className="text-sm font-semibold"
+                >
+                  Full Description:<span className="ml-1">*</span>
+                </label>
+                <ReactQuill
+                  value={formik.values.fullDescription}
+                  onChange={(value) =>
+                    formik.setFieldValue("fullDescription", value)
+                  }
+                />
+                <small className="text-red-600">
+                  {formik.touched.fullDescription &&
+                    formik.errors.fullDescription}
+                </small>
+              </div>
             </div>
           </div>
         </div>
@@ -216,7 +206,6 @@ export default function EditTrialTitleTab({
           />
         </div>
       </form>
-
     </section>
   );
 }

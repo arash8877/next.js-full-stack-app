@@ -182,13 +182,10 @@ export interface iCompany {
 //------------------- site ---------------------------
 export interface iTrialSite {
   trialSiteId: number;
-  name: string;
+  location: string;
   address: string | undefined;
   zipCode: string;
   country: string;
-  iconUrl: string;
-  siteInfo: string;
-  location: string;
 }
 
 //------------------trialDetails-----------------------

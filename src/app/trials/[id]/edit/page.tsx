@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import EditTrialTitleTab from "@/components/EditTrialTitleTab";
+import EditTrialSiteTab from "@/components/EditTrialSiteTab";
 import useLanguageStore from "@/stores/language-store";
 
 type Props = {
@@ -27,11 +28,11 @@ export default function EditTrialPage({ params }: Props) {
       tabTitle: "first Tab",
       content: <EditTrialTitleTab {...trialData} />,
     },
-    // {
-    //   id: "2",
-    //   tabTitle: "Second Tab",
-    //   content: <EditTrialSiteTab />,
-    // },
+    {
+      id: "2",
+      tabTitle: "Second Tab",
+      content: <EditTrialSiteTab {...trialData}/>,
+    },
     // {
     //   id: "3",
     //   tabTitle: "Third Tab",
@@ -59,7 +60,7 @@ export default function EditTrialPage({ params }: Props) {
   return (
     <SidebarLayout>
       {/* <TrialForm {...trialData} /> */}
-      <div className="flex flex-col bg-white rounded-3xl py-8	">
+      <div className="flex flex-col bg-white rounded-3xl py-8	mt-8">
         <div className="w-full px-8 ">
           <div className="grid grid-cols-2 md:flex pb-4 w-full gap-x-20 gap-y-6 md:gap-12  ">
             <button
@@ -124,6 +125,12 @@ export default function EditTrialPage({ params }: Props) {
             </button>
           </div>
         </div>
+
+        {tabs.map((tab) => (
+          <div className="px-8" key={tab.id}>
+            {currentTab === tab.id && tab.content}
+          </div>
+        ))}
       </div>
     </SidebarLayout>
   );
