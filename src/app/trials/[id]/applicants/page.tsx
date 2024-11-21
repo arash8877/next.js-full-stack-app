@@ -32,6 +32,9 @@ export default function ApplicantsPage({ params }: Props) {
       });
       console.log(response);
       setIsUnlockModalOpen(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 0);
     } catch (error) {
       console.error("Error in unlock modal:", error);
     }
