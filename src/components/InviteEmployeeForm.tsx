@@ -51,6 +51,7 @@ const InputField: React.FC<InviteEmployeeFormProps> = ({
 
 //--------------------------------- main function ---------------------------------
 const InviteEmployeeForm = forwardRef((props, ref) => {
+  // eslint-disable-next-line
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
@@ -100,7 +101,7 @@ const InviteEmployeeForm = forwardRef((props, ref) => {
           }
         );
         console.log("response for invite:", response)
-        console.log("invite form submited")
+        console.log("invite form submitted")
         toast.success("Invitation is successfully sent", {
           position: "top-center",
           autoClose: 2000,
@@ -129,11 +130,8 @@ const InviteEmployeeForm = forwardRef((props, ref) => {
   }));
 
   return (
-    <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
-      <div className="flex justify-center">
-        <p className="text-red-600">{error}</p>
-      </div>
-      <div className="flex flex-col gap-6 w-full">
+    <form className="flex flex-col items-center gap-6 mt-8" onSubmit={formik.handleSubmit}>
+      <div className="flex flex-col gap-6 items-center w-full">
         <div className="grid gap-7 md:gap-6 lg:w-4/5">
           <InputField
             label={l("register.step2.form.jobTitle.label") || "Job title"}
