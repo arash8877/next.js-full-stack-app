@@ -1,6 +1,6 @@
 import { useState, forwardRef, useImperativeHandle } from "react";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import axios from "axios";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import * as Yup from "yup";
@@ -48,11 +48,14 @@ const InputField: React.FC<InviteEmployeeFormProps> = ({
   </div>
 );
 
+
+//--------------------------------- main function ---------------------------------
 const InviteEmployeeForm = forwardRef((props, ref) => {
-  const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
+
+  //----------- Yup ------------
   const formSchema = Yup.object({
     firstName: Yup.string()
       .required("First name is required!")
@@ -68,24 +71,42 @@ const InviteEmployeeForm = forwardRef((props, ref) => {
       .email("Invalid email format"),
   });
 
+
+  //------------- Formik -----------
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
       jobTitle: "",
       email: "",
     },
     validationSchema: formSchema,
-    
+
+    //----- onSubmit -----
+    // eslint-disable-next-line
     onSubmit: async (values) => {
+      const token = localStorage.getItem("token");
+    
       try {
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite`,
+          {
+            redirectUri: "",
+            email: values.email,
+            jobTitle: values.jobTitle
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response for invite:", response)
+        console.log("invite form submited")
         toast.success("Invitation is successfully sent", {
           position: "top-center",
           autoClose: 2000,
           className: "single_line_toast",
         });
 
-        router.push("/employees");
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response && error.response.data) {
@@ -114,20 +135,6 @@ const InviteEmployeeForm = forwardRef((props, ref) => {
       </div>
       <div className="flex flex-col gap-6 w-full">
         <div className="grid gap-7 md:gap-6 lg:w-4/5">
-          {/* <InputField
-            label={l("register.step2.form.firstname.label") || "First name"}
-            name="firstName"
-            type="text"
-            placeholder="e.g. John"
-            formik={formik}
-          />
-          <InputField
-            label={l("register.step2.form.lastname.label") || "Last name"}
-            name="lastName"
-            type="text"
-            placeholder="e.g. Smith"
-            formik={formik}
-          /> */}
           <InputField
             label={l("register.step2.form.jobTitle.label") || "Job title"}
             name="jobTitle"
