@@ -11,7 +11,7 @@ const useGetCompanyInfo = (): {
 } => {
   //--- Initial Company Info ---
   const initialInfo: CompanyInfoProps = {
-    sponsorName: "",
+    name: "",
     address: "",
     country: "",
     vatNumber: "",

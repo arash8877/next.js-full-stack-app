@@ -9,7 +9,7 @@ import useLanguageStore from "@/stores/language-store";
 import useJWTUserInfo from "@/hooks/useJWTUserInfo";
 
 interface UpdateSponsorProps {
-  sponsorName: string,
+  name: string,
   address: string,
   zipCode: string,
   country: string
@@ -17,7 +17,7 @@ interface UpdateSponsorProps {
 
 //------------------------------------ main function -----------------------------------
 const CompanyInfoForm = ({
-  sponsorName,
+  name,
   vatNumber,
   address,
   zipCode,
@@ -111,7 +111,7 @@ const CompanyInfoForm = ({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      sponsorName: sponsorName,
+      name: name,
       vatNumber: vatNumber || "",
       address: address || "",
       zipCode: zipCode || "",
@@ -120,7 +120,7 @@ const CompanyInfoForm = ({
     //----onSubmit-------
     onSubmit: async (values) => {
       const data = {
-        sponsorName: values.sponsorName,
+        name: values.name,
         address: values.address,
         zipCode: values.zipCode,
         country: values.country,
@@ -149,13 +149,13 @@ const CompanyInfoForm = ({
             id="companyName"
             name="name"
             type="text"
-            value={formik.values.sponsorName}
+            value={formik.values.name}
             onChange={formik.handleChange("companyName")}
             onBlur={formik.handleBlur("companyName")}
             className="register_input custom-border"
           />
           <small className="text-red-600">
-            {formik.touched.sponsorName && formik.errors.sponsorName}
+            {formik.touched.name && formik.errors.name}
           </small>
         </div>
 
