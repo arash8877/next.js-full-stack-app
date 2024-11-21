@@ -33,24 +33,32 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
-  // Function to convert HTML to plain text
-  const htmlToPlainText = (html: string): string => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    return doc.body.textContent || "";
+  const getCompensationList = (values: {drivingCompensation: boolean, monetaryCompensation: boolean, otherCompensation: string}) => {
+    const compensation = [];
+
+    if (values.drivingCompensation) {
+      compensation.push("drivingCompensation");
+    }
+    
+    if (values.monetaryCompensation) {
+      compensation.push("monetaryCompensation");
+    }
+  
+    if (values.otherCompensation) {
+      compensation.push(values.otherCompensation);
+    }
+    
+    console.log(compensation);
+    
+    return compensation;
   };
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
       participantActivities: formData.step5Data?.participantActivities || "",
-<<<<<<< HEAD
-      expectedParticipants: formData.step5Data?.expectedParticipants || "0",
-      additionalInfo: formData.step5Data.additionalInfo || "",
-=======
       expectedParticipants: formData.step5Data?.expectedParticipants || "",
       additionalInformation: formData.step5Data.additionalInformation || "",
->>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -63,34 +71,21 @@ const CreateTrialStep5Form = () => {
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
 
-      const normalizedValues = {
-        ...values,
-        participantActivities: htmlToPlainText(values.participantActivities),
-      };
-
       //console.log("compensation", compensations);
       try {
-        const payload = {
-          participantActivities: normalizedValues.participantActivities,
-          expectedParticipants: normalizedValues.expectedParticipants,
-          additionalInfo: normalizedValues.additionalInfo,
-          monetaryCompensation: normalizedValues.monetaryCompensation,
-          drivingCompensation: normalizedValues.drivingCompensation,
-          otherCompensation: normalizedValues.otherCompensation,
-        };
         //console.log("payload", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
-<<<<<<< HEAD
-          payload,
-=======
           {
             participantActivities: values["participantActivities"],
             expectedParticipants: values["expectedParticipants"],
             additionalInformation: values["additionalInformation"],
-            compensations: compensation,
+            compensations: getCompensationList({
+              drivingCompensation: values["drivingCompensation"],
+              monetaryCompensation: values["monetaryCompensation"],
+              otherCompensation: values["otherCompensationText"]
+            }),
           },
->>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -98,10 +93,6 @@ const CreateTrialStep5Form = () => {
           }
         );
         console.log(response);
-<<<<<<< HEAD
-        setFormData({ step5Data: normalizedValues });
-
-=======
         setFormData({
           ...formData,
           step5Data: {
@@ -114,7 +105,6 @@ const CreateTrialStep5Form = () => {
             otherCompensation: values.otherCompensation,
           },
         });
->>>>>>> 59b18783364e71e2485dde2224132bbc0a286fa6
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
