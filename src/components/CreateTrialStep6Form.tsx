@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import useLanguageStore from "@/stores/language-store";
+import useCreateTrialStore from "@/stores/createTrial-store";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,7 @@ const CreateTrialStep6Form = () => {
   const [previewKey, setPreviewKey] = useState("");
   const [trialId, setTrialId] = useState<string | null>(null);
   const { trialData } = useGetSingleTrialInfo(trialId || "");
+  const { resetFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
   console.log("$$$$$$$$$$", trialData);
   useEffect(() => {
@@ -63,6 +65,7 @@ const CreateTrialStep6Form = () => {
         }
       );
       console.log("response in createTrialStep6Form:", response);
+      resetFormData();
       localStorage.removeItem("currentTrialEditId");
       router.push("/trials");
     } catch (error) {
