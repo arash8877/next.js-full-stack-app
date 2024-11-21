@@ -1,24 +1,32 @@
 "use client";
 
+import { useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import CustomButton from "@/components/CustomButton";
 import { useRouter } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
+import InviteEmployeeModal from "@/components/InviteEmployeeModal";
 import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 
 //------------------------------------ main function -----------------------------------
 export default function EmployeesPage() {
+  const [isInviteEmployeeModalOpen, setIsInviteEmployeeModalOpen] = useState(false);
+  const { companyData } = useGetCompanyInfo();
   const router = useRouter();
   const { l } = useLanguageStore();
-  const { companyData } = useGetCompanyInfo();
 
   function redirectToEmployeeDetails(employeeId: number) {
     router.push(`/employees/${employeeId}`);
   }
 
-  function redirectToInviteEmployeePage(){
-    router.push("/employees/invite");
-  }
+
+    //---- open and close modal -----
+    const openInviteEmployeeModal = () => {
+      setIsInviteEmployeeModalOpen(true);
+    };
+    const closeInviteEmployeeModal = () => {
+      setIsInviteEmployeeModalOpen(false);
+    };
 
   //------------------------------- JSX -----------------------------------
   return (
@@ -32,7 +40,7 @@ export default function EmployeesPage() {
             <div className="flex_center rounded-lg py-[6px] h-[44px] bg-secondary-50 cursor-pointer">
               <button
                 className="flex_center text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8"
-                onClick={redirectToInviteEmployeePage}
+                onClick={openInviteEmployeeModal}
               >
                 {l("filter.btn.suggestion") || "Invite Employee"}
               </button>
@@ -86,6 +94,9 @@ export default function EmployeesPage() {
           </tbody>
         </table>
       </div>
+      {isInviteEmployeeModalOpen && (
+        <InviteEmployeeModal open={isInviteEmployeeModalOpen} onClose={closeInviteEmployeeModal} />
+      )}
     </SidebarLayout>
   );
 }
