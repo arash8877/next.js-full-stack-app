@@ -17,7 +17,7 @@ export default function EmployeesPage() {
   }
 
   function redirectToInviteEmployeePage(){
-    console.log("redirectToIviteEmployeePage")
+    router.push("/employees/invite");
   }
 
   //------------------------------- JSX -----------------------------------
