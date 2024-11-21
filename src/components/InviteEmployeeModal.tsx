@@ -37,20 +37,11 @@ export default function InviteEmployeeModal({ open, onClose }: InviteEmployeeMod
   const formRef = useRef<{ submit: () => void } | null>(null);
 
   const handleInvite = () => {
-    console.log("Form values:", formik.values);
-    if (formik.isValid) {
-      if (formRef.current) {
-        formRef.current.submit();
-        console.log("Form submitted");
-      } else {
-        console.error("Form reference is null");
-      }
-    } else {
-      console.log("Form validation failed");
+    if (formRef.current) {
+      formRef.current.submit(); 
     }
     onClose();
   };
-  
 
   return (
     <Modal
