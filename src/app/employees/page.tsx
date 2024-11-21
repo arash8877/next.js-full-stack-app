@@ -10,7 +10,8 @@ import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 
 //------------------------------------ main function -----------------------------------
 export default function EmployeesPage() {
-  const [isInviteEmployeeModalOpen, setIsInviteEmployeeModalOpen] = useState(false);
+  const [isInviteEmployeeModalOpen, setIsInviteEmployeeModalOpen] =
+    useState(false);
   const { companyData } = useGetCompanyInfo();
   const router = useRouter();
   const { l } = useLanguageStore();
@@ -19,14 +20,13 @@ export default function EmployeesPage() {
     router.push(`/employees/${employeeId}`);
   }
 
-
-    //---- open and close modal -----
-    const openInviteEmployeeModal = () => {
-      setIsInviteEmployeeModalOpen(true);
-    };
-    const closeInviteEmployeeModal = () => {
-      setIsInviteEmployeeModalOpen(false);
-    };
+  //---- open and close modal -----
+  const openInviteEmployeeModal = () => {
+    setIsInviteEmployeeModalOpen(true);
+  };
+  const closeInviteEmployeeModal = () => {
+    setIsInviteEmployeeModalOpen(false);
+  };
 
   //------------------------------- JSX -----------------------------------
   return (
@@ -76,7 +76,11 @@ export default function EmployeesPage() {
                 </td>{" "}
                 {/* Email should break into multiple lines */}
                 <td className="py-4 px-6 hidden lg:table-cell">
-                  {employee.lastLogin}
+                  {new Date(employee.lastLogin).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
                 </td>
                 <td className="py-4 px-6 flex justify-end">
                   <CustomButton
@@ -95,7 +99,10 @@ export default function EmployeesPage() {
         </table>
       </div>
       {isInviteEmployeeModalOpen && (
-        <InviteEmployeeModal open={isInviteEmployeeModalOpen} onClose={closeInviteEmployeeModal} />
+        <InviteEmployeeModal
+          open={isInviteEmployeeModalOpen}
+          onClose={closeInviteEmployeeModal}
+        />
       )}
     </SidebarLayout>
   );
