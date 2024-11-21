@@ -13,7 +13,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "90%",
-  maxWidth: "500px",
+  maxWidth: "700px",
   bgcolor: "background.paper",
   borderRadius: 4,
   boxShadow: 24,
@@ -56,10 +56,10 @@ export default function InviteEmployeeModal({ open, onClose }: InviteEmployeeMod
         </Typography>
         <Divider sx={{ my: 2, width: "80%", mx: "auto", borderColor: "#DAF5DE", borderWidth: "1.5px" }} />
         <Typography id="modal-modal-description" sx={{ mt: 1 }}>
-          {l("modal.logout.description") || "Please fill out the required fields"}
+          {l("modal.logout.description") || "Please provide the job tile and email of the invited employee"}
         </Typography>
         <InviteEmployeeForm ref={formRef} />
-        <Box sx={{ mt: 4, display: "flex", alignItems: "center", justifyContent: "center", gap: "18px" }}>
+        <Box sx={{ mt: 8, display: "flex", alignItems: "center", justifyContent: "center", gap: "18px" }}>
           <Button
             variant="outlined"
             onClick={onClose}
