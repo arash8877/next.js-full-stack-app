@@ -46,6 +46,7 @@ export interface SponsorUserInfo {
 
 //------- RegisterStep1Form --------
 export interface sponsorContact {
+  userId: number;
   firstName: string;
   lastName: string;
   email: string;

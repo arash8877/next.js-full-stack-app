@@ -117,6 +117,7 @@ const RegisterStep1Form = () => {
       country: "",
       sponsorContacts: [
         {
+          userId: 0,
           firstName: "",
           lastName: "",
           email: "",

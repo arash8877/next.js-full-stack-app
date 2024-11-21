@@ -12,7 +12,7 @@ export default function EmployeesPage() {
   const { l } = useLanguageStore();
   const { companyData } = useGetCompanyInfo();
 
-  function redirectToEmployeeDetails(employeeId: string) {
+  function redirectToEmployeeDetails(employeeId: number) {
     router.push(`/employees/${employeeId}`);
   }
 
@@ -45,6 +45,7 @@ export default function EmployeesPage() {
         <table className="min-w-full bg-white">
           <thead>
             <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
+              <th className="hidden">Id</th>
               <th className="py-3 px-6">First Name</th>
               <th className="py-3 px-6">Last Name</th>
               <th className="py-3 px-6 hidden lg:table-cell">Email</th>{" "}
@@ -59,6 +60,7 @@ export default function EmployeesPage() {
           <tbody>
             {companyData?.sponsorContacts?.map((employee, index) => (
               <tr key={index} className="border-b">
+                <td className="hidden">{employee.userId}</td>
                 <td className="py-4 px-6">{employee.firstName}</td>
                 <td className="py-4 px-6">{employee.lastName}</td>
                 <td className="py-4 px-6 hidden lg:table-cell break-all max-w-xs whitespace-normal">
@@ -73,8 +75,9 @@ export default function EmployeesPage() {
                     title={l("forgotpassword.form.submit") || "View"}
                     containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom-padding"
                     btnType="button"
+                    disabled={employee.firstName == "Invited"}
                     handleClick={() =>
-                      redirectToEmployeeDetails(employee.email)
+                      redirectToEmployeeDetails(employee.userId)
                     }
                   />
                 </td>
