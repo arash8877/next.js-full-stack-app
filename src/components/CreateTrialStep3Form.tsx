@@ -1,20 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import GenderDropdown from "./GenderDropdown";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
   const router = useRouter();
-  const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
 
@@ -37,7 +35,7 @@ const CreateTrialStep3Form = () => {
           "Deadline is required!"
       )
       .max(
-        Yup.ref("startDate"),
+        Yup.ref("endDate"),
         "Deadline should not be later than End Study Date"
       ),
     ageMin: Yup.number()
@@ -109,13 +107,7 @@ const CreateTrialStep3Form = () => {
         });
         router.push("/create-trial/step4");
       } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response && error.response.data) {
-            setError(error.response.data);
-          } else {
-            setError("An unknown error occurred");
-          }
-        }
+       console.log(error)
       }
     },
     validationSchema: formSchema,
@@ -127,9 +119,6 @@ const CreateTrialStep3Form = () => {
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex justify-center">
-        <p className=" text-red-600">{error}</p>
-      </div>
 
       <div className="flex flex-col gap-6 xl:w-3/4">
         <div className="flex flex-col gap-6 xl:flex-row">
@@ -181,10 +170,10 @@ const CreateTrialStep3Form = () => {
               onChange={(date) => formik.setFieldValue("deadline", date)}
               onBlur={formik.handleBlur("deadline")}
               maxDate={
-                formik.values.startDate
+                formik.values.endDate
                   ? new Date(
-                      new Date(formik.values.startDate).setDate(
-                        new Date(formik.values.startDate).getDate() - 1
+                      new Date(formik.values.endDate).setDate(
+                        new Date(formik.values.endDate).getDate() - 1
                       )
                     )
                   : undefined
