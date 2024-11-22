@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 // import LanguageDropdown from "./LanguageDropdown";
 import useLanguageStore from "@/stores/language-store";
 
-//------------------------------------ main function -----------------------------------
+//------------------------------------------ main function -----------------------------------------
 const AcceptInvitationForm = ({
   firstName,
   lastName,
@@ -22,8 +22,82 @@ const AcceptInvitationForm = ({
     const router = useRouter();
   const { l } = useLanguageStore();
 
+
+    //----Yup validation ---------
+    const formSchema = Yup.object({
+      firstName: Yup.string()
+        .required(
+          l("settings.tab1.form.firstname.validation.required") ||
+            "First name is required!"
+        )
+        .matches(
+          /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
+          l("settings.tab1.form.firstname.validation.format") ||
+            "First name should only contain letters!"
+        )
+        .min(
+          2,
+          l("settings.tab1.form.firstname.validation.length") ||
+            "First name must be at least 2 characters!"
+        ),
+  
+      lastName: Yup.string()
+        .required(
+          l("settings.tab1.form.lastname.validation.required") ||
+            "Last name is required!"
+        )
+        .matches(
+          /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
+          l("settings.tab1.form.lastname.validation.format") ||
+            "Last name should only contain letters!"
+        )
+        .min(
+          1,
+          l("settings.tab1.form.lastname.validation.length") ||
+            "Last name must be at least 1 characters!"
+        ),
+      jobTitle: Yup.string().required(
+        l("settings.tab1.form.jobtitle.validation.required") ||
+          "Job title is required!"
+      ),
+      phoneNumber: Yup.string().required(
+        l("register.step1.form.country.validation.required") ||
+          "Phone number is required!"
+      ),
+      email: Yup.string()
+        .required(
+          l("login.form.email.validation.required") || "Email is required!"
+        )
+        .email(l("Invalid email format") || "Invalid email format"),
+  
+      password: Yup.string()
+        .required(
+          l("login.form.password.validation.required") || "Password is required!"
+        )
+        .min(
+          8,
+          l("settings.tab4.form.password.validation.format") ||
+            "Password must be at least 8 characters"
+        ),
+      repeatedPassword: Yup.string()
+        .required(
+          l("login.form.password.validation.required") || "Repeat password is required!"
+        )
+        .oneOf(
+          [Yup.ref("password")],
+          l("settings.tab4.form.repeatpassword.validation.format") ||
+            "Passwords must match!"
+        ),
+        consentedToTerms: Yup.boolean().oneOf(
+          [true],
+          l("register.step2.form.termsandconditions.validation.required") ||
+            "You must accept the terms and conditions."
+        ),
+        hasConsentedToMarketing: Yup.boolean(),
+    });
+
   //---------------- update user ---------------
-  const updateUser = async (data: iUserUpdateProps) => {
+  const updateEmployeeForm = async (data: iUserUpdateProps) => {
     //function will be called in onSubmit
     try {
       const response = await axios.patch(
@@ -36,6 +110,8 @@ const AcceptInvitationForm = ({
           },
         }
       );
+      router.push("/login");
+      console.log(response);
       toast.success(
         l("settings.tab1.form.toast.success") ||
           "Your profile is created successfully!",
@@ -45,8 +121,7 @@ const AcceptInvitationForm = ({
           className: "single_line_toast",
         }
       );
-      router.push("/login");
-      console.log(response);
+  
     } catch (error) {
       console.error("Error in /users", error);
       toast.error(
@@ -60,78 +135,7 @@ const AcceptInvitationForm = ({
     }
   };
 
-  //----Yup validation ---------
-  const formSchema = Yup.object({
-    firstName: Yup.string()
-      .required(
-        l("settings.tab1.form.firstname.validation.required") ||
-          "First name is required!"
-      )
-      .matches(
-        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
-        l("settings.tab1.form.firstname.validation.format") ||
-          "First name should only contain letters!"
-      )
-      .min(
-        2,
-        l("settings.tab1.form.firstname.validation.length") ||
-          "First name must be at least 2 characters!"
-      ),
 
-    lastName: Yup.string()
-      .required(
-        l("settings.tab1.form.lastname.validation.required") ||
-          "Last name is required!"
-      )
-      .matches(
-        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
-        l("settings.tab1.form.lastname.validation.format") ||
-          "Last name should only contain letters!"
-      )
-      .min(
-        1,
-        l("settings.tab1.form.lastname.validation.length") ||
-          "Last name must be at least 1 characters!"
-      ),
-    jobTitle: Yup.string().required(
-      l("settings.tab1.form.jobtitle.validation.required") ||
-        "Job title is required!"
-    ),
-    phoneNumber: Yup.string().required(
-      l("register.step1.form.country.validation.required") ||
-        "Phone number is required!"
-    ),
-    email: Yup.string()
-      .required(
-        l("login.form.email.validation.required") || "Email is required!"
-      )
-      .email(l("Invalid email format") || "Invalid email format"),
-
-    password: Yup.string()
-      .required(
-        l("login.form.password.validation.required") || "Password is required!"
-      )
-      .min(
-        8,
-        l("settings.tab4.form.password.validation.format") ||
-          "Password must be at least 8 characters"
-      ),
-    repeatedPassword: Yup.string()
-      .required(
-        l("login.form.password.validation.required") || "Repeat password is required!"
-      )
-      .oneOf(
-        [Yup.ref("password")],
-        l("settings.tab4.form.repeatpassword.validation.format") ||
-          "Passwords must match!"
-      ),
-      consentedToTerms: Yup.boolean().oneOf(
-        [true],
-        l("register.step2.form.termsandconditions.validation.required") ||
-          "You must accept the terms and conditions."
-      ),
-      hasConsentedToMarketing: Yup.boolean(),
-  });
 
   //--------------- formik ----------------
   const formik = useFormik({
@@ -161,12 +165,12 @@ const AcceptInvitationForm = ({
         hasConsentedToMarketing: values.hasConsentedToMarketing,
       };
 
-      updateUser(data);
+      updateEmployeeForm(data);
     },
     validationSchema: formSchema,
   });
 
-  //--------------------------Return---------------------------------
+  //------------------------------------ JSX ----------------------------------------
   return (
     <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-2">

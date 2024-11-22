@@ -65,7 +65,7 @@ export default function LoginPage() {
               </h1>
               <p className="text-base text-center">
                 {l("login.description") ||
-                  "You have been invited by ....... Please accept the invitation to create your profile."}
+                  "You have been invited by to join TrialSync sponsor platform. Please accept the invitation to create your profile."}
               </p>
             </div>
             <AcceptInvitationForm {...userData}/>
