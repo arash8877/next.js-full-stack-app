@@ -131,7 +131,7 @@ const RegisterStep1Form = () => {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/sponsor`, //post request
           {
-            name: values.name,
+            sponsorName: values.name,
             vatNumber: values.vatNumber,
             address: values.address,
             zipCode: values.zipCode,
