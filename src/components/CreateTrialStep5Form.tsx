@@ -33,23 +33,27 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
-  const getCompensationList = (values: {drivingCompensation: boolean, monetaryCompensation: boolean, otherCompensation: string}) => {
+  const getCompensationList = (values: {
+    drivingCompensation: boolean;
+    monetaryCompensation: boolean;
+    otherCompensation: string;
+  }) => {
     const compensation = [];
 
     if (values.drivingCompensation) {
       compensation.push("drivingCompensation");
     }
-    
+
     if (values.monetaryCompensation) {
       compensation.push("monetaryCompensation");
     }
-  
+
     if (values.otherCompensation) {
       compensation.push(values.otherCompensation);
     }
-    
+
     console.log(compensation);
-    
+
     return compensation;
   };
 
@@ -70,22 +74,22 @@ const CreateTrialStep5Form = () => {
     onSubmit: async (values) => {
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
-
+      const payload = {
+        participantActivities: values["participantActivities"],
+        expectedParticipants: values["expectedParticipants"],
+        additionalInformation: values["additionalInformation"],
+        compensations: getCompensationList({
+          drivingCompensation: values["drivingCompensation"],
+          monetaryCompensation: values["monetaryCompensation"],
+          otherCompensation: values["otherCompensationText"],
+        }),
+      };
       //console.log("compensation", compensations);
       try {
-        //console.log("payload", payload);
+        console.log("payload", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
-          {
-            participantActivities: values["participantActivities"],
-            expectedParticipants: values["expectedParticipants"],
-            additionalInformation: values["additionalInformation"],
-            compensations: getCompensationList({
-              drivingCompensation: values["drivingCompensation"],
-              monetaryCompensation: values["monetaryCompensation"],
-              otherCompensation: values["otherCompensationText"]
-            }),
-          },
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,

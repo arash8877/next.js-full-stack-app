@@ -101,13 +101,6 @@ const CreateTrialStep1Form = () => {
       ),
   });
 
-  // Function to convert HTML to plain text
-  const htmlToPlainText = (html: string): string => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    return doc.body.textContent || "";
-  };
-
   const formik = useFormik({
     initialValues: {
       title: formData?.step1Data?.title || "",
@@ -123,18 +116,13 @@ const CreateTrialStep1Form = () => {
         typeof window !== "undefined"
           ? window.localStorage.getItem("token")
           : null;
-      const normalizedValues = {
-        ...values,
-        shortDescription: htmlToPlainText(values.shortDescription),
-        fullDescription: htmlToPlainText(values.fullDescription),
-      };
 
       try {
         const payload = {
           sponsorId: jwtInfo.jwtInfo?.sponsor_id,
-          title: normalizedValues["title"],
-          shortDescription: normalizedValues["shortDescription"],
-          fullDescription: normalizedValues["fullDescription"],
+          title: values["title"],
+          shortDescription: values["shortDescription"],
+          fullDescription: values["fullDescription"],
         };
         setFormData({ step1Data: values });
 
