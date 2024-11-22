@@ -1,7 +1,6 @@
 "use client";
 
 import { SidebarLayout } from "@/components/SidebarLayout";
-import InviteEmployeeForm from "@/components/InviteEmployeeForm";
 import useLanguageStore from "@/stores/language-store";
 
 //------------------------- Main Function ----------------------------------
@@ -15,7 +14,6 @@ export default function CompanyPage() {
         {l("settings.title") || "Invite Employee"}
       </h1>
       <div className="flex flex-col bg-white rounded-3xl wrapper">
-        <InviteEmployeeForm />
       </div>
     </SidebarLayout>
   );

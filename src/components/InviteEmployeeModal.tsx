@@ -1,11 +1,16 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { useFormik } from "formik";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import axios from "axios";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { AxiosError } from "axios";
 import Divider from "@mui/material/Divider";
-import InviteEmployeeForm from "./InviteEmployeeForm";
 import useLanguageStore from "@/stores/language-store";
+import { InputField } from "./CustomInputField";
 
 const style = {
   position: "absolute" as const,
@@ -32,17 +37,78 @@ interface InviteEmployeeModalProps {
   onClose: () => void;
 }
 
-export default function InviteEmployeeModal({ open, onClose }: InviteEmployeeModalProps) {
+//------------------------------- main function -------------------------------
+export default function InviteEmployeeModal({
+  open,
+  onClose,
+}: InviteEmployeeModalProps) {
   const { l } = useLanguageStore();
-  const formRef = useRef<{ submit: () => void } | null>(null);
+  // eslint-disable-next-line
+  const [error, setError] = useState("");
 
-  const handleInvite = () => {
-    if (formRef.current) {
-      formRef.current.submit(); 
-    }
-    onClose();
-  };
+  //----------- Yup ------------
+  const formSchema = Yup.object({
+    jobTitle: Yup.string()
+      .required("Job title is required!")
+      .min(2, "Job title must be at least 2 characters!"),
+    email: Yup.string()
+      .required("Email is required!")
+      .email("Invalid email format"),
+  });
 
+  //------------- Formik -----------
+  const formik = useFormik({
+    initialValues: {
+      jobTitle: "",
+      email: "",
+    },
+    validationSchema: formSchema,
+
+    //----- onSubmit -----
+    // eslint-disable-next-line
+    onSubmit: async (values) => {
+      const token = localStorage.getItem("token");
+      console.log("Submitting form with values:", values);
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite`,
+          {
+            redirectUri: "",
+            email: values.email,
+            jobTitle: values.jobTitle,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("response for invite:", response);
+        console.log("invite form submitted");
+        onClose();
+        toast.success("Invitation is successfully sent", {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        });
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.response && error.response.data) {
+            setError(error.response.data);
+          } else {
+            setError("An unknown error occurred");
+            toast.error("Something went wrong!", {
+              position: "top-center",
+              autoClose: 2000,
+              className: "single_line_toast",
+            });
+          }
+        }
+      }
+    },
+  });
+
+  //------------------------------------ JSX ------------------------------------
   return (
     <Modal
       open={open}
@@ -54,43 +120,83 @@ export default function InviteEmployeeModal({ open, onClose }: InviteEmployeeMod
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {l("modal.logout.header") || "Invite an Employee"}
         </Typography>
-        <Divider sx={{ my: 2, width: "80%", mx: "auto", borderColor: "#DAF5DE", borderWidth: "1.5px" }} />
+        <Divider
+          sx={{
+            my: 2,
+            width: "80%",
+            mx: "auto",
+            borderColor: "#DAF5DE",
+            borderWidth: "1.5px",
+          }}
+        />
         <Typography id="modal-modal-description" sx={{ mt: 1 }}>
-          {l("modal.logout.description") || "Please provide the job tile and email of the invited employee"}
+          {l("modal.logout.description") ||
+            "Please provide the job tile and email of the invited employee"}
         </Typography>
-        <InviteEmployeeForm ref={formRef} />
-        <Box sx={{ mt: 8, display: "flex", alignItems: "center", justifyContent: "center", gap: "18px" }}>
-          <Button
-            variant="outlined"
-            onClick={onClose}
+        <form
+          className="flex flex-col items-center gap-6 mt-8"
+          onSubmit={formik.handleSubmit}
+        >
+          <div className="flex flex-col gap-6 items-center w-full">
+            <div className="grid gap-7 md:gap-6 lg:w-4/5">
+              <InputField
+                label={l("register.step2.form.jobTitle.label") || "Job title"}
+                name="jobTitle"
+                type="text"
+                placeholder="e.g. Manager"
+                formik={formik}
+              />
+              <InputField
+                label={l("register.step2.form.email.label") || "Email"}
+                name="email"
+                type="email"
+                placeholder="e.g. employee@email.com"
+                formik={formik}
+                icon="/email_icon.svg"
+              />
+            </div>
+          </div>
+          <Box
             sx={{
-              textTransform: "none",
-              borderColor: "#17342E",
-              color: "black",
-              width: "105px",
-              height: "44px",
-              borderRadius: "8px",
-              fontSize: { xs: "14px", sm: "16px" },
+              mt: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "18px",
             }}
           >
-            {l("modal.logout.btn.cancel") || "Cancel"}
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleInvite}
-            sx={{
-              textTransform: "none",
-              bgcolor: "#17342E",
-              color: "white",
-              width: "105px",
-              height: "44px",
-              borderRadius: "8px",
-              fontSize: { xs: "14px", sm: "16px" },
-            }}
-          >
-            {l("modal.logout.btn.accept") || "Invite"}
-          </Button>
-        </Box>
+            <Button
+              variant="outlined"
+              onClick={onClose}
+              sx={{
+                textTransform: "none",
+                borderColor: "#17342E",
+                color: "black",
+                width: "105px",
+                height: "44px",
+                borderRadius: "8px",
+                fontSize: { xs: "14px", sm: "16px" },
+              }}
+            >
+              {l("modal.logout.btn.cancel") || "Cancel"}
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                textTransform: "none",
+                bgcolor: "#17342E",
+                color: "white",
+                width: "105px",
+                height: "44px",
+                borderRadius: "8px",
+                fontSize: { xs: "14px", sm: "16px" },
+              }}
+            >
+              {l("modal.logout.btn.accept") || "Invite"}
+            </Button>
+          </Box>
+        </form>
       </Box>
     </Modal>
   );
