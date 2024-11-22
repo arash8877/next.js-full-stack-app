@@ -73,7 +73,7 @@ export default function InviteEmployeeModal({
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite`,
           {
-            redirectUri: "",
+            redirectUri: `${process.env.NEXT_PUBLIC_API_URL}/employees/accept-invitation`,
             email: values.email,
             jobTitle: values.jobTitle,
           },
@@ -86,7 +86,7 @@ export default function InviteEmployeeModal({
         console.log("response for invite:", response);
         console.log("invite form submitted");
         onClose();
-        toast.success("Invitation is successfully sent", {
+        toast.success("Invitation is sent successfully", {
           position: "top-center",
           autoClose: 2000,
           className: "single_line_toast",
