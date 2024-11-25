@@ -79,9 +79,9 @@ const CreateTrialStep5Form = () => {
         expectedParticipants: values["expectedParticipants"],
         additionalInformation: values["additionalInformation"],
         compensations: getCompensationList({
-          drivingCompensation: values["drivingCompensation"],
-          monetaryCompensation: values["monetaryCompensation"],
-          otherCompensation: values["otherCompensationText"],
+          drivingCompensation: values["drivingCompensation"] ?? false,
+          monetaryCompensation: values["monetaryCompensation"] ?? false,
+          otherCompensation: values["otherCompensationText"] || "",
         }),
       };
       //console.log("compensation", compensations);
@@ -101,9 +101,9 @@ const CreateTrialStep5Form = () => {
           ...formData,
           step5Data: {
             ...formData.step5Data,
-            participantActivities: values.participantActivities,
+            participantActivities: values.participantActivities || "",
             expectedParticipants: values.expectedParticipants,
-            additionalInformation: values.additionalInformation,
+            additionalInformation: values.additionalInformation || "",
             drivingCompensation: values.drivingCompensation,
             monetaryCompensation: values.monetaryCompensation,
             otherCompensation: values.otherCompensation,

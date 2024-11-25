@@ -212,11 +212,11 @@ export interface iTrialInfoProps {
   diseases: string[];
   applicantsNumber: number;
   recruitingStatus: string;
-  expectedParticipants: number;
-  inclusionDiseases?: string[]; 
-  inclusionRequirements?: string; 
-  exclusionDiseases?: string[]; 
-  exclusionRequirements?: string; 
+  expectedParticipants: string;
+  inclusionDiseases?: string[];
+  inclusionRequirements?: string;
+  exclusionDiseases?: string[];
+  exclusionRequirements?: string;
   medicalCategories?: iTrialCategoryProps[];
   participantActivities?: string;
   additionalInformation?: string;
@@ -324,13 +324,21 @@ export interface CreateTrialStep4FormProps {
 
 export interface CreateTrialStep5FormProps {
   trialId?: number;
+  participantActivities?: string;
+  expectedParticipants: string;
+  additionalInformation?: string;
+  drivingCompensation?: boolean;
+  monetaryCompensation?: boolean;
+  otherCompensation?: boolean;
+  otherCompensationText?: string;
+}
+
+export interface EditTrialMoreInfoTabProps {
+  trialId: number;
   participantActivities: string;
   expectedParticipants: string;
   additionalInformation: string;
-  drivingCompensation: boolean;
-  monetaryCompensation: boolean;
-  otherCompensation: boolean;
-  otherCompensationText: string;
+  compensations: [boolean, boolean, boolean, string];
 }
 
 //------------------------------ Employees ----------------------------

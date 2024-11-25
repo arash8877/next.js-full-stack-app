@@ -242,6 +242,7 @@ export default function EditTrialMoreInfoTab({
                     id="drivingCompensation"
                     name="drivingCompensation"
                     type="checkbox"
+                    checked={formik.values.drivingCompensation}
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     onChange={() => {
                       const updatedValue = !formik.values.drivingCompensation;
@@ -264,7 +265,7 @@ export default function EditTrialMoreInfoTab({
                     id="monetaryCompensation"
                     name="monetaryCompensation"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    checked={formik.values.monetaryCompensation}
                     onChange={() => {
                       const updatedValue = !formik.values.monetaryCompensation;
                       formik.setFieldValue(
@@ -272,6 +273,7 @@ export default function EditTrialMoreInfoTab({
                         updatedValue
                       );
                     }}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
                 </div>
                 <div className="text-sm leading-6">
@@ -290,11 +292,12 @@ export default function EditTrialMoreInfoTab({
                     name="otherCompensation"
                     type="checkbox"
                     onClick={toggleOtherCompensation}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    checked={formik.values.otherCompensation}
                     onChange={() => {
                       const updatedValue = !formik.values.otherCompensation;
                       formik.setFieldValue("otherCompensation", updatedValue);
                     }}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
                 </div>
                 <div className="text-sm leading-6">
@@ -309,7 +312,7 @@ export default function EditTrialMoreInfoTab({
             </div>
           </fieldset>
 
-          <div hidden={!isOtherClicked}>
+          <div hidden={isOtherClicked}>
             <div className="flex flex-col justify-start gap-2 mb-12">
               <p className="text-sm font-semibold mb-2">
                 {l("register.step4.other.description") ||

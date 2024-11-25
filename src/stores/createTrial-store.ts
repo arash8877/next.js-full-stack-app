@@ -34,9 +34,9 @@ interface FormData {
     participantActivities: string;
     expectedParticipants: string;
     additionalInformation: string;
-    drivingCompensation: boolean;
-    monetaryCompensation: boolean;
-    otherCompensation: boolean;
+    drivingCompensation?: boolean;
+    monetaryCompensation?: boolean;
+    otherCompensation?: boolean;
     otherCompensationText?: string;
   };
 }
