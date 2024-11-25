@@ -42,21 +42,21 @@ const CreateTrialStep4Form = () => {
   const x = categories.filter(
     (category) =>
       category.medicalCategoryId !== undefined &&
-      formData.step4Data.medicalCategories.includes(category.medicalCategoryId)
+      formData.step4Data.medicalCategories?.includes(category.medicalCategoryId)
   );
   console.log("categories", x);
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      inclusionDisease: formData.step4Data.inclusionDisease || [],
+      inclusionDiseases: formData.step4Data.inclusionDiseases || [],
       inclusionRequirements: formData.step4Data.inclusionRequirements || "",
-      exclusionDisease: formData.step4Data.exclusionDisease || [],
+      exclusionDiseases: formData.step4Data.exclusionDiseases || [],
       exclusionRequirements: formData.step4Data.exclusionRequirements || "",
-      selectedMedicalCategories: categories.filter(
+     medicalCategories: categories.filter(
         (category) =>
           category.medicalCategoryId !== undefined &&
-          formData.step4Data.medicalCategories.includes(
+          (formData.step4Data.medicalCategories ?? []).includes(
             category.medicalCategoryId
           )
       ),
@@ -71,9 +71,9 @@ const CreateTrialStep4Form = () => {
       try {
         // eslint-disable-next-line
         const payload = {
-          inclusionDiseases: values["inclusionDisease"],
+          inclusionDiseases: values["inclusionDiseases"],
           inclusionRequirements: values["inclusionRequirements"],
-          exclusionDiseases: values["exclusionDisease"],
+          exclusionDiseases: values["exclusionDiseases"],
           exclusionRequirements: values["exclusionRequirements"],
           medicalCategories: selectedCategoriesId,
         };
@@ -87,14 +87,14 @@ const CreateTrialStep4Form = () => {
           }
         );
         console.log("payloadin step4", payload);
-        console.log(response);
+        console.log('RESPONSE',response);
         setFormData({
           ...formData,
           step4Data: {
             ...formData.step4Data,
-            inclusionDisease: values.inclusionDisease,
+            inclusionDiseases: values.inclusionDiseases,
             inclusionRequirements: values.inclusionRequirements,
-            exclusionDisease: values.exclusionDisease,
+            exclusionDiseases: values.exclusionDiseases,
             exclusionRequirements: values.exclusionRequirements,
             medicalCategories: selectedCategoriesId,
           },
@@ -145,9 +145,9 @@ const CreateTrialStep4Form = () => {
               Inclusion Disease:
             </label>
             <DiseaseDropdown
-              value={formik.values.inclusionDisease}
+              value={formik.values.inclusionDiseases || []}
               onChange={(value) =>
-                formik.setFieldValue("inclusionDisease", value)
+                formik.setFieldValue("inclusionDiseases", value)
               }
             />
           </div>
@@ -178,9 +178,9 @@ const CreateTrialStep4Form = () => {
               Exclusion Disease:
             </label>
             <DiseaseDropdown
-              value={formik.values.exclusionDisease}
+              value={formik.values.exclusionDiseases || []}
               onChange={(value) =>
-                formik.setFieldValue("exclusionDisease", value)
+                formik.setFieldValue("exclusionDiseases", value)
               }
             />
           </div>

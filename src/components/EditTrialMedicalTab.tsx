@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import axios, { AxiosError } from "axios";
 import Image from "next/image";
 import CustomButton from "./CustomButton";
@@ -18,101 +18,73 @@ import "react-quill/dist/quill.snow.css";
 //------------------------------------ main function ----------------------------------
 export default function EditTrialMedicalTab({
   trialId,
-  inclusionDisease,
-  exclusionDisease,
+  inclusionDiseases,
+  exclusionDiseases,
   inclusionRequirements,
   exclusionRequirements,
+  // medicalCategories,
 }: CreateTrialStep4FormProps) {
+  const testMedicalCategories = [
+    {
+      medicalCategoryId: 9,
+      name: "Cancer, blood diseases and infections",
+      media: {
+        mediaId: 5,
+        filePath:
+          "https://appmediastorage.blob.core.windows.net/images/cancer.svg",
+        alt: "An icon showing cells symbolising cancer",
+        name: "Cancer Icon",
+        description: "SVG for a brain icon",
+      },
+      description: "Description from backend",
+    },
+  ];
   const { categoriesData } = useGetAllMedicalCategories();
-  const medicalCategories = categoriesData;
   const [selectedCategoriesId, setSelectedCategoriesId] = useState<number[]>(
     []
   );
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
+  const [defaultSelectedCategoriesId, setDefaultSelectedCategoriesId] =
+    useState<number[]>([]);
+
+  //const userCategories =
+
   const { l } = useLanguageStore();
-
-  //---------------- update trial ---------------
-  // eslint-disable-next-line
-  const updateTrial = async (data: CreateTrialStep4FormProps) => {
-    //function will be called in onSubmit
-    try {
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`, //PATCH request
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      toast.success("", {
-        position: "top-center",
-        autoClose: 2000,
-        className: "single_line_toast",
-      });
-      console.log("Toast success called");
-      console.log(response);
-    } catch (error) {
-      console.error("Error in /users", error);
-      toast.error(
-        l("settings.tab1.form.toast.error") || "Something went wrong!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    }
-  };
-
-  //----Yup validation ---------
-  const formSchema = Yup.object({
-    inclusionDisease: Yup.string().required(
-      l("settings.tab2.form.inclusionDisease.validation.required") ||
-        "Inclusion disease is required!"
-    ),
-    exclusionDisease: Yup.string().required(
-      l("settings.tab2.form.exclusionDisease.validation.required") ||
-        "Exclusion disease is required!"
-    ),
-  });
 
   //--------------- formik ----------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      inclusionDisease: inclusionDisease || [],
+      inclusionDiseases: inclusionDiseases || [],
       inclusionRequirements: inclusionRequirements || "",
-      exclusionDisease: exclusionDisease || [],
+      exclusionDiseases: exclusionDiseases || [],
       exclusionRequirements: exclusionRequirements || "",
-      selectedMedicalCategories: categories.filter(
+      medicalCategories: testMedicalCategories.filter(
         (category) =>
           category.medicalCategoryId !== undefined &&
-          medicalCategories
+          (categoriesData || [])
             .map((cat) => cat.medicalCategoryId)
             .includes(category.medicalCategoryId)
       ),
     },
-    validationSchema: formSchema,
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Submit");
+      console.log("Form submitted");
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
-        inclusionDisease: values.inclusionDisease,
-        exclusionDisease: values.exclusionDisease,
+        inclusionDiseases: values.inclusionDiseases,
+        exclusionDiseases: values.exclusionDiseases,
+        inclusionRequirements: values.inclusionRequirements,
+        exclusionRequirements: values.exclusionRequirements,
+        medicalCategories: selectedCategoriesId,
       };
+      console.log("data", data);
 
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit-medical`,
-          {
-            inclusionDisease: data.inclusionDisease,
-            exclusionDisease: data.exclusionDisease,
-          },
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`,
+          data,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -120,10 +92,23 @@ export default function EditTrialMedicalTab({
           }
         );
         console.log("response in edit medical:", response);
+        toast.success("Trial is updated successfully", {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        });
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
         }
+        toast.error(
+          l("settings.tab1.form.toast.error") || "Something went wrong!",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            className: "single_line_toast",
+          }
+        );
       }
     },
   });
@@ -134,6 +119,21 @@ export default function EditTrialMedicalTab({
       setCategories(categoriesData);
     }
   }, [categoriesData]);
+
+//----useEffect for having the latest initial selected categories---------
+  useEffect(() => {
+    const newDefaultSelectedCategoriesId = (testMedicalCategories ?? [])
+      .filter((category) => category !== null && category !== undefined)
+      .map((category) => category.medicalCategoryId)
+      .filter((id) => id !== undefined) as number[];
+
+    if (
+      JSON.stringify(newDefaultSelectedCategoriesId) !==
+      JSON.stringify(defaultSelectedCategoriesId)
+    ) {
+      setDefaultSelectedCategoriesId(newDefaultSelectedCategoriesId);
+    }
+  }, [categories, testMedicalCategories, defaultSelectedCategoriesId]);
 
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
@@ -165,9 +165,9 @@ export default function EditTrialMedicalTab({
                 Inclusion Disease:
               </label>
               <DiseaseDropdown
-                value={formik.values.inclusionDisease}
+                value={formik.values.inclusionDiseases || []}
                 onChange={(value) =>
-                  formik.setFieldValue("inclusionDisease", value)
+                  formik.setFieldValue("inclusionDiseases", value)
                 }
               />
             </div>
@@ -201,9 +201,9 @@ export default function EditTrialMedicalTab({
                 Exclusion Disease:
               </label>
               <DiseaseDropdown
-                value={formik.values.exclusionDisease}
+                value={formik.values.exclusionDiseases || []}
                 onChange={(value) =>
-                  formik.setFieldValue("exclusionDisease", value)
+                  formik.setFieldValue("exclusionDiseases", value)
                 }
               />
             </div>
@@ -243,6 +243,9 @@ export default function EditTrialMedicalTab({
                   isSelected={selectedCategoriesId.includes(
                     category.medicalCategoryId || -1
                   )}
+                  isDefault={defaultSelectedCategoriesId.includes(
+                    category.medicalCategoryId || -1
+                  )}
                   icon={
                     <Image
                       src={category.media.filePath}
@@ -260,10 +263,8 @@ export default function EditTrialMedicalTab({
 
         <div className="flex justify-center xs:justify-end gap-4">
           <CustomButton
-            title={l("register.step1.form.cta.btn") || "Next"}
+            title={l("register.step1.form.cta.btn") || "Update"}
             containerStyles="rounded-lg gradient-green1 hover1 mt-4"
-            // disabledContainerStyles="rounded-lg bg-gray-300"
-            // disabled={!formik.isValid || !formik.dirty}
             btnType="submit"
           />
         </div>

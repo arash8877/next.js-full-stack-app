@@ -76,7 +76,7 @@ export default function EditTrialTitleTab({
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step1`,
           {
             title: data.title,
             shortDescription: data.shortDescription,

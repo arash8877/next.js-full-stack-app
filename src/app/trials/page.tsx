@@ -32,8 +32,7 @@ export default function TrialsPage() {
       pagination: { maxPageResult: 5, pageIndex: 0 },
     });
   const { l } = useLanguageStore();
-  const { allTrials, trialsError } =
-    useGetAllTrials(filteringSettings);
+  const { allTrials, trialsError } = useGetAllTrials(filteringSettings);
 
   // const observerRef = useRef<IntersectionObserver | null>(null);
   // const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -47,21 +46,19 @@ export default function TrialsPage() {
     }));
   }, []);
 
-
-
   useEffect(() => {
     if (trialsError) {
       console.error("Failed to fetch trials", trialsError);
     }
   }, [trialsError]);
 
-
   //--------------------------------- return ------------------------------------------------
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SidebarLayout>
         <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
-          {l("trialoverview.title") || "Trials Overview"}</h1>
+          {l("trialoverview.title") || "Trials Overview"}
+        </h1>
         <TrialFilterBar
           defaultFilterValues={filteringSettings}
           onFilterChange={handleFilterChange}
@@ -93,7 +90,8 @@ export default function TrialsPage() {
                   submissionDeadline={formatDate(trial["submissionDeadline"])}
                   media={trial.media}
                   userApplication={trial.userApplication}
-                  medicalCategories={trial.medicalCategories || []}
+                  //medicalCategories={trial.medicalCategories || []}
+                  medicalCategories={[]}
                   diseases={trial.diseases}
                   applicantsNumber={trial.applicantsNumber}
                 />

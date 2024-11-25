@@ -163,7 +163,7 @@ export interface iTrialCardProps {
   submissionDeadline: string;
   media: iMediaProps;
   userApplication: iUserTrialApplication | null;
-  medicalCategories: iTrialCategoryProps[];
+  medicalCategories: iCategoryProps[][];
   diseases: string[];
   applicantsNumber: number;
   //medicalCategories: iCategoryProps[];
@@ -217,7 +217,7 @@ export interface iTrialInfoProps {
   inclusionRequirements?: string;
   exclusionDiseases?: string[];
   exclusionRequirements?: string;
-  medicalCategories?: iTrialCategoryProps[];
+  medicalCategories?: iCategoryProps[];
   participantActivities?: string;
   additionalInformation?: string;
   drivingCompensation?: boolean;
@@ -315,11 +315,13 @@ export interface CreateTrialStep3FormValues {
 
 export interface CreateTrialStep4FormProps {
   trialId?: number;
-  inclusionDisease: string[];
-  inclusionRequirements: string;
-  exclusionDisease: string[];
-  exclusionRequirements: string;
-  selectedMedicalCategories: iCategoryProps[];
+
+  inclusionDiseases?: string[];
+  inclusionRequirements?: string;
+  exclusionDiseases?: string[];
+  exclusionRequirements?: string;
+  //selectedMedicalCategories: iCategoryProps[];
+  medicalCategories?: iCategoryProps[];
 }
 
 export interface CreateTrialStep5FormProps {
