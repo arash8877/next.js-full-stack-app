@@ -73,7 +73,7 @@ export default function InviteEmployeeModal({
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite`,
           {
-            redirectUri: `${process.env.NEXT_PUBLIC_API_URL}/employees/accept-invitation`,
+            redirectUri: `${window.location.origin}/employees/accept-invitation`,
             email: values.email,
             jobTitle: values.jobTitle,
           },
