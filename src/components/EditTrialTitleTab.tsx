@@ -20,42 +20,6 @@ export default function EditTrialTitleTab({
 }: CreateTrialTitleStepProps) {
   const { l } = useLanguageStore();
 
-  //---------------- update trial ---------------
-  // eslint-disable-next-line
-  const updateTrial = async (data: CreateTrialTitleStepProps) => {
-    //function will be called in onSubmit
-    try {
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`, //PATCH request
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      toast.success("", {
-        position: "top-center",
-        autoClose: 2000,
-        className: "single_line_toast",
-      });
-      console.log("Toast success called");
-      console.log(response);
-    } catch (error) {
-      console.error("Error in /users", error);
-      toast.error(
-        l("settings.tab1.form.toast.error") || "Something went wrong!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    }
-  };
-
   //----Yup validation ---------
   const formSchema = Yup.object({
     title: Yup.string()
@@ -124,11 +88,25 @@ export default function EditTrialTitleTab({
             },
           }
         );
+        toast.success("The trial is updated successfully", {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        });
         console.log("response in step2:", response);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
         }
+
+        toast.error(
+          l("settings.tab1.form.toast.error") || "Something went wrong!",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            className: "single_line_toast",
+          }
+        );
       }
     },
   });
