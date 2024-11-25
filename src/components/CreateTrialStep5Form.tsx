@@ -130,7 +130,7 @@ const CreateTrialStep5Form = () => {
       "additionalInfo_txt"
     ) as HTMLInputElement | null;
     const inputValue = inputElement?.value || "";
-    formik.setFieldValue("additionalInfo", inputValue);
+    formik.setFieldValue("additionalInformation", inputValue);
   }
 
   //-------- Quill ---------
@@ -214,7 +214,7 @@ const CreateTrialStep5Form = () => {
             </label>
             <input
               id="additionalInfo_txt"
-              name="additionalInfo"
+              name="additionalInformation"
               type="text"
               value={formik.values.additionalInformation}
               onChange={() => ChangeAdditionalInfoValue()}

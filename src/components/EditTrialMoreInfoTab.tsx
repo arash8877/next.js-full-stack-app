@@ -160,11 +160,7 @@ export default function EditTrialMoreInfoTab({
 
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200">
-      <div className="inline-flex items-center border border-primary-500 px-2 rounded-200 md:mr-4 mb-4 py-2 w-fit">
-        <p className="text-sm font-bold">{l("trialdetails.id") || "ID:"}</p>
-        <p className="text-sm font-light	">{trialId}</p>
-      </div>
+    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200 rounded-lg p-4 xl:p-12">
       <form onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-6 2xl:w-2/3">
           <div className="flex flex-col gap-2 w-full">

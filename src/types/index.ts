@@ -218,6 +218,12 @@ export interface iTrialInfoProps {
   exclusionDiseases?: string[]; 
   exclusionRequirements?: string; 
   medicalCategories?: iTrialCategoryProps[];
+  participantActivities?: string;
+  additionalInformation?: string;
+  drivingCompensation?: boolean;
+  monetaryCompensation?: boolean;
+  otherCompensation?: boolean;
+  otherCompensationText?: string;
 }
 
 export interface iTrialApplicationsInfo {
