@@ -183,7 +183,7 @@ export interface iCompany {
 //------------------- site ---------------------------
 export interface iTrialSite {
   trialSiteId: number;
-  location: string;
+  name: string;
   address: string | undefined;
   zipCode: string;
   country: string;
