@@ -14,6 +14,8 @@ type Props = {
 //------------------------- Main Function ----------------------------------
 export default function EmployeesPage({ params }: Props) {
   const { employeeData } = useGetEmployeesInfo(params.id);
+  const userId = Number(params.id);
+  console.log("userId:", userId);
   const { l } = useLanguageStore();
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function EmployeesPage({ params }: Props) {
         <div
           className="flex flex-col bg-white rounded-3xl mb-4 wrapper"
         >
-          <EmployeesListForm {...employeeData} />
+          <EmployeesListForm {...employeeData} userId={userId}/>
         </div>
     
     </SidebarLayout>
