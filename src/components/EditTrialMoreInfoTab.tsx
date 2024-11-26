@@ -26,43 +26,6 @@ export default function EditTrialMoreInfoTab({
 }: CreateTrialStep5FormProps) {
   const { l } = useLanguageStore();
 
-  //---------------- update trial ---------------
-  // eslint-disable-next-line
-  // const updateTrial = async (data: CreateTrialStep5FormProps) => {
-  //   try {
-  //     const response = await axios.patch(
-  //       `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`, // request
-  //       data,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     toast.success(
-  //       l("settings.tab1.form.toast.success") ||
-  //         "Trial is updated successfully!",
-  //       {
-  //         position: "top-center",
-  //         autoClose: 2000,
-  //         className: "single_line_toast",
-  //       }
-  //     );
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.error("Error in /users", error);
-  //     toast.error(
-  //       l("settings.tab1.form.toast.error") || "Something went wrong!",
-  //       {
-  //         position: "top-center",
-  //         autoClose: 2000,
-  //         className: "single_line_toast",
-  //       }
-  //     );
-  //   }
-  // };
-
   //----Yup validation ---------
   const formSchema = Yup.object({
     expectedParticipants: Yup.number()
@@ -92,7 +55,7 @@ export default function EditTrialMoreInfoTab({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Submit");
+      console.log("Formik Values Before Submit:", values);
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
@@ -104,7 +67,7 @@ export default function EditTrialMoreInfoTab({
         otherCompensation: values.otherCompensation,
         otherCompensationText: values.otherCompensationText,
       };
-      console.log("data in step 5**", data);
+      console.log("Data Submitted:", data);
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
