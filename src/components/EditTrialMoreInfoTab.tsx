@@ -108,15 +108,15 @@ export default function EditTrialMoreInfoTab({
   }
 
   //-------- Quill ---------
-  const modules = {
-    toolbar: [
-      [{ header: "2" }, { header: "3" }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      ["bold", "italic", "underline"],
-      ["link"],
-    ],
-  };
+  // const modules = {
+  //   toolbar: [
+  //     [{ header: "2" }, { header: "3" }],
+  //     [{ list: "ordered" }, { list: "bullet" }],
+  //     [{ align: [] }],
+  //     ["bold", "italic", "underline"],
+  //     ["link"],
+  //   ],
+  // };
 
   //-------------------------------------------- return -----------------------------------------------
   return (
@@ -138,7 +138,6 @@ export default function EditTrialMoreInfoTab({
                 }
                 placeholder="Outline participant activities"
                 className="h-full"
-                modules={modules}
               />
               <small className="text-red-600">
                 {formik.touched.participantActivities &&
