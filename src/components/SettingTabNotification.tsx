@@ -26,7 +26,7 @@ export default function SettingTabNotification() {
         }
       );
       console.log(response)
-      toast.success(l("settings.tab1.form.toast.success") || "Your profile is updated successfully!", {
+      toast.success(l("settings.tab1.form.toast.success") || "Notifications is updated successfully!", {
         position: "top-center",
         autoClose: 2000,
         className: "single_line_toast",
@@ -85,9 +85,9 @@ export default function SettingTabNotification() {
               </span>
             }
           />
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-24">
             <CustomButton
-              title={l("settings.form.submit") || "Save"}
+              title={l("settings.form.submit") || "Update"}
               containerStyles="rounded-lg gradient-green1 hover1 mt-20 xs:mt-8"
               btnType="submit"
             />
