@@ -134,17 +134,16 @@ const CreateTrialStep5Form = () => {
   }
 
   //-------- Quill ---------
-  const modules = {
-    toolbar: [
-      [{ header: "2" }, { header: "3" }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      ["bold", "italic", "underline"],
-      ["link"],
-    ],
-  };
+  // const modules = {
+  //   toolbar: [
+  //     [{ header: "2" }, { header: "3" }],
+  //     [{ list: "ordered" }, { list: "bullet" }],
+  //     [{ align: [] }],
+  //     ["bold", "italic", "underline"],
+  //     ["link"],
+  //   ],
+  // };
 
-  // console.log("Step 5 Data on Load:", formData.step5Data);
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -171,7 +170,6 @@ const CreateTrialStep5Form = () => {
                 formik.setFieldValue("participantActivities", value)
               }
               className="h-full"
-              modules={modules}
             />
           </div>
         </div>
