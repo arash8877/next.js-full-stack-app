@@ -345,6 +345,7 @@ export interface EditTrialMoreInfoTabProps {
 
 //------------------------------ Employees ----------------------------
 export interface employeesInfoProps {
+  userId: number;
   firstName: string;
   lastName: string;
   email: string;
