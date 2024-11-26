@@ -43,7 +43,7 @@ const CompanyInfoForm = ({
       );
       toast.success(
         l("settings.tab1.form.toast.success") ||
-          "The company info is updated successfully!",
+          "Company info is updated successfully",
         {
           position: "top-center",
           autoClose: 2000,
@@ -101,10 +101,6 @@ const CompanyInfoForm = ({
       l("register.step1.form.country.validation.required") ||
         "Country is required!"
     ),
-    phoneNumber: Yup.string().required(
-      l("register.step1.form.country.validation.required") ||
-        "Phone number is required!"
-    ),
   });
 
   //--------------- formik ----------------
@@ -112,10 +108,10 @@ const CompanyInfoForm = ({
     enableReinitialize: true,
     initialValues: {
       name: name,
-      vatNumber: vatNumber || "",
-      address: address || "",
-      zipCode: zipCode || "",
-      country: country || "",
+      vatNumber: vatNumber,
+      address: address,
+      zipCode: zipCode,
+      country: country,
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -146,12 +142,12 @@ const CompanyInfoForm = ({
             <span className="ml-1">*</span>
           </label>
           <input
-            id="companyName"
+            id="name"
             name="name"
             type="text"
             value={formik.values.name}
-            onChange={formik.handleChange("companyName")}
-            onBlur={formik.handleBlur("companyName")}
+            onChange={formik.handleChange("name")}
+            onBlur={formik.handleBlur("name")}
             className="register_input custom-border"
           />
           <small className="text-red-600">
