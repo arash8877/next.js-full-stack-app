@@ -111,7 +111,7 @@ const CreateTrialStep6Form = () => {
             trialData.trialSites.map((site, index) => (
               <div key={index} className="mb-4 p-2">
                 <div className="text-sm mb-1">
-                  <strong>Location:</strong> {site.location || "N/A"}
+                  <strong>Location:</strong> {site.name || "N/A"}
                 </div>
                 <div className="text-sm mb-1">
                   <strong>Address:</strong> {site.address || "N/A"}
@@ -204,7 +204,7 @@ const CreateTrialStep6Form = () => {
               <ul className="list-disc pl-5">
                 {trialData.medicalCategories.map((category, index) => (
                   <li key={index} className="text-sm">
-                    {category.medicalCategory.name || "N/A"}
+                    {category.name || "N/A"}
                   </li>
                 ))}
               </ul>

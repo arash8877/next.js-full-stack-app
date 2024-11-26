@@ -24,19 +24,19 @@ interface FormData {
     gender: string;
   };
   step4Data: {
-    inclusionDisease: string[];
-    inclusionRequirements: string;
-    exclusionDisease: string[];
-    exclusionRequirements: string;
-    medicalCategories: number[];
+    inclusionDiseases?: string[];
+    inclusionRequirements?: string;
+    exclusionDiseases?: string[];
+    exclusionRequirements?: string;
+    medicalCategories?: number[];
   };
   step5Data: {
     participantActivities: string;
     expectedParticipants: string;
     additionalInformation: string;
-    drivingCompensation: boolean;
-    monetaryCompensation: boolean;
-    otherCompensation: boolean;
+    drivingCompensation?: boolean;
+    monetaryCompensation?: boolean;
+    otherCompensation?: boolean;
     otherCompensationText?: string;
   };
 }
@@ -62,9 +62,9 @@ const useCreateTrialStore = create<FormStore>((set) => ({
       gender: "",
     },
     step4Data: {
-      inclusionDisease: [],
+      inclusionDiseases: [],
       inclusionRequirements: "",
-      exclusionDisease: [],
+      exclusionDiseases: [],
       exclusionRequirements: "",
       medicalCategories: [],
     },
@@ -100,9 +100,9 @@ const useCreateTrialStore = create<FormStore>((set) => ({
           gender: "",
         },
         step4Data: {
-          inclusionDisease: [],
+          inclusionDiseases: [],
           inclusionRequirements: "",
-          exclusionDisease: [],
+          exclusionDiseases: [],
           exclusionRequirements: "",
           medicalCategories: [],
         },

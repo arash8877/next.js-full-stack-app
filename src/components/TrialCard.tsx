@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+//import Image from "next/image";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
 import { iTrialCardProps } from "@/types";
@@ -18,7 +18,7 @@ export default function TrialCard({
   address,
   submissionDeadline,
   userApplication,
-  medicalCategories,
+  //medicalCategories,
   diseases,
 }: // applicantsNumber
 // imageSrc,
@@ -26,29 +26,25 @@ export default function TrialCard({
 iTrialCardProps) {
   const { l } = useLanguageStore();
 
-
   //--------------------------------- return ------------------------------------------------
   return (
     <section className="flex flex-col gap-4 p-6 bg-white rounded-lg max-w-[480px] sm:max-w-[345px] md:max-w-md lg:max-w-lg">
       <div className="flex justify-between">
         <div className="flex justify-between gap-1">
-          {medicalCategories?.map((category, index) => (
+          {/* @TODO  Add Image after correcting medicalCategories data structure */}
+          {/* {medicalCategories?.map((category, index) => (
             <Image
               key={index}
-              src={
-                category.medicalCategory.media
-                  ? category.medicalCategory.media.filePath
-                  : ""
-              }
+              src={category.media ? category.media.filePath : ""}
               alt={
-                category.medicalCategory.media
-                  ? category.medicalCategory.media.alt
+                category.media
+                  ? category.media.alt
                   : "image depicting the medical category"
               }
               width={28}
               height={28}
             />
-          ))}
+          ))} */}
         </div>
         {userApplication != null && (
           <TrialStatusBadge userApplication={userApplication} />

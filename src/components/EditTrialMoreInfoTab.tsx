@@ -26,43 +26,6 @@ export default function EditTrialMoreInfoTab({
 }: CreateTrialStep5FormProps) {
   const { l } = useLanguageStore();
 
-  //---------------- update trial ---------------
-  // eslint-disable-next-line
-  const updateTrial = async (data: CreateTrialStep5FormProps) => {
-    try {
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`, // request
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      toast.success(
-        l("settings.tab1.form.toast.success") ||
-          "Trial is updated successfully!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.error("Error in /users", error);
-      toast.error(
-        l("settings.tab1.form.toast.error") || "Something went wrong!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    }
-  };
-
   //----Yup validation ---------
   const formSchema = Yup.object({
     expectedParticipants: Yup.number()
@@ -92,7 +55,7 @@ export default function EditTrialMoreInfoTab({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Submit");
+      console.log("Formik Values Before Submit:", values);
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
@@ -104,27 +67,24 @@ export default function EditTrialMoreInfoTab({
         otherCompensation: values.otherCompensation,
         otherCompensationText: values.otherCompensationText,
       };
-
+      console.log("Data Submitted:", data);
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
-          {
-            participantActivities: data.participantActivities,
-            expectedParticipants: data.expectedParticipants,
-            additionalInformation: data.additionalInformation,
-            drivingCompensation: data.drivingCompensation,
-            monetaryCompensation: data.monetaryCompensation,
-            otherCompensation: data.otherCompensation,
-            otherCompensationText: data.otherCompensationText,
-          },
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`,
+          data,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("response in step2:", response);
+        console.log("response in step5***:", response);
+        toast.success("The trial is updated successfully", {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        });
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
@@ -144,7 +104,7 @@ export default function EditTrialMoreInfoTab({
       "additionalInfo_txt"
     ) as HTMLInputElement | null;
     const inputValue = inputElement?.value || "";
-    formik.setFieldValue("additionalInfo", inputValue);
+    formik.setFieldValue("additionalInformation", inputValue);
   }
 
   //-------- Quill ---------
@@ -160,11 +120,7 @@ export default function EditTrialMoreInfoTab({
 
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200">
-      <div className="inline-flex items-center border border-primary-500 px-2 rounded-200 md:mr-4 mb-4 py-2 w-fit">
-        <p className="text-sm font-bold">{l("trialdetails.id") || "ID:"}</p>
-        <p className="text-sm font-light	">{trialId}</p>
-      </div>
+    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200 rounded-lg p-4 xl:p-12">
       <form onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-6 2xl:w-2/3">
           <div className="flex flex-col gap-2 w-full">
@@ -178,7 +134,7 @@ export default function EditTrialMoreInfoTab({
               <ReactQuill
                 value={formik.values.participantActivities}
                 onChange={(value) =>
-                  formik.setFieldValue("shortDescription", value)
+                  formik.setFieldValue("participantActivities", value)
                 }
                 placeholder="Outline participant activities"
                 className="h-full"
@@ -220,12 +176,15 @@ export default function EditTrialMoreInfoTab({
             </div>
 
             <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="additionalInfo" className="text-sm font-semibold">
+              <label
+                htmlFor="additionalInformation"
+                className="text-sm font-semibold"
+              >
                 Additional Information:
               </label>
               <input
                 id="additionalInfo_txt"
-                name="additionalInfo"
+                name="additionalInformation"
                 type="text"
                 value={formik.values.additionalInformation}
                 onChange={() => ChangeAdditionalInfoValue()}
@@ -246,6 +205,7 @@ export default function EditTrialMoreInfoTab({
                     id="drivingCompensation"
                     name="drivingCompensation"
                     type="checkbox"
+                    checked={formik.values.drivingCompensation}
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     onChange={() => {
                       const updatedValue = !formik.values.drivingCompensation;
@@ -268,7 +228,7 @@ export default function EditTrialMoreInfoTab({
                     id="monetaryCompensation"
                     name="monetaryCompensation"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    checked={formik.values.monetaryCompensation}
                     onChange={() => {
                       const updatedValue = !formik.values.monetaryCompensation;
                       formik.setFieldValue(
@@ -276,6 +236,7 @@ export default function EditTrialMoreInfoTab({
                         updatedValue
                       );
                     }}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
                 </div>
                 <div className="text-sm leading-6">
@@ -294,11 +255,12 @@ export default function EditTrialMoreInfoTab({
                     name="otherCompensation"
                     type="checkbox"
                     onClick={toggleOtherCompensation}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    checked={formik.values.otherCompensation}
                     onChange={() => {
                       const updatedValue = !formik.values.otherCompensation;
                       formik.setFieldValue("otherCompensation", updatedValue);
                     }}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
                 </div>
                 <div className="text-sm leading-6">

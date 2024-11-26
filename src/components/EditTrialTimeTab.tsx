@@ -37,43 +37,6 @@ export default function TrialDetailsLayout({
   const { l } = useLanguageStore();
 
 
-  //---------------- update trial ---------------
-      // eslint-disable-next-line
-  const updateTrial = async (data: iTrialInfoProps) => {
-    try {
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/users`, //PATCH request
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      toast.success(
-        l("settings.tab1.form.toast.success") ||
-          "Trial is updated successfully!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.error("Error in /users", error);
-      toast.error(
-        l("settings.tab1.form.toast.error") || "Something went wrong!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    }
-  };
-
   //----Yup validation ---------
   // eslint-disable-next-line
   const formSchema = Yup.object({
@@ -85,10 +48,6 @@ export default function TrialDetailsLayout({
       .min(0, "Minimum age must be greater than or equal to 0"),
 
     ageMax: Yup.number()
-      .required(
-        l("settings.tab1.form.ageMax.validation.required") ||
-          "Maximum age is required!"
-      )
       .min(0, "Maximum age must be greater than or equal to 0")
       .when("ageMin", {
         is: (ageMin: number) => ageMin !== undefined && ageMin !== null,
@@ -159,7 +118,7 @@ export default function TrialDetailsLayout({
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`,
           {
             ageMin: data.ageMin,
             ageMax: data.ageMax,
@@ -174,11 +133,25 @@ export default function TrialDetailsLayout({
             },
           }
         );
+        toast.success("The trial is updated successfully", {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        });
         console.log("response in step2:", response);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
         }
+
+        toast.error(
+          l("settings.tab1.form.toast.error") || "Something went wrong!",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            className: "single_line_toast",
+          }
+        );
       }
     },
   });
@@ -207,7 +180,6 @@ export default function TrialDetailsLayout({
               <div className="flex flex-col gap-2 w-1/2">
                 <label htmlFor="ageMax" className="text-sm font-semibold">
                   {l("settings.tab4.form.ageMax.label") || "Max. Age:"}
-                  <span className="ml-1">*</span>
                 </label>
                 <AgeDropdown
                   age={Number(formik.values.ageMax)}

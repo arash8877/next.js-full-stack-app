@@ -163,7 +163,7 @@ export interface iTrialCardProps {
   submissionDeadline: string;
   media: iMediaProps;
   userApplication: iUserTrialApplication | null;
-  medicalCategories: iTrialCategoryProps[];
+  medicalCategories: iCategoryProps[][];
   diseases: string[];
   applicantsNumber: number;
   //medicalCategories: iCategoryProps[];
@@ -183,7 +183,7 @@ export interface iCompany {
 //------------------- site ---------------------------
 export interface iTrialSite {
   trialSiteId: number;
-  location: string;
+  name: string;
   address: string | undefined;
   zipCode: string;
   country: string;
@@ -212,12 +212,18 @@ export interface iTrialInfoProps {
   diseases: string[];
   applicantsNumber: number;
   recruitingStatus: string;
-  expectedParticipants: number;
-  inclusionDiseases?: string[]; 
-  inclusionRequirements?: string; 
-  exclusionDiseases?: string[]; 
-  exclusionRequirements?: string; 
-  medicalCategories?: iTrialCategoryProps[];
+  expectedParticipants: string;
+  inclusionDiseases?: string[];
+  inclusionRequirements?: string;
+  exclusionDiseases?: string[];
+  exclusionRequirements?: string;
+  medicalCategories?: iCategoryProps[];
+  participantActivities?: string;
+  additionalInformation?: string;
+  drivingCompensation?: boolean;
+  monetaryCompensation?: boolean;
+  otherCompensation?: boolean;
+  otherCompensationText?: string;
 }
 
 export interface iTrialApplicationsInfo {
@@ -309,22 +315,32 @@ export interface CreateTrialStep3FormValues {
 
 export interface CreateTrialStep4FormProps {
   trialId?: number;
-  inclusionDisease: string[];
-  inclusionRequirements: string;
-  exclusionDisease: string[];
-  exclusionRequirements: string;
-  selectedMedicalCategories: iCategoryProps[];
+
+  inclusionDiseases?: string[];
+  inclusionRequirements?: string;
+  exclusionDiseases?: string[];
+  exclusionRequirements?: string;
+  //selectedMedicalCategories: iCategoryProps[];
+  medicalCategories?: iCategoryProps[];
 }
 
 export interface CreateTrialStep5FormProps {
   trialId?: number;
+  participantActivities?: string;
+  expectedParticipants: string;
+  additionalInformation?: string;
+  drivingCompensation?: boolean;
+  monetaryCompensation?: boolean;
+  otherCompensation?: boolean;
+  otherCompensationText?: string;
+}
+
+export interface EditTrialMoreInfoTabProps {
+  trialId: number;
   participantActivities: string;
   expectedParticipants: string;
   additionalInformation: string;
-  drivingCompensation: boolean;
-  monetaryCompensation: boolean;
-  otherCompensation: boolean;
-  otherCompensationText: string;
+  compensations: [boolean, boolean, boolean, string];
 }
 
 //------------------------------ Employees ----------------------------

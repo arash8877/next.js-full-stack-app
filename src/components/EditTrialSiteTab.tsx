@@ -26,9 +26,9 @@ export default function EditTrialSiteTab({
     trialSites: Yup.array()
       .of(
         Yup.object({
-          location: Yup.string().required(
-            l("settings.tab1.form.location.validation.required") ||
-              "Location is required!"
+          name: Yup.string().required(
+            l("settings.tab1.form.name.validation.required") ||
+              "name is required!"
           ),
           address: Yup.string().required(
             l("settings.tab1.form.address.validation.required") ||
@@ -60,7 +60,7 @@ export default function EditTrialSiteTab({
     enableReinitialize: true,
     initialValues: {
       trialSites: trialSites || [
-        { location: "", address: "", zipCode: "", country: "" },
+        { name: "", address: "", zipCode: "", country: "" },
       ],
     },
     //----onSubmit-------
@@ -70,7 +70,7 @@ export default function EditTrialSiteTab({
       console.log("values:", values);
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
           {
             trialSites: values.trialSites,
           },
@@ -113,24 +113,24 @@ export default function EditTrialSiteTab({
               <div className="flex gap-4">
                 <div className="flex flex-col gap-2 w-1/2">
                   <label
-                    htmlFor={`trialSites.${index}.location`}
+                    htmlFor={`trialSites.${index}.name`}
                     className="text-sm font-semibold"
                   >
                     {l("settings.tab4.form.password.label") || "Location:"}
                     <span className="ml-1">*</span>
                   </label>
                   <input
-                    name={`trialSites.${index}.location`}
+                    name={`trialSites.${index}.name`}
                     type="text"
-                    value={formik.values.trialSites[index].location}
+                    value={formik.values.trialSites[index].name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className="register_input custom-border"
                   />
                   <small className="text-red-600">
-                    {formik.touched.trialSites?.[index]?.location &&
+                    {formik.touched.trialSites?.[index]?.name &&
                       typeof formik.errors.trialSites?.[index] === "object" &&
-                      formik.errors.trialSites?.[index]?.location}
+                      formik.errors.trialSites?.[index]?.name}
                   </small>
                 </div>
 

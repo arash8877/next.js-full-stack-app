@@ -7,7 +7,6 @@ interface TagProps {
   isSelected?: boolean;
   isDefault?: boolean;
   spanClassName?: string;
-  clickable?: boolean
 }
 
 const Tag: React.FC<TagProps> = ({
@@ -17,18 +16,19 @@ const Tag: React.FC<TagProps> = ({
   isSelected,
   isDefault,
   spanClassName,
-  clickable = true
 }) => {
+  // Determine the background color based on the conditions
+  const backgroundColor =
+    isDefault && isSelected
+      ? "bg-white"
+      : isSelected || isDefault
+      ? "bg-gradient-button border-primary-800"
+      : "bg-white";
+
   return (
     <div
       onClick={handleClick}
-      className={`inline-flex items-center border border-primary-500 px-2 rounded-200 md:mr-4 mb-4 py-2 ${clickable ? "cursor-pointer" : ""} ${
-        isSelected
-          ? "bg-gradient-button border-primary-800"
-          : isDefault
-          ? "bg-gradient-button "
-          : "bg-white"
-      }`}
+      className={`inline-flex items-center border border-primary-500 px-2 rounded-200 md:mr-4 mb-4 py-2 cursor-pointer ${backgroundColor}`}
     >
       {icon &&
         React.cloneElement(icon, {
