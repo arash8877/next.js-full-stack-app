@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import AcceptInvitationForm from "@/components/AcceptInvitationForm";
-import axios from "axios";
 import { iUserProps } from "@/types";
 import useLanguageStore from "@/stores/language-store";
 
 //---------------------------- main function -----------------------------
 export default function AcceptInvitationPage() {
-  const router = useRouter();
   const { l } = useLanguageStore(); 
+
+ 
+
 
 
   const invitedEmployeeData: iUserProps = {
@@ -26,44 +25,6 @@ export default function AcceptInvitationPage() {
   }
 
 
-  //---- check if user completed the registration ----
-  async function CheckUserCompleted(): Promise<boolean> {
-    try {
-      const token = localStorage.getItem("token");
-
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/users/completed`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            accept: "application/json",
-          },
-        }
-      );
-      return response.data; //boolean
-    } catch (error) {
-      console.error("Error in /completed", error);
-      return false;
-    }
-  }
-
-  useEffect(() => {
-    const checkUserStatus = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const isCompleted = await CheckUserCompleted();
-          if (isCompleted) {
-            router.push("/trials");
-          }
-        } catch (error) {
-          console.error("Error checking if user is completed", error);
-        }
-      }
-    };
-
-    checkUserStatus();
-  }, [router]);
 
 
 
