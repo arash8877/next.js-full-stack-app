@@ -22,6 +22,9 @@ const AcceptInvitationForm = ({}: iUserProps) => {
   // const inviteToken = searchParams.get("inviteToken");
   const [userInfo, setUserInfo] = useState<SponsorUserInfo>();
   const [inviteToken, setInviteToken] = useState<string | null>(null);
+  // const userId = userInfo?.userId;
+
+  // console.log("userId:", userId);
 
   useEffect(() => {
     // Extract the inviteToken from the query parameters
@@ -30,6 +33,7 @@ const AcceptInvitationForm = ({}: iUserProps) => {
   }, []);
 
   console.log("inviteToken:", inviteToken);
+  
   //----Yup validation ---------
   const formSchema = Yup.object({
     firstName: Yup.string()
@@ -134,9 +138,13 @@ const AcceptInvitationForm = ({}: iUserProps) => {
   //eslint-disable-next-line
   const updateInvitedEmployeeForm = async (data: iUserUpdateProps) => {
     //function will be called in onSubmit
+    console.log("iviteToken is missing")
+    if (!inviteToken) {
+      return;
+    }
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/invites/verify`,
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite/${inviteToken}/create`,
         data,
         {
           headers: {
@@ -198,7 +206,7 @@ const AcceptInvitationForm = ({}: iUserProps) => {
       };
       console.log("data:", data);
 
-      //updateInvitedEmployeeForm(data);
+      updateInvitedEmployeeForm(data);
     },
     validationSchema: formSchema,
   });
@@ -402,6 +410,7 @@ const AcceptInvitationForm = ({}: iUserProps) => {
         <CustomButton
           title={l("settings.form.submit") || "Accept"}
           containerStyles="rounded-lg gradient-green1 hover1"
+          disabled={!inviteToken}
           btnType="submit"
         />
       </div>
