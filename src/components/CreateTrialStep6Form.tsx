@@ -16,7 +16,7 @@ const CreateTrialStep6Form = () => {
   const { trialData } = useGetSingleTrialInfo(trialId || "");
   const { resetFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
-  console.log("$$$$$$$$$$", trialData);
+  console.log("trialData$$$$$$$$$$:", trialData);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTrialId = localStorage.getItem("currentTrialEditId");
@@ -75,6 +75,8 @@ const CreateTrialStep6Form = () => {
       }
     }
   }
+
+  console.log("trialData in step6:", trialData);
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
     <div className="flex flex-col gap-6 wrapper">
@@ -154,7 +156,7 @@ const CreateTrialStep6Form = () => {
         </div>
 
         <div className="p-4 border rounded-md mt-4">
-          <h3 className="text-lg font-semibold mb-2">Trial Criteria</h3>
+          {/* <h3 className="text-lg font-semibold mb-2">Trial Criteria</h3> */}
 
           <div className="mb-4">
             <strong>Inclusion Diseases:</strong>
@@ -211,6 +213,70 @@ const CreateTrialStep6Form = () => {
             ) : (
               <p className="text-sm">No medical categories specified.</p>
             )}
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div className="flex flex-col border rounded-md p-4 gap-4 mt-4">
+          <div>
+            <h3 className="text-lg font-semibold">Participant Activities:</h3>
+            <div
+              className="ql-editor"
+              dangerouslySetInnerHTML={{
+                __html: trialData?.participantActivities || "No data provided",
+              }}
+            />
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div>
+            <h3 className="text-lg font-semibold">
+              Expected Number of Participants:
+            </h3>
+            <p className="">
+              {trialData?.expectedParticipants || "No data provided"}
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold">Additional Information:</h3>
+            <p className="">
+              {trialData?.additionalInformation || "No data provided"}
+            </p>
+          </div>
+
+          <div>
+            <ul className="list-disc ml-5">
+              {trialData?.drivingCompensation && <li>Driving Compensation</li>}
+              {trialData?.monetaryCompensation && (
+                <li>Monetary Compensation</li>
+              )}
+              {trialData?.otherCompensation && (
+                <li>
+                  Other Compensation:{" "}
+                  {trialData?.otherCompensationText || "N/A"}
+                </li>
+              )}
+            </ul>
           </div>
         </div>
       </div>
