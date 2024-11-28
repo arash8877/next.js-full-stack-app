@@ -63,10 +63,10 @@ p {
   @apply w-full h-[48px] p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
 }
 .custom-height {
-  height: calc(100vh - 55px);
+  height: calc(100vh - 103px);
 }
 .custom_height {
-  height: calc(100vh - 55px);
+  height: calc(100vh - 103px);
 }
 .custom_height2 {
   height: 56px !important;
@@ -120,7 +120,7 @@ p {
 
 /*---------------------------- My-trials ----------------------------- */
 .my_trials_grid {
-  @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 xs:px-8 pb-8 place-items-center ;
+  @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 xs:px-8 pb-8 place-items-center;
 }
 
 /*---------------------------- Trial-Details ----------------------------- */
@@ -155,7 +155,7 @@ p {
 }
 
 /*---------------------------- Company ----------------------------- */
-.not_editable_div{
+.not_editable_div {
   @apply bg-bgColor-100 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
 }
 
@@ -163,8 +163,6 @@ p {
 .textarea_input {
   @apply w-full p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
 }
-
-
 
 /*---------------------------- Quill-Editor ----------------------------- */
 /* Customize the editor's toolbar */
@@ -178,7 +176,7 @@ p {
 .ql-container {
   border: 2px solid #dff2df;
   border-radius: 8px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   margin-top: 20px;
 }
 
@@ -213,10 +211,6 @@ p {
   font-size: 0.875rem !important;
 }
 
-
-
-
-
 .ql-editor h1 {
   font-size: 2rem; /* Tailwind text-3xl equivalent */
   font-weight: bold;
@@ -240,4 +234,3 @@ p {
   font-weight: bold;
   margin-bottom: 1rem;
 }
-
