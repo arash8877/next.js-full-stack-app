@@ -13,6 +13,7 @@ import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
+import useDiseaseStore from "@/stores/disease-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep4Form = () => {
@@ -27,6 +28,8 @@ const CreateTrialStep4Form = () => {
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
+  const { selectedDiseases, setSelectedDiseases } = useDiseaseStore();
+
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({});
 
@@ -39,13 +42,6 @@ const CreateTrialStep4Form = () => {
   //   optionalText: "string", // Replace "string" with actual optional text if available
   // }));
 
-  const x = categories.filter(
-    (category) =>
-      category.medicalCategoryId !== undefined &&
-      formData.step4Data.medicalCategories?.includes(category.medicalCategoryId)
-  );
-  console.log("categories", x);
-
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
@@ -53,7 +49,7 @@ const CreateTrialStep4Form = () => {
       inclusionRequirements: formData.step4Data.inclusionRequirements || "",
       exclusionDiseases: formData.step4Data.exclusionDiseases || [],
       exclusionRequirements: formData.step4Data.exclusionRequirements || "",
-     medicalCategories: categories.filter(
+      medicalCategories: categories.filter(
         (category) =>
           category.medicalCategoryId !== undefined &&
           (formData.step4Data.medicalCategories ?? []).includes(
@@ -87,7 +83,7 @@ const CreateTrialStep4Form = () => {
           }
         );
         console.log("payloadin step4", payload);
-        console.log('RESPONSE',response);
+        console.log("RESPONSE", response);
         setFormData({
           ...formData,
           step4Data: {
@@ -118,8 +114,8 @@ const CreateTrialStep4Form = () => {
 
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
-    console.log("category clicked:", id);
-    console.log("selectedCategoriesId:", selectedCategoriesId);
+    //console.log("category clicked:", id);
+    //console.log("selectedCategoriesId:", selectedCategoriesId);
     if (selectedCategoriesId.includes(id)) {
       setSelectedCategoriesId(
         selectedCategoriesId.filter((categoryId) => categoryId !== id)
@@ -146,10 +142,11 @@ const CreateTrialStep4Form = () => {
               Inclusion Disease:
             </label>
             <DiseaseDropdown
-              value={formik.values.inclusionDiseases || []}
-              onChange={(value) =>
-                formik.setFieldValue("inclusionDiseases", value)
-              }
+              value={selectedDiseases}
+              onChange={(value) => {
+                formik.setFieldValue("inclusionDiseases", value);
+                setSelectedDiseases(value);
+              }}
             />
           </div>
 
@@ -206,7 +203,6 @@ const CreateTrialStep4Form = () => {
           </div>
         </div>
 
-        
         <div className="flex flex-col gap-2 w-full mt-8">
           <label className="text-sm font-semibold">Medical Categories:</label>
           <div>
