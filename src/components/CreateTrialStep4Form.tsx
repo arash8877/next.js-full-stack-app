@@ -157,9 +157,8 @@ const CreateTrialStep4Form = () => {
             >
               Inclusion Requirements:
             </label>
-            <input
+            <textarea
               name="inclusionRequirements"
-              type="text"
               value={formik.values.inclusionRequirements}
               onChange={(e) =>
                 formik.setFieldValue("inclusionRequirements", e.target.value)
@@ -190,9 +189,8 @@ const CreateTrialStep4Form = () => {
             >
               Exclusion Requirements:
             </label>
-            <input
+            <textarea
               name="exclusionRequirements"
-              type="text"
               value={formik.values.exclusionRequirements}
               onChange={(e) =>
                 formik.setFieldValue("exclusionRequirements", e.target.value)
