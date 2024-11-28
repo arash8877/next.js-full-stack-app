@@ -109,6 +109,7 @@ const CreateTrialStep5Form = () => {
             otherCompensation: values.otherCompensation,
           },
         });
+        document.cookie = "createTrialStep5Completed=true; Path=/;";
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);

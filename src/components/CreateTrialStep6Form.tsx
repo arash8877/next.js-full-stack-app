@@ -67,6 +67,18 @@ const CreateTrialStep6Form = () => {
       console.log("response in createTrialStep6Form:", response);
       resetFormData();
       localStorage.removeItem("currentTrialEditId");
+      // document.cookie = "createTrialStep6Completed=true; Path=/;";
+      const cookiesToRemove = [
+        "createTrialStep1Completed",
+        "createTrialStep2Completed",
+        "createTrialStep3Completed",
+        "createTrialStep4Completed",
+        "createTrialStep5Completed",
+      ];
+      cookiesToRemove.forEach((cookieName) => {
+        document.cookie = `${cookieName}=; path=/; max-age=0;`;
+      });
+  
       router.push("/trials");
     } catch (error) {
       console.error(error);

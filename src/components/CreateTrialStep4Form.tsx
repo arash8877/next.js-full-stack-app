@@ -99,6 +99,7 @@ const CreateTrialStep4Form = () => {
             medicalCategories: selectedCategoriesId,
           },
         });
+        document.cookie = "createTrialStep4Completed=true; Path=/;";
         router.push("/create-trial/step5");
       } catch (error) {
         if (error instanceof AxiosError) {

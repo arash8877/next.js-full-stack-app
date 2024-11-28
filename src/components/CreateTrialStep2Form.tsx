@@ -128,6 +128,7 @@ const CreateTrialStep2Form = () => {
         );
         console.log("response in step2:", response);
         setFormData({ step2Data: { sites: values.sites } });
+        document.cookie = "createTrialStep2Completed=true; Path=/;";
         router.push("/create-trial/step3");
       } catch (error) {
         if (error instanceof AxiosError) {
