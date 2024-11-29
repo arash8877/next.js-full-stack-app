@@ -412,6 +412,7 @@ const AcceptInvitationForm = ({}: iUserProps) => {
         <CustomButton
           title={l("settings.form.submit") || "Accept"}
           containerStyles="rounded-lg gradient-green1 hover1"
+          disabledContainerStyles="rounded-lg bg-gray-300"
           disabled={!inviteToken}
           btnType="submit"
         />
