@@ -259,10 +259,11 @@ const AcceptInvitationForm = ({}: iUserProps) => {
         <input
           name="jobTitle"
           type="text"
+          readOnly
           value={formik.values.jobTitle}
           onChange={formik.handleChange("jobTitle")}
           onBlur={formik.handleBlur("jobTitle")}
-          className="register_input custom-border"
+          className="register_input custom-border cursor-npt-allowed bg-gray-200"
         />
         <small className="text-red-600">
           {formik.touched.jobTitle && formik.errors.jobTitle}
@@ -294,10 +295,11 @@ const AcceptInvitationForm = ({}: iUserProps) => {
         <input
           name="email"
           type="email"
+          readOnly
           value={formik.values.email}
           onChange={formik.handleChange("email")}
           onBlur={formik.handleBlur("email")}
-          className="register_input custom-border"
+          className="register_input custom-border cursor-npt-allowed bg-gray-200"
         />
         <small className="text-red-600">
           {formik.touched.email && formik.errors.email}
