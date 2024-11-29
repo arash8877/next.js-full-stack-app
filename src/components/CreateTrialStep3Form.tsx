@@ -105,7 +105,7 @@ const CreateTrialStep3Form = () => {
             gender: values.gender,
           },
         });
-        document.cookie = "createTrialStep3Completed=true; Path=/;";
+        document.cookie = "createTrialStep3Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step4");
       } catch (error) {
        console.log(error)

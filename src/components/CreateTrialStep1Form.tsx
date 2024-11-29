@@ -137,7 +137,7 @@ const CreateTrialStep1Form = () => {
         );
         console.log("response in step1:", payload);
         localStorage.setItem("currentTrialEditId", response.data);
-        document.cookie = "createTrialStep1Completed=true; Path=/;";
+        document.cookie = "createTrialStep1Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {

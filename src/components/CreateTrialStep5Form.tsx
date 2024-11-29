@@ -109,7 +109,7 @@ const CreateTrialStep5Form = () => {
             otherCompensation: values.otherCompensation,
           },
         });
-        document.cookie = "createTrialStep5Completed=true; Path=/;";
+        document.cookie = "createTrialStep5Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
