@@ -189,6 +189,7 @@ p {
   border-radius: 8px;
 }
 
+
 /* Focused state */
 .ql-container.ql-snow .ql-editor:focus {
   border: 2px solid #4272e1;
