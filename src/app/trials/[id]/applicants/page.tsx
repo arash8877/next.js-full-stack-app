@@ -5,6 +5,7 @@ import { SidebarLayout } from "@/components/SidebarLayout";
 import UnlockApplicantsModal from "@/components/UnlockApplicantsModal";
 import CustomButton from "@/components/CustomButton";
 import useLanguageStore from "@/stores/language-store";
+import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import useGetApplicationsInfo from "@/hooks/useGetApplicationsInfo";
 import axios from "axios";
 
@@ -16,7 +17,9 @@ type Props = {
 export default function ApplicantsPage({ params }: Props) {
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
   const { applicationsData } = useGetApplicationsInfo(params.id)
+  const { trialData } = useGetSingleTrialInfo(params.id);
   const { l } = useLanguageStore();
+  const title = trialData?.title;
 
   const handleUnlock = async () => {
     try {
@@ -56,9 +59,7 @@ export default function ApplicantsPage({ params }: Props) {
 
         <div className="flex flex-col justify-between gap-4 lg:flex-row">
           <h2 className="lg:w-2/3">
-            Title: Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry. Lorem Ipsum has been the industry standard
-            dummy
+            {title}
           </h2>
           <CustomButton
             title={
@@ -79,25 +80,22 @@ export default function ApplicantsPage({ params }: Props) {
               <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
                 <th className="py-3 px-6">First Name</th>
                 <th className="py-3 px-6">Last Name</th>
-                <th className="py-3 px-6">Age</th>
                 <th className="py-3 px-6 hidden lg:table-cell">
-                  ZIP Code
+                  Gender
                 </th>{" "}
-                <th className="py-3 px-6 hidden lg:table-cell">Country</th>{" "}
+                <th className="py-3 px-6">Email</th>
+             
               </tr>
             </thead>
             <tbody>
               {applicationsData?.map((applicant, index) => (
                 <tr key={index} className="border-b">
                   <td className="py-4 px-6">{applicant.user.firstName}</td>
-                  <td className="py-4 px-6">{applicant.user.firstName}</td>
-                  <td className="py-4 px-6">{applicant.user.Email}</td>
+                  <td className="py-4 px-6">{applicant.user.lastName}</td>
                   <td className="py-4 px-6 hidden lg:table-cell">
                     {applicant.user.gender}
                   </td>
-                  <td className="py-4 px-6 hidden lg:table-cell">
-                    {applicant.user.phoneNumber}
-                  </td>
+                  <td className="py-4 px-6">{applicant.user.Email}</td>
                 </tr>
               ))}
             </tbody>
