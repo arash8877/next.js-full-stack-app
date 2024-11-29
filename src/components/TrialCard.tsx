@@ -55,7 +55,12 @@ iTrialCardProps) {
         {diseases}
       </h3>
       <hr />
-      <p className="text-sm line-clamp-2">{shortDescription}</p>
+      <div
+        className="text-sm line-clamp-2"
+        dangerouslySetInnerHTML={{
+          __html: shortDescription,
+        }}
+      ></div>
       <hr />
       <div className="flex justify-between">
         <p className="text-xs font-medium">
