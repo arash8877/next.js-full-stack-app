@@ -55,7 +55,12 @@ iTrialCardProps) {
         {diseases}
       </h3>
       <hr />
-      <p className="text-sm line-clamp-2">{shortDescription}</p>
+      <div
+        className="text-sm line-clamp-2"
+        dangerouslySetInnerHTML={{
+          __html: shortDescription,
+        }}
+      ></div>
       <hr />
       <div className="flex justify-between">
         <p className="text-xs font-medium">
@@ -89,17 +94,19 @@ iTrialCardProps) {
             title={
               <div className="flex items-center justify-between w-full">
                 <span>{l("trialcard.cta.text") || "Applicants"}</span>
-                {applicationCount > 0 && (
-                  <span className="ml-2 bg-red-400 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    {applicationCount}
-                  </span>
-                )}
+                {applicationCount !== null &&
+                  applicationCount !== undefined && (
+                    <span className="ml-2 bg-red-400 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full">
+                      {applicationCount}
+                    </span>
+                  )}
               </div>
             }
             containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
             btnType="button"
           />
         </Link>
+
         <div className="flex flex-col">
           <Link href={`/trials/${trialId}`}>
             <CustomButton
