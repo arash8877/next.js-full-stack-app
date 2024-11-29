@@ -135,7 +135,7 @@ p {
 
 /*---------------------------- Setting ----------------------------- */
 .setting_step4_div {
-  @apply bg-bgColor-100 md:w-2/5 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
+  @apply bg-bgColor-100 lg:w-2/5 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
 }
 
 /*---------------------------- LanguageDropdown ----------------------------- */
@@ -188,6 +188,7 @@ p {
   border: 1px solid #dff2df;
   border-radius: 8px;
 }
+
 
 /* Focused state */
 .ql-container.ql-snow .ql-editor:focus {

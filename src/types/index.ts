@@ -287,14 +287,14 @@ export interface CreateTrialStep1FormProps {
 }
 
 export interface SiteFormValues {
-  location: string;
+  name: string;
   address: string;
   zipCode: string;
   country: string;
 }
 
 export interface CreateTrialStep2FormValues {
-  sites: SiteFormValues[];
+  trialSites: SiteFormValues[];
 }
 
 export interface CreateTrialStep2FormProps {

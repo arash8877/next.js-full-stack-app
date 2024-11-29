@@ -92,9 +92,6 @@ export default function SettingTabNotification() {
               btnType="submit"
             />
           </div>
-          <p className="text-xs	mt-8 text-center xs:text-start">
-            Icons by <a href="https://icons8.com/" target="_blank" className="underline">icon8.com</a>
-          </p>
         </form>
       </div>
     </div>

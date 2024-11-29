@@ -138,8 +138,8 @@ const SettingUserInfoForm = ({
   //--------------------------Return---------------------------------
   return (
     <form className="flex flex-col gap-6  mt-9" onSubmit={formik.handleSubmit}>
-      <div className="flex flex-col-reverse md:flex-row md:justify-between">
-        <div className="flex flex-col gap-[22px] md:w-2/5">
+      <div className="flex flex-col xl:w-4/5">
+        <div className="flex flex-col gap-[22px] lg:w-2/5">
           <div className="flex flex-col gap-2">
             <label htmlFor="password">
               {l("settings.tab4.form.password.label") || "Change password"}
@@ -200,7 +200,7 @@ const SettingUserInfoForm = ({
         </p>
       </div>
 
-      <div className="grid gap-7 md:gap-6 md:w-4/5 md:grid-cols-2">
+      <div className="grid gap-7 md:gap-6 xl:w-4/5 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">
             {l("settings.tab1.form.firstname.label") || "First Name"}
