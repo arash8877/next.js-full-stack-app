@@ -78,7 +78,7 @@ const CreateTrialStep6Form = () => {
       cookiesToRemove.forEach((cookieName) => {
         document.cookie = `${cookieName}=; path=/; max-age=0;`;
       });
-  
+
       router.push("/trials");
     } catch (error) {
       console.error(error);
@@ -107,14 +107,16 @@ const CreateTrialStep6Form = () => {
               dangerouslySetInnerHTML={{
                 __html: trialData?.shortDescription || "N/A",
               }}
+              className="ql-editor"
             />
           </div>
           <div className="text-sm mb-2">
             <strong>Full Description:</strong>
-            <p
+            <div
               dangerouslySetInnerHTML={{
                 __html: trialData?.fullDescription || "N/A",
               }}
+              className="ql-editor"
             />
           </div>
         </div>
@@ -228,66 +230,53 @@ const CreateTrialStep6Form = () => {
           </div>
         </div>
 
-
-
-
-
-
-
-
-
-
         <div className="flex flex-col border rounded-md p-4 gap-4 mt-4">
           <div>
-            <h3 className="text-lg font-semibold">Participant Activities:</h3>
+            <strong className="text-sm mb-2">Participant Activities:</strong>
             <div
-              className="ql-editor"
               dangerouslySetInnerHTML={{
                 __html: trialData?.participantActivities || "No data provided",
               }}
+              className="ql-editor"
             />
           </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
           <div>
-            <h3 className="text-lg font-semibold">
+            <strong className="text-sm mb-2">
               Expected Number of Participants:
-            </h3>
+            </strong>
             <p className="">
               {trialData?.expectedParticipants || "No data provided"}
             </p>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold">Additional Information:</h3>
+            <strong className="text-sm mb-2">Additional Information:</strong>
             <p className="">
-              {trialData?.additionalInformation || "No data provided"}
+              {trialData?.additionalInformation
+                ? trialData?.additionalInformation
+                : "No data provided"}
             </p>
           </div>
 
           <div>
             <ul className="list-disc ml-5">
-              {trialData?.drivingCompensation && <li>Driving Compensation</li>}
-              {trialData?.monetaryCompensation && (
-                <li>Monetary Compensation</li>
-              )}
-              {trialData?.otherCompensation && (
-                <li>
-                  Other Compensation:{" "}
-                  {trialData?.otherCompensationText || "N/A"}
-                </li>
-              )}
+              <li>
+                <strong className="text-sm mb-2">Driving Compensation:</strong>
+                {trialData?.drivingCompensation === true ? " Yes" : " No"}
+              </li>
+
+              <li>
+                <strong className="text-sm mb-2">
+                  Monetary Compensation:{" "}
+                </strong>
+                {trialData?.monetaryCompensation ? " Yes" : " No"}
+              </li>
+
+              <li>
+                <strong className="text-sm mb-2">Other Compensation:</strong>{" "}
+                {trialData?.otherCompensationText || "N/A"}
+              </li>
             </ul>
           </div>
         </div>

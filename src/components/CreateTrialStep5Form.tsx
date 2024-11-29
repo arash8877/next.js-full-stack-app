@@ -33,29 +33,6 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
-  const getCompensationList = (values: {
-    drivingCompensation: boolean;
-    monetaryCompensation: boolean;
-    otherCompensation: string;
-  }) => {
-    const compensation = [];
-
-    if (values.drivingCompensation) {
-      compensation.push("drivingCompensation");
-    }
-
-    if (values.monetaryCompensation) {
-      compensation.push("monetaryCompensation");
-    }
-
-    if (values.otherCompensation) {
-      compensation.push(values.otherCompensation);
-    }
-
-    console.log(compensation);
-
-    return compensation;
-  };
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
@@ -78,13 +55,11 @@ const CreateTrialStep5Form = () => {
         participantActivities: values["participantActivities"],
         expectedParticipants: values["expectedParticipants"],
         additionalInformation: values["additionalInformation"],
-        compensations: getCompensationList({
-          drivingCompensation: values["drivingCompensation"] ?? false,
-          monetaryCompensation: values["monetaryCompensation"] ?? false,
-          otherCompensation: values["otherCompensationText"] || "",
-        }),
+        drivingCompensation: values["drivingCompensation"] ?? false,
+        monetaryCompensation: values["monetaryCompensation"] ?? false,
+        otherCompensation: values["otherCompensationText"] || "",
+        otherCompensationText: values["otherCompensationText"] || "",
       };
-      //console.log("compensation", compensations);
       try {
         console.log("payload", payload);
         const response = await axios.patch(
@@ -96,7 +71,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        console.log(response);
+        console.log("response step 5", response);
         setFormData({
           ...formData,
           step5Data: {
@@ -109,7 +84,8 @@ const CreateTrialStep5Form = () => {
             otherCompensation: values.otherCompensation,
           },
         });
-        document.cookie = "createTrialStep5Completed=true; Path=/; max-age=7200";
+        document.cookie =
+          "createTrialStep5Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
@@ -144,7 +120,6 @@ const CreateTrialStep5Form = () => {
   //     ["link"],
   //   ],
   // };
-
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -351,8 +326,8 @@ const CreateTrialStep5Form = () => {
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1 mt-4"
-          disabledContainerStyles="rounded-lg bg-gray-300"
-          disabled={!formik.isValid || !formik.dirty}
+          // disabledContainerStyles="rounded-lg bg-gray-300"
+          // disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>

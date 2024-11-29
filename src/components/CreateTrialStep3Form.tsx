@@ -253,8 +253,8 @@ const CreateTrialStep3Form = () => {
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"
-          disabledContainerStyles="rounded-lg bg-gray-300"
-          disabled={!formik.isValid || !formik.dirty}
+          // disabledContainerStyles="rounded-lg bg-gray-300"
+          // disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>

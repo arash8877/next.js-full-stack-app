@@ -248,8 +248,8 @@ const CreateTrialStep2Form = () => {
         <CustomButton
           title="Next"
           containerStyles="rounded-lg gradient-green1 hover1 mt-4"
-          disabledContainerStyles="rounded-lg bg-gray-300"
-          disabled={!formik.isValid || !formik.dirty}
+          // disabledContainerStyles="rounded-lg bg-gray-300"
+          // disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>

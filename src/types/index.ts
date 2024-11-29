@@ -131,10 +131,12 @@ export interface iMediaProps {
 }
 
 export interface iCategoryProps {
-  medicalCategoryId?: number;
-  name: string;
-  description: string;
-  media: iMediaProps;
+
+    medicalCategoryId?: number;
+    name: string;
+    description: string;
+    media: iMediaProps;
+  
 }
 
 export interface iTrialCategoryProps {
@@ -315,7 +317,6 @@ export interface CreateTrialStep3FormValues {
 
 export interface CreateTrialStep4FormProps {
   trialId?: number;
-
   inclusionDiseases?: string[];
   inclusionRequirements?: string;
   exclusionDiseases?: string[];
