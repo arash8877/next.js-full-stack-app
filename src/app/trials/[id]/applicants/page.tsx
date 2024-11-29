@@ -21,6 +21,8 @@ export default function ApplicantsPage({ params }: Props) {
   const { l } = useLanguageStore();
   const title = trialData?.title;
 
+  console.log("applicationsData:", applicationsData);
+
   const handleUnlock = async () => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/v1/invoices/purchase/trial`, 
@@ -71,7 +73,7 @@ export default function ApplicantsPage({ params }: Props) {
             disabledContainerStyles="rounded-lg flex_center bg-gray-300 h-11 text-white"
             btnType="button"
             handleClick={() => setIsUnlockModalOpen(true)}
-            disabled={applicationsData?.[0]?.unlocked}
+            disabled={applicationsData?.[0]?.unlocked || applicationsData?.length === 0}
           />
         </div>
         <div className="overflow-x-auto bg-white wrapper rounded-3xl mt-4">
