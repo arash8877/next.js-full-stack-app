@@ -6,7 +6,6 @@ import Link from "next/link";
 import CounterMyTrials from "./CounterContainer";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
-// import RedirectToRegisterModal from "./RedirectToRegisterModal";
 import LogoutModal from "./LogoutModal";
 import useLanguageStore from "@/stores/language-store";
 
@@ -24,18 +23,12 @@ export default function NavbarDashboardMobile() {
 
   //---- open/close modals -----
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-//   const [isRedirectToRegisterModalOpen, setIsRedirectToRegisterModalOpen] =
-//     useState(false);
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
   };
   const closeLogoutModal = () => {
     setIsLogoutModalOpen(false);
   };
-
-//   const openRedirectToRegisterModal = () => {
-//     setIsRedirectToRegisterModalOpen(true);
-//   };
 
   //-----get my trials count from useGetMyTrials hook-----
   const myTrials = useGetMyTrials();
@@ -50,12 +43,6 @@ export default function NavbarDashboardMobile() {
       {isLogoutModalOpen && (
         <LogoutModal open={isLogoutModalOpen} onClose={closeLogoutModal} />
       )}
-      {/* {isRedirectToRegisterModalOpen && (
-        <RedirectToRegisterModal
-          open={isRedirectToRegisterModalOpen}
-          onClose={() => setIsRedirectToRegisterModalOpen(false)}
-        />
-      )} */}
       <nav className="flex justify-between items-center bg-white h-12 p-4 rounded-full z-50 relative ">
         <div>
           <Image
