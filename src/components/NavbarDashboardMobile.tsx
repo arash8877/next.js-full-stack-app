@@ -128,7 +128,7 @@ export default function NavbarDashboardMobile() {
             className="navbar_item items-center"
           >
             <Image
-              src="/favorite_icon.png"
+              src="/company.svg"
               alt="home-icon"
               width={24}
               height={24}
@@ -150,7 +150,7 @@ export default function NavbarDashboardMobile() {
             className="navbar_item items-center"
           >
             <Image
-              src="/favorite_icon.png"
+              src="/employees.svg"
               alt="home-icon"
               width={24}
               height={24}
@@ -171,7 +171,7 @@ export default function NavbarDashboardMobile() {
             className="navbar_item items-center"
           >
             <Image
-              src="/favorite_icon.png"
+              src="/invoices.svg"
               alt="home-icon"
               width={24}
               height={24}
