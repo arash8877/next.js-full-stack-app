@@ -63,7 +63,7 @@ iTrialCardProps) {
 
       <hr />
       <div className="flex justify-between gap-2">
-        <p className="text-xs font-medium">
+        <p className="text-xs font-medium w-full">
           {l("trialcard.period") || "Interest Area:"}
         </p>
         <p className="text-xs font-light line-clamp-1">
