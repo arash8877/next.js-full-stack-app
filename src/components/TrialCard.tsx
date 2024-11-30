@@ -18,13 +18,17 @@ export default function TrialCard({
   address,
   submissionDeadline,
   userApplication,
-  //medicalCategories,
-  diseases,
-}: // applicantsNumber
+  inclusionDiseases,
+}: //medicalCategories,
+// applicantsNumber
 // imageSrc,
 // underReview,
 iTrialCardProps) {
   const { l } = useLanguageStore();
+  // eslint-disable-next-line
+  const plainText =
+    new DOMParser().parseFromString(shortDescription, "text/html").body
+      .textContent || "";
 
   //--------------------------------- return ------------------------------------------------
   return (
@@ -51,20 +55,28 @@ iTrialCardProps) {
         )}
       </div>
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
-      <h3 className="text-sm font-bold text-primary-600 line-clamp-1">
-        {diseases}
-      </h3>
       <hr />
-      <div
-        className="text-sm line-clamp-2"
-        dangerouslySetInnerHTML={{
-          __html: shortDescription,
-        }}
-      ></div>
+      <div className="text-sm line-clamp-2">
+        {new DOMParser().parseFromString(shortDescription, "text/html").body
+          .textContent || ""}
+      </div>
+
       <hr />
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-2">
         <p className="text-xs font-medium">
-          {l("trialcard.period") || "Trial Period"}
+          {l("trialcard.period") || "Interest Area:"}
+        </p>
+        <p className="text-xs font-light line-clamp-1">
+          {inclusionDiseases.length > 0
+            ? inclusionDiseases.join(", ")
+            : "------"}
+        </p>
+      </div>
+
+      <hr />
+      <div className="flex justify-between gap-2">
+        <p className="text-xs font-medium">
+          {l("trialcard.period") || "Trial Period:"}
         </p>
         <p className="text-xs font-light">
           {startDate}-{endDate}
@@ -73,18 +85,18 @@ iTrialCardProps) {
       <hr />
       {address && (
         <>
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-2">
             <p className="text-xs font-medium">
-              {l("trialcard.location") || "Location"}
+              {l("trialcard.location") || "Location:"}
             </p>
             <p className="text-xs font-light">{address}</p>
           </div>
           <hr />
         </>
       )}
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-2">
         <p className="text-xs font-medium">
-          {l("trialcard.deadline") || "Submission Deadline"}
+          {l("trialcard.deadline") || "Submission Deadline:"}
         </p>
         <p className="text-xs font-light">{submissionDeadline}</p>
       </div>
