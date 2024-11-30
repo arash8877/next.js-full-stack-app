@@ -32,7 +32,7 @@ iTrialCardProps) {
 
   //--------------------------------- return ------------------------------------------------
   return (
-    <section className="flex flex-col gap-4 p-6 bg-white rounded-lg max-w-[480px] sm:max-w-[345px] md:max-w-md lg:max-w-lg">
+    <section className="flex flex-col gap-4 p-6 bg-white rounded-lg">
       <div className="flex justify-between">
         <div className="flex justify-between gap-1">
           {/* @TODO  Add Image after correcting medicalCategories data structure */}
@@ -69,7 +69,7 @@ iTrialCardProps) {
         <p className="text-xs font-light line-clamp-1">
           {inclusionDiseases.length > 0
             ? inclusionDiseases.join(", ")
-            : "------"}
+            : "-"}
         </p>
       </div>
 
