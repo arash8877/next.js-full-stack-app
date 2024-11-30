@@ -92,7 +92,7 @@ export default function TrialsPage() {
                   userApplication={trial.userApplication}
                   //medicalCategories={trial.medicalCategories || []}
                   medicalCategories={[]}
-                  diseases={trial.diseases}
+                  inclusionDiseases={trial.inclusionDiseases || []}
                   applicantsNumber={trial.applicantsNumber}
                 />
               ))}

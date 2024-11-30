@@ -166,7 +166,7 @@ export interface iTrialCardProps {
   media: iMediaProps;
   userApplication: iUserTrialApplication | null;
   medicalCategories: iCategoryProps[][];
-  diseases: string[];
+  inclusionDiseases: string[];
   applicantsNumber: number;
   //medicalCategories: iCategoryProps[];
   // imageSrc: string;
