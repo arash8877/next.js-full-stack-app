@@ -61,7 +61,7 @@ const CreateTrialStep5Form = () => {
         otherCompensationText: values["otherCompensationText"] || "",
       };
       try {
-        console.log("payload", payload);
+        console.log("payload in step5:", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
           payload,
@@ -71,7 +71,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        console.log("response step 5", response);
+        console.log("response step 5:", response);
         setFormData({
           ...formData,
           step5Data: {
