@@ -33,7 +33,7 @@ export default function EmployeesPage({ params }: Props) {
         </h1>
       </div>
         <div
-          className="flex flex-col bg-white rounded-3xl mb-4 wrapper"
+          className="flex flex-col bg-white rounded-3xl mb-4  wrapper"
         >
           <EmployeesListForm {...employeeData} userId={userId}/>
         </div>
