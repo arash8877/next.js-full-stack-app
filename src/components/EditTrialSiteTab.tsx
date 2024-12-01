@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { iTrialInfoProps } from "@/types";
@@ -16,9 +16,10 @@ export default function EditTrialSiteTab({
   trialSites,
 }: iTrialInfoProps) {
   const { l } = useLanguageStore();
+  const [localTrialSites, setLocalTrialSites] = useState(trialSites || []);
 
   useEffect(() => {
-    console.log("Sites", trialSites);
+    setLocalTrialSites(trialSites || []);
   }, [trialSites]);
 
   //---- Validation Schema ---------
@@ -28,7 +29,7 @@ export default function EditTrialSiteTab({
         Yup.object({
           name: Yup.string().required(
             l("settings.tab1.form.name.validation.required") ||
-              "name is required!"
+              "Name is required!"
           ),
           address: Yup.string().required(
             l("settings.tab1.form.address.validation.required") ||
@@ -59,15 +60,11 @@ export default function EditTrialSiteTab({
     validateOnMount: false,
     enableReinitialize: true,
     initialValues: {
-      trialSites: trialSites || [
-        { name: "", address: "", zipCode: "", country: "" },
-      ],
+      trialSites: localTrialSites,
     },
-    //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Submit", values);
+      console.log("values in Edit trial Sites ", values);
       const token = localStorage.getItem("token");
-      console.log("values:", values);
       try {
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
@@ -80,10 +77,11 @@ export default function EditTrialSiteTab({
             },
           }
         );
-        console.log("response:", response);
+        console.log("response in Edit trial Sites", response);
         toast.success(
           l("settings.form.success") || "Trial updated successfully!"
         );
+        setLocalTrialSites(values.trialSites); // Update localTrialSites after successful submission
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
@@ -93,22 +91,22 @@ export default function EditTrialSiteTab({
     },
   });
 
-    //------------------Add another site ----------------
-    const addSite = () => {
-      formik.setFieldValue(
-        "trialSites",
-        [
-          ...formik.values.trialSites,
-          {
-            name: "",
-            address: "",
-            zipCode: "",
-            country: "Denmark",
-          },
-        ],
-        false
-      );
-    };
+  //------------------Add another site ----------------
+  const addSite = () => {
+    formik.setFieldValue(
+      "trialSites",
+      [
+        ...formik.values.trialSites,
+        {
+          name: "",
+          address: "",
+          zipCode: "",
+          country: "Denmark",
+        },
+      ],
+      false
+    );
+  };
 
   // --------- remove a site  -----------
   const removeSite = (index: number) => {
@@ -175,7 +173,7 @@ export default function EditTrialSiteTab({
                 </div>
               </div>
 
-              <div className="flex flex-col lg:w-3/4 2xl:w-1/2 gap-4">
+              <div className="flex flex-col lg:w-3/4 2xl:w-1/2 gap-4 ">
                 <div className="flex flex-col gap-2">
                   <label
                     htmlFor={`trialSites.${index}.zipCode`}
@@ -199,7 +197,7 @@ export default function EditTrialSiteTab({
                   </small>
                 </div>
 
-                <div className="flex flex-col gap-2 -z-10">
+                <div className="flex flex-col gap-2 ">
                   <label
                     htmlFor={`trialSites.${index}.country`}
                     className="text-sm font-semibold"

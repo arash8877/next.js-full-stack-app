@@ -9,7 +9,7 @@ import EditTrialTitleTab from "@/components/EditTrialTitleTab";
 import EditTrialSiteTab from "@/components/EditTrialSiteTab";
 import EditTrialTimeTab from "@/components/EditTrialTimeTab";
 import EditTrialMoreInfoTab from "@/components/EditTrialMoreInfoTab";
-import EditTrialMedicalTab  from "@/components/EditTrialMedicalTab";
+import EditTrialMedicalTab from "@/components/EditTrialMedicalTab";
 import useLanguageStore from "@/stores/language-store";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 
@@ -136,12 +136,15 @@ export default function EditTrialPage({ params }: Props) {
             </button>
           </div>
         </div>
-
-        {tabs.map((tab) => (
-          <div className="px-8" key={tab.id}>
-            {currentTab === tab.id && tab.content}
+        <div className="relative">
+          <div className="absolute inset-0 z-[-1]">
+            {tabs.map((tab) => (
+              <div className="px-8" key={tab.id}>
+                {currentTab === tab.id && tab.content}
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </SidebarLayout>
   );

@@ -30,7 +30,7 @@ const useGetSingleTrialInfo = (
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${id}` : null,
     fetcher
   );
-  console.log("trial Data in useGetSingleTrialInfo:", data);
+  console.log("trial Data in useGetSingleTrialInfo****************:", data);
   return { trialData: data, trialError: error, trialIsLoading: isLoading };
 };
 

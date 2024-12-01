@@ -57,7 +57,7 @@ const CreateTrialStep5Form = () => {
         additionalInformation: values["additionalInformation"],
         drivingCompensation: values["drivingCompensation"] ?? false,
         monetaryCompensation: values["monetaryCompensation"] ?? false,
-        otherCompensation: values["otherCompensationText"] || "",
+        otherCompensation: values["otherCompensation"] ?? false,
         otherCompensationText: values["otherCompensationText"] || "",
       };
       try {
@@ -82,6 +82,7 @@ const CreateTrialStep5Form = () => {
             drivingCompensation: values.drivingCompensation,
             monetaryCompensation: values.monetaryCompensation,
             otherCompensation: values.otherCompensation,
+            otherCompensationText: values.otherCompensationText || "",
           },
         });
         document.cookie =
