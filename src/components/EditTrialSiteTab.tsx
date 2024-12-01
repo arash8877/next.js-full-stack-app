@@ -93,6 +93,23 @@ export default function EditTrialSiteTab({
     },
   });
 
+    //------------------Add another site ----------------
+    const addSite = () => {
+      formik.setFieldValue(
+        "trialSites",
+        [
+          ...formik.values.trialSites,
+          {
+            name: "",
+            address: "",
+            zipCode: "",
+            country: "Denmark",
+          },
+        ],
+        false
+      );
+    };
+
   // --------- remove a site  -----------
   const removeSite = (index: number) => {
     const updatedSites = [...formik.values.trialSites];
@@ -110,8 +127,8 @@ export default function EditTrialSiteTab({
               key={index}
               className="flex flex-col gap-4 w-full  border-b pb-4 mb-12"
             >
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-2 w-1/2">
+              <div className="flex flex-col lg:w-3/4 2xl:w-1/2 gap-4">
+                <div className="flex flex-col gap-2">
                   <label
                     htmlFor={`trialSites.${index}.name`}
                     className="text-sm font-semibold"
@@ -134,7 +151,7 @@ export default function EditTrialSiteTab({
                   </small>
                 </div>
 
-                <div className="flex flex-col gap-2 w-1/2">
+                <div className="flex flex-col gap-2">
                   <label
                     htmlFor={`trialSites.${index}.address`}
                     className="text-sm font-semibold"
@@ -158,8 +175,8 @@ export default function EditTrialSiteTab({
                 </div>
               </div>
 
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-2 w-1/2">
+              <div className="flex flex-col lg:w-3/4 2xl:w-1/2 gap-4">
+                <div className="flex flex-col gap-2">
                   <label
                     htmlFor={`trialSites.${index}.zipCode`}
                     className="text-sm font-semibold"
@@ -182,7 +199,7 @@ export default function EditTrialSiteTab({
                   </small>
                 </div>
 
-                <div className="flex flex-col gap-2 w-1/2">
+                <div className="flex flex-col gap-2 -z-10">
                   <label
                     htmlFor={`trialSites.${index}.country`}
                     className="text-sm font-semibold"
@@ -206,27 +223,27 @@ export default function EditTrialSiteTab({
               </div>
 
               {index > 0 && (
-                <div className="flex justify-center gap-4 mt-8">
+                <div className="flex justify-center gap-4 mt-8 lg:justify-start">
                   <CustomButton
-                  title={l("settings.form.submit") || "Remove Site"}
+                    title={l("settings.form.submit") || "Remove Site"}
                     containerStyles="rounded-lg h-[48px] bg-bgColor-red hover1"
                     textStyles="text-white"
                     btnType="button"
                     handleClick={() => removeSite(index)}
                   />
                 </div>
-
-                // <button
-                //   type="button"
-                //   onClick={() => removeSite(index)}
-                //   className="text-red-600 text-sm underline"
-                // >
-                //   {l("settings.tab4.form.removeSite") || "Remove Site"}
-                // </button>
               )}
             </div>
           );
         })}
+
+        <div className="flex justify-center xs:justify-end gap-4 xl:w-1/2">
+          <CustomButton
+            title="+ Add another site"
+            containerStyles="rounded-lg bg-secondary-50 hover1"
+            handleClick={addSite}
+          />
+        </div>
 
         <div className="flex justify-center xs:justify-end gap-4 mt-8">
           <CustomButton
