@@ -24,7 +24,7 @@ export default function EmployeesPage() {
   async function unInviteEmployee(employeeId: number) {
     console.log("Uninvite user!");
     try {
-      const response = await axios.delete(
+      await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`, //PATCH request
         {
           headers: {
@@ -37,7 +37,7 @@ export default function EmployeesPage() {
         window.location.reload();
       }, 0);
     } catch (error) {
-      console.error("Error in /users", error);
+      console.error("Error in /uninvite", error);
     }
   }
 

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink"; // it used to make sidebar tabs active when clicked
 import LogoutModal from "./LogoutModal";
-import CounterContainer from "./CounterContainer";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useLanguageStore from "@/stores/language-store";
