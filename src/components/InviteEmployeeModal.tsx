@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -117,9 +116,9 @@ export default function InviteEmployeeModal({
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <p id="modal-modal-title" className="text-2xl font-semibold	">
           {l("modal.logout.header") || "Invite an Employee"}
-        </Typography>
+        </p>
         <Divider
           sx={{
             my: 2,
@@ -129,10 +128,24 @@ export default function InviteEmployeeModal({
             borderWidth: "1.5px",
           }}
         />
-        <Typography id="modal-modal-description" sx={{ mt: 1 }}>
+        <p id="modal-modal-description" className="mt-1">
           {l("modal.logout.description") ||
             "Please provide the job tile and email of the invited employee"}
-        </Typography>
+        </p>
+
+        <div className="rounded-xl py-8 px-4 md:px-12 lg:px-12 lg:mx-12  mt-12 bg-gray-100">
+          <p className="text-sm md:text-base text-center">
+            {l("error.description") ||
+              "Unfortunately it is not possible to add a new admin yet, if a new admin is required, please contact"}
+          </p>
+          <a
+            className="italic text-sm lg:text-base my-4 text-blue-400"
+            href={l("support.float.url") || "mailto:support@trialsync.com"}
+            target="_blank"
+          >
+            {l("support.float.email") || "support@trialsync.com"}
+          </a>
+        </div>
         <form
           className="flex flex-col items-center gap-6 mt-8"
           onSubmit={formik.handleSubmit}
@@ -183,10 +196,10 @@ export default function InviteEmployeeModal({
             <Button
               variant="contained"
               type="submit"
+              className="gradient-green1"
               sx={{
                 textTransform: "none",
-                bgcolor: "#17342E",
-                color: "white",
+                color: "black",
                 width: "105px",
                 height: "44px",
                 borderRadius: "8px",

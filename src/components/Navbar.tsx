@@ -4,7 +4,7 @@ import React, { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { RegisterNavbarProps } from "@/types";
-// import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 // import LanguageDropdown from "./LanguageDropdown";
 import useLanguageStore from "@/stores/language-store";
 
@@ -17,22 +17,22 @@ const Navbar = ({
   displayLogin,
 }: RegisterNavbarProps) => {
   //------get the current url---------
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { l } = useLanguageStore();
 
-  // const currentUrl = `${pathname}${
-  //   searchParams.toString() ? "?" + searchParams.toString() : ""
-  // }`;
+  const currentUrl = `${pathname}${
+    searchParams.toString() ? "?" + searchParams.toString() : ""
+  }`;
   // const loginUrl = "/login";
   // const isLoginUrl = currentUrl === loginUrl; //boolean
   const isLoginUrl = false;
-  //   const isStep1Url = currentUrl === "/register/step1";  //boolean
+    const isRegisterStep4Url = currentUrl === "/register/step4";  //boolean
   //-------------------------------- JSX ---------------------------------
   return (
     <header className={`flex ${items} ${justify} px-4  lg:px-16`}>
-      {isLoginUrl ? ( // if the current url is login page, the logo will be a link
-        <Link href="https://www.trialsync.com/" target="_blank">
+      {isLoginUrl || isRegisterStep4Url ? ( // if the current url is login page, the logo will be a link
+        <Link href="https://www.app.sponsor.trialsync.com/login" target="_blank">
           <div>
             <div className="flex_center gap-1">
               <Image

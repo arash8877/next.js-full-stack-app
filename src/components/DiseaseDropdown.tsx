@@ -9,19 +9,21 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import useLanguageStore from "@/stores/language-store";
 
-
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 interface DiseaseDropdownProps {
-    value: string[];
-    onChange: (value: string[]) => void;
-  }
+  value: string[];
+  onChange: (value: string[]) => void;
+}
 
 //-------------------------------------- main function -------------------------------------
-export default function DiseaseDropdown({ value, onChange }: DiseaseDropdownProps) {
-  const [allDiseases, setAllDiseases] = useState<string[]>([])
-  const [inputValue, setInputValue] = useState<string>('');
+export default function DiseaseDropdown({
+  value,
+  onChange,
+}: DiseaseDropdownProps) {
+  const [allDiseases, setAllDiseases] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
   const { l } = useLanguageStore();
 
   //--------- get diseases from API ----------
@@ -41,7 +43,6 @@ export default function DiseaseDropdown({ value, onChange }: DiseaseDropdownProp
       getDiseaseList(value);
     }
   }, 200);
-
 
   const handleInputChange = (
     event: React.SyntheticEvent<Element, Event>,
@@ -63,7 +64,9 @@ export default function DiseaseDropdown({ value, onChange }: DiseaseDropdownProp
       value={value}
       inputValue={inputValue}
       onInputChange={handleInputChange}
-      noOptionsText={l("settings.diseases.dropdown.search.text") || "Type to search"}
+      noOptionsText={
+        l("settings.diseases.dropdown.search.text") || "Type to search"
+      }
       renderOption={(props, option, { selected }) => {
         const { key, ...optionProps } = props;
         return (
@@ -82,7 +85,9 @@ export default function DiseaseDropdown({ value, onChange }: DiseaseDropdownProp
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder={l("settings.diseases.dropdown.search.text") || "Type to search"}
+          placeholder={
+            l("settings.diseases.dropdown.search.text") || "Type to search"
+          }
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {

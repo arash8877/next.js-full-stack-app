@@ -132,7 +132,7 @@ export default function SidebarDashboard() {
                   }`}
                 >
                   <Image
-                    src="/favorite_icon.png"
+                    src="/company.svg"
                     alt="favorite-icon"
                     width={24}
                     height={24}
@@ -155,7 +155,7 @@ export default function SidebarDashboard() {
                   }`}
                 >
                   <Image
-                    src="/favorite_icon.png"
+                    src="/employees.svg"
                     alt="favorite-icon"
                     width={24}
                     height={24}
@@ -178,7 +178,7 @@ export default function SidebarDashboard() {
                   }`}
                 >
                   <Image
-                    src="/favorite_icon.png"
+                    src="/invoices.svg"
                     alt="favorite-icon"
                     width={24}
                     height={24}

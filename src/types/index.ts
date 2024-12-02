@@ -131,10 +131,12 @@ export interface iMediaProps {
 }
 
 export interface iCategoryProps {
-  medicalCategoryId?: number;
-  name: string;
-  description: string;
-  media: iMediaProps;
+
+    medicalCategoryId?: number;
+    name: string;
+    description: string;
+    media: iMediaProps;
+  
 }
 
 export interface iTrialCategoryProps {
@@ -164,7 +166,7 @@ export interface iTrialCardProps {
   media: iMediaProps;
   userApplication: iUserTrialApplication | null;
   medicalCategories: iCategoryProps[][];
-  diseases: string[];
+  inclusionDiseases: string[];
   applicantsNumber: number;
   //medicalCategories: iCategoryProps[];
   // imageSrc: string;
@@ -285,14 +287,14 @@ export interface CreateTrialStep1FormProps {
 }
 
 export interface SiteFormValues {
-  location: string;
+  name: string;
   address: string;
   zipCode: string;
   country: string;
 }
 
 export interface CreateTrialStep2FormValues {
-  sites: SiteFormValues[];
+  trialSites: SiteFormValues[];
 }
 
 export interface CreateTrialStep2FormProps {
@@ -315,7 +317,6 @@ export interface CreateTrialStep3FormValues {
 
 export interface CreateTrialStep4FormProps {
   trialId?: number;
-
   inclusionDiseases?: string[];
   inclusionRequirements?: string;
   exclusionDiseases?: string[];

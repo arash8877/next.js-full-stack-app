@@ -18,17 +18,21 @@ export default function TrialCard({
   address,
   submissionDeadline,
   userApplication,
-  //medicalCategories,
-  diseases,
-}: // applicantsNumber
+  inclusionDiseases,
+}: //medicalCategories,
+// applicantsNumber
 // imageSrc,
 // underReview,
 iTrialCardProps) {
   const { l } = useLanguageStore();
+  // eslint-disable-next-line
+  const plainText =
+    new DOMParser().parseFromString(shortDescription, "text/html").body
+      .textContent || "";
 
   //--------------------------------- return ------------------------------------------------
   return (
-    <section className="flex flex-col gap-4 p-6 bg-white rounded-lg max-w-[480px] sm:max-w-[345px] md:max-w-md lg:max-w-lg">
+    <section className="flex flex-col gap-4 p-6 bg-white rounded-lg">
       <div className="flex justify-between">
         <div className="flex justify-between gap-1">
           {/* @TODO  Add Image after correcting medicalCategories data structure */}
@@ -51,15 +55,28 @@ iTrialCardProps) {
         )}
       </div>
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
-      <h3 className="text-sm font-bold text-primary-600 line-clamp-1">
-        {diseases}
-      </h3>
       <hr />
-      <p className="text-sm line-clamp-2">{shortDescription}</p>
+      <div className="text-sm line-clamp-2">
+        {new DOMParser().parseFromString(shortDescription, "text/html").body
+          .textContent || ""}
+      </div>
+
       <hr />
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-2">
+        <p className="text-xs font-medium w-full">
+          {l("trialcard.period") || "Interest Area:"}
+        </p>
+        <p className="text-xs font-light line-clamp-1">
+          {inclusionDiseases.length > 0
+            ? inclusionDiseases.join(", ")
+            : "-"}
+        </p>
+      </div>
+
+      <hr />
+      <div className="flex justify-between gap-2">
         <p className="text-xs font-medium">
-          {l("trialcard.period") || "Trial Period"}
+          {l("trialcard.period") || "Trial Period:"}
         </p>
         <p className="text-xs font-light">
           {startDate}-{endDate}
@@ -68,18 +85,18 @@ iTrialCardProps) {
       <hr />
       {address && (
         <>
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-2">
             <p className="text-xs font-medium">
-              {l("trialcard.location") || "Location"}
+              {l("trialcard.location") || "Location:"}
             </p>
             <p className="text-xs font-light">{address}</p>
           </div>
           <hr />
         </>
       )}
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-2">
         <p className="text-xs font-medium">
-          {l("trialcard.deadline") || "Submission Deadline"}
+          {l("trialcard.deadline") || "Submission Deadline:"}
         </p>
         <p className="text-xs font-light">{submissionDeadline}</p>
       </div>
@@ -89,17 +106,19 @@ iTrialCardProps) {
             title={
               <div className="flex items-center justify-between w-full">
                 <span>{l("trialcard.cta.text") || "Applicants"}</span>
-                {applicationCount > 0 && (
-                  <span className="ml-2 bg-red-400 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    {applicationCount}
-                  </span>
-                )}
+                {applicationCount !== null &&
+                  applicationCount !== undefined && (
+                    <span className="ml-2 bg-red-400 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full">
+                      {applicationCount}
+                    </span>
+                  )}
               </div>
             }
             containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
             btnType="button"
           />
         </Link>
+
         <div className="flex flex-col">
           <Link href={`/trials/${trialId}`}>
             <CustomButton
