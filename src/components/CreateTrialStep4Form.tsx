@@ -173,7 +173,7 @@ const CreateTrialStep4Form = () => {
                 formik.setFieldValue("inclusionRequirements", e.target.value)
               }
               placeholder="Enter the eventual inclusion requirements"
-              className="register_input custom-border custom_height2"
+              className="register_input custom-border custom_height2 resize-none"
             />
           </div>
         </div>
@@ -205,7 +205,7 @@ const CreateTrialStep4Form = () => {
                 formik.setFieldValue("exclusionRequirements", e.target.value)
               }
               placeholder="Enter the eventual exclusion requirements"
-              className="register_input custom-border custom_height2"
+              className="register_input custom-border custom_height2 resize-none"
             />
           </div>
         </div>
