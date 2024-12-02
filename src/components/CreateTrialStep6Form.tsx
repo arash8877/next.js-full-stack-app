@@ -204,7 +204,7 @@ const CreateTrialStep6Form = () => {
               <ul className="list-disc pl-5">
                 {trialData.medicalCategories.map((category, index) => (
                   <li key={index} className="text-sm">
-                    {category.name || "N/A"}
+                    {category.medicalCategory.name || "N/A"}
                   </li>
                 ))}
               </ul>

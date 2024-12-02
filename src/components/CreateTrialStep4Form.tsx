@@ -20,7 +20,7 @@ const CreateTrialStep4Form = () => {
   const { categoriesData, categoriesError, categoriesIsLoading } =
     useGetAllMedicalCategories();
   const [selectedCategoriesId, setSelectedCategoriesId] = useState<number[]>(
-    formData.step4Data.medicalCategories || []
+    formData.step4Data.medicalCategoryIds || []
   );
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
   const router = useRouter();
@@ -42,7 +42,7 @@ const CreateTrialStep4Form = () => {
   const x = categories.filter(
     (category) =>
       category.medicalCategoryId !== undefined &&
-      formData.step4Data.medicalCategories?.includes(category.medicalCategoryId)
+      formData.step4Data.medicalCategoryIds?.includes(category.medicalCategoryId)
   );
   console.log("categories", x);
 
@@ -56,7 +56,7 @@ const CreateTrialStep4Form = () => {
      medicalCategories: categories.filter(
         (category) =>
           category.medicalCategoryId !== undefined &&
-          (formData.step4Data.medicalCategories ?? []).includes(
+          (formData.step4Data.medicalCategoryIds ?? []).includes(
             category.medicalCategoryId
           )
       ),
@@ -96,7 +96,9 @@ const CreateTrialStep4Form = () => {
             inclusionRequirements: values.inclusionRequirements,
             exclusionDiseases: values.exclusionDiseases,
             exclusionRequirements: values.exclusionRequirements,
-            medicalCategories: selectedCategoriesId,
+            medicalCategoryNames: categoriesData.filter((category) => selectedCategoriesId.includes(category.medicalCategoryId!))
+              .map((category) => category.name),
+            medicalCategoryIds: selectedCategoriesId,
           },
         });
         router.push("/create-trial/step5");
@@ -142,7 +144,7 @@ const CreateTrialStep4Form = () => {
         <div className="flex flex-col gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="inclusionDisease" className="text-sm font-semibold">
-              Inclusion Disease:
+              Inclusion Disease
             </label>
             <DiseaseDropdown
               value={formik.values.inclusionDiseases || []}
@@ -157,7 +159,7 @@ const CreateTrialStep4Form = () => {
               htmlFor="inclusionRequirements"
               className="text-sm font-semibold"
             >
-              Inclusion Requirements:
+              Inclusion Requirements
             </label>
             <input
               name="inclusionRequirements"
@@ -175,7 +177,7 @@ const CreateTrialStep4Form = () => {
         <div className="flex flex-col gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="exclusionDisease" className="text-sm font-semibold">
-              Exclusion Disease:
+              Exclusion Disease
             </label>
             <DiseaseDropdown
               value={formik.values.exclusionDiseases || []}
@@ -190,7 +192,7 @@ const CreateTrialStep4Form = () => {
               htmlFor="exclusionRequirements"
               className="text-sm font-semibold"
             >
-              Exclusion Requirements:
+              Exclusion Requirements
             </label>
             <input
               name="exclusionRequirements"
@@ -207,7 +209,7 @@ const CreateTrialStep4Form = () => {
 
         
         <div className="flex flex-col gap-2 w-full mt-8">
-          <label className="text-sm font-semibold">Medical Categories:</label>
+          <label className="text-sm font-semibold">Medical Categories</label>
           <div>
             {categories.map((category: iCategoryProps, index) => (
               <Tag

@@ -168,7 +168,7 @@ const CreateTrialStep1Form = () => {
 
         <div className="flex flex-col gap-2 w-full mb-12">
           <label htmlFor="shortDescription" className="text-sm font-semibold">
-            Short Description:<span className="ml-1">*</span>
+            Short Description<span className="ml-1">*</span>
           </label>
           <div className="h-[200px]">
             <ReactQuill
@@ -187,7 +187,7 @@ const CreateTrialStep1Form = () => {
 
         <div className="flex flex-col gap-2 w-full">
           <label htmlFor="fullDescription" className="text-sm font-semibold">
-            Full Description:<span className="ml-1">*</span>
+            Full Description<span className="ml-1">*</span>
           </label>
           <div className="h-[400px]">
             <ReactQuill

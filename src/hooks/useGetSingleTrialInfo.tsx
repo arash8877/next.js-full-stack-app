@@ -21,6 +21,7 @@ const useGetSingleTrialInfo = (
         accept: "application/json",
       },
     });
+    console.log(response.data);
     return response.data;
   };
 

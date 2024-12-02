@@ -28,7 +28,8 @@ interface FormData {
     inclusionRequirements?: string;
     exclusionDiseases?: string[];
     exclusionRequirements?: string;
-    medicalCategories?: number[];
+    medicalCategoryNames?: string[];
+    medicalCategoryIds?: number[];
   };
   step5Data: {
     participantActivities: string;
@@ -104,7 +105,8 @@ const useCreateTrialStore = create<FormStore>((set) => ({
           inclusionRequirements: "",
           exclusionDiseases: [],
           exclusionRequirements: "",
-          medicalCategories: [],
+          medicalCategoryNames: [],
+          medicalCategoryIds: [],
         },
         step5Data: {
           participantActivities: "",

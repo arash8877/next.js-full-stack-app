@@ -217,7 +217,7 @@ export interface iTrialInfoProps {
   inclusionRequirements?: string;
   exclusionDiseases?: string[];
   exclusionRequirements?: string;
-  medicalCategories?: iCategoryProps[];
+  medicalCategories?: iTrialCategoryProps[];
   participantActivities?: string;
   additionalInformation?: string;
   drivingCompensation?: boolean;

@@ -131,7 +131,6 @@ const CreateTrialStep3Form = () => {
               value={formik.values.startDate}
               onChange={(date) => formik.setFieldValue("startDate", date)}
               onBlur={formik.handleBlur("startDate")}
-              minDate={new Date()}
             />
             <small className="text-red-600">
               {formik.touched.startDate && formik.errors.startDate}

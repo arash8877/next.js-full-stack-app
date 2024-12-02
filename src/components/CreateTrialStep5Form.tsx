@@ -161,7 +161,7 @@ const CreateTrialStep5Form = () => {
             htmlFor="participantActivities"
             className="text-sm font-semibold"
           >
-            Describe participant activities:
+            Describe participant activities
           </label>
           <div className="h-[200px] mb-16">
             <ReactQuill
@@ -180,7 +180,7 @@ const CreateTrialStep5Form = () => {
               htmlFor="expectedParticipants"
               className="text-sm font-semibold"
             >
-              Expected number of participants:<span className="ml-1">*</span>
+              Expected number of participants<span className="ml-1">*</span>
             </label>
             <input
               name="expectedParticipants"
@@ -208,7 +208,7 @@ const CreateTrialStep5Form = () => {
 
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="additionalInfo" className="text-sm font-semibold">
-              Additional Information:
+              Additional Information
             </label>
             <input
               id="additionalInfo_txt"
@@ -223,7 +223,7 @@ const CreateTrialStep5Form = () => {
         </div>
 
         <fieldset className="flex flex-col w-full">
-          <legend className="text-sm font-semibold mb-2">Compensation:</legend>
+          <legend className="text-sm font-semibold mb-2">Compensation</legend>
           <div className="flex flex-col justify-between xl:flex-row">
             <div className="relative flex gap-x-3">
               <div className="flex h-6 items-center">
@@ -324,7 +324,7 @@ const CreateTrialStep5Form = () => {
           <div className="flex flex-col justify-start gap-2 mb-12">
             <p className="text-sm font-semibold mb-2">
               {l("register.step4.other.description") ||
-                "Inform other compensation:"}
+                "Inform other compensation"}
             </p>
             <textarea
               value={formik.values.otherCompensationText}
