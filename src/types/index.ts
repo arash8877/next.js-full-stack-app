@@ -238,7 +238,7 @@ export interface iTrialApplicationsInfo {
 export interface iTrialApplicationsUserInfo {
   firstName: string;
   lastName: string;
-  Email: string;
+  email: string;
   phoneNumber: string;
   gender: string;
 }

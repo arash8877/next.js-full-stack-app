@@ -120,13 +120,13 @@ iTrialCardProps) {
         </Link>
 
         <div className="flex flex-col">
-          <Link href={`/trials/${trialId}`}>
+          <a href={`/trials/${trialId}`} target="_blank">
             <CustomButton
               title={l("trialcard.cta.text") || "View Trial"}
               containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
               btnType="submit"
             />
-          </Link>
+          </a>
           <Link href={`/trials/${trialId}/edit`}>
             <CustomButton
               title={l("trialcard.cta.text") || "Edit Trial"}

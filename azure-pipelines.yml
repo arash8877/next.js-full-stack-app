@@ -51,7 +51,7 @@ steps:
     condition: eq(variables.isMain, true)
     inputs:
       ConnectionType: 'AzureRM'
-      azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
+      azureSubscription: 'TrialSync Main Connection'
       appType: 'webAppLinux'
       WebAppName: $(PROD_WEBAPP_NAME)
       packageForLinux: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'
@@ -62,7 +62,7 @@ steps:
     condition: eq(variables.isTest, true)
     inputs:
       ConnectionType: 'AzureRM'
-      azureSubscription: 'Microsoft ISV Sponsorship(7644737a-f4e2-4e73-a9f6-957528050d04)'
+      azureSubscription: 'TrialSync Main Connection'
       appType: 'webAppLinux'
       WebAppName: $(TEST_WEBAPP_NAME)
       packageForLinux: '$(Build.ArtifactStagingDirectory)/$(ARTIFACT_FOLDER).zip'

@@ -19,6 +19,7 @@ const useGetApplicationsInfo = (id: string): {
         accept: "application/json",
       },
     });
+    console.log(response.data);
     return response.data;
   };
 
