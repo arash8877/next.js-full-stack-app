@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import CounterMyTrials from "./CounterContainer";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
 import LogoutModal from "./LogoutModal";

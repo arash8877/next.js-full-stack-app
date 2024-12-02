@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import { useParams, useRouter } from "next/navigation";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
+import Spinner from "@/components/Spinner";
 import axios from "axios";
 
 
@@ -59,8 +60,7 @@ console.log("trialData:", trialData);
   return (
     <SidebarLayout>
       <div>
-        <h1>Single Trial Page</h1>
-        <p>Trial ID: {trialId}</p>
+        <Spinner />
       </div>
     </SidebarLayout>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { SidebarLayout } from "@/components/SidebarLayout";
-import CustomButton from "@/components/CustomButton";
 import useLanguageStore from "@/stores/language-store";
 import useGetInvoicesInfo from "@/hooks/useGetInvoicesInfo";
 
@@ -9,9 +8,9 @@ export default function CompanyPage() {
   const { l } = useLanguageStore();
   const { invoiceData } = useGetInvoicesInfo()
 
-  function viewInvoicePdf() {
-    console.log("View Invoice PDF");
-  }
+  // function viewInvoicePdf() {
+  //   console.log("View Invoice PDF");
+  // }
 
   return (
     <SidebarLayout>
