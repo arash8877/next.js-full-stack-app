@@ -51,12 +51,12 @@ export default function EditTrialPage({ params }: Props) {
       id: "4",
       tabTitle: "Fourth Tab",
       content: <EditTrialMedicalTab { ...{
-        trialId: trialData.trialId,
-        inclusionDiseases: trialData.inclusionDiseases,
-        exclusionDiseases: trialData.exclusionDiseases,
-        inclusionRequirements: trialData.inclusionRequirements,
-        exclusionRequirements: trialData.exclusionRequirements,
-        medicalCategories: trialData.medicalCategories?.map((category) => {return category.medicalCategory}),
+        trialId: trialData?.trialId,
+        inclusionDiseases: trialData?.inclusionDiseases,
+        exclusionDiseases: trialData?.exclusionDiseases,
+        inclusionRequirements: trialData?.inclusionRequirements,
+        exclusionRequirements: trialData?.exclusionRequirements,
+        medicalCategories: trialData?.medicalCategories?.map((category) => {return category.medicalCategory}),
       }
       } />,
     },
