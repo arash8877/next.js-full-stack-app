@@ -144,8 +144,8 @@ export default function EditTrialPage({ params }: Props) {
             </button>
           </div>
         </div>
-        <div className="relative">
-          <div className="absolute inset-0 z-[-1]">
+        <div>
+          <div>
             {tabs.map((tab) => (
               <div className="px-8" key={tab.id}>
                 {currentTab === tab.id && tab.content}
