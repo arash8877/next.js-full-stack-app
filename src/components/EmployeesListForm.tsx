@@ -236,7 +236,7 @@ const EmployeesListForm = ({
         />
       </div>
       <DeleteEmployeeModal
-        userId={email}
+        userId={userId}
         open={isDeleteEmployeeModalOpen}
         onClose={closeDeleteEmployeeModal}
       />
