@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
@@ -11,55 +12,28 @@ import { iUserProps, iUserUpdateProps } from "@/types/index";
 import { toast } from "react-toastify";
 // import LanguageDropdown from "./LanguageDropdown";
 import useLanguageStore from "@/stores/language-store";
-
-//------------------------------------ main function -----------------------------------
-const AcceptInvitationForm = ({
-  firstName,
-  lastName,
-  jobTitle,
-  email,
-}: iUserProps) => {
-    const router = useRouter();
+import { useEffect } from "react";
+import { SponsorUserInfo } from "@/types/index";
+//------------------------------------------ main function -----------------------------------------
+const AcceptInvitationForm = ({}: iUserProps) => {
+  const router = useRouter();
   const { l } = useLanguageStore();
+  // const searchParams = useSearchParams();
+  // const inviteToken = searchParams.get("inviteToken");
+  const [userInfo, setUserInfo] = useState<SponsorUserInfo>();
+  const [inviteToken, setInviteToken] = useState<string | null>(null);
+  // const userId = userInfo?.userId;
 
-  //---------------- update user ---------------
-  const updateUser = async (data: iUserUpdateProps) => {
-    //function will be called in onSubmit
-    try {
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/users`, //PATCH request
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      toast.success(
-        l("settings.tab1.form.toast.success") ||
-          "Your profile is created successfully!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-      router.push("/login");
-      console.log(response);
-    } catch (error) {
-      console.error("Error in /users", error);
-      toast.error(
-        l("settings.tab1.form.toast.error") || "Something went wrong!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    }
-  };
+  // console.log("userId:", userId);
 
+  useEffect(() => {
+    // Extract the inviteToken from the query parameters
+    const query = new URLSearchParams(window.location.search);
+    setInviteToken(query.get("inviteToken"));
+  }, []);
+
+  console.log("inviteToken:", inviteToken);
+  
   //----Yup validation ---------
   const formSchema = Yup.object({
     firstName: Yup.string()
@@ -118,37 +92,107 @@ const AcceptInvitationForm = ({
       ),
     repeatedPassword: Yup.string()
       .required(
-        l("login.form.password.validation.required") || "Repeat password is required!"
+        l("login.form.password.validation.required") ||
+          "Repeat password is required!"
       )
       .oneOf(
         [Yup.ref("password")],
         l("settings.tab4.form.repeatpassword.validation.format") ||
           "Passwords must match!"
       ),
-      consentedToTerms: Yup.boolean().oneOf(
-        [true],
-        l("register.step2.form.termsandconditions.validation.required") ||
-          "You must accept the terms and conditions."
-      ),
-      hasConsentedToMarketing: Yup.boolean(),
+    consentedToTerms: Yup.boolean().oneOf(
+      [true],
+      l("register.step2.form.termsandconditions.validation.required") ||
+        "You must accept the terms and conditions."
+    ),
+    hasConsentedToMarketing: Yup.boolean(),
   });
+
+  //---- GET email and jobTitle ----
+
+  useEffect(() => {
+    async function getUserInfo(): Promise<boolean> {
+      try {
+        // const token = localStorage.getItem("token");
+
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/user`,
+          {
+            token: inviteToken,
+          }
+        );
+        // console.log("response:", response.data);
+        setUserInfo(response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error in /completed", error);
+        return false;
+      }
+    }
+    getUserInfo();
+  }, [inviteToken]);
+
+  console.log("userInfo:", userInfo);
+
+  //---------------- update user ---------------
+  //eslint-disable-next-line
+  const updateInvitedEmployeeForm = async (data: iUserUpdateProps) => {
+    //function will be called in onSubmit
+    console.log("iviteToken is missing")
+    if (!inviteToken) {
+      return;
+    }
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite/${inviteToken}/create`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${inviteToken}`,
+          },
+        }
+      );
+      router.push("/login");
+      console.log("res", response);
+      toast.success(
+        l("settings.tab1.form.toast.success") ||
+          "Your profile is created successfully!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
+    } catch (error) {
+      console.error("Error in /users", error);
+      toast.error(
+        l("settings.tab1.form.toast.error") || "Something went wrong!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
+    }
+  };
 
   //--------------- formik ----------------
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstName: firstName,
-      lastName: lastName || "",
-      jobTitle: jobTitle || "",
+      firstName: "",
+      lastName: "",
+      jobTitle: userInfo?.jobTitle || "",
       phoneNumber: "",
-      email: email || "",
+      email: userInfo?.email || "",
       password: "",
       repeatedPassword: "",
       consentedToTerms: false,
-      hasConsentedToMarketing: false
+      hasConsentedToMarketing: false,
     },
     //----onSubmit-------
     onSubmit: async (values) => {
+      console.log("values:", values);
       const data = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -160,13 +204,14 @@ const AcceptInvitationForm = ({
         consentedToTerms: values.consentedToTerms,
         hasConsentedToMarketing: values.hasConsentedToMarketing,
       };
+      console.log("data:", data);
 
-      updateUser(data);
+      updateInvitedEmployeeForm(data);
     },
     validationSchema: formSchema,
   });
 
-  //--------------------------Return---------------------------------
+  //------------------------------------ JSX ----------------------------------------
   return (
     <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-2">
@@ -214,10 +259,11 @@ const AcceptInvitationForm = ({
         <input
           name="jobTitle"
           type="text"
-          defaultValue={jobTitle}
+          readOnly
+          value={formik.values.jobTitle}
           onChange={formik.handleChange("jobTitle")}
           onBlur={formik.handleBlur("jobTitle")}
-          className="register_input custom-border"
+          className="register_input custom-border cursor-npt-allowed bg-gray-200"
         />
         <small className="text-red-600">
           {formik.touched.jobTitle && formik.errors.jobTitle}
@@ -249,10 +295,11 @@ const AcceptInvitationForm = ({
         <input
           name="email"
           type="email"
-          defaultValue={email}
+          readOnly
+          value={formik.values.email}
           onChange={formik.handleChange("email")}
           onBlur={formik.handleBlur("email")}
-          className="register_input custom-border"
+          className="register_input custom-border cursor-npt-allowed bg-gray-200"
         />
         <small className="text-red-600">
           {formik.touched.email && formik.errors.email}
@@ -261,7 +308,8 @@ const AcceptInvitationForm = ({
 
       <div className="flex flex-col gap-2">
         <label htmlFor="password">
-          {l("settings.tab4.form.password.label") || "Password"}<span className="ml-1">*</span>
+          {l("settings.tab4.form.password.label") || "Password"}
+          <span className="ml-1">*</span>
         </label>
         <input
           name="password"
@@ -279,7 +327,8 @@ const AcceptInvitationForm = ({
 
       <div className="flex flex-col gap-2">
         <label htmlFor="repeatedPassword">
-          {l("settings.tab4.form.repeatpassword.label") || "Repeat password"}<span className="ml-1">*</span>
+          {l("settings.tab4.form.repeatpassword.label") || "Repeat password"}
+          <span className="ml-1">*</span>
         </label>
         <input
           name="repeatedPassword"
@@ -363,6 +412,8 @@ const AcceptInvitationForm = ({
         <CustomButton
           title={l("settings.form.submit") || "Accept"}
           containerStyles="rounded-lg gradient-green1 hover1"
+          disabledContainerStyles="rounded-lg bg-gray-300"
+          disabled={!inviteToken}
           btnType="submit"
         />
       </div>

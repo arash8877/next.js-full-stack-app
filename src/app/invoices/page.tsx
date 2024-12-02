@@ -1,17 +1,12 @@
 "use client";
 
 import { SidebarLayout } from "@/components/SidebarLayout";
-import CustomButton from "@/components/CustomButton";
 import useLanguageStore from "@/stores/language-store";
 import useGetInvoicesInfo from "@/hooks/useGetInvoicesInfo";
 
 export default function CompanyPage() {
   const { l } = useLanguageStore();
   const { invoiceData } = useGetInvoicesInfo()
-
-  function viewInvoicePdf() {
-    console.log("View Invoice PDF");
-  }
 
   return (
     <SidebarLayout>
@@ -25,7 +20,6 @@ export default function CompanyPage() {
               <th className="py-3 px-6 hidden md:table-cell">Invoice Number</th>
               <th className="py-3 px-6">Amount</th>
               <th className="py-3 px-6 ">Status</th>
-              <th className="py-3 px-6 text-right">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -34,14 +28,6 @@ export default function CompanyPage() {
                 <td className="py-4 px-6 hidden md:table-cell">{item.invoiceId}</td>
                 <td className="py-4 p-6">${item.invoiceAmount.toFixed(2)}</td>
                 <td className="py-4 px-6">{item.isPaid ? "Paid" : "Unpaid"}</td>
-                <td className="py-4 px-6 flex justify-end">
-                  <CustomButton
-                    title={l("forgotpassword.form.submit") || "View"}
-                    containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom-padding "
-                    btnType="button"
-                    handleClick={viewInvoicePdf}
-                  />
-                </td>
               </tr>
             ))}
           </tbody>

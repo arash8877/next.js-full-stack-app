@@ -8,12 +8,12 @@ import CustomButton from "./CustomButton";
 import Image from "next/image";
 import DiseaseDropdown from "./DiseaseDropdown";
 import Tag from "./Tag";
-import { iCategoryProps } from "@/types/index";
-import { CreateTrialStep4FormProps } from "@/types/index";
+import { CreateTrialStep4FormProps, iCategoryProps } from "@/types/index";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
+import useDiseaseStore from "@/stores/disease-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep4Form = () => {
@@ -21,12 +21,14 @@ const CreateTrialStep4Form = () => {
   const { categoriesData, categoriesError, categoriesIsLoading } =
     useGetAllMedicalCategories();
   const [selectedCategoriesId, setSelectedCategoriesId] = useState<number[]>(
-    formData.step4Data.medicalCategories || []
+    formData.step4Data.medicalCategoryIds || []
   );
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
   const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
+
+  const { selectedDiseases, setSelectedDiseases } = useDiseaseStore();
 
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({});
@@ -40,21 +42,29 @@ const CreateTrialStep4Form = () => {
   //   optionalText: "string", // Replace "string" with actual optional text if available
   // }));
 
+  const x = categories.filter(
+    (category) =>
+      category.medicalCategoryId !== undefined &&
+      formData.step4Data.medicalCategoryIds?.includes(category.medicalCategoryId)
+  );
+  console.log("categories", x);
+
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      inclusionDisease: formData.step4Data.inclusionDisease || [],
+      inclusionDiseases: formData.step4Data.inclusionDiseases || [],
       inclusionRequirements: formData.step4Data.inclusionRequirements || "",
-      exclusionDisease: formData.step4Data.exclusionDisease || [],
+      exclusionDiseases: formData.step4Data.exclusionDiseases || [],
       exclusionRequirements: formData.step4Data.exclusionRequirements || "",
-      selectedMedicalCategories: categories.filter(
+      medicalCategories: categories.filter(
         (category) =>
           category.medicalCategoryId !== undefined &&
-          formData.step4Data.medicalCategories.includes(
+          (formData.step4Data.medicalCategoryIds ?? []).includes(
             category.medicalCategoryId
           )
       ),
     },
+
     validationSchema: formSchema,
     //---------onSubmit--------------
     // eslint-disable-next-line
@@ -63,33 +73,38 @@ const CreateTrialStep4Form = () => {
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         // eslint-disable-next-line
+        const payload = {
+          inclusionDiseases: values["inclusionDiseases"],
+          inclusionRequirements: values["inclusionRequirements"],
+          exclusionDiseases: values["exclusionDiseases"],
+          exclusionRequirements: values["exclusionRequirements"],
+          medicalCategories: selectedCategoriesId,
+        };
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, //post request
-          {
-            inclusionDiseases: values["inclusionDisease"],
-            inclusionRequirements: values["inclusionRequirements"],
-            exclusionDiseases: values["exclusionDisease"],
-            exclusionRequirements: values["exclusionRequirements"],
-            medicalCategories: selectedCategoriesId,
-          },
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("valuessss", values);
+        console.log("payloadin step4", payload);
+        console.log("RESPONSE", response);
         setFormData({
           ...formData,
           step4Data: {
             ...formData.step4Data,
-            inclusionDisease: values.inclusionDisease,
+            inclusionDiseases: values.inclusionDiseases,
             inclusionRequirements: values.inclusionRequirements,
-            exclusionDisease: values.exclusionDisease,
+            exclusionDiseases: values.exclusionDiseases,
             exclusionRequirements: values.exclusionRequirements,
-            medicalCategories: selectedCategoriesId,
+            medicalCategoryNames: categoriesData.filter((category) => selectedCategoriesId.includes(category.medicalCategoryId!))
+              .map((category) => category.name),
+            medicalCategoryIds: selectedCategoriesId,
           },
         });
+        document.cookie = "createTrialStep4Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step5");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -108,8 +123,8 @@ const CreateTrialStep4Form = () => {
 
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
-    console.log("category clicked:", id);
-    console.log("selectedCategoriesId:", selectedCategoriesId);
+    //console.log("category clicked:", id);
+    //console.log("selectedCategoriesId:", selectedCategoriesId);
     if (selectedCategoriesId.includes(id)) {
       setSelectedCategoriesId(
         selectedCategoriesId.filter((categoryId) => categoryId !== id)
@@ -133,13 +148,14 @@ const CreateTrialStep4Form = () => {
         <div className="flex flex-col gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="inclusionDisease" className="text-sm font-semibold">
-              Inclusion Disease:
+              Inclusion Disease
             </label>
             <DiseaseDropdown
-              value={formik.values.inclusionDisease}
-              onChange={(value) =>
-                formik.setFieldValue("inclusionDisease", value)
-              }
+              value={selectedDiseases}
+              onChange={(value) => {
+                formik.setFieldValue("inclusionDiseases", value);
+                setSelectedDiseases(value);
+              }}
             />
           </div>
 
@@ -148,17 +164,16 @@ const CreateTrialStep4Form = () => {
               htmlFor="inclusionRequirements"
               className="text-sm font-semibold"
             >
-              Inclusion Requirements:
+              Inclusion Requirements
             </label>
-            <input
+            <textarea
               name="inclusionRequirements"
-              type="text"
               value={formik.values.inclusionRequirements}
               onChange={(e) =>
                 formik.setFieldValue("inclusionRequirements", e.target.value)
               }
               placeholder="Enter the eventual inclusion requirements"
-              className="register_input custom-border custom_height2"
+              className="register_input custom-border custom_height2 resize-none"
             />
           </div>
         </div>
@@ -166,12 +181,12 @@ const CreateTrialStep4Form = () => {
         <div className="flex flex-col gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="exclusionDisease" className="text-sm font-semibold">
-              Exclusion Disease:
+              Exclusion Disease
             </label>
             <DiseaseDropdown
-              value={formik.values.exclusionDisease}
+              value={formik.values.exclusionDiseases || []}
               onChange={(value) =>
-                formik.setFieldValue("exclusionDisease", value)
+                formik.setFieldValue("exclusionDiseases", value)
               }
             />
           </div>
@@ -181,22 +196,22 @@ const CreateTrialStep4Form = () => {
               htmlFor="exclusionRequirements"
               className="text-sm font-semibold"
             >
-              Exclusion Requirements:
+              Exclusion Requirements
             </label>
-            <input
+            <textarea
               name="exclusionRequirements"
-              type="text"
               value={formik.values.exclusionRequirements}
               onChange={(e) =>
                 formik.setFieldValue("exclusionRequirements", e.target.value)
               }
               placeholder="Enter the eventual exclusion requirements"
-              className="register_input custom-border custom_height2"
+              className="register_input custom-border custom_height2 resize-none"
             />
           </div>
         </div>
+
         <div className="flex flex-col gap-2 w-full mt-8">
-          <label className="text-sm font-semibold">Medical Categories:</label>
+          <label className="text-sm font-semibold">Medical Categories</label>
           <div>
             {categories.map((category: iCategoryProps, index) => (
               <Tag

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
@@ -11,29 +11,41 @@ import useLanguageStore from "@/stores/language-store";
 interface sponsorUserUpdateProps {
   firstName: string;
   lastName: string;
-  //email: string;
+}
+
+//------- format date function --------
+function formatDate(dateString: string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", options);
 }
 
 //------------------------------------ main function -----------------------------------
 const EmployeesListForm = ({
+  userId,
   firstName,
   lastName,
   email,
   lastLogin,
 }: employeesInfoProps) => {
-  const [isDeleteEmployeeModalOpen, setIsDeleteEmployeeModalOpen] = useState(false);
+  const [isDeleteEmployeeModalOpen, setIsDeleteEmployeeModalOpen] =
+    useState(false);
   const { l } = useLanguageStore();
-
-  useEffect(() => {
-    console.log("form data", {firstName, lastName, email, lastLogin})
-  }, [firstName, lastName, email, lastLogin])
 
   //---------------- update user ---------------
   const updateEmployee = async (data: sponsorUserUpdateProps) => {
     //function will be called in onSubmit
     try {
       const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${email}`, //PATCH request
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${userId}`, //PATCH request
         data,
         {
           headers: {
@@ -75,7 +87,7 @@ const EmployeesListForm = ({
       .min(
         2,
         l("settings.tab1.form.firstName.validation.length") ||
-          "Company name must be at least 2 characters!"
+          "First name must be at least 2 characters!"
       ),
     lastName: Yup.string()
       .required(
@@ -85,7 +97,7 @@ const EmployeesListForm = ({
       .min(
         2,
         l("settings.tab1.form.firstName.validation.length") ||
-          "Company name must be at least 2 characters!"
+          "Last name must be at least 2 characters!"
       ),
     email: Yup.string().required(
       l("register.step1.form.email.validation.required") || "Email is required!"
@@ -101,24 +113,23 @@ const EmployeesListForm = ({
     enableReinitialize: true,
     initialValues: {
       firstName: firstName,
-      lastName: lastName || "",
-      email: email || "",
-      lastLogin: lastLogin || "",
+      lastName: lastName,
+      email: email,
+      lastLogin: lastLogin,
     },
     //----onSubmit-------
     onSubmit: async (values) => {
       const data = {
         firstName: values.firstName,
-        lastName: lastName || "",
+        lastName: values.lastName,
         //email: values.email
         //lastLogin: values.lastLogin,
       };
-      console.log(data)
+      console.log(data);
       updateEmployee(data);
     },
     validationSchema: formSchema,
   });
-
 
   //---- open/close delete modal ----
   function openDeleteEmployeeModal() {
@@ -131,10 +142,7 @@ const EmployeesListForm = ({
 
   //--------------------------Return---------------------------------
   return (
-    <form
-      className="flex flex-col gap-6"
-      onSubmit={formik.handleSubmit}
-    >
+    <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
       <div className="grid gap-7 md:gap-6 xl:w-4/5 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">
@@ -196,12 +204,12 @@ const EmployeesListForm = ({
 
         <div className="flex flex-col gap-2">
           <label htmlFor="lastLogin">
-            {l("settings.tab1.form.email.label") || "Last Login"}
+            {l("settings.tab1.form.lastLogin.label") || "Last Login"}
           </label>
           <input
             name="lastLogin"
             type="text"
-            defaultValue={lastLogin}
+            value={formatDate(formik.values.lastLogin)}
             onChange={formik.handleChange("lastLogin")}
             onBlur={formik.handleBlur("lastLogin")}
             className="register_input custom-border"
@@ -228,10 +236,10 @@ const EmployeesListForm = ({
         />
       </div>
       <DeleteEmployeeModal
-        userId={email}
+        userId={userId}
         open={isDeleteEmployeeModalOpen}
         onClose={closeDeleteEmployeeModal}
-        />
+      />
     </form>
   );
 };

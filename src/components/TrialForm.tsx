@@ -64,8 +64,8 @@ export default function TrialDetailsLayout({
   const { l } = useLanguageStore();
   useEffect(() => {
     console.log("Sites", trialSites);
-  }, [trialSites])
-  
+  }, [trialSites]);
+
   //---------------- update trial ---------------
   // eslint-disable-next-line
   const updateTrial = async (data: iTrialInfoProps) => {
@@ -243,7 +243,7 @@ export default function TrialDetailsLayout({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Submit")
+      console.log("Submit");
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
@@ -270,7 +270,8 @@ export default function TrialDetailsLayout({
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`, {
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
+          {
             title: data.title,
             shortDescription: data.shortDescription,
             fullDescription: data.fullDescription,
@@ -280,15 +281,15 @@ export default function TrialDetailsLayout({
             gender: data.gender,
             startDate: data.startDate,
             endDate: data.endDate,
-            submissionDeadline: data.submissionDeadline
-          },          
+            submissionDeadline: data.submissionDeadline,
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("response in step2:", response)
+        console.log("response in step2:", response);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
@@ -525,8 +526,6 @@ export default function TrialDetailsLayout({
             </div>
           </div>
 
-
-
           <div className="flex flex-col gap-4 xl:w-1/2">
             <div className="flex flex-col gap-2">
               <label htmlFor="title" className="text-sm font-semibold">
@@ -546,44 +545,43 @@ export default function TrialDetailsLayout({
             </div>
 
             <div className="flex flex-col gap-4 xl:gap-16">
+              <div className="flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="shortDescription"
+                  className="text-sm font-semibold"
+                >
+                  Short Description:<span className="ml-1">*</span>
+                </label>
+                <ReactQuill
+                  value={formik.values.shortDescription}
+                  onChange={(value) =>
+                    formik.setFieldValue("shortDescription", value)
+                  }
+                />
+                <small className="text-red-600">
+                  {formik.touched.shortDescription &&
+                    formik.errors.shortDescription}
+                </small>
+              </div>
 
-            <div className="flex flex-col gap-2 w-full">
-              <label
-                htmlFor="shortDescription"
-                className="text-sm font-semibold"
-              >
-                Short Description:<span className="ml-1">*</span>
-              </label>
-              <ReactQuill
-                value={formik.values.shortDescription}
-                onChange={(value) =>
-                  formik.setFieldValue("shortDescription", value)
-                }
-              />
-              <small className="text-red-600">
-                {formik.touched.shortDescription &&
-                  formik.errors.shortDescription}
-              </small>
-            </div>
-
-            <div className="flex flex-col gap-2 w-full">
-            <label
-                htmlFor="fullDescription"
-                className="text-sm font-semibold"
-              >
-                Full Description:<span className="ml-1">*</span>
-              </label>
-              <ReactQuill
-                value={formik.values.fullDescription}
-                onChange={(value) =>
-                  formik.setFieldValue("fullDescription", value)
-                }
-              />
-              <small className="text-red-600">
-                {formik.touched.fullDescription &&
-                  formik.errors.fullDescription}
-              </small>
-            </div>
+              <div className="flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="fullDescription"
+                  className="text-sm font-semibold"
+                >
+                  Full Description:<span className="ml-1">*</span>
+                </label>
+                <ReactQuill
+                  value={formik.values.fullDescription}
+                  onChange={(value) =>
+                    formik.setFieldValue("fullDescription", value)
+                  }
+                />
+                <small className="text-red-600">
+                  {formik.touched.fullDescription &&
+                    formik.errors.fullDescription}
+                </small>
+              </div>
             </div>
           </div>
         </div>

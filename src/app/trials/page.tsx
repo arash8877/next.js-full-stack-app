@@ -1,12 +1,13 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import { iTrialFilteringProps } from "@/types";
 import TrialCard from "@/components/TrialCard";
 import useGetAllTrials from "@/hooks/useGetAllTrials";
 import TrialFilterBar from "@/components/TrialFilterBar";
 import useLanguageStore from "@/stores/language-store";
+import Spinner from "@/components/Spinner";
 
 //------- format date function --------
 function formatDate(dateString: string): string {
@@ -32,9 +33,8 @@ export default function TrialsPage() {
       pagination: { maxPageResult: 5, pageIndex: 0 },
     });
   const { l } = useLanguageStore();
-  const { allTrials, trialsError } =
-    useGetAllTrials(filteringSettings);
-
+  const { allTrials, trialsError, trialsIsLoading } = useGetAllTrials(filteringSettings);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
   // const observerRef = useRef<IntersectionObserver | null>(null);
   // const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,33 +47,42 @@ export default function TrialsPage() {
     }));
   }, []);
 
-
-
   useEffect(() => {
     if (trialsError) {
       console.error("Failed to fetch trials", trialsError);
     }
   }, [trialsError]);
 
+      //---- set loading timeout -----
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setLoadingTimeout(true);
+        }, 10000); 
+        return () => clearTimeout(timer);
+      }, []);
 
   //--------------------------------- return ------------------------------------------------
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <div>
       <SidebarLayout>
         <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
-          {l("trialoverview.title") || "Trials Overview"}</h1>
+          {l("trialoverview.title") || "Trials Overview"}
+        </h1>
         <TrialFilterBar
           defaultFilterValues={filteringSettings}
           onFilterChange={handleFilterChange}
         />
-
-        {allTrials && allTrials.length === 0 ? (
+         {trialsIsLoading && !loadingTimeout ? (
+      <Spinner />
+    ) : 
+        allTrials && allTrials.length === 0 ? (
           <h2 className="text-lg font-semibold text-center mt-20">
             {l("trialoverview.warning.notrials") ||
               "No trials available ! Create your first trial."}
           </h2>
         ) : (
-          <div className="trial_overview_grid">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-6 mt-8 justify-center">
             {allTrials &&
               allTrials.map((trial, index) => (
                 <TrialCard
@@ -93,14 +102,15 @@ export default function TrialsPage() {
                   submissionDeadline={formatDate(trial["submissionDeadline"])}
                   media={trial.media}
                   userApplication={trial.userApplication}
-                  medicalCategories={trial.medicalCategories || []}
-                  diseases={trial.diseases}
+                  //medicalCategories={trial.medicalCategories || []}
+                  medicalCategories={[]}
+                  inclusionDiseases={trial.inclusionDiseases || []}
                   applicantsNumber={trial.applicantsNumber}
                 />
               ))}
           </div>
         )}
       </SidebarLayout>
-    </Suspense>
+    </div>
   );
 }

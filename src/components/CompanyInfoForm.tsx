@@ -16,7 +16,7 @@ interface UpdateSponsorProps {
 }
 
 //------------------------------------ main function -----------------------------------
-const SettingUserInfoForm = ({
+const CompanyInfoForm = ({
   name,
   vatNumber,
   address,
@@ -30,6 +30,7 @@ const SettingUserInfoForm = ({
   const updateSponsorData = async (data: UpdateSponsorProps) => {
     //function will be called in onSubmit
     try {
+      //eslint-disable-next-line
       const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsors/${jwtInfo?.sponsor_id}`, //PATCH request
         data,
@@ -42,14 +43,14 @@ const SettingUserInfoForm = ({
       );
       toast.success(
         l("settings.tab1.form.toast.success") ||
-          "Your profile is updated successfully!",
+          "Company info is updated successfully",
         {
           position: "top-center",
           autoClose: 2000,
           className: "single_line_toast",
         }
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error("Error in /users", error);
       toast.error(
@@ -100,10 +101,6 @@ const SettingUserInfoForm = ({
       l("register.step1.form.country.validation.required") ||
         "Country is required!"
     ),
-    phoneNumber: Yup.string().required(
-      l("register.step1.form.country.validation.required") ||
-        "Phone number is required!"
-    ),
   });
 
   //--------------- formik ----------------
@@ -111,10 +108,10 @@ const SettingUserInfoForm = ({
     enableReinitialize: true,
     initialValues: {
       name: name,
-      vatNumber: vatNumber || "",
-      address: address || "",
-      zipCode: zipCode || "",
-      country: country || "",
+      vatNumber: vatNumber,
+      address: address,
+      zipCode: zipCode,
+      country: country,
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -145,12 +142,12 @@ const SettingUserInfoForm = ({
             <span className="ml-1">*</span>
           </label>
           <input
-            id="companyName"
+            id="name"
             name="name"
             type="text"
             value={formik.values.name}
-            onChange={formik.handleChange("companyName")}
-            onBlur={formik.handleBlur("companyName")}
+            onChange={formik.handleChange("name")}
+            onBlur={formik.handleBlur("name")}
             className="register_input custom-border"
           />
           <small className="text-red-600">
@@ -243,4 +240,4 @@ const SettingUserInfoForm = ({
   );
 };
 
-export default SettingUserInfoForm;
+export default CompanyInfoForm;

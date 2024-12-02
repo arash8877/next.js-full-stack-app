@@ -32,7 +32,7 @@ const style = {
 };
 
 interface DeleteUserProps {
-  userId: string;
+  userId: number;
   open: boolean;
   onClose: () => void;
 }

@@ -117,6 +117,7 @@ const RegisterStep1Form = () => {
       country: "",
       sponsorContacts: [
         {
+          userId: 0,
           firstName: "",
           lastName: "",
           email: "",
@@ -124,22 +125,25 @@ const RegisterStep1Form = () => {
         },
       ],
     },
-    //-----onSubmit-------
+    //-----onSubmit--------
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/keychain/sponsor`, //post request
           {
-            name: values.name,
+            sponsorName: values.name,
             vatNumber: values.vatNumber,
             address: values.address,
             zipCode: values.zipCode,
             country: country,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
           }
         );
         console.log("step1 response:", response);
         localStorage.setItem("sponsorId", response.data.sponsorId);
-        document.cookie = "step1Completed=true; Path=/;";
+        document.cookie = "registerStep1Completed=true; Path=/;";
 
         router.push("/register/step2");
       } catch (error) {

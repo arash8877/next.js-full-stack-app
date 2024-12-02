@@ -13,6 +13,8 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
+import "react-quill/dist/quill.snow.css";
+
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep5Form = () => {
   const router = useRouter();
@@ -31,24 +33,13 @@ const CreateTrialStep5Form = () => {
       .min(1, "Expected number of participants must be greater than zero!"),
   });
 
-  const getCompensationList = (values: {
-    drivingCompensation: boolean;
-    monetaryCompensation: boolean;
-    otherCompensation: string;
-  }) => {
-    const compensation = [];
-    if (values.drivingCompensation) compensation.push("drivingCompensation");
-    if (values.monetaryCompensation) compensation.push("monetaryCompensation");
-    if (values.otherCompensation) compensation.push(values.otherCompensation);
-    return compensation;
-  };
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
       participantActivities: formData.step5Data?.participantActivities || "",
-      expectedParticipants: formData.step5Data?.expectedParticipants || 0,
-      additionalInfo: formData.step5Data.additionalInfo || "",
+      expectedParticipants: formData.step5Data?.expectedParticipants || "",
+      additionalInformation: formData.step5Data.additionalInformation || "",
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -58,44 +49,44 @@ const CreateTrialStep5Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      console.log("submit");
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
-      const compensation = getCompensationList({
-        drivingCompensation: values["drivingCompensation"],
-        monetaryCompensation: values["monetaryCompensation"],
-        otherCompensation: values["otherCompensationText"],
-      });
-
-      console.log(compensation);
+      const payload = {
+        participantActivities: values["participantActivities"],
+        expectedParticipants: values["expectedParticipants"],
+        additionalInformation: values["additionalInformation"],
+        drivingCompensation: values["drivingCompensation"] ?? false,
+        monetaryCompensation: values["monetaryCompensation"] ?? false,
+        otherCompensation: values["otherCompensation"] ?? false,
+        otherCompensationText: values["otherCompensationText"] || "",
+      };
       try {
+        console.log("payload in step5:", payload);
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
-          {
-            participantActivities: values["participantActivities"],
-            expectedParticipants: values["expectedParticipants"],
-            additionalInfo: values["additionalInfo"],
-            compensations: compensation,
-          },
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log(response);
+        console.log("response step 5:", response);
         setFormData({
           ...formData,
           step5Data: {
             ...formData.step5Data,
-            participantActivities: values.participantActivities,
+            participantActivities: values.participantActivities || "",
             expectedParticipants: values.expectedParticipants,
-            additionalInfo: values.additionalInfo,
+            additionalInformation: values.additionalInformation || "",
             drivingCompensation: values.drivingCompensation,
             monetaryCompensation: values.monetaryCompensation,
             otherCompensation: values.otherCompensation,
+            otherCompensationText: values.otherCompensationText || "",
           },
         });
+        document.cookie =
+          "createTrialStep5Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step6");
       } catch (error) {
         console.error(error);
@@ -117,21 +108,19 @@ const CreateTrialStep5Form = () => {
       "additionalInfo_txt"
     ) as HTMLInputElement | null;
     const inputValue = inputElement?.value || "";
-    formik.setFieldValue("additionalInfo", inputValue);
+    formik.setFieldValue("additionalInformation", inputValue);
   }
 
   //-------- Quill ---------
-  const modules = {
-    toolbar: [
-      [{ header: "2" }, { header: "3" }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }],
-      ["bold", "italic", "underline"],
-      ["link"],
-    ],
-  };
-
-  console.log("Step 5 Data on Load:", formData.step5Data);
+  // const modules = {
+  //   toolbar: [
+  //     [{ header: "2" }, { header: "3" }],
+  //     [{ list: "ordered" }, { list: "bullet" }],
+  //     [{ align: [] }],
+  //     ["bold", "italic", "underline"],
+  //     ["link"],
+  //   ],
+  // };
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -149,7 +138,7 @@ const CreateTrialStep5Form = () => {
             htmlFor="participantActivities"
             className="text-sm font-semibold"
           >
-            Describe participant activities:
+            Describe participant activities
           </label>
           <div className="h-[200px] mb-16">
             <ReactQuill
@@ -157,9 +146,7 @@ const CreateTrialStep5Form = () => {
               onChange={(value) =>
                 formik.setFieldValue("participantActivities", value)
               }
-              placeholder="Outline participant activities"
               className="h-full"
-              modules={modules}
             />
           </div>
         </div>
@@ -170,7 +157,7 @@ const CreateTrialStep5Form = () => {
               htmlFor="expectedParticipants"
               className="text-sm font-semibold"
             >
-              Expected number of participants:<span className="ml-1">*</span>
+              Expected number of participants<span className="ml-1">*</span>
             </label>
             <input
               name="expectedParticipants"
@@ -198,13 +185,13 @@ const CreateTrialStep5Form = () => {
 
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="additionalInfo" className="text-sm font-semibold">
-              Additional Information:
+              Additional Information
             </label>
             <input
               id="additionalInfo_txt"
-              name="additionalInfo"
+              name="additionalInformation"
               type="text"
-              value={formik.values.additionalInfo}
+              value={formik.values.additionalInformation}
               onChange={() => ChangeAdditionalInfoValue()}
               placeholder="Briefly describe additional information"
               className="register_input custom-border"
@@ -213,7 +200,7 @@ const CreateTrialStep5Form = () => {
         </div>
 
         <fieldset className="flex flex-col w-full">
-          <legend className="text-sm font-semibold mb-2">Compensation:</legend>
+          <legend className="text-sm font-semibold mb-2">Compensation</legend>
           <div className="flex flex-col justify-between xl:flex-row">
             <div className="relative flex gap-x-3">
               <div className="flex h-6 items-center">
@@ -222,8 +209,10 @@ const CreateTrialStep5Form = () => {
                   name="drivingCompensation"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.drivingCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.drivingCompensation;
+                    console.log("update value", updatedValue);
                     formik.setFieldValue("drivingCompensation", updatedValue);
                     setFormData({
                       ...formData,
@@ -251,6 +240,7 @@ const CreateTrialStep5Form = () => {
                   name="monetaryCompensation"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.monetaryCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.monetaryCompensation;
                     formik.setFieldValue("monetaryCompensation", updatedValue);
@@ -281,6 +271,7 @@ const CreateTrialStep5Form = () => {
                   type="checkbox"
                   onClick={toggleOtherCompensation}
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  checked={formik.values.otherCompensation}
                   onChange={() => {
                     const updatedValue = !formik.values.otherCompensation;
                     formik.setFieldValue("otherCompensation", updatedValue);
@@ -306,11 +297,11 @@ const CreateTrialStep5Form = () => {
           </div>
         </fieldset>
 
-        <div hidden={!isOtherClicked}>
+        <div hidden={!formik.values.otherCompensation}>
           <div className="flex flex-col justify-start gap-2 mb-12">
             <p className="text-sm font-semibold mb-2">
               {l("register.step4.other.description") ||
-                "Inform other compensation:"}
+                "Inform other compensation"}
             </p>
             <textarea
               value={formik.values.otherCompensationText}
@@ -336,8 +327,8 @@ const CreateTrialStep5Form = () => {
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1 mt-4"
-          disabledContainerStyles="rounded-lg bg-gray-300"
-          disabled={!formik.isValid || !formik.dirty}
+          // disabledContainerStyles="rounded-lg bg-gray-300"
+          // disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>

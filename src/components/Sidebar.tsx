@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink"; // it used to make sidebar tabs active when clicked
 import LogoutModal from "./LogoutModal";
-import CounterContainer from "./CounterContainer";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useLanguageStore from "@/stores/language-store";
@@ -109,14 +108,6 @@ export default function SidebarDashboard() {
                   />
                   {isSidebarOpen &&
                     (l("common.header.trialsoverview.text") || "Trials")}
-                  <CounterContainer
-                    counts={getTrialsCount()}
-                    style={`${
-                      isSidebarOpen
-                        ? "w-[36px] px-2 py-1 right-10 text-xs	"
-                        : "w-[22px] px-1 top-[-5px] right-[-10px] text-[10px]"
-                    }`}
-                  />
                 </div>
               </ActiveLink>
               <ActiveLink
@@ -132,7 +123,7 @@ export default function SidebarDashboard() {
                   }`}
                 >
                   <Image
-                    src="/favorite_icon.png"
+                    src="/company.svg"
                     alt="favorite-icon"
                     width={24}
                     height={24}
@@ -155,7 +146,7 @@ export default function SidebarDashboard() {
                   }`}
                 >
                   <Image
-                    src="/favorite_icon.png"
+                    src="/employees.svg"
                     alt="favorite-icon"
                     width={24}
                     height={24}
@@ -178,7 +169,7 @@ export default function SidebarDashboard() {
                   }`}
                 >
                   <Image
-                    src="/favorite_icon.png"
+                    src="/invoices.svg"
                     alt="favorite-icon"
                     width={24}
                     height={24}

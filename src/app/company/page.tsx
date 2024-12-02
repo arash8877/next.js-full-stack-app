@@ -7,11 +7,11 @@ import useLanguageStore from "@/stores/language-store";
 import { useEffect } from "react";
 
 export default function CompanyPage() {
-  const {companyData} = useGetCompanyInfo();
-  
+  const { companyData } = useGetCompanyInfo();
+
   useEffect(() => {
     console.log(companyData);
-  }, [companyData])
+  }, [companyData]);
 
   const { l } = useLanguageStore();
 
@@ -21,7 +21,7 @@ export default function CompanyPage() {
         {l("settings.title") || "Company Information"}
       </h1>
       <div className="flex flex-col bg-white rounded-3xl wrapper">
-      <CompanyInfoForm {...companyData} />
+        <CompanyInfoForm {...companyData} />
       </div>
     </SidebarLayout>
   );

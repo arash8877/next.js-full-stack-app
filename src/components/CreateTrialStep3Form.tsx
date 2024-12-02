@@ -1,20 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import GenderDropdown from "./GenderDropdown";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
   const router = useRouter();
-  const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
 
@@ -37,7 +35,7 @@ const CreateTrialStep3Form = () => {
           "Deadline is required!"
       )
       .max(
-        Yup.ref("startDate"),
+        Yup.ref("endDate"),
         "Deadline should not be later than End Study Date"
       ),
     ageMin: Yup.number()
@@ -98,7 +96,7 @@ const CreateTrialStep3Form = () => {
         setFormData({
           ...formData,
           step3Data: {
-            ...formData.step3Data, 
+            ...formData.step3Data,
             startDate: values.startDate,
             endDate: values.endDate,
             deadline: values.deadline,
@@ -107,15 +105,10 @@ const CreateTrialStep3Form = () => {
             gender: values.gender,
           },
         });
+        document.cookie = "createTrialStep3Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step4");
       } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response && error.response.data) {
-            setError(error.response.data);
-          } else {
-            setError("An unknown error occurred");
-          }
-        }
+       console.log(error)
       }
     },
     validationSchema: formSchema,
@@ -127,9 +120,6 @@ const CreateTrialStep3Form = () => {
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
-      <div className="flex justify-center">
-        <p className=" text-red-600">{error}</p>
-      </div>
 
       <div className="flex flex-col gap-6 xl:w-3/4">
         <div className="flex flex-col gap-6 xl:flex-row">
@@ -142,7 +132,6 @@ const CreateTrialStep3Form = () => {
               value={formik.values.startDate}
               onChange={(date) => formik.setFieldValue("startDate", date)}
               onBlur={formik.handleBlur("startDate")}
-              minDate={new Date()}
             />
             <small className="text-red-600">
               {formik.touched.startDate && formik.errors.startDate}
@@ -160,7 +149,7 @@ const CreateTrialStep3Form = () => {
               onBlur={formik.handleBlur("endDate")}
               minDate={
                 formik.values.startDate
-                  ? new Date(formik.values.startDate)
+                  ? new Date(formik.values.startDate) // Set minDate to start date for end date
                   : undefined
               }
             />
@@ -181,10 +170,10 @@ const CreateTrialStep3Form = () => {
               onChange={(date) => formik.setFieldValue("deadline", date)}
               onBlur={formik.handleBlur("deadline")}
               maxDate={
-                formik.values.startDate
+                formik.values.endDate
                   ? new Date(
-                      new Date(formik.values.startDate).setDate(
-                        new Date(formik.values.startDate).getDate() - 1
+                      new Date(formik.values.endDate).setDate(
+                        new Date(formik.values.endDate).getDate() - 1
                       )
                     )
                   : undefined
@@ -263,8 +252,8 @@ const CreateTrialStep3Form = () => {
         <CustomButton
           title={l("register.step1.form.cta.btn") || "Next"}
           containerStyles="rounded-lg gradient-green1 hover1"
-          disabledContainerStyles="rounded-lg bg-gray-300"
-          disabled={!formik.isValid || !formik.dirty}
+          // disabledContainerStyles="rounded-lg bg-gray-300"
+          // disabled={!formik.isValid || !formik.dirty}
           btnType="submit"
         />
       </div>

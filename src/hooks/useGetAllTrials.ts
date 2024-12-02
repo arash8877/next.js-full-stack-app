@@ -38,6 +38,7 @@ export default function useGetAllTrials({
       setAllTrials(data);
     }
   }, [data, pagination.pageIndex]);
-
+  
+  console.log("allTrials: *********###", allTrials);
   return { allTrials, trialsError: error, trialsIsLoading: isLoading };
 }

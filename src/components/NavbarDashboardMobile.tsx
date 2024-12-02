@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import CounterMyTrials from "./CounterContainer";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
-// import RedirectToRegisterModal from "./RedirectToRegisterModal";
 import LogoutModal from "./LogoutModal";
 import useLanguageStore from "@/stores/language-store";
 
@@ -24,18 +22,12 @@ export default function NavbarDashboardMobile() {
 
   //---- open/close modals -----
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-//   const [isRedirectToRegisterModalOpen, setIsRedirectToRegisterModalOpen] =
-//     useState(false);
   const openLogoutModal = () => {
     setIsLogoutModalOpen(true);
   };
   const closeLogoutModal = () => {
     setIsLogoutModalOpen(false);
   };
-
-//   const openRedirectToRegisterModal = () => {
-//     setIsRedirectToRegisterModalOpen(true);
-//   };
 
   //-----get my trials count from useGetMyTrials hook-----
   const myTrials = useGetMyTrials();
@@ -50,12 +42,6 @@ export default function NavbarDashboardMobile() {
       {isLogoutModalOpen && (
         <LogoutModal open={isLogoutModalOpen} onClose={closeLogoutModal} />
       )}
-      {/* {isRedirectToRegisterModalOpen && (
-        <RedirectToRegisterModal
-          open={isRedirectToRegisterModalOpen}
-          onClose={() => setIsRedirectToRegisterModalOpen(false)}
-        />
-      )} */}
       <nav className="flex justify-between items-center bg-white h-12 p-4 rounded-full z-50 relative ">
         <div>
           <Image
@@ -116,19 +102,13 @@ export default function NavbarDashboardMobile() {
             >
               {l("common.header.trialsoverview.text") || "Trials"}
             </Link>
-            <CounterMyTrials
-              counts={getTrialsCount()}
-              style="w-[36px] px-2 py-1 right-16 text-xs	"
-            />
           </div>
-
-
 
           <div
             className="navbar_item items-center"
           >
             <Image
-              src="/favorite_icon.png"
+              src="/company.svg"
               alt="home-icon"
               width={24}
               height={24}
@@ -150,7 +130,7 @@ export default function NavbarDashboardMobile() {
             className="navbar_item items-center"
           >
             <Image
-              src="/favorite_icon.png"
+              src="/employees.svg"
               alt="home-icon"
               width={24}
               height={24}
@@ -171,7 +151,7 @@ export default function NavbarDashboardMobile() {
             className="navbar_item items-center"
           >
             <Image
-              src="/favorite_icon.png"
+              src="/invoices.svg"
               alt="home-icon"
               width={24}
               height={24}

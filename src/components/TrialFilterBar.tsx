@@ -109,14 +109,13 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
   //--------
 
   function redirectToCreateTrialPage() {
-      router.push("/create-trial/step1");
-    
+    router.push("/create-trial/step1");
   }
 
   //------------------------------------------ JSX --------------------------------------------
   return (
     <div className="flex flex-col gap-3 lg:flex-row lg:gap-4  ">
-      <div className="flex bg-white flex-1 p-[6px] rounded-xl relative h-[56px] md:col-span-4">
+      <div className="flex bg-white flex-1 p-[6px] rounded-xl relative h-[56px] md:col-span-4 -z-30">
         <Image
           src="/search-icon.svg"
           width={11}
@@ -135,18 +134,12 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
           value={searchInputValue ?? ""}
         />
       </div>
-      <div className="md:flex gap-4 py-[6px] justify-between h-[56px] md:col-span-2 md:col-start-3">
-        <div className="md:flex gap-4">
-          <div className="flex_center rounded-lg py-[6px] h-[44px] bg-secondary-50 cursor-pointer">
-            <button
-              className="flex_center text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8"
-              onClick={redirectToCreateTrialPage}
-            >
-              {l("filter.btn.suggestion") || "Create Trial"}
-            </button>
-          </div>
-        </div>
-      </div>
+      <button
+        className="flex_center text-xs font-medium md:px-12 md:text-sm rounded-lg py-[6px] h-[54px] bg-secondary-50 cursor-pointer"
+        onClick={redirectToCreateTrialPage}
+      >
+        {l("filter.btn.suggestion") || "Create Trial"}
+      </button>
     </div>
   );
 };
