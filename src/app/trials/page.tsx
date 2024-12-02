@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import { iTrialFilteringProps } from "@/types";
 import TrialCard from "@/components/TrialCard";
@@ -63,7 +63,7 @@ export default function TrialsPage() {
 
   //--------------------------------- return ------------------------------------------------
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <div>
       <SidebarLayout>
         <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
           {l("trialoverview.title") || "Trials Overview"}
@@ -72,8 +72,10 @@ export default function TrialsPage() {
           defaultFilterValues={filteringSettings}
           onFilterChange={handleFilterChange}
         />
-
-        {allTrials && allTrials.length === 0 ? (
+         {trialsIsLoading && !loadingTimeout ? (
+      <Spinner />
+    ) : 
+        allTrials && allTrials.length === 0 ? (
           <h2 className="text-lg font-semibold text-center mt-20">
             {l("trialoverview.warning.notrials") ||
               "No trials available ! Create your first trial."}
@@ -109,6 +111,6 @@ export default function TrialsPage() {
           </div>
         )}
       </SidebarLayout>
-    </Suspense>
+    </div>
   );
 }
