@@ -7,6 +7,7 @@ import TrialCard from "@/components/TrialCard";
 import useGetAllTrials from "@/hooks/useGetAllTrials";
 import TrialFilterBar from "@/components/TrialFilterBar";
 import useLanguageStore from "@/stores/language-store";
+import Spinner from "@/components/Spinner";
 
 //------- format date function --------
 function formatDate(dateString: string): string {
@@ -32,8 +33,8 @@ export default function TrialsPage() {
       pagination: { maxPageResult: 5, pageIndex: 0 },
     });
   const { l } = useLanguageStore();
-  const { allTrials, trialsError } = useGetAllTrials(filteringSettings);
-
+  const { allTrials, trialsError, trialsIsLoading } = useGetAllTrials(filteringSettings);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
   // const observerRef = useRef<IntersectionObserver | null>(null);
   // const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
@@ -51,6 +52,14 @@ export default function TrialsPage() {
       console.error("Failed to fetch trials", trialsError);
     }
   }, [trialsError]);
+
+      //---- set loading timeout -----
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setLoadingTimeout(true);
+        }, 10000); 
+        return () => clearTimeout(timer);
+      }, []);
 
   //--------------------------------- return ------------------------------------------------
   return (
