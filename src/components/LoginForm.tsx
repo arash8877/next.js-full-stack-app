@@ -43,6 +43,7 @@ const LoginForm = () => {
             password: values.password,
           }
         );
+        
         console.log("response in login form:", response.data)
         localStorage.setItem("token", response.data.token);
         document.cookie = `token=${response.data.token}; path=/; max-age=86400; SameSite=Strict; Secure`;
@@ -55,9 +56,15 @@ const LoginForm = () => {
         // --- Cast error to AxiosError to resolve the type ---
         if (
           axios.isAxiosError(error) &&
-          (error.response?.status === 401 || error.response?.status === 404)
+          (error.response?.status === 401 || error.response?.status === 404 || error.response?.status === 400)
         ) {
-          setError(l("login.form.validation.error") || error.response.data);
+          if (typeof error.response.data === 'string') {
+            setError(l("login.form.validation.error") || error.response.data);
+          }
+          else {
+            setError(l("login.form.validation.error") || "Invalid email or password");
+          }
+         
         }
       }
     },
