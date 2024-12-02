@@ -109,14 +109,6 @@ export default function SidebarDashboard() {
                   />
                   {isSidebarOpen &&
                     (l("common.header.trialsoverview.text") || "Trials")}
-                  <CounterContainer
-                    counts={getTrialsCount()}
-                    style={`${
-                      isSidebarOpen
-                        ? "w-[36px] px-2 py-1 right-10 text-xs	"
-                        : "w-[22px] px-1 top-[-5px] right-[-10px] text-[10px]"
-                    }`}
-                  />
                 </div>
               </ActiveLink>
               <ActiveLink

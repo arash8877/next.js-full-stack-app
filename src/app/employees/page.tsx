@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
 import InviteEmployeeModal from "@/components/InviteEmployeeModal";
 import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
+import axios from "axios";
 
 //------------------------------------ main function -----------------------------------
 export default function EmployeesPage() {
@@ -18,6 +19,26 @@ export default function EmployeesPage() {
 
   function redirectToEmployeeDetails(employeeId: number) {
     router.push(`/employees/${employeeId}`);
+  }
+
+  async function unInviteEmployee(employeeId: number) {
+    console.log("Uninvite user!");
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`, //PATCH request
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setTimeout(() => {
+        window.location.reload();
+      }, 0);
+    } catch (error) {
+      console.error("Error in /users", error);
+    }
   }
 
   //---- open and close modal -----
@@ -83,15 +104,25 @@ export default function EmployeesPage() {
                   })}
                 </td>
                 <td className="py-4 px-6 flex justify-end">
+                {employee.firstName == "Invited" ? (
                   <CustomButton
-                    title={l("forgotpassword.form.submit") || "View"}
-                    containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom-padding"
-                    btnType="button"
-                    disabled={employee.firstName == "Invited"}
-                    handleClick={() =>
-                      redirectToEmployeeDetails(employee.userId)
-                    }
+                  title={l("forgotpassword.form.submit") || "Uninvite user"}
+                  containerStyles="rounded-lg flex_center bg-red-600 text-white h-8 custom-padding"
+                  btnType="button"
+                  handleClick={() =>
+                    unInviteEmployee(employee.userId)
+                  }
+                />
+                ) : (
+                  <CustomButton
+                  title={l("forgotpassword.form.submit") || "View"}
+                  containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom-padding"
+                  btnType="button"
+                  handleClick={() =>
+                    redirectToEmployeeDetails(employee.userId)
+                  }
                   />
+                )}
                 </td>
               </tr>
             ))}

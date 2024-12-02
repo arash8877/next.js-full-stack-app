@@ -103,13 +103,7 @@ export default function NavbarDashboardMobile() {
             >
               {l("common.header.trialsoverview.text") || "Trials"}
             </Link>
-            <CounterMyTrials
-              counts={getTrialsCount()}
-              style="w-[36px] px-2 py-1 right-16 text-xs	"
-            />
           </div>
-
-
 
           <div
             className="navbar_item items-center"
