@@ -24,6 +24,7 @@ export default function EmployeesPage() {
   async function unInviteEmployee(employeeId: number) {
     console.log("Uninvite user!");
     try {
+       // eslint-disable-next-line
       const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`, //PATCH request
         {

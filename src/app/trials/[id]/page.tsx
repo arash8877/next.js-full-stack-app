@@ -60,8 +60,6 @@ console.log("trialData:", trialData);
   return (
     <SidebarLayout>
       <div>
-        <h1>Single Trial Page</h1>
-        <p>Trial ID: {trialId}</p>
         <Spinner />
       </div>
     </SidebarLayout>
