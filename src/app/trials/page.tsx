@@ -1,12 +1,13 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import { iTrialFilteringProps } from "@/types";
 import TrialCard from "@/components/TrialCard";
 import useGetAllTrials from "@/hooks/useGetAllTrials";
 import TrialFilterBar from "@/components/TrialFilterBar";
 import useLanguageStore from "@/stores/language-store";
+import Spinner from "@/components/Spinner";
 
 //------- format date function --------
 function formatDate(dateString: string): string {
@@ -32,8 +33,8 @@ export default function TrialsPage() {
       pagination: { maxPageResult: 5, pageIndex: 0 },
     });
   const { l } = useLanguageStore();
-  const { allTrials, trialsError } = useGetAllTrials(filteringSettings);
-
+  const { allTrials, trialsError, trialsIsLoading } = useGetAllTrials(filteringSettings);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
   // const observerRef = useRef<IntersectionObserver | null>(null);
   // const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,9 +53,17 @@ export default function TrialsPage() {
     }
   }, [trialsError]);
 
+      //---- set loading timeout -----
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setLoadingTimeout(true);
+        }, 10000); 
+        return () => clearTimeout(timer);
+      }, []);
+
   //--------------------------------- return ------------------------------------------------
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <div>
       <SidebarLayout>
         <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
           {l("trialoverview.title") || "Trials Overview"}
@@ -63,8 +72,10 @@ export default function TrialsPage() {
           defaultFilterValues={filteringSettings}
           onFilterChange={handleFilterChange}
         />
-
-        {allTrials && allTrials.length === 0 ? (
+         {trialsIsLoading && !loadingTimeout ? (
+      <Spinner />
+    ) : 
+        allTrials && allTrials.length === 0 ? (
           <h2 className="text-lg font-semibold text-center mt-20">
             {l("trialoverview.warning.notrials") ||
               "No trials available ! Create your first trial."}
@@ -100,6 +111,6 @@ export default function TrialsPage() {
           </div>
         )}
       </SidebarLayout>
-    </Suspense>
+    </div>
   );
 }
