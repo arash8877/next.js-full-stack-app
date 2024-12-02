@@ -57,7 +57,7 @@ const LoginForm = () => {
           axios.isAxiosError(error) &&
           (error.response?.status === 401 || error.response?.status === 404)
         ) {
-          setError(l("login.form.validation.error") || "Invalid email or password");
+          setError(l("login.form.validation.error") || error.response.data);
         }
       }
     },
