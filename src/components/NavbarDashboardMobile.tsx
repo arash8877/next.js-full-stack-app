@@ -42,7 +42,7 @@ export default function NavbarDashboardMobile() {
       {isLogoutModalOpen && (
         <LogoutModal open={isLogoutModalOpen} onClose={closeLogoutModal} />
       )}
-      <nav className="flex justify-between items-center bg-white h-12 p-4 rounded-full z-50 relative ">
+      <nav className="flex justify-between items-center bg-white h-12 p-4 rounded-full sticky z-50">
         <div>
           <Image
             src="/logo.svg"
