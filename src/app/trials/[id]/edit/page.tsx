@@ -11,7 +11,6 @@ import EditTrialTimeTab from "@/components/EditTrialTimeTab";
 import EditTrialMoreInfoTab from "@/components/EditTrialMoreInfoTab";
 import EditTrialMedicalTab from "@/components/EditTrialMedicalTab";
 import useLanguageStore from "@/stores/language-store";
-import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 
 type Props = {
   params: { id: string };
@@ -23,11 +22,6 @@ export default function EditTrialPage({ params }: Props) {
   const { trialData } = useGetSingleTrialInfo(params.id);
   const [currentTab, setCurrentTab] = useState<string>("1");
   const { l } = useLanguageStore();
-
-  const { categoriesData } = useGetAllMedicalCategories();
-
-  console.log("categoriesData:", categoriesData);
-  console.log("trialData:", trialData);
 
   //------ tabs array ------
   // eslint-disable-next-line

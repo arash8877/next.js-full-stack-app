@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-// import * as Yup from "yup";
 import axios, { AxiosError } from "axios";
 import Image from "next/image";
 import CustomButton from "./CustomButton";
@@ -11,7 +10,6 @@ import useLanguageStore from "@/stores/language-store";
 import Tag from "./Tag";
 import DiseaseDropdown from "./DiseaseDropdown";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
-
 import { CreateTrialStep4FormProps, iCategoryProps } from "@/types";
 import "react-quill/dist/quill.snow.css";
 
@@ -22,34 +20,33 @@ export default function EditTrialMedicalTab({
   exclusionDiseases,
   inclusionRequirements,
   exclusionRequirements,
-  // medicalCategories,
+  medicalCategories,
 }: CreateTrialStep4FormProps) {
-  const testMedicalCategories = [
-    {
-      medicalCategoryId: 9,
-      name: "Cancer, blood diseases and infections",
-      media: {
-        mediaId: 5,
-        filePath:
-          "https://appmediastorage.blob.core.windows.net/images/cancer.svg",
-        alt: "An icon showing cells symbolising cancer",
-        name: "Cancer Icon",
-        description: "SVG for a brain icon",
-      },
-      description: "Description from backend",
-    },
-  ];
   const { categoriesData } = useGetAllMedicalCategories();
   const [selectedCategoriesId, setSelectedCategoriesId] = useState<number[]>(
     []
   );
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
-  const [defaultSelectedCategoriesId, setDefaultSelectedCategoriesId] =
-    useState<number[]>([]);
-
-  //const userCategories =
-
+  useState<number[]>([]);
   const { l } = useLanguageStore();
+  const initialCategories = (medicalCategories ?? []).filter(
+    (category): category is iCategoryProps =>
+      category?.medicalCategoryId !== undefined
+  );
+  const initialCategoriesIds = initialCategories.map(
+    (item) => item.medicalCategoryId
+  );
+  console.log(
+    "initialCategoriesIds in edit medical tab:",
+    initialCategoriesIds
+  );
+
+  //--------useEffect to get the latest categories---------
+  useEffect(() => {
+    if (categoriesData) {
+      setCategories(categoriesData);
+    }
+  }, [categoriesData]);
 
   //--------------- formik ----------------
   const formik = useFormik<CreateTrialStep4FormProps>({
@@ -58,33 +55,28 @@ export default function EditTrialMedicalTab({
       inclusionRequirements: inclusionRequirements || "",
       exclusionDiseases: exclusionDiseases || [],
       exclusionRequirements: exclusionRequirements || "",
-      medicalCategories: testMedicalCategories.filter(
-        (category) =>
-          category.medicalCategoryId !== undefined &&
-          (categoriesData || [])
-            .map((cat) => cat.medicalCategoryId)
-            .includes(category.medicalCategoryId)
-      ),
+      medicalCategories: initialCategories || [],
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Form submitted");
-      // eslint-disable-next-line
-      const data = {
+      const payload = {
         trialId: trialId,
         inclusionDiseases: values.inclusionDiseases,
         exclusionDiseases: values.exclusionDiseases,
         inclusionRequirements: values.inclusionRequirements,
         exclusionRequirements: values.exclusionRequirements,
-        medicalCategories: selectedCategoriesId,
+        medicalCategories: [
+          ...initialCategoriesIds,
+          ...selectedCategoriesId,
+        ],
       };
-      console.log("data", data);
+      console.log("payload in edit trial medical tab:", payload);
 
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`,
-          data,
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -113,32 +105,8 @@ export default function EditTrialMedicalTab({
     },
   });
 
-  //--------useEffect for having the latest categories---------
-  useEffect(() => {
-    if (categoriesData) {
-      setCategories(categoriesData);
-    }
-  }, [categoriesData]);
-
-//----useEffect for having the latest initial selected categories---------
-  useEffect(() => {
-    const newDefaultSelectedCategoriesId = (testMedicalCategories ?? [])
-      .filter((category) => category !== null && category !== undefined)
-      .map((category) => category.medicalCategoryId)
-      .filter((id) => id !== undefined) as number[];
-
-    if (
-      JSON.stringify(newDefaultSelectedCategoriesId) !==
-      JSON.stringify(defaultSelectedCategoriesId)
-    ) {
-      setDefaultSelectedCategoriesId(newDefaultSelectedCategoriesId);
-    }
-  }, [categories, testMedicalCategories, defaultSelectedCategoriesId]);
-
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
-    console.log("category clicked:", id);
-    console.log("selectedCategoriesId:", selectedCategoriesId);
     if (selectedCategoriesId.includes(id)) {
       setSelectedCategoriesId(
         selectedCategoriesId.filter((categoryId) => categoryId !== id)
@@ -147,6 +115,13 @@ export default function EditTrialMedicalTab({
       setSelectedCategoriesId([...selectedCategoriesId, id]);
     }
   };
+
+  
+
+  // Log initialValues using useEffect
+  useEffect(() => {
+    console.log("Initial Values:", formik.initialValues);
+  }, [formik.initialValues]);
 
   //-------------------------------------------- return -----------------------------------------------
   return (
@@ -241,7 +216,7 @@ export default function EditTrialMedicalTab({
                   isSelected={selectedCategoriesId.includes(
                     category.medicalCategoryId || -1
                   )}
-                  isDefault={defaultSelectedCategoriesId.includes(
+                  isDefault={initialCategoriesIds.includes(
                     category.medicalCategoryId || -1
                   )}
                   icon={
