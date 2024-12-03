@@ -201,7 +201,7 @@ const CompanyInfoForm = ({
           <CountryDropdown
             country={formik.values.country}
             setCountry={(value) => formik.setFieldValue("country", value)}
-            borderColor="#DFF2DF"
+            borderColor="custom-border"
           />
           <small className="text-red-600">
             {formik.touched.country && formik.errors.country}

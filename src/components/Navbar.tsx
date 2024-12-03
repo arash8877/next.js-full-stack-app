@@ -30,7 +30,7 @@ const Navbar = ({
     const isRegisterStep4Url = currentUrl === "/register/step4";  //boolean
   //-------------------------------- JSX ---------------------------------
   return (
-    <header className={`flex ${items} ${justify} px-4  lg:px-16`}>
+    <header className={`flex ${items} ${justify} px-4  lg:px-16 z-50`}>
       {isLoginUrl || isRegisterStep4Url ? ( // if the current url is login page, the logo will be a link
         <Link href="https://www.sponsor.trialsync.com/login" target="_blank">
           <div>
