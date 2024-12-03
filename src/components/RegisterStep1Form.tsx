@@ -143,7 +143,7 @@ const RegisterStep1Form = () => {
         );
         console.log("step1 response:", response);
         localStorage.setItem("sponsorId", response.data.sponsorId);
-        document.cookie = "registerStep1Completed=true; Path=/;";
+        document.cookie = "registerStep1Completed=true; Path=/; max-age=7200";
 
         router.push("/register/step2");
       } catch (error) {
