@@ -117,7 +117,7 @@ export default function EditTrialSiteTab({
 
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200 rounded-lg p-4 xl:p-12">
+    <section className="flex flex-col mt-8 md:mt-12  bg-white rounded-lg p-4 xl:p-12">
       <form onSubmit={formik.handleSubmit}>
         {formik.values.trialSites.map((site, index) => {
           return (
