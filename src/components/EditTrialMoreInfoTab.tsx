@@ -120,7 +120,7 @@ export default function EditTrialMoreInfoTab({
 
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col mt-8 md:mt-12  bg-bgColor-200 rounded-lg p-4 xl:p-12">
+    <section className="flex flex-col mt-8 md:mt-12  bg-white rounded-lg p-4 xl:p-12">
       <form onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-6 2xl:w-2/3">
           <div className="flex flex-col gap-2 w-full">
