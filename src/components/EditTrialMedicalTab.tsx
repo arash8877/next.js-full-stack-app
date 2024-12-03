@@ -12,6 +12,7 @@ import DiseaseDropdown from "./DiseaseDropdown";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 import { CreateTrialStep4FormProps, iCategoryProps } from "@/types";
 import "react-quill/dist/quill.snow.css";
+import useCreateTrialStore from "@/stores/createTrial-store";
 
 //------------------------------------ main function ----------------------------------
 export default function EditTrialMedicalTab({
@@ -23,23 +24,32 @@ export default function EditTrialMedicalTab({
   medicalCategories,
 }: CreateTrialStep4FormProps) {
   const { categoriesData } = useGetAllMedicalCategories();
-  const [selectedCategoriesId, setSelectedCategoriesId] = useState<number[]>(
-    []
-  );
+  const { formData, setFormData } = useCreateTrialStore();
+  console.log("i am medical categories", medicalCategories);
+
+  // prettier-ignore
+  const initialCategories = (medicalCategories ?? []).filter((category): category is iCategoryProps =>category?.medicalCategoryId !== undefined);
+  const initialCategoriesIds = initialCategories
+    .map((item) => item.medicalCategoryId)
+    .filter((id): id is number => id !== undefined);
+  console.log("initialIDs", initialCategoriesIds);
+  const [selectedCategoriesId, setSelectedCategoriesId] =
+    useState<number[]>(initialCategoriesIds);
+  // prettier-ignore
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
-  useState<number[]>([]);
+  // prettier-ignore
+  // prettier-ignore
   const { l } = useLanguageStore();
-  const initialCategories = (medicalCategories ?? []).filter(
-    (category): category is iCategoryProps =>
-      category?.medicalCategoryId !== undefined
-  );
-  const initialCategoriesIds = initialCategories.map(
-    (item) => item.medicalCategoryId
-  );
-  console.log(
-    "initialCategoriesIds in edit medical tab:",
-    initialCategoriesIds
-  );
+
+  // console.log(
+  //   "initialCategoriesIds in edit medical tab:",
+  //   initialCategoriesIds
+  // );
+
+  // console.log(
+  //   "initialCategories in edit medical tab:",
+  //   initialCategories
+  // );
 
   //--------useEffect to get the latest categories---------
   useEffect(() => {
@@ -55,23 +65,25 @@ export default function EditTrialMedicalTab({
       inclusionRequirements: inclusionRequirements || "",
       exclusionDiseases: exclusionDiseases || [],
       exclusionRequirements: exclusionRequirements || "",
-      medicalCategories: initialCategories || [],
+      medicalCategories: categories.filter(
+        (category) =>
+          category.medicalCategoryId !== undefined &&
+          (formData.step4Data.medicalCategoryIds ?? []).includes(
+            category.medicalCategoryId
+          )
+      ),
     },
     //----onSubmit-------
     onSubmit: async (values) => {
       const payload = {
-        trialId: trialId,
         inclusionDiseases: values.inclusionDiseases,
         exclusionDiseases: values.exclusionDiseases,
         inclusionRequirements: values.inclusionRequirements,
         exclusionRequirements: values.exclusionRequirements,
-        medicalCategories: [
-          ...initialCategoriesIds,
-          ...selectedCategoriesId,
-        ],
+        medicalCategories: selectedCategoriesId,
       };
-      console.log("payload in edit trial medical tab:", payload);
-
+      console.log(selectedCategoriesId);
+      //console.log("payload:", payload);
       const token = localStorage.getItem("token");
       try {
         const response = await axios.patch(
@@ -83,7 +95,8 @@ export default function EditTrialMedicalTab({
             },
           }
         );
-        console.log("response in edit medical:", response);
+        // console.log("response in edit medical:", response);
+
         toast.success("Trial is updated successfully", {
           position: "top-center",
           autoClose: 2000,
@@ -108,20 +121,20 @@ export default function EditTrialMedicalTab({
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
     if (selectedCategoriesId.includes(id)) {
+      console.log(`Removing ID: ${id}`);
       setSelectedCategoriesId(
         selectedCategoriesId.filter((categoryId) => categoryId !== id)
       );
     } else {
+      console.log(`Adding ID: ${id}`);
       setSelectedCategoriesId([...selectedCategoriesId, id]);
     }
   };
 
-  
-
   // Log initialValues using useEffect
-  useEffect(() => {
-    console.log("Initial Values:", formik.initialValues);
-  }, [formik.initialValues]);
+  // useEffect(() => {
+  //   console.log("Initial Values:", formik.initialValues);
+  // }, [formik.initialValues]);
 
   //-------------------------------------------- return -----------------------------------------------
   return (

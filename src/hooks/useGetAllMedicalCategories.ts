@@ -30,7 +30,6 @@ export default function useGetAllMedicalCategories(): UseGetAllMedicalCategories
       : null,
     fetcher
   );
-  //console.log("categoriesData***:", data);
   return {
     categoriesData: data,
     categoriesError: error,
