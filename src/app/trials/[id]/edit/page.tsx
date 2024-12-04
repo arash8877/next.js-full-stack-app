@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// import TrialForm from "@/components/TrialForm";
-//import { iTrialInfoProps } from "@/types";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import EditTrialTitleTab from "@/components/EditTrialTitleTab";
@@ -10,6 +8,8 @@ import EditTrialSiteTab from "@/components/EditTrialSiteTab";
 import EditTrialTimeTab from "@/components/EditTrialTimeTab";
 import EditTrialMoreInfoTab from "@/components/EditTrialMoreInfoTab";
 import EditTrialMedicalTab from "@/components/EditTrialMedicalTab";
+import CustomButton from "@/components/CustomButton";
+import DeleteTrialModal from "@/components/DeleteTrialModal";
 import useLanguageStore from "@/stores/language-store";
 
 type Props = {
@@ -22,6 +22,8 @@ export default function EditTrialPage({ params }: Props) {
   const { trialData } = useGetSingleTrialInfo(params.id);
   const [currentTab, setCurrentTab] = useState<string>("1");
   const { l } = useLanguageStore();
+
+  // console.log("searchParams:", searchParams);
 
   //------ tabs array ------
   // eslint-disable-next-line
@@ -44,15 +46,20 @@ export default function EditTrialPage({ params }: Props) {
     {
       id: "4",
       tabTitle: "Fourth Tab",
-      content: <EditTrialMedicalTab { ...{
-        trialId: trialData?.trialId,
-        inclusionDiseases: trialData?.inclusionDiseases,
-        exclusionDiseases: trialData?.exclusionDiseases,
-        inclusionRequirements: trialData?.inclusionRequirements,
-        exclusionRequirements: trialData?.exclusionRequirements,
-        medicalCategories: trialData?.medicalCategories?.map((category) => {return category.medicalCategory}),
-      }
-      } />,
+      content: (
+        <EditTrialMedicalTab
+          {...{
+            trialId: trialData?.trialId,
+            inclusionDiseases: trialData?.inclusionDiseases,
+            exclusionDiseases: trialData?.exclusionDiseases,
+            inclusionRequirements: trialData?.inclusionRequirements,
+            exclusionRequirements: trialData?.exclusionRequirements,
+            medicalCategories: trialData?.medicalCategories?.map((category) => {
+              return category.medicalCategory;
+            }),
+          }}
+        />
+      ),
     },
     {
       id: "5",
@@ -69,10 +76,39 @@ export default function EditTrialPage({ params }: Props) {
   const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setCurrentTab((e.target as HTMLButtonElement).id);
   };
+
+  //--- open/close modal ----
+  const [isDeleteTrialModalOpen, setIsDeleteTrialModalOpen] = useState(false);
+
+  function handleOpenDeleteTrialModal() {
+    setIsDeleteTrialModalOpen(!isDeleteTrialModalOpen);
+  }
+
+  function closeDeleteTrialModal() {
+    setIsDeleteTrialModalOpen(false);
+  }
+
   //------------------------------- JSX ----------------------------------------------
   return (
     <SidebarLayout>
-      {/* <TrialForm {...trialData} /> */}
+      <div className="flex flex-col justify-between gap-3 md:flex-row lg:gap-4 mb-8">
+        <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+          {l("settings.title") || "Employees"}
+        </h1>
+        <div className="md:flex gap-4 py-[6px] justify-between h-[56px] md:col-span-2 md:col-start-3">
+          <div className="md:flex gap-4">
+            <div className="flex_center rounded-lg py-[6px] h-[44px] bg-bgColor-red text-white cursor-pointer">
+              <CustomButton
+                title={l("settings.tab3.btn.text") || "Delete Trial"}
+                containerStyles="bg-bgColor-red rounded-lg"
+                textStyles="text-white"
+                handleClick={handleOpenDeleteTrialModal}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col bg-white rounded-3xl py-8	mt-8">
         <div className="w-full px-8 ">
           <div className="grid grid-cols-2 md:flex pb-4 w-full gap-x-20 gap-y-6 md:gap-12  ">
@@ -148,6 +184,11 @@ export default function EditTrialPage({ params }: Props) {
           </div>
         </div>
       </div>
+      <DeleteTrialModal
+        trialId={Number(params.id)}
+        open={isDeleteTrialModalOpen}
+        onClose={closeDeleteTrialModal}
+      />
     </SidebarLayout>
   );
 }
