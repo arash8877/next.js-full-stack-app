@@ -63,9 +63,9 @@ export default function EditTrialSiteTab({
       trialSites: localTrialSites,
     },
     onSubmit: async (values) => {
-      console.log("values in Edit trial Sites ", values);
       const token = localStorage.getItem("token");
       try {
+      // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
           {
@@ -77,7 +77,6 @@ export default function EditTrialSiteTab({
             },
           }
         );
-        console.log("response in Edit trial Sites", response);
         toast.success(
           l("settings.form.success") || "Trial updated successfully!"
         );

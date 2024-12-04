@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import Image from "next/image";
 import DiseaseDropdown from "./DiseaseDropdown";
@@ -18,36 +17,23 @@ import useDiseaseStore from "@/stores/disease-store";
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep4Form = () => {
   const { formData, setFormData } = useCreateTrialStore();
-  const { categoriesData, categoriesError, categoriesIsLoading } =
-    useGetAllMedicalCategories();
+  const { categoriesData } = useGetAllMedicalCategories();
   const [selectedCategoriesId, setSelectedCategoriesId] = useState<number[]>(
     formData.step4Data.medicalCategoryIds || []
   );
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
   const router = useRouter();
   const [error, setError] = useState("");
+  const { selectedDiseases, setSelectedDiseases } = useDiseaseStore();
   const { l } = useLanguageStore();
 
-  const { selectedDiseases, setSelectedDiseases } = useDiseaseStore();
 
-  //----------------- Yup validation ---------------
-  const formSchema = Yup.object({});
-
-  //------get medical category id from selected categories-------
-  // const categoryIds = selectedCategories.map(
-  //   (category) => category.medicalCategoryId
-  // );
-  // const medicalCategories = selectedCategories.map((category) => ({
-  //   medicalCategoryId: category.medicalCategoryId,
-  //   optionalText: "string", // Replace "string" with actual optional text if available
-  // }));
-
-  const x = categories.filter(
-    (category) =>
-      category.medicalCategoryId !== undefined &&
-      formData.step4Data.medicalCategoryIds?.includes(category.medicalCategoryId)
-  );
-  console.log("categories", x);
+  //--------useEffect for having the latest categories---------
+  useEffect(() => {
+    if (categoriesData) {
+      setCategories(categoriesData);
+    }
+  }, [categoriesData]);
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
@@ -65,14 +51,11 @@ const CreateTrialStep4Form = () => {
       ),
     },
 
-    validationSchema: formSchema,
     //---------onSubmit--------------
-    // eslint-disable-next-line
     onSubmit: async (values) => {
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
-        // eslint-disable-next-line
         const payload = {
           inclusionDiseases: values["inclusionDiseases"],
           inclusionRequirements: values["inclusionRequirements"],
@@ -80,6 +63,7 @@ const CreateTrialStep4Form = () => {
           exclusionRequirements: values["exclusionRequirements"],
           medicalCategories: selectedCategoriesId,
         };
+    // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, //post request
           payload,
@@ -89,8 +73,7 @@ const CreateTrialStep4Form = () => {
             },
           }
         );
-        console.log("payloadin step4", payload);
-        console.log("RESPONSE", response);
+        // console.log("RESPONSE", response);
         setFormData({
           ...formData,
           step4Data: {
@@ -99,12 +82,11 @@ const CreateTrialStep4Form = () => {
             inclusionRequirements: values.inclusionRequirements,
             exclusionDiseases: values.exclusionDiseases,
             exclusionRequirements: values.exclusionRequirements,
-            medicalCategoryNames: categoriesData.filter((category) => selectedCategoriesId.includes(category.medicalCategoryId!))
-              .map((category) => category.name),
             medicalCategoryIds: selectedCategoriesId,
           },
         });
-        document.cookie = "createTrialStep4Completed=true; Path=/; max-age=7200";
+        document.cookie =
+          "createTrialStep4Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step5");
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -114,25 +96,20 @@ const CreateTrialStep4Form = () => {
     },
   });
 
-  //--------useEffect for having the latest categories---------
-  useEffect(() => {
-    if (categoriesData) {
-      setCategories(categoriesData);
-    }
-  }, [categoriesData, categoriesError, categoriesIsLoading]);
-
   //----handle click for categories in <tag/> ---------
   const handleClick = (id: number) => {
-    //console.log("category clicked:", id);
-    //console.log("selectedCategoriesId:", selectedCategoriesId);
     if (selectedCategoriesId.includes(id)) {
+      console.log(`Removing ID: ${id}`);
       setSelectedCategoriesId(
         selectedCategoriesId.filter((categoryId) => categoryId !== id)
       );
     } else {
+      console.log(`Adding ID: ${id}`);
       setSelectedCategoriesId([...selectedCategoriesId, id]);
     }
   };
+
+  console.log("selectedCategoriesId:", selectedCategoriesId);
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -225,6 +202,9 @@ const CreateTrialStep4Form = () => {
                 isSelected={selectedCategoriesId.includes(
                   category.medicalCategoryId || -1
                 )}
+                // isDefault={formData.step4Data.medicalCategoryIds?.includes(
+                //   category.medicalCategoryId || -1
+                // )}
                 icon={
                   <Image
                     src={category.media.filePath}

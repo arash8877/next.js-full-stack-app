@@ -109,9 +109,7 @@ const CreateTrialStep1Form = () => {
     },
     validationSchema: formSchema,
 
-    // eslint-disable-next-line
     onSubmit: async (values) => {
-      console.log("Title", values["title"]);
       const token =
         typeof window !== "undefined"
           ? window.localStorage.getItem("token")
@@ -135,7 +133,6 @@ const CreateTrialStep1Form = () => {
             },
           }
         );
-        console.log("response in step1:", payload);
         localStorage.setItem("currentTrialEditId", response.data);
         document.cookie = "createTrialStep1Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step2");

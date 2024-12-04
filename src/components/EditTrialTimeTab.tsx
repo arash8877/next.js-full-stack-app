@@ -103,7 +103,6 @@ export default function TrialDetailsLayout({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Submit");
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
@@ -117,6 +116,7 @@ export default function TrialDetailsLayout({
 
       const token = localStorage.getItem("token");
       try {
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`,
           {
@@ -138,7 +138,6 @@ export default function TrialDetailsLayout({
           autoClose: 2000,
           className: "single_line_toast",
         });
-        console.log("response in step2:", response);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);

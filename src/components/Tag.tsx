@@ -18,12 +18,11 @@ const Tag: React.FC<TagProps> = ({
   spanClassName,
 }) => {
   // Determine the background color based on the conditions
-  const backgroundColor =
-    isDefault && isSelected
-      ? "bg-white"
-      : isSelected || isDefault
-      ? "bg-gradient-button border-primary-800"
-      : "bg-white";
+  const backgroundColor = isSelected
+    ? "bg-gradient-button border-primary-800"
+    : isDefault
+    ? "bg-white" // Change this to neutral for deselected defaults
+    : "bg-white";
 
   return (
     <div
