@@ -15,6 +15,12 @@ export default function CreateTrialStep3Page() {
       </h1>
       <div className="flex flex-col bg-white rounded-3xl py-8">
         <CreateTrialStepper activeStep={2} />
+        <h3 className="text-lg font-medium text-center px-6 mt-12">
+          {
+            //l("settings.title") ||
+            "Please enter the date, gender and age for the participants"
+          }
+        </h3>
         <CreateTrialStep3Form />
       </div>
     </SidebarLayout>

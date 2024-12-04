@@ -17,7 +17,7 @@ export default function CreateTrialStep4Page() {
         <CreateTrialStepper activeStep={3} />
         <h3 className="text-lg font-medium text-center px-6 mt-12">
           {l("settings.title") ||
-            "Please enter the exclusion and inclusion requirements and medical categories"}
+            "Please enter the exclusion and inclusion requirements and medical criteria"}
         </h3>
         <CreateTrialStep4Form />
       </div>
