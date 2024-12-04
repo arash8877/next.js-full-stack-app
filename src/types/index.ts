@@ -131,12 +131,10 @@ export interface iMediaProps {
 }
 
 export interface iCategoryProps {
-
     medicalCategoryId?: number;
     name: string;
     description: string;
     media: iMediaProps;
-  
 }
 
 export interface iTrialCategoryProps {

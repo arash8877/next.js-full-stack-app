@@ -55,9 +55,8 @@ export default function EditTrialMoreInfoTab({
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("Formik Values Before Submit:", values);
       // eslint-disable-next-line
-      const data = {
+      const payload = {
         trialId: trialId,
         participantActivities: values.participantActivities,
         expectedParticipants: values.expectedParticipants,
@@ -67,19 +66,18 @@ export default function EditTrialMoreInfoTab({
         otherCompensation: values.otherCompensation,
         otherCompensationText: values.otherCompensationText,
       };
-      console.log("Data Submitted:", data);
       const token = localStorage.getItem("token");
       try {
+      // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`,
-          data,
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("response in step5***:", response);
         toast.success("The trial is updated successfully", {
           position: "top-center",
           autoClose: 2000,
