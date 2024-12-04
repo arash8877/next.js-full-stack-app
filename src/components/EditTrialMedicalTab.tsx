@@ -24,11 +24,14 @@ export default function EditTrialMedicalTab({
   medicalCategories,
 }: CreateTrialStep4FormProps) {
   const { categoriesData } = useGetAllMedicalCategories();
+  //eslint-disable-next-line
   const { formData, setFormData } = useCreateTrialStore();
   console.log("i am medical categories", medicalCategories);
 
-  // prettier-ignore
-  const initialCategories = (medicalCategories ?? []).filter((category): category is iCategoryProps =>category?.medicalCategoryId !== undefined);
+  const initialCategories = (medicalCategories ?? []).filter(
+    (category): category is iCategoryProps =>
+      category?.medicalCategoryId !== undefined
+  );
   const initialCategoriesIds = initialCategories
     .map((item) => item.medicalCategoryId)
     .filter((id): id is number => id !== undefined);
@@ -37,19 +40,7 @@ export default function EditTrialMedicalTab({
     useState<number[]>(initialCategoriesIds);
   // prettier-ignore
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
-  // prettier-ignore
-  // prettier-ignore
   const { l } = useLanguageStore();
-
-  // console.log(
-  //   "initialCategoriesIds in edit medical tab:",
-  //   initialCategoriesIds
-  // );
-
-  // console.log(
-  //   "initialCategories in edit medical tab:",
-  //   initialCategories
-  // );
 
   //--------useEffect to get the latest categories---------
   useEffect(() => {
@@ -83,9 +74,9 @@ export default function EditTrialMedicalTab({
         medicalCategories: selectedCategoriesId,
       };
       console.log(selectedCategoriesId);
-      //console.log("payload:", payload);
       const token = localStorage.getItem("token");
       try {
+        //eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`,
           payload,
@@ -95,7 +86,6 @@ export default function EditTrialMedicalTab({
             },
           }
         );
-        // console.log("response in edit medical:", response);
 
         toast.success("Trial is updated successfully", {
           position: "top-center",
@@ -130,11 +120,6 @@ export default function EditTrialMedicalTab({
       setSelectedCategoriesId([...selectedCategoriesId, id]);
     }
   };
-
-  // Log initialValues using useEffect
-  // useEffect(() => {
-  //   console.log("Initial Values:", formik.initialValues);
-  // }, [formik.initialValues]);
 
   //-------------------------------------------- return -----------------------------------------------
   return (
