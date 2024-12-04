@@ -1,4 +1,4 @@
-// LogoutModal.js
+"use client";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -6,13 +6,13 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Divider from "@mui/material/Divider";
 import CustomButton from "./CustomButton";
-// import axios from "axios";
 import useLanguageStore from "@/stores/language-store";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 //--------- style ---------
 const style = {
-    position: 'absolute' as const,
+  position: "absolute" as const,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -38,21 +38,37 @@ interface DeleteUserProps {
 }
 
 //----------------------------------- main function ------------------------------------------------------
-export default function DeleteEmployeeModal({ userId, open, onClose }: DeleteUserProps) {
-
+export default function DeleteEmployeeModal({
+  userId,
+  open,
+  onClose,
+}: DeleteUserProps) {
   const { l } = useLanguageStore();
 
   const handleDeleteEmployee = async () => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${userId}`, {
-        // request
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-       onClose();
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${userId}`,
+        {
+          // request
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      toast.success(
+        l("settings.tab1.form.toast.success") ||
+          "Employee deleted successfully!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
+      onClose();
     } catch (error) {
       console.error("Error deleting user", error);
+      onClose();
     }
   };
 
@@ -84,11 +100,18 @@ export default function DeleteEmployeeModal({ userId, open, onClose }: DeleteUse
         />
         <Typography id="modal-modal-description" sx={{ mt: 1 }}>
           {l("modal.deleteuser.description") ||
-            "Clicking the 'Delete' button will permanently remove the employee's account and erase all associated information."}
+            "Clicking the 'Delete' button will permanently remove the employee's account and erase all associated information"}
+        </Typography>
+        <Typography
+          id="modal-modal-description"
+          sx={{ mt: 1, color: "gray", fontSize: "14px" }}
+        >
+          {l("modal.deleteuser.description") ||
+            "Please note that it's not possible to delete the last employee"}
         </Typography>
         <Box
           sx={{
-            mt: 4,
+            mt: 6,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
