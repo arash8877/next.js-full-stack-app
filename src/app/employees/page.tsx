@@ -104,25 +104,23 @@ export default function EmployeesPage() {
                   })}
                 </td>
                 <td className="py-4 px-6 flex justify-end">
-                {employee.firstName == "Invited" ? (
-                  <CustomButton
-                  title={l("forgotpassword.form.submit") || "Uninvite user"}
-                  containerStyles="rounded-lg flex_center bg-red-600 text-white h-8 custom-padding"
-                  btnType="button"
-                  handleClick={() =>
-                    unInviteEmployee(employee.userId)
-                  }
-                />
-                ) : (
-                  <CustomButton
-                  title={l("forgotpassword.form.submit") || "View"}
-                  containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom-padding"
-                  btnType="button"
-                  handleClick={() =>
-                    redirectToEmployeeDetails(employee.userId)
-                  }
-                  />
-                )}
+                  {employee.firstName == "Invited" ? (
+                    <CustomButton
+                      title={l("forgotpassword.form.submit") || "Uninvite"}
+                      containerStyles="rounded-lg flex_center bg-bgColor-red text-white h-8 custom_padding"
+                      btnType="button"
+                      handleClick={() => unInviteEmployee(employee.userId)}
+                    />
+                  ) : (
+                    <CustomButton
+                      title={l("forgotpassword.form.submit") || "View"}
+                      containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom_padding"
+                      btnType="button"
+                      handleClick={() =>
+                        redirectToEmployeeDetails(employee.userId)
+                      }
+                    />
+                  )}
                 </td>
               </tr>
             ))}

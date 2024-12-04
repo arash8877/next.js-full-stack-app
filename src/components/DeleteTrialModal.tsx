@@ -1,4 +1,4 @@
-// LogoutModal.js
+"use client";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -60,8 +60,7 @@ export default function DeleteTrialModal({
         }
       );
       toast.success(
-        l("settings.tab1.form.toast.success") ||
-          "Trial is deleted successfully!",
+        l("settings.tab1.form.toast.success") || "Trial deleted successfully!",
         {
           position: "top-center",
           autoClose: 2000,
