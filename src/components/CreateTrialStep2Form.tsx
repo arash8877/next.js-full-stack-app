@@ -53,9 +53,9 @@ const InputField: React.FC<
     </div>
     <small className="text-red-600">
       {
-        (formik.errors.trialSites as FormikErrors<SiteFormValues>[] | undefined)?.[
-          siteIndex
-        ]?.[name]
+        (
+          formik.errors.trialSites as FormikErrors<SiteFormValues>[] | undefined
+        )?.[siteIndex]?.[name]
       }
     </small>
   </div>
@@ -103,7 +103,6 @@ const CreateTrialStep2Form = () => {
     },
     validationSchema: formSchema,
     //---------onSubmit--------------
-    // eslint-disable-next-line
     onSubmit: async (values) => {
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
@@ -114,7 +113,7 @@ const CreateTrialStep2Form = () => {
           zipCode: site.zipCode,
           country: site.country,
         }));
-
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
           {
@@ -126,9 +125,9 @@ const CreateTrialStep2Form = () => {
             },
           }
         );
-        console.log("response in step2:", response);
         setFormData({ step2Data: { trialSites: values.trialSites } });
-        document.cookie = "createTrialStep2Completed=true; Path=/; max-age=7200";
+        document.cookie =
+          "createTrialStep2Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step3");
       } catch (error) {
         if (error instanceof AxiosError) {

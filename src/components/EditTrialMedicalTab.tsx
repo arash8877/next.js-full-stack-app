@@ -73,7 +73,6 @@ export default function EditTrialMedicalTab({
         exclusionRequirements: values.exclusionRequirements,
         medicalCategories: selectedCategoriesId,
       };
-      console.log(selectedCategoriesId);
       const token = localStorage.getItem("token");
       try {
         //eslint-disable-next-line

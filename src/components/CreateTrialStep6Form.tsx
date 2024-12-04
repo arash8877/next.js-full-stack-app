@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep6Form = () => {
   const router = useRouter();
+    // eslint-disable-next-line
   const [previewKey, setPreviewKey] = useState("");
   const [trialId, setTrialId] = useState<string | null>(null);
   const { trialData } = useGetSingleTrialInfo(trialId || "");
   const { resetFormData } = useCreateTrialStore();
   const { l } = useLanguageStore();
-  console.log("trialData$$$$$$$$$$:", trialData);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTrialId = localStorage.getItem("currentTrialEditId");
@@ -38,7 +38,6 @@ const CreateTrialStep6Form = () => {
           }
         );
         setPreviewKey(response.data);
-        console.log("previewKey:", previewKey);
       } catch (error) {
         console.error(error);
         if (error instanceof AxiosError) {
@@ -48,7 +47,6 @@ const CreateTrialStep6Form = () => {
     };
 
     fetchPreviewKey();
-    // eslint-disable-next-line
   }, [trialId]);
 
   async function handleCreateTrial() {
@@ -88,7 +86,6 @@ const CreateTrialStep6Form = () => {
     }
   }
 
-  console.log("trialData in step6:", trialData);
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
     <div className="flex flex-col gap-6 wrapper">
