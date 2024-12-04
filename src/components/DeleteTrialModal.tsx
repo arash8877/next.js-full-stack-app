@@ -8,11 +8,12 @@ import Divider from "@mui/material/Divider";
 import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
 import axios from "axios";
+import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
 
 //--------- style ---------
 const style = {
-    position: 'absolute' as const,
+  position: "absolute" as const,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -32,28 +33,51 @@ const style = {
 };
 
 interface DeleteTrialProps {
-  trialId: number
+  trialId: number;
   open: boolean;
   onClose: () => void;
 }
 
 //----------------------------------- main function ------------------------------------------------------
-export default function DeleteTrialModal({ trialId, open, onClose }: DeleteTrialProps) {
+export default function DeleteTrialModal({
+  trialId,
+  open,
+  onClose,
+}: DeleteTrialProps) {
   const router = useRouter();
 
   const { l } = useLanguageStore();
 
   const handleDeleteTrial = async () => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}`, {
-        // request
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}`,
+        {
+          // request
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      toast.success(
+        l("settings.tab1.form.toast.success") ||
+          "Trial is deleted successfully!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
       router.push("/trials");
     } catch (error) {
+      toast.error(
+        l("settings.tab1.form.toast.error") || "Something went wrong!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
       console.error("Error deleting trial", error);
     }
   };
