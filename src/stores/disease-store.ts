@@ -1,15 +1,21 @@
 import {create} from 'zustand';
 
 interface DiseaseStore {
-  selectedDiseases: string[];
-  setSelectedDiseases: (diseases: string[]) => void;
-  setUserDiseases: (diseases: string[]) => void;
+  selectedInclusionDiseases: string[];
+  selectedExclusionDiseases: string[];
+  setSelectedInclusionDiseases: (diseases: string[]) => void;
+  setSelectedExclusionDiseases: (diseases: string[]) => void;
+  setUserInclusionDiseases: (diseases: string[]) => void;
+  setUserExclusionDiseases: (diseases: string[]) => void;
 }
 
 const useDiseaseStore = create<DiseaseStore>((set) => ({
-  selectedDiseases: [],
-  setSelectedDiseases: (diseases) => set({ selectedDiseases: diseases }),
-  setUserDiseases: (diseases) => set({ selectedDiseases: diseases }),
+  selectedInclusionDiseases: [],
+  selectedExclusionDiseases: [],
+  setSelectedInclusionDiseases: (diseases) => set({ selectedInclusionDiseases: diseases }),
+  setSelectedExclusionDiseases: (diseases) => set({ selectedExclusionDiseases: diseases }),
+  setUserInclusionDiseases: (diseases) => set({ selectedInclusionDiseases: diseases }),
+  setUserExclusionDiseases: (diseases) => set({ selectedExclusionDiseases: diseases }),
 }));
 
 export default useDiseaseStore;
