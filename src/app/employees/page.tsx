@@ -70,7 +70,7 @@ export default function EmployeesPage() {
         </div>
       </div>
 
-      <div className="overflow-x-auto bg-white wrapper rounded-3xl">
+      <div className="overflow-x-auto bg-white wrapper2 rounded-3xl">
         <table className="min-w-full bg-white">
           <thead>
             <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
