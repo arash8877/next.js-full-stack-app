@@ -24,9 +24,9 @@ const CreateTrialStep4Form = () => {
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
   const router = useRouter();
   const [error, setError] = useState("");
-  const { selectedDiseases, setSelectedDiseases } = useDiseaseStore();
+  const { selectedInclusionDiseases, setSelectedInclusionDiseases } = useDiseaseStore();
+  const { selectedExclusionDiseases, setSelectedExclusionDiseases } = useDiseaseStore();
   const { l } = useLanguageStore();
-
 
   //--------useEffect for having the latest categories---------
   useEffect(() => {
@@ -63,7 +63,7 @@ const CreateTrialStep4Form = () => {
           exclusionRequirements: values["exclusionRequirements"],
           medicalCategories: selectedCategoriesId,
         };
-    // eslint-disable-next-line
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, //post request
           payload,
@@ -128,10 +128,10 @@ const CreateTrialStep4Form = () => {
               Inclusion Disease
             </label>
             <DiseaseDropdown
-              value={selectedDiseases}
+              value={selectedInclusionDiseases}
               onChange={(value) => {
                 formik.setFieldValue("inclusionDiseases", value);
-                setSelectedDiseases(value);
+                setSelectedInclusionDiseases(value);
               }}
             />
           </div>
@@ -161,10 +161,11 @@ const CreateTrialStep4Form = () => {
               Exclusion Disease
             </label>
             <DiseaseDropdown
-              value={formik.values.exclusionDiseases || []}
-              onChange={(value) =>
-                formik.setFieldValue("exclusionDiseases", value)
-              }
+              value={selectedExclusionDiseases}
+              onChange={(value) => {
+                formik.setFieldValue("inclusionDiseases", value);
+                setSelectedExclusionDiseases(value);
+              }}
             />
           </div>
 

@@ -65,13 +65,14 @@ const CreateTrialStep6Form = () => {
       console.log("response in createTrialStep6Form:", response);
       resetFormData();
       localStorage.removeItem("currentTrialEditId");
-      // document.cookie = "createTrialStep6Completed=true; Path=/;";
+      document.cookie = "createTrialStep6Completed=true; Path=/; max-age=7200";
       const cookiesToRemove = [
         "createTrialStep1Completed",
         "createTrialStep2Completed",
         "createTrialStep3Completed",
         "createTrialStep4Completed",
         "createTrialStep5Completed",
+        "createTrialStep6Completed",
       ];
       cookiesToRemove.forEach((cookieName) => {
         document.cookie = `${cookieName}=; path=/; max-age=0;`;
