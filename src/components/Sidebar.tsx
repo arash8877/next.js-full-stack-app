@@ -42,7 +42,7 @@ export default function SidebarDashboard() {
         <LogoutModal open={isLogoutModalOpen} onClose={closeLogoutModal} />
       )}
       <div
-        className={`h-screen bg-white shadow-light sidebar_animation ${
+        className={`h-screen bg-white border-r-2 border-bgColor-10 shadow-light sidebar_animation ${
           isSidebarOpen ? "w-64" : "w-20"
         }`}
       >
@@ -75,7 +75,7 @@ export default function SidebarDashboard() {
           <h3 className="text-center mb-6 text-primary-1400">Sponsor</h3>
           )}
         </div>
-        <hr className="border border-gray-200 w-full mb-9 sidebar_animation" />
+        <hr className="border border-bgColor-10 w-full mb-9 sidebar_animation" />
         <div className="flex flex-col">
           <div className="flex flex-col gap-3 sidebar_animation">
             {isSidebarOpen && (
