@@ -107,7 +107,7 @@ export default function DeleteEmployeeModal({
           sx={{ mt: 1, color: "gray", fontSize: "14px" }}
         >
           {l("modal.deleteuser.description") ||
-            "Please note that it's not possible to delete the last employee"}
+            "The last remaining employee cannot be deleted"}
         </Typography>
         <Box
           sx={{
