@@ -114,8 +114,8 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
 
   //------------------------------------------ JSX --------------------------------------------
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:gap-4  ">
-      <div className="flex bg-white flex-1 p-[6px] rounded-xl relative h-[56px] md:col-span-4">
+    <div className="flex flex-col gap-3 lg:flex-row lg:gap-4 ">
+      <div className="flex bg-white flex-1 rounded-xl relative  md:col-span-4">
         <Image
           src="/search-icon.svg"
           width={11}
@@ -129,7 +129,7 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
           name="search"
           onChange={handleSearchOnChange}
           placeholder={l("filter.search.placeholder") || "Search"}
-          className="w-full bg-bgColor-200 p-4 rounded-lg "
+          className="w-full bg-white p-4 rounded-lg h-[56px] border-[1px] border-bgColor-10"
           style={{ paddingLeft: "40px" }}
           value={searchInputValue ?? ""}
         />

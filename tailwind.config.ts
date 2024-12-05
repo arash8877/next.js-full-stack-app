@@ -68,6 +68,7 @@ const config: Config = {
           50: "#EEEEEE",
         },
         bgColor: {
+          10: "#D5D7DA",
           50: "#F9F7F5",
           100: "#D8D8D8",
           200: "#F7F7F9",
