@@ -16,10 +16,8 @@ export function SidebarLayout({ children, className }: SidebarLayoutProps) {
       <div
         className={`flex-1 flex-col wrapper ${className || ""} overflow-auto`}
       >
-        <div className="top-0 bg-bgColor-50">
-          <div className="block sm:hidden py-7">
-            <NavbarDashboardMobile />
-          </div>
+        <div className="block sm:hidden py-7 mb-12 border-b border-bgColor-10">
+          <NavbarDashboardMobile />
         </div>
         <main>{children}</main>
       </div>

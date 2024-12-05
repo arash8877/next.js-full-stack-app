@@ -129,7 +129,7 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
           name="search"
           onChange={handleSearchOnChange}
           placeholder={l("filter.search.placeholder") || "Search"}
-          className="w-full bg-white p-4 rounded-lg h-[56px] border-[2px] border-bgColor-10"
+          className="w-full bg-white p-4 rounded-lg h-[56px] border border-bgColor-10"
           style={{ paddingLeft: "40px" }}
           value={searchInputValue ?? ""}
         />

@@ -87,6 +87,8 @@ const config: Config = {
       },
       boxShadow: {
         light: "0px 1px 2px 0px #0000000D",
+        'shad1': '0px 1px 2px 0px rgba(0, 0, 0, 0.06)', 
+        'shad2': '0px 1px 3px 0px rgba(0, 0, 0, 0.1)',  
       },
     },
   },
