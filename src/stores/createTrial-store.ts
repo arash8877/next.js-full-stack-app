@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { merge } from "lodash";
 //import { persist, createJSONStorage } from "zustand/middleware";
+
+
+//--------- interface -------
 interface FormData {
   step1Data: {
     title: string;
@@ -48,6 +51,8 @@ interface FormStore {
   resetFormData: () => void;
 }
 
+
+//--------------------------- main function ------------------------------------
 const useCreateTrialStore = create<FormStore>((set) => ({
   formData: {
     step1Data: { title: "", shortDescription: "", fullDescription: "" },
@@ -85,6 +90,7 @@ const useCreateTrialStore = create<FormStore>((set) => ({
       formData: merge({}, state.formData, data),
     })),
 
+    //---------- reset form data ------------
   resetFormData: () =>
     set({
       formData: {
@@ -121,30 +127,5 @@ const useCreateTrialStore = create<FormStore>((set) => ({
     }),
 }));
 
-// const useCreateTrialStore = create<FormStore>()(
-//   persist(
-//     (set) => ({
-//       formData: {
-//         step1Data: { title: "", shortDescription: "", fullDescription: "" },
-//       },
-
-//       setFormData: (data) =>
-//         set((state) => ({
-//           formData: { ...state.formData, ...data },
-//         })),
-
-//       resetFormData: () =>
-//         set({
-//           formData: {
-//             step1Data: { title: "", shortDescription: "", fullDescription: "" },
-//           },
-//         }),
-//     }),
-//     {
-//       name: "create-trial-store-step1",
-//       storage: createJSONStorage(() => localStorage),
-//     }
-//   )
-// );
 
 export default useCreateTrialStore;
