@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep6Form = () => {
   const router = useRouter();
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   const [previewKey, setPreviewKey] = useState("");
   const [trialId, setTrialId] = useState<string | null>(null);
   const { trialData } = useGetSingleTrialInfo(trialId || "");
@@ -77,6 +77,8 @@ const CreateTrialStep6Form = () => {
       cookiesToRemove.forEach((cookieName) => {
         document.cookie = `${cookieName}=; path=/; max-age=0;`;
       });
+      localStorage.removeItem("currentTrialEditId");
+      localStorage.removeItem("create-trial-store");
 
       router.push("/trials");
     } catch (error) {
@@ -94,9 +96,7 @@ const CreateTrialStep6Form = () => {
         <div className="p-4 border-4 border-primary-50 rounded-md mt-4">
           <div className="flex gap-2 mb-2">
             <p className="mb-2 font-bold">Title:</p>
-            <h2 className="text-sm mb-4">
-              {trialData?.title || "----"}
-            </h2>
+            <h2 className="text-sm mb-4">{trialData?.title || "----"}</h2>
           </div>
 
           <div className="text-sm mb-2">
@@ -125,16 +125,20 @@ const CreateTrialStep6Form = () => {
             trialData.trialSites.map((site, index) => (
               <div key={index} className="mb-4 p-2">
                 <div className="text-sm mb-1">
-                  <p className="mb-2 font-bold">Location:</p> {site.name || "N/A"}
+                  <p className="mb-2 font-bold">Location:</p>{" "}
+                  {site.name || "N/A"}
                 </div>
                 <div className="text-sm mb-1">
-                  <p className="mb-2 font-bold">Address:</p> {site.address || "N/A"}
+                  <p className="mb-2 font-bold">Address:</p>{" "}
+                  {site.address || "N/A"}
                 </div>
                 <div className="text-sm mb-1">
-                  <p className="mb-2 font-bold">ZIP Code:</p> {site.zipCode || "N/A"}
+                  <p className="mb-2 font-bold">ZIP Code:</p>{" "}
+                  {site.zipCode || "N/A"}
                 </div>
                 <div className="text-sm mb-1">
-                  <p className="mb-2 font-bold">Country:</p> {site.country || "N/A"}
+                  <p className="mb-2 font-bold">Country:</p>{" "}
+                  {site.country || "N/A"}
                 </div>
               </div>
             ))
@@ -149,7 +153,8 @@ const CreateTrialStep6Form = () => {
             {trialData?.ageMax}
           </div>
           <div className="flex gap-2">
-            <p className="mb-2 font-bold">Gender:</p> {trialData?.gender || "Not Specified"}
+            <p className="mb-2 font-bold">Gender:</p>{" "}
+            {trialData?.gender || "Not Specified"}
           </div>
           <div className="flex gap-2">
             <p className="mb-2 font-bold">Expected Participants:</p>{" "}
@@ -176,9 +181,7 @@ const CreateTrialStep6Form = () => {
             trialData.inclusionDiseases.length > 0 ? (
               <ul className="list-disc pl-5">
                 {trialData.inclusionDiseases.map((disease, index) => (
-                  <li key={index}>
-                    {disease || "N/A"}
-                  </li>
+                  <li key={index}>{disease || "N/A"}</li>
                 ))}
               </ul>
             ) : (
@@ -197,9 +200,7 @@ const CreateTrialStep6Form = () => {
             trialData.exclusionDiseases.length > 0 ? (
               <ul className="list-disc pl-5">
                 {trialData.exclusionDiseases.map((disease, index) => (
-                  <li key={index}>
-                    {disease || "N/A"}
-                  </li>
+                  <li key={index}>{disease || "N/A"}</li>
                 ))}
               </ul>
             ) : (
@@ -240,9 +241,7 @@ const CreateTrialStep6Form = () => {
           </div>
 
           <div className="flex gap-2">
-            <p className="mb-2 font-bold">
-              Expected Number of Participants:
-            </p>
+            <p className="mb-2 font-bold">Expected Number of Participants:</p>
             <p className="">
               {trialData?.expectedParticipants || "No data provided"}
             </p>
@@ -258,22 +257,20 @@ const CreateTrialStep6Form = () => {
           </div>
 
           <div>
-              <div className="flex gap-2">
-                <p className="mb-2 font-bold">Driving Compensation:</p>
-                {trialData?.drivingCompensation === true ? " Yes" : " No"}
-              </div>
+            <div className="flex gap-2">
+              <p className="mb-2 font-bold">Driving Compensation:</p>
+              {trialData?.drivingCompensation === true ? " Yes" : " No"}
+            </div>
 
-              <div className="flex gap-2">
-                <p className="mb-2 font-bold">
-                  Monetary Compensation:{" "}
-                </p>
-                {trialData?.monetaryCompensation ? " Yes" : " No"}
-              </div>
+            <div className="flex gap-2">
+              <p className="mb-2 font-bold">Monetary Compensation: </p>
+              {trialData?.monetaryCompensation ? " Yes" : " No"}
+            </div>
 
-              <div className="flex gap-2">
-                <p className="mb-2 font-bold">Other Compensation:</p>{" "}
-                {trialData?.otherCompensationText || "N/A"}
-              </div>
+            <div className="flex gap-2">
+              <p className="mb-2 font-bold">Other Compensation:</p>{" "}
+              {trialData?.otherCompensationText || "N/A"}
+            </div>
           </div>
         </div>
       </div>
