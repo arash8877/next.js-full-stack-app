@@ -130,11 +130,7 @@ const CompanyInfoForm = ({
 
   //--------------------------Return---------------------------------
   return (
-    <form className="flex flex-col gap-6  mt-9" onSubmit={formik.handleSubmit}>
-      <div className="flex flex-col-reverse md:flex-row md:justify-between">
-        <div className="flex flex-col gap-[22px] md:w-2/5"></div>
-      </div>
-
+    <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
       <div className="grid gap-7 md:gap-6 lg:w-4/5 md:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="companyName">

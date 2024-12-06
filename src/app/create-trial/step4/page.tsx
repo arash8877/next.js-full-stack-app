@@ -10,10 +10,10 @@ export default function CreateTrialStep4Page() {
 
   return (
     <SidebarLayout>
-      <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+      <h1 className="text-2xl font-semibold sm:text-3xl mb-4 sm:mb-16">
         {l("settings.title") || "Create Trial"}
       </h1>
-      <div className="flex flex-col bg-white rounded-3xl py-8	border border-bgColor-10">
+      <div className="flex flex-col bg-white rounded-3xl border border-bgColor-10 py-8 sm:pb-0">
         <CreateTrialStepper activeStep={3} />
         <h3 className="text-lg font-medium text-center px-6 mt-12">
           {l("settings.title") ||

@@ -65,7 +65,7 @@ export default function TrialsPage() {
   return (
     <div>
       <SidebarLayout>
-        <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+        <h1 className="text-2xl font-semibold mt-3 mb-4 sm:text-3xl sm:mb-[52px]">
           {l("trialoverview.title") || "Trials Overview"}
         </h1>
         <TrialFilterBar
