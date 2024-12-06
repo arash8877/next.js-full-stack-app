@@ -16,7 +16,7 @@ export default function CreateTrialStep1Page() {
           "Create Trial"
         }
       </h1>
-      <div className="flex flex-col bg-white rounded-3xl py-8	">
+      <div className="flex flex-col bg-white rounded-3xl py-8	border border-bgColor-10">
         <CreateTrialStepper activeStep={0} />
         <h3 className="text-lg font-medium text-center px-6 mt-12">
           {

@@ -72,8 +72,8 @@ export default function EditTrialTitleTab({
         fullDescription: values.fullDescription,
       };
 
-      const token = localStorage.getItem("token");
       try {
+        const token = localStorage.getItem("token");
       // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step1`,
