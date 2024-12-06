@@ -46,14 +46,14 @@ export default function NavbarDashboardMobile() {
         <div>
           <Image
             src="/logo.svg"
-            width={32}
-            height={31}
-            style={{ width: "32px", height: "31px" }}
+            width={51}
+            height={51}
+            style={{ width: "51px", height: "51px" }}
             alt="logo"
           />
         </div>
-        <div className="flex_center gap-3">
-          <div onClick={toggleBurgerIcon} className="w-8">
+        <div className="flex_center gap-3 ">
+          <div onClick={toggleBurgerIcon} className="flex_center w-12 h-12 rounded-lg bg-[#f7f7f9]">
             {menu ? (
               <Image
                 src="/close.svg"

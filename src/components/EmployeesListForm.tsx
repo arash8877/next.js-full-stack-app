@@ -142,7 +142,7 @@ const EmployeesListForm = ({
 
   //--------------------------Return---------------------------------
   return (
-    <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
+    <form className="flex flex-col gap-6 p-12 rounded-3xl border border-bgColor-10" onSubmit={formik.handleSubmit}>
       <div className="grid gap-7 md:gap-6 xl:w-4/5 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">
