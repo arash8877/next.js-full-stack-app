@@ -13,7 +13,7 @@ export default function CreateTrialStep2Page() {
       <h1 className="text-2xl font-semibold sm:text-3xl mb-4 sm:mb-16">
         {l("settings.title") || "Create Trial"}
       </h1>
-      <div className="flex flex-col bg-white rounded-3xl border border-bgColor-10 py-8 sm:pb-0">
+      <div className="flex flex-col bg-white rounded-3xl border border-bgColor-10 shadow-lg py-8 sm:pb-0">
         <CreateTrialStepper activeStep={1} />
         <h3 className="text-lg font-medium text-center px-6 mt-12">
           {

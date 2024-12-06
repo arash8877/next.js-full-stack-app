@@ -114,7 +114,7 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
 
   //------------------------------------------ JSX --------------------------------------------
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:gap-4 ">
+    <div className="flex flex-col gap-3 lg:flex-row lg:gap-4">
       <div className="flex bg-white flex-1 rounded-xl relative  md:col-span-4">
         <Image
           src="/search-icon.svg"
@@ -129,13 +129,13 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
           name="search"
           onChange={handleSearchOnChange}
           placeholder={l("filter.search.placeholder") || "Search"}
-          className="w-full bg-white p-4 rounded-lg h-[56px] border border-bgColor-10"
+          className="w-full bg-white p-4 rounded-lg h-[56px] border border-bgColor-10 shadow-md"
           style={{ paddingLeft: "40px" }}
           value={searchInputValue ?? ""}
         />
       </div>
       <button
-        className="flex_center text-xs font-medium md:px-12 md:text-sm rounded-lg py-[6px] h-[54px] bg-secondary-50 cursor-pointer"
+        className="flex_center text-xs font-medium md:px-12 md:text-sm rounded-lg py-[6px] h-[54px] bg-secondary-50 cursor-pointer shadow-md"
         onClick={redirectToCreateTrialPage}
       >
         {l("filter.btn.suggestion") || "Create Trial"}

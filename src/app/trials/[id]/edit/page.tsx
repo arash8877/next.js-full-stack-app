@@ -109,7 +109,7 @@ export default function EditTrialPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-col bg-white rounded-3xl wrapper4 border border-bgColor-10">
+      <div className="flex flex-col bg-white rounded-3xl wrapper4 border border-bgColor-10 shadow-lg">
         <div className="w-full px-8 ">
           <div className="grid grid-cols-2 md:flex pb-4 w-full gap-x-20 gap-y-6 md:gap-12  ">
             <button

@@ -32,7 +32,7 @@ iTrialCardProps) {
 
   //--------------------------------- return ------------------------------------------------
   return (
-    <section className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-bgColor-10 shadow-shad2">
+    <section className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-bgColor-10 shadow-lg hover:shadow-xl ">
       <div className="flex justify-between">
         <div className="flex justify-between gap-1">
           {/* @TODO  Add Image after correcting medicalCategories data structure */}
