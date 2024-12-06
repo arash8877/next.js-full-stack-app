@@ -24,6 +24,7 @@ interface FormData {
     ageMin: string;
     ageMax?: string;
     gender: string;
+    recruiting: string;
   };
   step4Data: {
     inclusionDiseases?: string[];
@@ -66,6 +67,8 @@ const useCreateTrialStore = create<FormStore>()(
           ageMin: "",
           ageMax: "",
           gender: "",
+          recruiting: "",
+
         },
         step4Data: {
           inclusionDiseases: [],
@@ -107,6 +110,7 @@ const useCreateTrialStore = create<FormStore>()(
               ageMin: "",
               ageMax: "",
               gender: "",
+              recruiting: "",
             },
             step4Data: {
               inclusionDiseases: [],

@@ -65,7 +65,7 @@ useEffect(() => {
             displayLogin="hidden"
           />
           <section className="flex items-center custom-height">
-            <div className="mx-auto bg-white max-w-3xl px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12  rounded-3xl">
+            <div className="mx-auto bg-white max-w-3xl px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12  rounded-3xl border border-bgColor-10">
               <div>
                 <div className="flex_center flex-col mt-12 mb-8">
                   <h1 className="text-2xl md:text-3xl font-semibold mb-4">
@@ -95,7 +95,7 @@ useEffect(() => {
               displayLogin="hidden"
             />
             <section className="mx-auto flex_center custom_height">
-              <div className="bg-white px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl">
+              <div className="bg-white px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl border border-bgColor-10">
                 <div className="flex_center flex-col gap-4 mb-8">
                   <h1 className="text-2xl md:text-3xl font-semibold mb-4">
                     {l("forgotpassword.emailnotsent.header") || "Forgot Password?"}

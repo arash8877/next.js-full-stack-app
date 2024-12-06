@@ -34,7 +34,7 @@ export default function LoginPage() {
       <div>
         <Navbar justify="justify-between mt-6" displayLogin="hidden" />
         <section className="mx-auto flex justify-center  items-start md:items-center custom_height">
-          <div className="bg-white px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl">
+          <div className="bg-white px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl border border-bgColor-10">
             <div className="flex_center flex-col gap-4 mb-8">
               <h1 className="text-2xl md:text-3xl font-semibold mb-4">
                 {l("login.header") || "Log In"}

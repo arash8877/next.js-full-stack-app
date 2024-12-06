@@ -17,7 +17,7 @@ export default function RegisterStep1() {
         items="items-start"
         displayCompanyName="hidden sm:block"
       />
-      <section className="register_step1_section">
+      <section className="register_step1_section border border-bgColor-10">
         <RegisterStepper activeStep={0} />
         <div>
           <div className="flex_center flex-col mt-12 mb-8">
