@@ -203,6 +203,7 @@ export interface iTrialInfoProps {
   ageMin: string;
   ageMax: string;
   gender: string;
+  recruiting?: string;
   approvedOn: string;
   startDate: string;
   endDate: string;
@@ -239,6 +240,7 @@ export interface iTrialApplicationsUserInfo {
   email: string;
   phoneNumber: string;
   gender: string;
+  recruiting?: string;
 }
 
 //--------------- application -------------------------
@@ -311,6 +313,7 @@ export interface CreateTrialStep3FormValues {
   ageStart: number;
   ageEnd: number;
   gender: string;
+  recruiting?: string;
 }
 
 export interface CreateTrialStep4FormProps {

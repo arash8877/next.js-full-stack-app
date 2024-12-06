@@ -177,6 +177,10 @@ const CreateTrialStep6Form = () => {
             <p className="mb-2 font-bold">Submission Deadline:</p>{" "}
             {trialData?.submissionDeadline}
           </div>
+          <div className="flex gap-2">
+            <p className="mb-2 font-bold">Recruiting:</p>{" "}
+            {trialData?.recruiting || "Not Specified"}
+          </div>
         </div>
 
         <div className="p-4  border-4 border-primary-50 rounded-md mt-4">

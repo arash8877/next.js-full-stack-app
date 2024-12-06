@@ -100,7 +100,7 @@ p {
 
 /*---------------------------- Reset Password ----------------------------- */
 .reset_password_div {
-  @apply mx-auto bg-white max-w-3xl px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl;
+  @apply mx-auto bg-white max-w-3xl px-4 md:px-12 lg:px-10 pt-12 pb-6 rounded-3xl;
 }
 
 /*---------------------------- Sidebar ----------------------------- */

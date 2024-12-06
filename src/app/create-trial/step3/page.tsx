@@ -15,7 +15,7 @@ export default function CreateTrialStep3Page() {
       </h1>
       <div className="flex flex-col bg-white rounded-3xl border border-bgColor-10 py-8 sm:pb-0">
         <CreateTrialStepper activeStep={2} />
-        <h3 className="text-lg font-medium text-center px-6 mt-12">
+        <h3 className="text-lg font-medium text-center px-6 mt-12 mb-6">
           {
             //l("settings.title") ||
             "Please enter the date, gender and age for the participants"
