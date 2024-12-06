@@ -52,8 +52,8 @@ export default function EmployeesPage() {
   //------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between gap-3 md:flex-row lg:gap-4 mb-8">
-        <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+      <div className="flex flex-col justify-between gap-3 md:flex-row lg:gap-4 mb-4">
+        <h1 className="text-2xl font-semibold sm:text-3xl sm:mb-12">
           {l("settings.title") || "Employees"}
         </h1>
         <div className="md:flex gap-4 py-[6px] justify-between h-[56px] md:col-span-2 md:col-start-3">

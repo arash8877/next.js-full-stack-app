@@ -27,13 +27,13 @@ export default function EmployeesPage({ params }: Props) {
   //--------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between md:flex-row md:items-center">
-        <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+      <div className="flex flex-col justify-between md:flex-row md:items-center mb-[6px]">
+        <h1 className="text-2xl font-semibold mt-3 mb-4 sm:text-3xl sm:mb-12">
           {l("settings.title") || "Employee Info"}
         </h1>
       </div>
         <div
-          className="flex flex-col bg-white rounded-3xl mb-4  wrapper"
+          className="flex flex-col bg-white rounded-3xl mb-4"
         >
           <EmployeesListForm {...employeeData} userId={userId}/>
         </div>
