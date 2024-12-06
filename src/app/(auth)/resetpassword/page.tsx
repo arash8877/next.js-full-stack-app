@@ -6,6 +6,7 @@ import { Suspense, useEffect, useState } from "react";
 import ResetPasswordForm from "@/components/ResetPasswordForm";
 import useLanguageStore from "@/stores/language-store";
 import { languages } from "@/lib/languageInfo";
+import Navbar from "@/components/Navbar";
 
 //----------------------------------- main function -----------------------------------------
 function ResetPasswordPage() {
@@ -62,10 +63,14 @@ function ResetPasswordPage() {
   //--------------------------------------- Return -------------------------------------------
   return (
     <main className="min-h-screen my-6 mx-2 md:mx-14 lg:mx-16">
+                <Navbar
+            justify="justify-center lg:justify-start"
+            displayLogin="hidden"
+          />
       <section className="flex items-center custom-height">
-        <div className="reset_password_div">
+        <div className="reset_password_div border border-bgColor-10">
           <div>
-            <div className="flex_center flex-col mt-12 mb-8">
+            <div className="flex_center flex-col">
               <h1 className="text-2xl md:text-3xl font-semibold mb-4">
                 {l("resetpassword.header") || "Please enter your new password"}
               </h1>

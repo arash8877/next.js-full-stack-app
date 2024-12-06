@@ -7,7 +7,7 @@ import axios, { AxiosError } from "axios";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import AgeDropdown from "./AgeDropdown";
-
+import RecruitingDropdown from "./RecruitingDropdown";
 import GenderDropdown from "./GenderDropdown";
 import { toast } from "react-toastify";
 // import useIsAuthenticated from "@/hooks/useIsAuthenticated";
@@ -32,10 +32,9 @@ export default function TrialDetailsLayout({
   ageMin,
   ageMax,
   gender,
+  recruiting,
 }: iTrialInfoProps) {
-
   const { l } = useLanguageStore();
-
 
   //----Yup validation ---------
   // eslint-disable-next-line
@@ -84,6 +83,10 @@ export default function TrialDetailsLayout({
       l("settings.tab1.form.gender.validation.required") ||
         "Gender is required!"
     ),
+    recruiting: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Recruiting status is required!"
+    ),
   });
 
   //--------------- formik ----------------
@@ -100,6 +103,7 @@ export default function TrialDetailsLayout({
       endDate: endDate,
       submissionDeadline: submissionDeadline,
       gender: gender || "",
+      recruiting: recruiting || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -112,6 +116,7 @@ export default function TrialDetailsLayout({
         endDate: values.endDate,
         submissionDeadline: values.submissionDeadline,
         gender: values.gender,
+        recruiting: values.recruiting,
       };
 
       const token = localStorage.getItem("token");
@@ -120,12 +125,13 @@ export default function TrialDetailsLayout({
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`,
           {
-            ageMin: data.ageMin,
-            ageMax: data.ageMax,
-            gender: data.gender,
             startDate: data.startDate,
             endDate: data.endDate,
             submissionDeadline: data.submissionDeadline,
+            gender: data.gender,
+            ageMin: data.ageMin,
+            ageMax: data.ageMax,
+            recruiting: data.recruiting,
           },
           {
             headers: {
@@ -157,115 +163,128 @@ export default function TrialDetailsLayout({
 
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col mt-8 md:mt-12  bg-white rounded-lg p-4 xl:p-12">
+    <section className="flex flex-col mt-8 lg:mt-12 bg-white rounded-3xl">
       <form onSubmit={formik.handleSubmit}>
-          <div className="flex flex-col gap-4 w-full md:top-[50px] ">
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor="ageMin" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "Min. Age:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <AgeDropdown
-                  age={Number(formik.values.ageMin)}
-                  setAge={(value) => formik.setFieldValue("ageMin", value)}
-                  borderColor="#DFF2DF"
-                />
-                <small className="text-red-600">
-                  {formik.touched.ageMin && formik.errors.ageMin}
-                </small>
-              </div>
-
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor="ageMax" className="text-sm font-semibold">
-                  {l("settings.tab4.form.ageMax.label") || "Max. Age:"}
-                </label>
-                <AgeDropdown
-                  age={Number(formik.values.ageMax)}
-                  setAge={(value) => formik.setFieldValue("ageMax", value)}
-                  borderColor="#DFF2DF"
-                />
-                <small className="text-red-600">
-                  {formik.touched.ageMax && formik.errors.ageMax}
-                </small>
-              </div>
+        <div className="flex flex-col gap-2 sm:gap-6 md:top-[50px] xl:3/4">
+          <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
+            <div className="flex flex-col gap-2 xl:w-1/2">
+              <label htmlFor="ageMin" className="text-sm font-semibold">
+                {l("settings.tab4.form.password.label") || "Min. Age:"}
+                <span className="ml-1">*</span>
+              </label>
+              <AgeDropdown
+                age={Number(formik.values.ageMin)}
+                setAge={(value) => formik.setFieldValue("ageMin", value)}
+                borderColor="#DFF2DF"
+              />
+              <small className="text-red-600">
+                {formik.touched.ageMin && formik.errors.ageMin}
+              </small>
             </div>
-
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor="startDate" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") ||
-                    "Start Study Date:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <CustomDateInput
-                  value={formik.values.startDate}
-                  onChange={(date) => formik.setFieldValue("startDate", date)}
-                  onBlur={formik.handleBlur}
-                  borderColor="custom-border"
-                />
-                <small className="text-red-600">
-                  {formik.touched.startDate && formik.errors.startDate}
-                </small>
-              </div>
-
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor="endDate" className="text-sm font-semibold">
-                  {l("settings.tab4.form.password.label") || "End Study Date:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <CustomDateInput
-                  value={formik.values.endDate}
-                  onChange={(date) => formik.setFieldValue("endDate", date)}
-                  onBlur={formik.handleBlur}
-                  borderColor="custom-border"
-                />
-                <small className="text-red-600">
-                  {formik.touched.endDate && formik.errors.endDate}
-                </small>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2 w-1/2">
-                <label
-                  htmlFor="submissionDeadline"
-                  className="text-sm font-semibold"
-                >
-                  {l("settings.tab4.form.password.label") ||
-                    "Enrolment Deadline:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <CustomDateInput
-                  value={formik.values.submissionDeadline}
-                  onChange={(date) =>
-                    formik.setFieldValue("submissionDeadline", date)
-                  }
-                  onBlur={formik.handleBlur}
-                  borderColor="custom-border"
-                />
-                <small className="text-red-600">
-                  {formik.touched.submissionDeadline &&
-                    formik.errors.submissionDeadline}
-                </small>
-              </div>
-
-              <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor="gender" className="text-sm font-semibold">
-                  {l("register.step3.form.gender.label") || "Biological sex:"}
-                  <span className="ml-1">*</span>
-                </label>
-                <GenderDropdown
-                  gender={formik.values.gender}
-                  setGender={(value) => formik.setFieldValue("gender", value)}
-                  borderColor="#DFF2DF"
-                />
-                <small className="text-red-600">
-                  {formik.touched.gender && formik.errors.gender}
-                </small>
-              </div>
+            <div className="flex flex-col gap-2 xl:w-1/2">
+              <label htmlFor="ageMax" className="text-sm font-semibold">
+                {l("settings.tab4.form.ageMax.label") || "Max. Age:"}
+              </label>
+              <AgeDropdown
+                age={Number(formik.values.ageMax)}
+                setAge={(value) => formik.setFieldValue("ageMax", value)}
+                borderColor="#DFF2DF"
+              />
+              <small className="text-red-600">
+                {formik.touched.ageMax && formik.errors.ageMax}
+              </small>
             </div>
           </div>
+
+          <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
+            <div className="flex flex-col gap-2 xl:w-1/2">
+              <label htmlFor="startDate" className="text-sm font-semibold">
+                {l("settings.tab4.form.password.label") || "Start Study Date:"}
+                <span className="ml-1">*</span>
+              </label>
+              <CustomDateInput
+                value={formik.values.startDate}
+                onChange={(date) => formik.setFieldValue("startDate", date)}
+                onBlur={formik.handleBlur}
+                borderColor="custom-border"
+              />
+              <small className="text-red-600">
+                {formik.touched.startDate && formik.errors.startDate}
+              </small>
+            </div>
+
+            <div className="flex flex-col gap-2 xl:w-1/2">
+              <label htmlFor="endDate" className="text-sm font-semibold">
+                {l("settings.tab4.form.password.label") || "End Study Date:"}
+                <span className="ml-1">*</span>
+              </label>
+              <CustomDateInput
+                value={formik.values.endDate}
+                onChange={(date) => formik.setFieldValue("endDate", date)}
+                onBlur={formik.handleBlur}
+                borderColor="custom-border"
+              />
+              <small className="text-red-600">
+                {formik.touched.endDate && formik.errors.endDate}
+              </small>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
+            <div className="flex flex-col gap-2 xl:w-1/2">
+              <label
+                htmlFor="submissionDeadline"
+                className="text-sm font-semibold"
+              >
+                {l("settings.tab4.form.password.label") ||
+                  "Enrolment Deadline:"}
+                <span className="ml-1">*</span>
+              </label>
+              <CustomDateInput
+                value={formik.values.submissionDeadline}
+                onChange={(date) =>
+                  formik.setFieldValue("submissionDeadline", date)
+                }
+                onBlur={formik.handleBlur}
+                borderColor="custom-border"
+              />
+              <small className="text-red-600">
+                {formik.touched.submissionDeadline &&
+                  formik.errors.submissionDeadline}
+              </small>
+            </div>
+
+            <div className="flex flex-col gap-2 xl:w-1/2">
+              <label htmlFor="gender" className="text-sm font-semibold">
+                {l("register.step3.form.gender.label") || "Biological sex:"}
+                <span className="ml-1">*</span>
+              </label>
+              <GenderDropdown
+                gender={formik.values.gender}
+                setGender={(value) => formik.setFieldValue("gender", value)}
+                borderColor="#DFF2DF"
+              />
+              <small className="text-red-600">
+                {formik.touched.gender && formik.errors.gender}
+              </small>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 xl:w-1/2 xl:pr-2">
+            <label htmlFor="gender" className="text-sm font-semibold">
+              {l("register.step3.form.gender.label") || "Recruiting status"}
+              <span className="ml-1">*</span>
+            </label>
+            <RecruitingDropdown
+              status={formik.values.recruiting}
+              setStatus={(value) => formik.setFieldValue("recruiting", value)}
+              borderColor="#DFF2DF"
+            />
+            <small className="text-red-600">
+              {formik.touched.recruiting && formik.errors.recruiting}
+            </small>
+          </div>
+        </div>
 
         <div className="flex justify-center xs:justify-end gap-4 mt-8">
           <CustomButton
@@ -275,7 +294,6 @@ export default function TrialDetailsLayout({
           />
         </div>
       </form>
-
     </section>
   );
 }

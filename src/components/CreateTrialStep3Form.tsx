@@ -9,6 +9,7 @@ import GenderDropdown from "./GenderDropdown";
 import axios from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
+import RecruitingDropdown from "./RecruitingDropdown";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
@@ -58,6 +59,10 @@ const CreateTrialStep3Form = () => {
       l("register.step1.form.country.validation.required") ||
         "Gender is required!"
     ),
+    recruiting: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Recruiting status is required!"
+    ),
   });
 
   //-------------formik----------------
@@ -69,6 +74,8 @@ const CreateTrialStep3Form = () => {
       ageMin: formData.step3Data.ageMin || "",
       ageMax: formData.step3Data.ageMax || "",
       gender: formData.step3Data.gender || "",
+      recruiting: formData.step3Data.recruiting || "",
+      
     },
     //-----onSubmit-------
     // eslint-disable-next-line
@@ -86,6 +93,7 @@ const CreateTrialStep3Form = () => {
             ageMin: values["ageMin"],
             ageMax: values["ageMax"],
             gender: values["gender"],
+            recruiting: values["recruiting"],
           },
           {
             headers: {
@@ -103,6 +111,7 @@ const CreateTrialStep3Form = () => {
             ageMin: values.ageMin,
             ageMax: values.ageMax,
             gender: values.gender,
+            recruiting: values.recruiting,
           },
         });
         document.cookie = "createTrialStep3Completed=true; Path=/; max-age=7200";
@@ -121,8 +130,8 @@ const CreateTrialStep3Form = () => {
       onSubmit={formik.handleSubmit}
     >
 
-      <div className="flex flex-col gap-6 xl:w-3/4">
-        <div className="flex flex-col gap-6 xl:flex-row">
+      <div className="flex flex-col gap-2 sm:gap-6 xl:w-3/4">
+        <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 xl:w-1/2">
             <label htmlFor="startDate">
               {l("register.step3.form.startDate.label") || "Start Study Date"}
@@ -159,7 +168,7 @@ const CreateTrialStep3Form = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 xl:flex-row">
+        <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 xl:w-1/2">
             <label htmlFor="deadline">
               {l("register.step3.form.deadline.label") || "Enrolment Deadline"}
@@ -200,7 +209,7 @@ const CreateTrialStep3Form = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 xl:flex-row">
+        <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 xl:w-1/2">
             <label htmlFor="ageMin">
               {l("register.step3.form.ageMin.label") || "Min. Age"}
@@ -246,6 +255,24 @@ const CreateTrialStep3Form = () => {
             </small>
           </div>
         </div>
+
+        <div className="flex flex-col xl:w-1/2">
+            <label htmlFor="gender" className="mb-2">
+              {l("register.step3.form.gender.label") || "Recruiting status"}
+              <span className="ml-1">*</span>
+            </label>
+            <RecruitingDropdown
+              status={formik.values.recruiting}
+              setStatus={(value) => formik.setFieldValue("recruiting", value)}
+              borderColor="black"
+            />
+            <small className="text-red-600">
+              {formik.touched.recruiting && formik.errors.recruiting}
+            </small>
+          </div>
+
+
+
       </div>
 
       <div className="flex justify-center xs:justify-end gap-4">

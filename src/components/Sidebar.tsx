@@ -42,7 +42,7 @@ export default function SidebarDashboard() {
         <LogoutModal open={isLogoutModalOpen} onClose={closeLogoutModal} />
       )}
       <div
-        className={`h-screen bg-white border-r border-bgColor-10 shadow-light sidebar_animation ${
+        className={`h-screen bg-white border-r border-bgColor-10 sidebar_animation shadow-lg ${
           isSidebarOpen ? "w-64" : "w-20"
         }`}
       >

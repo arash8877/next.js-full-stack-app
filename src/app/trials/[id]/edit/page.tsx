@@ -92,8 +92,8 @@ export default function EditTrialPage({ params }: Props) {
   return (
     <SidebarLayout>
       <div className="flex flex-col justify-between gap-3 md:flex-row lg:gap-4 mb-8">
-        <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
-          {l("settings.title") || "Employees"}
+        <h1 className="text-2xl font-semibold sm:text-3xl md:mb-[34px]">
+          {l("settings.title") || "Edit Trial"}
         </h1>
         <div className="md:flex gap-4 py-[6px] justify-between h-[56px] md:col-span-2 md:col-start-3">
           <div className="md:flex gap-4">
@@ -109,7 +109,7 @@ export default function EditTrialPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-col bg-white rounded-3xl py-8	mt-8">
+      <div className="flex flex-col bg-white rounded-3xl wrapper4 border border-bgColor-10 shadow-lg">
         <div className="w-full px-8 ">
           <div className="grid grid-cols-2 md:flex pb-4 w-full gap-x-20 gap-y-6 md:gap-12  ">
             <button
@@ -177,7 +177,7 @@ export default function EditTrialPage({ params }: Props) {
         <div>
           <div>
             {tabs.map((tab) => (
-              <div className="px-8" key={tab.id}>
+              <div key={tab.id}>
                 {currentTab === tab.id && tab.content}
               </div>
             ))}

@@ -48,7 +48,7 @@ export default function SettingsPage() {
       <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
         {l("settings.title") || "Settings"}
       </h1>
-      <div className="flex flex-col bg-white rounded-3xl py-8	border border-bgColor-10">
+      <div className="flex flex-col bg-white rounded-3xl py-8	border border-bgColor-10 shadow-lg">
         <div className="w-full px-8 ">
           <div className="grid grid-cols-2 md:flex pb-4 w-full gap-x-20 gap-y-6 md:gap-12  ">
             <button

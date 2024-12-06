@@ -122,13 +122,13 @@ export default function EditTrialMedicalTab({
 
   //-------------------------------------------- return -----------------------------------------------
   return (
-    <section className="flex flex-col mt-8 md:mt-12 bg-white rounded-lg p-4 xl:p-12">
+    <section className="flex flex-col mt-8 lg:mt-12 bg-white rounded-lg">
       <form
-        className="flex flex-col gap-6 mx-auto wrapper"
+        className="flex flex-col gap-2 sm:gap-6 mx-auto"
         onSubmit={formik.handleSubmit}
       >
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-6 xl:flex-row">
+        <div className="flex flex-col gap-4 sm:gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6 xl:flex-row">
             <div className="flex flex-col gap-2 w-full">
               <label
                 htmlFor="inclusionDisease"
@@ -163,7 +163,7 @@ export default function EditTrialMedicalTab({
             </div>
           </div>
 
-          <div className="flex flex-col gap-6 xl:flex-row">
+          <div className="flex flex-col gap-4 sm:gap-6 xl:flex-row">
             <div className="flex flex-col gap-2 w-full">
               <label
                 htmlFor="exclusionDisease"
