@@ -99,7 +99,7 @@ const CreateTrialStep6Form = () => {
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
     <div className="flex flex-col gap-6 wrapper">
-      <div className="p-4 rounded-md">
+      <div className="rounded-md">
         <div className="p-4 border-4 border-primary-50 rounded-md mt-4">
           <div className="flex gap-2 mb-2">
             <p className="mb-2 font-bold">Title:</p>
