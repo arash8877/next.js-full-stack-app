@@ -20,7 +20,7 @@ export default function CompanyPage() {
       <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
         {l("settings.title") || "Company Information"}
       </h1>
-      <div className="flex flex-col bg-white rounded-3xl wrapper">
+      <div className="flex flex-col bg-white rounded-3xl wrapper border border-bgColor-10">
         <CompanyInfoForm {...companyData} />
       </div>
     </SidebarLayout>

@@ -68,6 +68,7 @@ const config: Config = {
           50: "#EEEEEE",
         },
         bgColor: {
+          10: "#D5D7DA",
           50: "#F9F7F5",
           100: "#D8D8D8",
           200: "#F7F7F9",
@@ -86,6 +87,8 @@ const config: Config = {
       },
       boxShadow: {
         light: "0px 1px 2px 0px #0000000D",
+        'shad1': '0px 1px 2px 0px rgba(0, 0, 0, 0.06)', 
+        'shad2': '0px 1px 3px 0px rgba(0, 0, 0, 0.1)',  
       },
     },
   },

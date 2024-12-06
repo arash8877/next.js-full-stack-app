@@ -9,7 +9,7 @@
 }
 
 body {
-  background-color: #f7f7f9;
+  background-color: white;
 }
 
 html {
@@ -190,6 +190,10 @@ p {
   background-color: white;
   border: 1px solid #dff2df;
   border-radius: 8px;
+}
+
+.no_border {
+  border: none !important;
 }
 
 /* Focused state */

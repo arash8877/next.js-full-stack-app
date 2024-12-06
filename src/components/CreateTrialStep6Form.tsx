@@ -7,6 +7,7 @@ import useLanguageStore from "@/stores/language-store";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep6Form = () => {
@@ -80,6 +81,12 @@ const CreateTrialStep6Form = () => {
       localStorage.removeItem("currentTrialEditId");
       localStorage.removeItem("create-trial-store");
 
+      toast.success("Trial created successfully", {
+        position: "top-center",
+        autoClose: 2000,
+        className: "single_line_toast",
+      });
+
       router.push("/trials");
     } catch (error) {
       console.error(error);
@@ -96,7 +103,7 @@ const CreateTrialStep6Form = () => {
         <div className="p-4 border-4 border-primary-50 rounded-md mt-4">
           <div className="flex gap-2 mb-2">
             <p className="mb-2 font-bold">Title:</p>
-            <h2 className="text-sm mb-4">{trialData?.title || "----"}</h2>
+            <h2 className="text-sm mb-4">{trialData?.title || "----------"}</h2>
           </div>
 
           <div className="text-sm mb-2">
@@ -105,7 +112,7 @@ const CreateTrialStep6Form = () => {
               dangerouslySetInnerHTML={{
                 __html: trialData?.shortDescription || "N/A",
               }}
-              className="ql-editor"
+              className="ql-editor no_border"
             />
           </div>
           <div className="text-sm mb-2">
@@ -114,7 +121,7 @@ const CreateTrialStep6Form = () => {
               dangerouslySetInnerHTML={{
                 __html: trialData?.fullDescription || "N/A",
               }}
-              className="ql-editor"
+              className="ql-editor no_border"
             />
           </div>
         </div>
@@ -143,7 +150,7 @@ const CreateTrialStep6Form = () => {
               </div>
             ))
           ) : (
-            <div className="text-sm">----</div>
+            <div className="text-sm">----------</div>
           )}
         </div>
 
@@ -185,7 +192,7 @@ const CreateTrialStep6Form = () => {
                 ))}
               </ul>
             ) : (
-              <p>----</p>
+              <p>----------</p>
             )}
           </div>
 
@@ -204,7 +211,7 @@ const CreateTrialStep6Form = () => {
                 ))}
               </ul>
             ) : (
-              <p>----</p>
+              <p>----------</p>
             )}
           </div>
 
@@ -224,7 +231,7 @@ const CreateTrialStep6Form = () => {
                 ))}
               </ul>
             ) : (
-              <p>----</p>
+              <p>----------</p>
             )}
           </div>
         </div>
@@ -234,9 +241,9 @@ const CreateTrialStep6Form = () => {
             <p className="mb-2 font-bold">Participant Activities:</p>
             <div
               dangerouslySetInnerHTML={{
-                __html: trialData?.participantActivities || "No data provided",
+                __html: trialData?.participantActivities || "----------",
               }}
-              className="ql-editor"
+              className="ql-editor no_border"
             />
           </div>
 
