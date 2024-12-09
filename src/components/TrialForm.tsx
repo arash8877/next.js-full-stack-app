@@ -263,7 +263,7 @@ export default function TrialDetailsLayout({
         country: values.country,
         gender: values.gender,
         urlStub: "hhhh",
-        approvedOn: new Date().toISOString(), // Convert Date to string
+        approvedAt: new Date().toISOString(), // Convert Date to string
         isCompleted: false,
       };
 

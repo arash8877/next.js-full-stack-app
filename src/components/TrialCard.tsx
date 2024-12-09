@@ -17,7 +17,8 @@ export default function TrialCard({
   endDate,
   address,
   submissionDeadline,
-  userApplication,
+  approvedAt,
+  publishedAt,
   inclusionDiseases,
 }: //medicalCategories,
 // applicantsNumber
@@ -50,9 +51,7 @@ iTrialCardProps) {
             />
           ))} */}
         </div>
-        {userApplication != null && (
-          <TrialStatusBadge userApplication={userApplication} />
-        )}
+        {<TrialStatusBadge approvedAt={approvedAt} publishedAt={publishedAt} />}
       </div>
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
       <hr />
@@ -67,9 +66,7 @@ iTrialCardProps) {
           {l("trialcard.period") || "Interest Area:"}
         </p>
         <p className="text-xs font-light line-clamp-1">
-          {inclusionDiseases.length > 0
-            ? inclusionDiseases.join(", ")
-            : "-"}
+          {inclusionDiseases.length > 0 ? inclusionDiseases.join(", ") : "-"}
         </p>
       </div>
 

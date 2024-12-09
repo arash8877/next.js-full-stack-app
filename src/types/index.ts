@@ -162,7 +162,9 @@ export interface iTrialCardProps {
   address: string | undefined;
   submissionDeadline: string;
   media: iMediaProps;
-  userApplication: iUserTrialApplication | null;
+  userApplication?: iUserTrialApplication | null;
+  approvedAt: string | null;
+  publishedAt: string | null;
   medicalCategories: iCategoryProps[][];
   inclusionDiseases: string[];
   applicantsNumber: number;
@@ -204,12 +206,13 @@ export interface iTrialInfoProps {
   ageMax: string;
   gender: string;
   recruiting?: string;
-  approvedOn: string;
+  approvedAt: string;
+  publishedAt: string;
   startDate: string;
   endDate: string;
   submissionDeadline: string;
   isCompleted: boolean;
-  userApplication: iUserTrialApplication | null;
+  userApplication?: iUserTrialApplication | null;
   diseases: string[];
   applicantsNumber: number;
   recruitingStatus: string;
