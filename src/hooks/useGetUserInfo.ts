@@ -20,6 +20,7 @@ const useGetUserInfo = (): {
     lastName: "",
     jobTitle: "",
     phoneNumber: "",
+    isAdmin: false,
     consentedToTerms: true,
     hasConsentedToMarketing: true,
     preferredLanguage: "",

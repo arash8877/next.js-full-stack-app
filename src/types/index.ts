@@ -101,6 +101,7 @@ export interface iUserProps {
   email: string;
   jobTitle: string;
   phoneNumber: string;
+  isAdmin: boolean;
   consentedToTerms: boolean;
   hasConsentedToMarketing: boolean;
   preferredLanguage: string;
