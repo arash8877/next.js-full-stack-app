@@ -17,8 +17,8 @@ export default function TrialStatusBadge({
 
   const getBgColor = () => {
     const status = getStatusText();
-    if (status === "Published") return "bg-bgColor-green";
-    if (status === "Approved") return "bg-bgColor-yellow";
+    if (status === "Published") return "bg-bgColor-green2";
+    if (status === "Approved") return "bg-bgColor-red2";
     return "bg-transparent";
   };
 
