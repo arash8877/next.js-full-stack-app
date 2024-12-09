@@ -8,14 +8,14 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Consent from "./Consent";
 import Link from "next/link";
-import { iUserProps, iUserUpdateProps } from "@/types/index";
+import {  iUserUpdateProps } from "@/types/index";
 import { toast } from "react-toastify";
 // import LanguageDropdown from "./LanguageDropdown";
 import useLanguageStore from "@/stores/language-store";
 import { useEffect } from "react";
 import { SponsorUserInfo } from "@/types/index";
 //------------------------------------------ main function -----------------------------------------
-const AcceptInvitationForm = ({}: iUserProps) => {
+const AcceptInvitationForm = () => {
   const router = useRouter();
   const { l } = useLanguageStore();
   // const searchParams = useSearchParams();
