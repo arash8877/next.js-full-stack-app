@@ -19,6 +19,7 @@ export default function TrialCard({
   submissionDeadline,
   approvedAt,
   publishedAt,
+  declined,
   inclusionDiseases,
 }: //medicalCategories,
 // applicantsNumber
@@ -51,7 +52,7 @@ iTrialCardProps) {
             />
           ))} */}
         </div>
-        {<TrialStatusBadge approvedAt={approvedAt} publishedAt={publishedAt} />}
+        {<TrialStatusBadge approvedAt={approvedAt} publishedAt={publishedAt} declined={declined}/>}
       </div>
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
       <hr />

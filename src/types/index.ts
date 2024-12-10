@@ -166,6 +166,7 @@ export interface iTrialCardProps {
   userApplication?: iUserTrialApplication | null;
   approvedAt: string;
   publishedAt: string;
+  declined: boolean;
   medicalCategories: iCategoryProps[][];
   inclusionDiseases: string[];
   applicantsNumber: number;
@@ -210,6 +211,7 @@ export interface iTrialInfoProps {
   publish?: string;
   approvedAt: string;
   publishedAt: string;
+  declined: boolean;
   startDate: string;
   endDate: string;
   submissionDeadline: string;
