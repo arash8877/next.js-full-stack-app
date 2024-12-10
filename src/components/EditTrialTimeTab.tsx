@@ -7,7 +7,6 @@ import axios, { AxiosError } from "axios";
 import CustomButton from "./CustomButton";
 import CustomDateInput from "./CustomDateInput";
 import AgeDropdown from "./AgeDropdown";
-import RecruitingDropdown from "./RecruitingDropdown";
 import GenderDropdown from "./GenderDropdown";
 import { toast } from "react-toastify";
 // import useIsAuthenticated from "@/hooks/useIsAuthenticated";
@@ -32,7 +31,6 @@ export default function TrialDetailsLayout({
   ageMin,
   ageMax,
   gender,
-  recruiting,
 }: iTrialInfoProps) {
   const { l } = useLanguageStore();
 
@@ -83,10 +81,6 @@ export default function TrialDetailsLayout({
       l("settings.tab1.form.gender.validation.required") ||
         "Gender is required!"
     ),
-    recruiting: Yup.string().required(
-      l("register.step1.form.country.validation.required") ||
-        "Recruiting status is required!"
-    ),
   });
 
   //--------------- formik ----------------
@@ -103,7 +97,6 @@ export default function TrialDetailsLayout({
       endDate: endDate,
       submissionDeadline: submissionDeadline,
       gender: gender || "",
-      recruiting: recruiting || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -116,7 +109,6 @@ export default function TrialDetailsLayout({
         endDate: values.endDate,
         submissionDeadline: values.submissionDeadline,
         gender: values.gender,
-        recruiting: values.recruiting,
       };
 
       const token = localStorage.getItem("token");
@@ -131,7 +123,6 @@ export default function TrialDetailsLayout({
             gender: data.gender,
             ageMin: data.ageMin,
             ageMax: data.ageMax,
-            recruiting: data.recruiting,
           },
           {
             headers: {
@@ -268,21 +259,6 @@ export default function TrialDetailsLayout({
                 {formik.touched.gender && formik.errors.gender}
               </small>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-2 xl:w-1/2 xl:pr-2">
-            <label htmlFor="gender" className="text-sm font-semibold">
-              {l("register.step3.form.gender.label") || "Recruiting status"}
-              <span className="ml-1">*</span>
-            </label>
-            <RecruitingDropdown
-              status={formik.values.recruiting}
-              setStatus={(value) => formik.setFieldValue("recruiting", value)}
-              borderColor="#DFF2DF"
-            />
-            <small className="text-red-600">
-              {formik.touched.recruiting && formik.errors.recruiting}
-            </small>
           </div>
         </div>
 

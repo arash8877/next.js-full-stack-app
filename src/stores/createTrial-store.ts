@@ -24,7 +24,6 @@ interface FormData {
     ageMin: string;
     ageMax?: string;
     gender: string;
-    recruiting: string;
   };
   step4Data: {
     inclusionDiseases?: string[];
@@ -38,6 +37,8 @@ interface FormData {
     participantActivities: string;
     expectedParticipants: string;
     additionalInformation: string;
+    recruiting: string;
+    publish: string;
     drivingCompensation?: boolean;
     monetaryCompensation?: boolean;
     otherCompensation?: boolean;
@@ -67,8 +68,6 @@ const useCreateTrialStore = create<FormStore>()(
           ageMin: "",
           ageMax: "",
           gender: "",
-          recruiting: "",
-
         },
         step4Data: {
           inclusionDiseases: [],
@@ -82,6 +81,8 @@ const useCreateTrialStore = create<FormStore>()(
           participantActivities: "",
           expectedParticipants: "",
           additionalInformation: "",
+          recruiting: "",
+          publish: "",
           drivingCompensation: false,
           monetaryCompensation: false,
           otherCompensation: false,
@@ -110,7 +111,6 @@ const useCreateTrialStore = create<FormStore>()(
               ageMin: "",
               ageMax: "",
               gender: "",
-              recruiting: "",
             },
             step4Data: {
               inclusionDiseases: [],
@@ -124,6 +124,8 @@ const useCreateTrialStore = create<FormStore>()(
               participantActivities: "",
               expectedParticipants: "",
               additionalInformation: "",
+              recruiting: "",
+              publish: "",
               drivingCompensation: false,
               monetaryCompensation: false,
               otherCompensation: false,

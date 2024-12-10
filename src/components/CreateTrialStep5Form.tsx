@@ -8,6 +8,8 @@ import CustomButton from "./CustomButton";
 import { CreateTrialStep5FormProps } from "@/types/index";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
+import PublishDropdown from "./PublishDropdown";
+import RecruitingDropdown from "./RecruitingDropdown";
 import useLanguageStore from "@/stores/language-store";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -31,8 +33,16 @@ const CreateTrialStep5Form = () => {
       )
       .integer("Expected number of participants must be an integer")
       .min(1, "Expected number of participants must be greater than zero!"),
-  });
+    recruiting: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Recruiting status is required!"
+    ),
 
+    publish: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Publish status is required!"
+    ),
+  });
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
@@ -40,6 +50,8 @@ const CreateTrialStep5Form = () => {
       participantActivities: formData.step5Data?.participantActivities || "",
       expectedParticipants: formData.step5Data?.expectedParticipants || "",
       additionalInformation: formData.step5Data.additionalInformation || "",
+      recruiting: formData.step5Data?.recruiting || "",
+      publish: formData.step5Data?.publish || "",
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -55,13 +67,15 @@ const CreateTrialStep5Form = () => {
         participantActivities: values["participantActivities"],
         expectedParticipants: values["expectedParticipants"],
         additionalInformation: values["additionalInformation"],
+        recruiter: values["recruiting"],
+        publish: values["publish"],
         drivingCompensation: values["drivingCompensation"] ?? false,
         monetaryCompensation: values["monetaryCompensation"] ?? false,
         otherCompensation: values["otherCompensation"] ?? false,
         otherCompensationText: values["otherCompensationText"] || "",
       };
       try {
-    // eslint-disable-next-line
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
           payload,
@@ -79,6 +93,8 @@ const CreateTrialStep5Form = () => {
             expectedParticipants: values.expectedParticipants,
             additionalInformation: values.additionalInformation || "",
             drivingCompensation: values.drivingCompensation,
+            recruiting: values.recruiting || "",
+            publish: values.publish || "",
             monetaryCompensation: values.monetaryCompensation,
             otherCompensation: values.otherCompensation,
             otherCompensationText: values.otherCompensationText || "",
@@ -195,6 +211,36 @@ const CreateTrialStep5Form = () => {
               placeholder="Briefly describe additional information"
               className="register_input custom-border"
             />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="recruiting" className="text-sm font-semibold">
+              Recruiting status:<span className="ml-1">*</span>
+            </label>
+            <RecruitingDropdown
+              status={formik.values.recruiting || ""}
+              setStatus={(value) => formik.setFieldValue("recruiting", value)}
+              borderColor="#DFF2DF"
+            />
+            <small className="text-red-600">
+              {formik.touched.recruiting && formik.errors.recruiting}
+            </small>
+          </div>
+
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="publish" className="text-sm font-semibold">
+              Publish status:<span className="ml-1">*</span>
+            </label>
+            <PublishDropdown
+              status={formik.values.publish || ""}
+              setStatus={(value) => formik.setFieldValue("publish", value)}
+              borderColor="#DFF2DF"
+            />
+            <small className="text-red-600">
+              {formik.touched.publish && formik.errors.publish}
+            </small>
           </div>
         </div>
 

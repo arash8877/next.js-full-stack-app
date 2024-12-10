@@ -207,6 +207,7 @@ export interface iTrialInfoProps {
   ageMax: string;
   gender: string;
   recruiting?: string;
+  publish?: string;
   approvedAt: string;
   publishedAt: string;
   startDate: string;
@@ -317,7 +318,6 @@ export interface CreateTrialStep3FormValues {
   ageStart: number;
   ageEnd: number;
   gender: string;
-  recruiting?: string;
 }
 
 export interface CreateTrialStep4FormProps {
@@ -335,6 +335,8 @@ export interface CreateTrialStep5FormProps {
   participantActivities?: string;
   expectedParticipants: string;
   additionalInformation?: string;
+  recruiting?: string;
+  publish?: string;
   drivingCompensation?: boolean;
   monetaryCompensation?: boolean;
   otherCompensation?: boolean;
