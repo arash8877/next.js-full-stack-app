@@ -164,8 +164,8 @@ export interface iTrialCardProps {
   submissionDeadline: string;
   media: iMediaProps;
   userApplication?: iUserTrialApplication | null;
-  approvedAt: string | null;
-  publishedAt: string | null;
+  approvedAt: string;
+  publishedAt: string;
   medicalCategories: iCategoryProps[][];
   inclusionDiseases: string[];
   applicantsNumber: number;

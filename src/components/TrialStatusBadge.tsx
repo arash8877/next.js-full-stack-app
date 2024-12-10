@@ -1,6 +1,6 @@
 interface iTrialStatusBadgeProps {
-  approvedAt: string | null;
-  publishedAt: string | null;
+  approvedAt: string;
+  publishedAt: string;
 }
 
 //----------------------------- main function -------------------------------
@@ -10,7 +10,7 @@ export default function TrialStatusBadge({
 }: iTrialStatusBadgeProps) {
   //--- getStatusText function ---
   const getStatusText = () => {
-    if (!approvedAt && !publishedAt) return "";
+    if (approvedAt === "0001-01-01T00:00:00"  && publishedAt === "0001-01-01T00:00:00") return "";
     if (publishedAt) return "Published";
     if (approvedAt) return "Approved";
   };
