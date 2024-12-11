@@ -1,6 +1,6 @@
 "use client";
 
-//import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
 import { iTrialCardProps } from "@/types";
@@ -19,6 +19,7 @@ export default function TrialCard({
   submissionDeadline,
   approvedAt,
   publishedAt,
+  declined,
   inclusionDiseases,
 }: //medicalCategories,
 // applicantsNumber
@@ -35,9 +36,9 @@ iTrialCardProps) {
   return (
     <section className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-bgColor-10 shadow-lg hover:shadow-xl ">
       <div className="flex justify-between">
-        <div className="flex justify-between gap-1">
-          {/* @TODO  Add Image after correcting medicalCategories data structure */}
-          {/* {medicalCategories?.map((category, index) => (
+        {/* <div className="flex justify-between gap-1">
+          @TODO  Add Image after correcting medicalCategories data structure 
+          {medicalCategories?.map((category, index) => (
             <Image
               key={index}
               src={category.media ? category.media.filePath : ""}
@@ -49,9 +50,38 @@ iTrialCardProps) {
               width={28}
               height={28}
             />
-          ))} */}
+          ))}
+        </div> */}
+        <div className="flex justify-between gap-1">
+          {publishedAt === "0001-01-01T00:00:00" ? (
+            <div className="flex_center gap-1">
+              <Image
+                src="not-published.svg"
+                width={24}
+                height={24}
+                alt="published-icon"
+              />
+              <p className="text-[12px]">Not Published</p>
+            </div>
+          ) : (
+            <div className="flex_center gap-1">
+              <Image
+                src="published.svg"
+                width={24}
+                height={24}
+                alt="published-icon"
+              />
+              <p className="text-[12px]">Published</p>
+            </div>
+          )}
         </div>
-        {<TrialStatusBadge approvedAt={approvedAt} publishedAt={publishedAt} />}
+        {
+          <TrialStatusBadge
+            approvedAt={approvedAt}
+            publishedAt={publishedAt}
+            declined={declined}
+          />
+        }
       </div>
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
       <hr />

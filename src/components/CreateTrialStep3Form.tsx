@@ -9,7 +9,6 @@ import GenderDropdown from "./GenderDropdown";
 import axios from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
-import RecruitingDropdown from "./RecruitingDropdown";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
@@ -74,8 +73,6 @@ const CreateTrialStep3Form = () => {
       ageMin: formData.step3Data.ageMin || "",
       ageMax: formData.step3Data.ageMax || "",
       gender: formData.step3Data.gender || "",
-      recruiting: formData.step3Data.recruiting || "",
-      
     },
     //-----onSubmit-------
     // eslint-disable-next-line
@@ -83,7 +80,7 @@ const CreateTrialStep3Form = () => {
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
-    // eslint-disable-next-line
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //PATCH request
           {
@@ -93,7 +90,6 @@ const CreateTrialStep3Form = () => {
             ageMin: values["ageMin"],
             ageMax: values["ageMax"],
             gender: values["gender"],
-            recruiting: values["recruiting"],
           },
           {
             headers: {
@@ -111,13 +107,13 @@ const CreateTrialStep3Form = () => {
             ageMin: values.ageMin,
             ageMax: values.ageMax,
             gender: values.gender,
-            recruiting: values.recruiting,
           },
         });
-        document.cookie = "createTrialStep3Completed=true; Path=/; max-age=7200";
+        document.cookie =
+          "createTrialStep3Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step4");
       } catch (error) {
-       console.log(error)
+        console.log(error);
       }
     },
     validationSchema: formSchema,
@@ -129,7 +125,6 @@ const CreateTrialStep3Form = () => {
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
-
       <div className="flex flex-col gap-2 sm:gap-6 xl:w-3/4">
         <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 xl:w-1/2">
@@ -255,24 +250,6 @@ const CreateTrialStep3Form = () => {
             </small>
           </div>
         </div>
-
-        <div className="flex flex-col xl:w-1/2">
-            <label htmlFor="gender" className="mb-2">
-              {l("register.step3.form.gender.label") || "Recruiting status"}
-              <span className="ml-1">*</span>
-            </label>
-            <RecruitingDropdown
-              status={formik.values.recruiting}
-              setStatus={(value) => formik.setFieldValue("recruiting", value)}
-              borderColor="black"
-            />
-            <small className="text-red-600">
-              {formik.touched.recruiting && formik.errors.recruiting}
-            </small>
-          </div>
-
-
-
       </div>
 
       <div className="flex justify-center xs:justify-end gap-4">

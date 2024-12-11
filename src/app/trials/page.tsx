@@ -102,6 +102,7 @@ export default function TrialsPage() {
                   media={trial.media}
                   approvedAt={trial.approvedAt}
                   publishedAt={trial.publishedAt}
+                  declined={trial.declined}
                   //medicalCategories={trial.medicalCategories || []}
                   medicalCategories={[]}
                   inclusionDiseases={trial.inclusionDiseases || []}
