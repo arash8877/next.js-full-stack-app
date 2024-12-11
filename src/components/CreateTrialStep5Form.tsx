@@ -236,9 +236,9 @@ const CreateTrialStep5Form = () => {
               <span>
                 <TooltipButton
                   title={
-                    "If you select Publish, the trial will be published immediately after approval"
+                    "If you select 'Publish', the trial will be published immediately after approval"
                   }
-                  iconSrc="/not-published.svg"
+                  iconSrc="/tooltip.svg"
                 />
               </span>
             </label>
