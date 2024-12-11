@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import TooltipButton from "./Tooltip";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import { CreateTrialStep5FormProps } from "@/types/index";
@@ -231,7 +232,15 @@ const CreateTrialStep5Form = () => {
 
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="publish" className="text-sm font-semibold">
-              Publish status:<span className="ml-1">*</span>
+              Publish status:<span className="ml-1">*</span>{" "}
+              <span>
+                <TooltipButton
+                  title={
+                    "If you select Publish, the trial will be published immediately after approval"
+                  }
+                  iconSrc="/not-published.svg"
+                />
+              </span>
             </label>
             <PublishDropdown
               status={formik.values.publish || ""}
