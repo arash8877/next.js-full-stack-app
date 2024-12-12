@@ -92,80 +92,85 @@ export default function NavbarDashboardMobile() {
           <h4 className="text-base font-semibold ml-4">
             {l("navbar.services.header") || "Services"}
           </h4>
-          <div className="navbar_item items-center">
+          <Link
+            href="/trials"
+            className="navbar_item items-center"
+            onClick={() => {
+              setMenu(false);
+              setToggleMenu(false);
+            }}
+          >
             <Image
               src="/home_icon.png"
               alt="home-icon"
               width={24}
               height={24}
             />
+            <span className="text-sm">
+              {l("common.header.trialsoverview.text") || "Trials"}
+            </span>
+          </Link>
+
+          {isAdmin && (
             <Link
-              className="text-sm"
-              href="/trials"
+              href="/company"
+              className="navbar_item items-center"
               onClick={() => {
                 setMenu(false);
                 setToggleMenu(false);
               }}
             >
-              {l("common.header.trialsoverview.text") || "Trials"}
-            </Link>
-          </div>
-
-          {isAdmin && (
-            <div className="navbar_item items-center">
               <Image
                 src="/company.svg"
-                alt="home-icon"
+                alt="company-icon"
                 width={24}
                 height={24}
               />
-              <Link
-                className="text-sm"
-                href="/company"
-                onClick={() => {
-                  setMenu(false);
-                  setToggleMenu(false);
-                }}
-              >
-                {l("common.header.mytrrials.text") || "Company"}
-              </Link>
-            </div>
+              <span className="text-sm">
+                {l("common.header.trialsoverview.text") || "Company"}
+              </span>
+            </Link>
           )}
 
           {isAdmin && (
-            <div className="navbar_item items-center">
-              <Image
-                src="/employees.svg"
-                alt="home-icon"
-                width={24}
-                height={24}
-              />
-              <Link
-                className="text-sm"
-                href="/employees"
-                onClick={() => {
-                  setMenu(false);
-                  setToggleMenu(false);
-                }}
-              >
-                {l("common.header.mytrrials.text") || "Employees"}
-              </Link>
-            </div>
-          )}
-
-          <div className="navbar_item items-center">
-            <Image src="/invoices.svg" alt="home-icon" width={24} height={24} />
             <Link
-              className="text-sm"
-              href="/invoices"
+              href="/employees"
+              className="navbar_item items-center"
               onClick={() => {
                 setMenu(false);
                 setToggleMenu(false);
               }}
             >
-              {l("common.header.mytrrials.text") || "Invoices"}
+              <Image
+                src="/employees.svg"
+                alt="employees-icon"
+                width={24}
+                height={24}
+              />
+              <span className="text-sm">
+                {l("common.header.trialsoverview.text") || "Employees"}
+              </span>
             </Link>
-          </div>
+          )}
+
+          <Link
+            href="/invoices"
+            className="navbar_item items-center"
+            onClick={() => {
+              setMenu(false);
+              setToggleMenu(false);
+            }}
+          >
+            <Image
+              src="/invoices.svg"
+              alt="invoice-icon"
+              width={24}
+              height={24}
+            />
+            <span className="text-sm">
+              {l("common.header.trialsoverview.text") || "Invoices"}
+            </span>
+          </Link>
         </div>
 
         <div className="flex flex-col gap-3 w-full pl-4 pr-12  absolute bottom-0 mb-8">
