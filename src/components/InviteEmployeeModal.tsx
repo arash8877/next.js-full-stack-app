@@ -17,13 +17,13 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "90%",
-  maxWidth: "700px",
+  maxWidth: "600px",
   bgcolor: "background.paper",
   borderRadius: 4,
   boxShadow: 24,
   textAlign: "center",
   pt: 2,
-  px: 8,
+  px: 4,
   pb: 3,
   "@media (min-width:478px)": {
     pb: 6,
@@ -133,7 +133,7 @@ export default function InviteEmployeeModal({
             "Please provide the job tile and email of the invited employee"}
         </p>
 
-        <div className="rounded-xl py-8 px-4 md:px-12 lg:px-12 lg:mx-12  mt-12 bg-gray-100">
+        <div className="rounded-xl py-8 px-4 md:px-12 lg:px-12 mt-8 bg-gray-100">
           <p className="text-sm md:text-base text-center">
             {l("error.description") ||
               "Unfortunately it is not possible to add a new admin yet, if a new admin is required, please contact"}
@@ -147,11 +147,10 @@ export default function InviteEmployeeModal({
           </a>
         </div>
         <form
-          className="flex flex-col items-center gap-6 mt-8"
+          className="flex flex-col gap-6 mt-8"
           onSubmit={formik.handleSubmit}
         >
-          <div className="flex flex-col gap-6 items-center w-full">
-            <div className="grid gap-7 md:gap-6 lg:w-4/5">
+          <div className="flex flex-col gap-4 w-full">
               <InputField
                 label={l("register.step2.form.jobTitle.label") || "Job title"}
                 name="jobTitle"
@@ -167,11 +166,10 @@ export default function InviteEmployeeModal({
                 formik={formik}
                 icon="/email_icon.svg"
               />
-            </div>
           </div>
           <Box
             sx={{
-              mt: 8,
+              mt: 4,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
