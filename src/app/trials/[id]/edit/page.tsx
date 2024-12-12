@@ -91,8 +91,8 @@ export default function EditTrialPage({ params }: Props) {
   //------------------------------- JSX ----------------------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between gap-3 md:flex-row lg:gap-4 mb-8">
-        <h1 className="text-2xl font-semibold sm:text-3xl md:mb-[34px]">
+      <div className="flex flex-col justify-between gap-3 mb-4 sm:mb-0 md:flex-row lg:gap-4 sm:sticky top-0 bg-white sm:pt-11">
+        <h1 className="text-2xl font-semibold sm:text-3xl sm:mb-[52px]">
           {l("settings.title") || "Edit Trial"}
         </h1>
         <div className="md:flex gap-4 py-[6px] justify-between h-[56px] md:col-span-2 md:col-start-3">
@@ -177,9 +177,7 @@ export default function EditTrialPage({ params }: Props) {
         <div>
           <div>
             {tabs.map((tab) => (
-              <div key={tab.id}>
-                {currentTab === tab.id && tab.content}
-              </div>
+              <div key={tab.id}>{currentTab === tab.id && tab.content}</div>
             ))}
           </div>
         </div>

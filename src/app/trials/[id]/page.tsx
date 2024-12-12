@@ -12,6 +12,8 @@ type SingleTrialPageProps = {
   params: { id: string };
 };
 
+
+//------------------------------------ main function -----------------------------------
 export default function SingleTrialPage({ params }: SingleTrialPageProps) {
   const [previewKey, setPreviewKey] = useState("");
   const { trialData } = useGetSingleTrialInfo(params.id);
@@ -57,6 +59,8 @@ console.log("trialData:", trialData);
 
   console.log("previewKey:", previewKey);
 
+
+  //------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
       <div>
