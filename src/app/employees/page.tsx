@@ -52,15 +52,15 @@ export default function EmployeesPage() {
   //------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between gap-3 md:flex-row lg:gap-4 mb-4">
-        <h1 className="text-2xl font-semibold sm:text-3xl sm:mb-12">
+      <div className="flex flex-col justify-between gap-3 mb-4 sm:mb-0 md:flex-row lg:gap-4 sm:sticky top-0 bg-white sm:pt-11">
+        <h1 className="text-2xl font-semibold sm:text-3xl sm:mb-[52px]">
           {l("settings.title") || "Employees"}
         </h1>
         <div className="md:flex gap-4 py-[6px] justify-between h-[56px] md:col-span-2 md:col-start-3">
           <div className="md:flex gap-4">
             <div className="flex_center rounded-lg py-[6px] h-[44px] bg-secondary-50 cursor-pointer">
               <button
-                className="flex_center text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8"
+                className="flex_center text-sm font-medium py-3 md:px-5 lg:px-8"
                 onClick={openInviteEmployeeModal}
               >
                 {l("filter.btn.suggestion") || "Invite Employee"}

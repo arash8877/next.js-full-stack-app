@@ -45,9 +45,11 @@ export default function SettingsPage() {
   //------------------------------- JSX ----------------------------------------------
   return (
     <SidebarLayout>
-      <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
-        {l("settings.title") || "Settings"}
-      </h1>
+      <div className="flex flex-col justify-between gap-3 mb-4 sm:mb-0 md:flex-row lg:gap-4 sm:sticky top-0 bg-white sm:pt-11">
+        <h1 className="text-2xl font-semibold sm:text-3xl sm:mb-[52px]">
+          {l("settings.title") || "Settings"}
+        </h1>
+      </div>
       <div className="flex flex-col bg-white rounded-3xl py-8	border border-bgColor-10 shadow-lg">
         <div className="w-full px-8 ">
           <div className="grid grid-cols-2 md:flex pb-4 w-full gap-x-20 gap-y-6 md:gap-12  ">
