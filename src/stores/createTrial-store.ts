@@ -37,7 +37,7 @@ interface FormData {
     participantActivities: string;
     expectedParticipants: string;
     additionalInformation: string;
-    recruiting: string;
+    isRecruiting: boolean;
     publish: string;
     drivingCompensation?: boolean;
     monetaryCompensation?: boolean;
@@ -81,7 +81,7 @@ const useCreateTrialStore = create<FormStore>()(
           participantActivities: "",
           expectedParticipants: "",
           additionalInformation: "",
-          recruiting: "",
+          isRecruiting: false,
           publish: "",
           drivingCompensation: false,
           monetaryCompensation: false,
@@ -124,7 +124,7 @@ const useCreateTrialStore = create<FormStore>()(
               participantActivities: "",
               expectedParticipants: "",
               additionalInformation: "",
-              recruiting: "",
+              isRecruiting: false,
               publish: "",
               drivingCompensation: false,
               monetaryCompensation: false,

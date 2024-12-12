@@ -207,7 +207,7 @@ export interface iTrialInfoProps {
   ageMin: string;
   ageMax: string;
   gender: string;
-  recruiting?: string;
+  isRecruiting: boolean;
   publish?: string;
   approvedAt: string;
   publishedAt: string;
@@ -247,7 +247,7 @@ export interface iTrialApplicationsUserInfo {
   email: string;
   phoneNumber: string;
   gender: string;
-  recruiting?: string;
+  isRecruiting: boolean;
 }
 
 //--------------- application -------------------------
@@ -337,7 +337,7 @@ export interface CreateTrialStep5FormProps {
   participantActivities?: string;
   expectedParticipants: string;
   additionalInformation?: string;
-  recruiting?: string;
+  isRecruiting: boolean;
   publish?: string;
   drivingCompensation?: boolean;
   monetaryCompensation?: boolean;

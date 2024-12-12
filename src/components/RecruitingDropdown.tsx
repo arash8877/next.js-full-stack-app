@@ -5,33 +5,31 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import { SelectChangeEvent } from "@mui/material/Select";
 import useLanguageStore from "@/stores/language-store";
 
 interface RecruitingDropdownProps {
-  status: string;
-  setStatus: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
+  onChange: React.Dispatch<React.SetStateAction<string>>;
   borderColor: string;
 }
 
 //---------------------------------- main function ------------------------------------------
 export default function RecruitingDropdown({
-  status,
-  setStatus,
+  value,
+  onChange,
   borderColor,
 }: RecruitingDropdownProps) {
   const { l } = useLanguageStore();
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setStatus(event.target.value);
-  };
-  //------------ return -------------------
+
+
+  //-------------------- JSX ------------------------
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <Select
           displayEmpty
-          value={status}
-          onChange={handleChange}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           sx={{
             backgroundColor: "white",
             borderRadius: "8px",
@@ -45,14 +43,14 @@ export default function RecruitingDropdown({
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", color: "#aaaaaa" }}
             >
-              {l("dropdown.gender.info") || "Select one ..."}
+              {l("dropdown.gender.info") || "Select recruiting Status"}
             </Typography>
           </MenuItem>
-          <MenuItem value="Male">
+          <MenuItem value="true">
             {l("dropdown.gender.male") || "Recruiting"}
           </MenuItem>
-          <MenuItem value="Female">
-            {l("dropdown.gender.female") || "Soon Recruiting"}
+          <MenuItem value="false">
+            {l("dropdown.gender.female") || "Not Recruiting"}
           </MenuItem>
         </Select>
       </FormControl>

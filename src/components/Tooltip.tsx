@@ -28,7 +28,7 @@ const TooltipButton: React.FC<TooltipButtonProps> = ({
       }}
     >
       <IconButton>
-        <Image src={iconSrc} alt={alt} width={17} height={17} />
+        <Image src={iconSrc} alt={alt} width={12} height={12} />
       </IconButton>
     </Tooltip>
   );

@@ -21,7 +21,7 @@ export default function EditTrialMoreInfoTab({
   participantActivities,
   expectedParticipants,
   additionalInformation,
-  recruiting,
+  isRecruiting,
   publish,
   drivingCompensation,
   monetaryCompensation,
@@ -40,7 +40,7 @@ export default function EditTrialMoreInfoTab({
       .integer("Expected number of participants must be an integer")
       .min(1, "Expected number of participants must be greater than zero!"),
 
-    recruiting: Yup.string().required(
+    isRecruiting: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Recruiting status is required!"
     ),
@@ -62,7 +62,7 @@ export default function EditTrialMoreInfoTab({
       participantActivities: participantActivities || "",
       expectedParticipants: expectedParticipants || 0,
       additionalInformation: additionalInformation || "",
-      recruiting: recruiting || "Soon Recruiting",
+      isRecruiting: isRecruiting || "Not Recruiting",
       publish: publish || "Unpublished",
       drivingCompensation: drivingCompensation || false,
       monetaryCompensation: monetaryCompensation || false,
@@ -77,7 +77,7 @@ export default function EditTrialMoreInfoTab({
         participantActivities: values.participantActivities,
         expectedParticipants: values.expectedParticipants,
         additionalInformation: values.additionalInformation,
-        recruiting: values.recruiting,
+        isRecruiting: values.isRecruiting,
         publish: values.publish,
         drivingCompensation: values.drivingCompensation,
         monetaryCompensation: values.monetaryCompensation,
@@ -211,16 +211,16 @@ export default function EditTrialMoreInfoTab({
 
           <div className="flex flex-col gap-6 xl:flex-row">
             <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="recruiting" className="text-sm font-semibold">
+              <label htmlFor="isRecruiting" className="text-sm font-semibold">
                 Recruiting status:<span className="ml-1">*</span>
               </label>
               <RecruitingDropdown
-                status={formik.values.recruiting}
-                setStatus={(value) => formik.setFieldValue("recruiting", value)}
+                value={formik.values.isRecruiting.toString()}
+                onChange={(value) => formik.setFieldValue("isRecruiting", value)}
                 borderColor="#DFF2DF"
               />
               <small className="text-red-600">
-                {formik.touched.recruiting && formik.errors.recruiting}
+                {formik.touched.isRecruiting && formik.errors.isRecruiting}
               </small>
             </div>
 

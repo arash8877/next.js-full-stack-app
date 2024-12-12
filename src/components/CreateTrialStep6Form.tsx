@@ -268,7 +268,7 @@ const CreateTrialStep6Form = () => {
           <div className="flex gap-2">
             <p className="font-bold">Recruiting Status:</p>
             <p className="">
-              {trialData?.recruiting ? trialData?.recruiting : "----------"}
+              {trialData?.isRecruiting === true ? "Recruiting" : "Not Recruiting"}
             </p>
           </div>
 
