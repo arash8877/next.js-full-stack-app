@@ -60,7 +60,7 @@ export default function EmployeesPage() {
           <div className="md:flex gap-4">
             <div className="flex_center rounded-lg py-[6px] h-[44px] bg-secondary-50 cursor-pointer">
               <button
-                className="flex_center text-xs font-medium py-3 md:px-5 md:text-sm lg:px-8"
+                className="flex_center text-sm font-medium py-3 md:px-5 lg:px-8"
                 onClick={openInviteEmployeeModal}
               >
                 {l("filter.btn.suggestion") || "Invite Employee"}
