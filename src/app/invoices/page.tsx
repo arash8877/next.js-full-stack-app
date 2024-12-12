@@ -10,8 +10,8 @@ export default function CompanyPage() {
 
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between gap-3 md:flex-row lg:gap-4 mb-8">
-        <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+      <div className="flex flex-col justify-between gap-3 mb-4 sm:mb-0 md:flex-row lg:gap-4 sm:sticky top-0 bg-white sm:pt-11">
+        <h1 className="text-2xl font-semibold sm:text-3xl sm:mb-[52px]">
           {l("settings.title") || "Invoices"}
         </h1>
         <div className="flex_center rounded-lg py-8 px-4 text-center h-[44px] max-w-[300px] bg-secondary-50 cursor-pointer">

@@ -66,13 +66,15 @@ export default function TrialsPage() {
   return (
     <div>
       <SidebarLayout>
-        <h1 className="text-2xl font-semibold mt-3 mb-4 sm:text-3xl sm:mb-[52px]">
-          {l("trialoverview.title") || "Trials Overview"}
-        </h1>
-        <TrialFilterBar
-          defaultFilterValues={filteringSettings}
-          onFilterChange={handleFilterChange}
-        />
+        <div className="sm:sticky top-0 bg-white sm:pt-11">
+          <h1 className="text-2xl font-semibold mb-4 sm:text-3xl sm:mb-[52px]">
+            {l("trialoverview.title") || "Trials Overview"}
+          </h1>
+          <TrialFilterBar
+            defaultFilterValues={filteringSettings}
+            onFilterChange={handleFilterChange}
+          />
+        </div>
         {trialsIsLoading && !loadingTimeout ? (
           <Spinner />
         ) : allTrials && allTrials.length === 0 ? (
@@ -115,8 +117,5 @@ export default function TrialsPage() {
     </div>
   );
 }
-
-
-
 
 // "0001-01-01T00:00:00"
