@@ -53,7 +53,7 @@ const useGetUserInfo = (): {
     }
   }, [data]);
 
-  //  console.log(userInfo)
+   console.log("user info:", userInfo)
   return { userData: userInfo, userError: error, userIsLoading: isLoading };
 };
 

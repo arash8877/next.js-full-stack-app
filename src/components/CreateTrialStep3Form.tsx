@@ -38,6 +38,13 @@ const CreateTrialStep3Form = () => {
         Yup.ref("endDate"),
         "Deadline should not be later than End Study Date"
       ),
+      ageMax: Yup.number()
+      .min(
+        Yup.ref("ageMin"),
+        "Maximum age should be greater than or equal to minimum age"
+      )
+      .integer("Minimum age must be an integer")
+      .max(120, "Maximum age should be less than or equal to 120 years"),
     ageMin: Yup.number()
       .typeError("Minimum age must be a valid number")
       .required(
@@ -47,20 +54,10 @@ const CreateTrialStep3Form = () => {
       .integer("Minimum age must be an integer")
       .min(18, "Minimum age should be 18 years or older")
       .max(119, "Minimum age should be less than 120 years"),
-    ageMax: Yup.number()
-      .min(
-        Yup.ref("ageMin"),
-        "Maximum age should be greater than or equal to minimum age"
-      )
-      .integer("Minimum age must be an integer")
-      .max(120, "Maximum age should be less than or equal to 120 years"),
+
     gender: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Gender is required!"
-    ),
-    recruiting: Yup.string().required(
-      l("register.step1.form.country.validation.required") ||
-        "Recruiting status is required!"
     ),
   });
 
