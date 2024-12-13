@@ -5,33 +5,30 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import { SelectChangeEvent } from "@mui/material/Select";
 import useLanguageStore from "@/stores/language-store";
 
 interface RecruitingDropdownProps {
-  status: string;
-  setStatus: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
+  onChange: React.Dispatch<React.SetStateAction<string>>;
   borderColor: string;
 }
 
 //---------------------------------- main function ------------------------------------------
 export default function PublishDropdown({
-  status,
-  setStatus,
+  value,
+  onChange,
   borderColor,
 }: RecruitingDropdownProps) {
   const { l } = useLanguageStore();
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setStatus(event.target.value);
-  };
+
   //------------ return -------------------
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <Select
           displayEmpty
-          value={status}
-          onChange={handleChange}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           sx={{
             backgroundColor: "white",
             borderRadius: "8px",
@@ -48,10 +45,10 @@ export default function PublishDropdown({
               {l("dropdown.gender.info") || "Select one ..."}
             </Typography>
           </MenuItem>
-          <MenuItem value="Publish">
+          <MenuItem value="true">
             {l("dropdown.gender.male") || "Publish"}
           </MenuItem>
-          <MenuItem value="Unpublish">
+          <MenuItem value="false">
             {l("dropdown.gender.female") || "Unpublish"}
           </MenuItem>
         </Select>

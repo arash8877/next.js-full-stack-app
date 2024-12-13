@@ -51,7 +51,7 @@ const CreateTrialStep5Form = () => {
       expectedParticipants: formData.step5Data?.expectedParticipants || "",
       additionalInformation: formData.step5Data.additionalInformation || "",
       isRecruiting: formData.step5Data.isRecruiting || false,
-      publish: formData.step5Data?.publish || "",
+      isPublished: formData.step5Data?.isPublished || false,
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -69,7 +69,7 @@ const CreateTrialStep5Form = () => {
         expectedParticipants: values["expectedParticipants"],
         additionalInformation: values["additionalInformation"],
         recruiter: values["isRecruiting"],
-        publish: values["publish"],
+        isPublished: values["isPublished"],
         drivingCompensation: values["drivingCompensation"] ?? false,
         monetaryCompensation: values["monetaryCompensation"] ?? false,
         otherCompensation: values["otherCompensation"] ?? false,
@@ -96,7 +96,7 @@ const CreateTrialStep5Form = () => {
             additionalInformation: values.additionalInformation || "",
             drivingCompensation: values.drivingCompensation,
             isRecruiting: values.isRecruiting,
-            publish: values.publish || "",
+            isPublished: values.isPublished ?? false,
             monetaryCompensation: values.monetaryCompensation,
             otherCompensation: values.otherCompensation,
             otherCompensationText: values.otherCompensationText || "",
@@ -244,12 +244,12 @@ const CreateTrialStep5Form = () => {
               </span>
             </label>
             <PublishDropdown
-              status={formik.values.publish || ""}
-              setStatus={(value) => formik.setFieldValue("publish", value)}
+              value={formik.values.isPublished?.toString() || ""}
+              onChange={(value) => formik.setFieldValue("isPublished", value)}
               borderColor="#DFF2DF"
             />
             <small className="text-red-600">
-              {formik.touched.publish && formik.errors.publish}
+              {formik.touched.isPublished && formik.errors.isPublished}
             </small>
           </div>
         </div>

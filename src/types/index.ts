@@ -208,7 +208,7 @@ export interface iTrialInfoProps {
   ageMax: string;
   gender: string;
   isRecruiting: boolean;
-  publish?: string;
+  isPublished?: boolean;
   approvedAt: string;
   publishedAt: string;
   declined: boolean;
@@ -338,7 +338,7 @@ export interface CreateTrialStep5FormProps {
   expectedParticipants: string;
   additionalInformation?: string;
   isRecruiting: boolean;
-  publish?: string;
+  isPublished?: boolean;
   drivingCompensation?: boolean;
   monetaryCompensation?: boolean;
   otherCompensation?: boolean;

@@ -22,7 +22,7 @@ export default function EditTrialMoreInfoTab({
   expectedParticipants,
   additionalInformation,
   isRecruiting,
-  publish,
+  isPublished,
   drivingCompensation,
   monetaryCompensation,
   otherCompensation,
@@ -45,7 +45,7 @@ export default function EditTrialMoreInfoTab({
         "Recruiting status is required!"
     ),
 
-    publish: Yup.string().required(
+    isPublished: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Publish status is required!"
     ),
@@ -63,7 +63,7 @@ export default function EditTrialMoreInfoTab({
       expectedParticipants: expectedParticipants || 0,
       additionalInformation: additionalInformation || "",
       isRecruiting: isRecruiting || "Not Recruiting",
-      publish: publish || "Unpublished",
+      isPublished: isPublished || "Not Published",
       drivingCompensation: drivingCompensation || false,
       monetaryCompensation: monetaryCompensation || false,
       otherCompensation: otherCompensation || false,
@@ -78,7 +78,7 @@ export default function EditTrialMoreInfoTab({
         expectedParticipants: values.expectedParticipants,
         additionalInformation: values.additionalInformation,
         isRecruiting: values.isRecruiting,
-        publish: values.publish,
+        isPublished: values.isPublished,
         drivingCompensation: values.drivingCompensation,
         monetaryCompensation: values.monetaryCompensation,
         otherCompensation: values.otherCompensation,
@@ -225,16 +225,16 @@ export default function EditTrialMoreInfoTab({
             </div>
 
             <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="publish" className="text-sm font-semibold">
+              <label htmlFor="isPublished" className="text-sm font-semibold">
                 Publish status:<span className="ml-1">*</span>
               </label>
               <PublishDropdown
-                status={formik.values.publish}
-                setStatus={(value) => formik.setFieldValue("publish", value)}
+                value={formik.values.isPublished.toString()}
+                onChange={(value) => formik.setFieldValue("onChange", value)}
                 borderColor="#DFF2DF"
               />
               <small className="text-red-600">
-                {formik.touched.publish && formik.errors.publish}
+                {formik.touched.isPublished && formik.errors.isPublished}
               </small>
             </div>
           </div>
