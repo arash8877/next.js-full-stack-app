@@ -48,10 +48,10 @@ export default function PublishDropdown({
               {l("dropdown.gender.info") || "Select one ..."}
             </Typography>
           </MenuItem>
-          <MenuItem value="Male">
+          <MenuItem value="Publish">
             {l("dropdown.gender.male") || "Publish"}
           </MenuItem>
-          <MenuItem value="Female">
+          <MenuItem value="Unpublish">
             {l("dropdown.gender.female") || "Unpublish"}
           </MenuItem>
         </Select>
