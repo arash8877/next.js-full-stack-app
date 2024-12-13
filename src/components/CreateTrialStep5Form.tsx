@@ -16,7 +16,6 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
-import "react-quill/dist/quill.snow.css";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep5Form = () => {
@@ -87,6 +86,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
+        console.log("response step5:", response.data);
         setFormData({
           ...formData,
           step5Data: {

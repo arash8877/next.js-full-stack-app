@@ -211,7 +211,7 @@ export default function EditTrialMoreInfoTab({
 
           <div className="flex flex-col gap-6 xl:flex-row">
             <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="isRecruiting" className="text-sm font-semibold">
+              <label htmlFor="§" className="text-sm font-semibold">
                 Recruiting status:<span className="ml-1">*</span>
               </label>
               <RecruitingDropdown
