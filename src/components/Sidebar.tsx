@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import ActiveLink from "./ActiveLink"; // it used to make sidebar tabs active when clicked
+import ActiveLink from "./ActiveLink"; 
 import LogoutModal from "./LogoutModal";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
-// import useGetUserInfo from "@/hooks/useGetUserInfo";
+import useGetUserInfo from "@/hooks/useGetUserInfo";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useLanguageStore from "@/stores/language-store";
 
@@ -14,9 +14,8 @@ import useLanguageStore from "@/stores/language-store";
 export default function SidebarDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  // const { userData } = useGetUserInfo();
-  // const isAdmin = userData.isAdmin;
-  const isAdmin = true;
+  const { userData } = useGetUserInfo();
+  const isAdmin = userData.isAdmin;
   const { l } = useLanguageStore();
 
   //-----get my trials count from useGetMyTrials hook-----
