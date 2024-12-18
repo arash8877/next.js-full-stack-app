@@ -100,6 +100,11 @@ const SettingUserInfoForm = ({
     phoneNumber: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Phone number is required!"
+    )
+    .min(
+      8,
+      l("settings.tab1.form.firstname.validation.length") ||
+        "Phone number must be at least 8 numbers!"
     ),
     jobTitle: Yup.string().required(
       l("settings.tab1.form.jobtitle.validation.required") ||
