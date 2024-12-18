@@ -164,7 +164,7 @@ export default function SidebarDashboard() {
                 </ActiveLink>
               )}
 
-              <ActiveLink
+              {/* <ActiveLink
                 href="/invoices"
                 activeClassName="sidebar_item_active"
                 nonActiveClassName=""
@@ -185,7 +185,7 @@ export default function SidebarDashboard() {
                   {isSidebarOpen &&
                     (l("common.header.company.text") || "Invoices")}
                 </div>
-              </ActiveLink>
+              </ActiveLink> */}
             </div>
           </div>
 
