@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import ActiveLink from "./ActiveLink"; // it used to make sidebar tabs active when clicked
+import ActiveLink from "./ActiveLink"; 
 import LogoutModal from "./LogoutModal";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
+import useGetUserInfo from "@/hooks/useGetUserInfo";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useLanguageStore from "@/stores/language-store";
 
@@ -13,6 +14,8 @@ import useLanguageStore from "@/stores/language-store";
 export default function SidebarDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const { userData } = useGetUserInfo();
+  const isAdmin = userData.isAdmin;
   const { l } = useLanguageStore();
 
   //-----get my trials count from useGetMyTrials hook-----
@@ -72,7 +75,7 @@ export default function SidebarDashboard() {
             </div>
           </Link>
           {isSidebarOpen && (
-          <h3 className="text-center mb-6 text-primary-1400">Sponsor</h3>
+            <h3 className="text-center mb-6 text-primary-1400">Sponsor</h3>
           )}
         </div>
         <hr className="border-bgColor-10 w-full mb-9 sidebar_animation" />
@@ -110,51 +113,56 @@ export default function SidebarDashboard() {
                     (l("common.header.trialsoverview.text") || "Trials")}
                 </div>
               </ActiveLink>
-              <ActiveLink
-                href="/company"
-                activeClassName="sidebar_item_active"
-                nonActiveClassName=""
-              >
-                <div
-                  className={`sidebar_item  ${
-                    isSidebarOpen
-                      ? "w-52 p-3 items-center"
-                      : "w-10 p-2 relative"
-                  }`}
-                >
-                  <Image
-                    src="/company.svg"
-                    alt="favorite-icon"
-                    width={24}
-                    height={24}
-                  />
-                  {isSidebarOpen &&
-                    (l("common.header.company.text") || "Company")}
-                </div>
-              </ActiveLink>
 
-              <ActiveLink
-                href="/employees"
-                activeClassName="sidebar_item_active"
-                nonActiveClassName=""
-              >
-                <div
-                  className={`sidebar_item  ${
-                    isSidebarOpen
-                      ? "w-52 p-3 items-center"
-                      : "w-10 p-2 relative"
-                  }`}
+              {isAdmin && (
+                <ActiveLink
+                  href="/company"
+                  activeClassName="sidebar_item_active"
+                  nonActiveClassName=""
                 >
-                  <Image
-                    src="/employees.svg"
-                    alt="favorite-icon"
-                    width={24}
-                    height={24}
-                  />
-                  {isSidebarOpen &&
-                    (l("common.header.company.text") || "Employees")}
-                </div>
-              </ActiveLink>
+                  <div
+                    className={`sidebar_item  ${
+                      isSidebarOpen
+                        ? "w-52 p-3 items-center"
+                        : "w-10 p-2 relative"
+                    }`}
+                  >
+                    <Image
+                      src="/company.svg"
+                      alt="favorite-icon"
+                      width={24}
+                      height={24}
+                    />
+                    {isSidebarOpen &&
+                      (l("common.header.company.text") || "Company")}
+                  </div>
+                </ActiveLink>
+              )}
+
+              {isAdmin && (
+                <ActiveLink
+                  href="/employees"
+                  activeClassName="sidebar_item_active"
+                  nonActiveClassName=""
+                >
+                  <div
+                    className={`sidebar_item  ${
+                      isSidebarOpen
+                        ? "w-52 p-3 items-center"
+                        : "w-10 p-2 relative"
+                    }`}
+                  >
+                    <Image
+                      src="/employees.svg"
+                      alt="favorite-icon"
+                      width={24}
+                      height={24}
+                    />
+                    {isSidebarOpen &&
+                      (l("common.header.company.text") || "Employees")}
+                  </div>
+                </ActiveLink>
+              )}
 
               <ActiveLink
                 href="/invoices"

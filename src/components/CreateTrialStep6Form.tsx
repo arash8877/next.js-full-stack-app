@@ -101,13 +101,15 @@ const CreateTrialStep6Form = () => {
     <div className="flex flex-col gap-6 wrapper">
       <div className="rounded-md">
         <div className="p-4 border-4 border-primary-50 rounded-md mt-4">
-          <div className="flex gap-2 mb-2">
-            <p className="mb-2 font-bold">Title:</p>
-            <h2 className="text-sm mb-4">{trialData?.title || "----------"}</h2>
+          <div className="flex flex-col gap-2 mb-2">
+            <p className="font-bold">Title:</p>
+            <h2 className="text-sm mb-2 pl-4">
+              {trialData?.title || "----------"}
+            </h2>
           </div>
 
           <div className="text-sm mb-2">
-            <p className="mb-2 font-bold">Short Description:</p>
+            <p className="font-bold">Short Description:</p>
             <div
               dangerouslySetInnerHTML={{
                 __html: trialData?.shortDescription || "N/A",
@@ -116,7 +118,7 @@ const CreateTrialStep6Form = () => {
             />
           </div>
           <div className="text-sm mb-2">
-            <p className="mb-2 font-bold">Full Description:</p>
+            <p className="font-bold">Full Description:</p>
             <div
               dangerouslySetInnerHTML={{
                 __html: trialData?.fullDescription || "N/A",
@@ -130,20 +132,20 @@ const CreateTrialStep6Form = () => {
           <p className="font-bold mb-2">Trial Sites</p>
           {trialData?.trialSites && trialData.trialSites.length > 0 ? (
             trialData.trialSites.map((site, index) => (
-              <div key={index} className="mb-4 p-2">
-                <div className="text-sm mb-1">
+              <div key={index} className="flex flex-col gap-2">
+                <div className="text-sm">
                   <p className="mb-2 font-bold">Location:</p>{" "}
                   {site.name || "N/A"}
                 </div>
-                <div className="text-sm mb-1">
+                <div className="text-sm">
                   <p className="mb-2 font-bold">Address:</p>{" "}
                   {site.address || "N/A"}
                 </div>
-                <div className="text-sm mb-1">
+                <div className="text-sm">
                   <p className="mb-2 font-bold">ZIP Code:</p>{" "}
                   {site.zipCode || "N/A"}
                 </div>
-                <div className="text-sm mb-1">
+                <div className="text-sm">
                   <p className="mb-2 font-bold">Country:</p>{" "}
                   {site.country || "N/A"}
                 </div>
@@ -174,20 +176,16 @@ const CreateTrialStep6Form = () => {
             <p className="mb-2 font-bold">End Date:</p> {trialData?.endDate}
           </div>
           <div className="flex gap-2">
-            <p className="mb-2 font-bold">Submission Deadline:</p>{" "}
+            <p className="font-bold">Submission Deadline:</p>{" "}
             {trialData?.submissionDeadline}
-          </div>
-          <div className="flex gap-2">
-            <p className="mb-2 font-bold">Recruiting:</p>{" "}
-            {trialData?.recruiting || "Not Specified"}
           </div>
         </div>
 
         <div className="p-4  border-4 border-primary-50 rounded-md mt-4">
           {/* <h3 className="text-lg font-semibold mb-2">Trial Criteria</h3> */}
 
-          <div className="mb-4">
-            <p className="mb-2 font-bold">Inclusion Diseases:</p>
+          <div className="mb-2">
+            <p className="font-bold">Inclusion Diseases:</p>
             {trialData?.inclusionDiseases &&
             trialData.inclusionDiseases.length > 0 ? (
               <ul className="list-disc pl-5">
@@ -200,13 +198,13 @@ const CreateTrialStep6Form = () => {
             )}
           </div>
 
-          <div className="mb-4">
-            <p className="mb-2 font-bold">Inclusion Requirements:</p>{" "}
+          <div className="mb-2">
+            <p className="font-bold">Inclusion Requirements:</p>{" "}
             {trialData?.inclusionRequirements || "N/A"}
           </div>
 
-          <div className="mb-4">
-            <p className="mb-2 font-bold">Exclusion Diseases:</p>
+          <div className="mb-2">
+            <p className="font-bold">Exclusion Diseases:</p>
             {trialData?.exclusionDiseases &&
             trialData.exclusionDiseases.length > 0 ? (
               <ul className="list-disc pl-5">
@@ -219,13 +217,13 @@ const CreateTrialStep6Form = () => {
             )}
           </div>
 
-          <div className="mb-4">
-            <p className="mb-2 font-bold">Exclusion Requirements:</p>{" "}
+          <div className="mb-2">
+            <p className="font-bold">Exclusion Requirements:</p>{" "}
             {trialData?.exclusionRequirements || "N/A"}
           </div>
 
-          <div className="mb-4">
-            <p className="mb-2 font-bold">Medical Categories:</p>
+          <div>
+            <p className="font-bold">Medical Categories:</p>
             {trialData?.medicalCategories?.length ? (
               <ul className="list-disc pl-5">
                 {trialData.medicalCategories.map((category, index) => (
@@ -241,8 +239,8 @@ const CreateTrialStep6Form = () => {
         </div>
 
         <div className="flex flex-col border-4 border-primary-50 rounded-md p-4 gap-4 mt-4">
-          <div>
-            <p className="mb-2 font-bold">Participant Activities:</p>
+          <div className="mb-2">
+            <p className="font-bold">Participant Activities:</p>
             <div
               dangerouslySetInnerHTML={{
                 __html: trialData?.participantActivities || "----------",
@@ -252,14 +250,14 @@ const CreateTrialStep6Form = () => {
           </div>
 
           <div className="flex gap-2">
-            <p className="mb-2 font-bold">Expected Number of Participants:</p>
+            <p className="font-bold">Expected Number of Participants:</p>
             <p className="">
               {trialData?.expectedParticipants || "No data provided"}
             </p>
           </div>
 
           <div className="flex gap-2">
-            <p className="mb-2 font-bold">Additional Information:</p>
+            <p className="font-bold">Additional Information:</p>
             <p className="">
               {trialData?.additionalInformation
                 ? trialData?.additionalInformation
@@ -267,21 +265,33 @@ const CreateTrialStep6Form = () => {
             </p>
           </div>
 
-          <div>
-            <div className="flex gap-2">
-              <p className="mb-2 font-bold">Driving Compensation:</p>
-              {trialData?.drivingCompensation === true ? " Yes" : " No"}
-            </div>
+          <div className="flex gap-2">
+            <p className="font-bold">Recruiting Status:</p>
+            <p className="">
+              {trialData?.isRecruiting === true ? "Recruiting" : "Not Recruiting"}
+            </p>
+          </div>
 
-            <div className="flex gap-2">
-              <p className="mb-2 font-bold">Monetary Compensation: </p>
-              {trialData?.monetaryCompensation ? " Yes" : " No"}
-            </div>
+          <div className="flex gap-2">
+            <p className="font-bold">Publish Status:</p>
+            <p className="">
+              {trialData?.isPublished === true ? "Publish": "Not Publish"}
+            </p>
+          </div>
 
-            <div className="flex gap-2">
-              <p className="mb-2 font-bold">Other Compensation:</p>{" "}
-              {trialData?.otherCompensationText || "N/A"}
-            </div>
+          <div className="flex gap-2">
+            <p className="font-bold">Driving Compensation:</p>
+            {trialData?.drivingCompensation === true ? " Yes" : " No"}
+          </div>
+
+          <div className="flex gap-2">
+            <p className="font-bold">Monetary Compensation: </p>
+            {trialData?.monetaryCompensation ? " Yes" : " No"}
+          </div>
+
+          <div className="flex gap-2">
+            <p className="font-bold">Other Compensation:</p>{" "}
+            {trialData?.otherCompensationText || "N/A"}
           </div>
         </div>
       </div>

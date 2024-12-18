@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import useGetMyTrials from "@/hooks/useGetMyTrials";
+// import useGetUserInfo from "@/hooks/useGetUserInfo";
 import { useMyTrialsStore } from "@/stores/trialCount-store";
 import LogoutModal from "./LogoutModal";
 import useLanguageStore from "@/stores/language-store";
@@ -12,6 +13,9 @@ import useLanguageStore from "@/stores/language-store";
 export default function NavbarDashboardMobile() {
   const [menu, setMenu] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
+  // const { userData } = useGetUserInfo();
+  // const isAdmin = userData.isAdmin;
+  const isAdmin = true;
   const { l } = useLanguageStore();
 
   //--- toggle burger icon -----
@@ -53,7 +57,10 @@ export default function NavbarDashboardMobile() {
           />
         </div>
         <div className="flex_center gap-3 ">
-          <div onClick={toggleBurgerIcon} className="flex_center w-12 h-12 rounded-lg bg-[#f7f7f9]">
+          <div
+            onClick={toggleBurgerIcon}
+            className="flex_center w-12 h-12 rounded-lg bg-[#f7f7f9]"
+          >
             {menu ? (
               <Image
                 src="/close.svg"
@@ -85,107 +92,95 @@ export default function NavbarDashboardMobile() {
           <h4 className="text-base font-semibold ml-4">
             {l("navbar.services.header") || "Services"}
           </h4>
-          <div className="navbar_item items-center">
+          <Link
+            href="/trials"
+            className="navbar_item items-center"
+            onClick={() => {
+              setMenu(false);
+              setToggleMenu(false);
+            }}
+          >
             <Image
               src="/home_icon.png"
               alt="home-icon"
               width={24}
               height={24}
             />
-            <Link
-              className="text-sm"
-              href="/trials"
-              onClick={() => {
-                setMenu(false);
-                setToggleMenu(false);
-              }}
-            >
+            <span className="text-sm">
               {l("common.header.trialsoverview.text") || "Trials"}
-            </Link>
-          </div>
+            </span>
+          </Link>
 
-          <div
-            className="navbar_item items-center"
-          >
-            <Image
-              src="/company.svg"
-              alt="home-icon"
-              width={24}
-              height={24}
-            />
+          {isAdmin && (
             <Link
-              className="text-sm"
-              href="/company" 
+              href="/company"
+              className="navbar_item items-center"
               onClick={() => {
                 setMenu(false);
                 setToggleMenu(false);
               }}
             >
-              {l("common.header.mytrrials.text") || "Company"}
+              <Image
+                src="/company.svg"
+                alt="company-icon"
+                width={24}
+                height={24}
+              />
+              <span className="text-sm">
+                {l("common.header.trialsoverview.text") || "Company"}
+              </span>
             </Link>
-          </div>
+          )}
 
-
-          <div
-            className="navbar_item items-center"
-          >
-            <Image
-              src="/employees.svg"
-              alt="home-icon"
-              width={24}
-              height={24}
-            />
+          {isAdmin && (
             <Link
-              className="text-sm"
-              href="/employees" 
+              href="/employees"
+              className="navbar_item items-center"
               onClick={() => {
                 setMenu(false);
                 setToggleMenu(false);
               }}
             >
-              {l("common.header.mytrrials.text") || "Employees"}
+              <Image
+                src="/employees.svg"
+                alt="employees-icon"
+                width={24}
+                height={24}
+              />
+              <span className="text-sm">
+                {l("common.header.trialsoverview.text") || "Employees"}
+              </span>
             </Link>
-          </div>
+          )}
 
-          <div
+          <Link
+            href="/invoices"
             className="navbar_item items-center"
+            onClick={() => {
+              setMenu(false);
+              setToggleMenu(false);
+            }}
           >
             <Image
               src="/invoices.svg"
-              alt="home-icon"
+              alt="invoice-icon"
               width={24}
               height={24}
             />
-            <Link
-              className="text-sm"
-              href="/invoices" 
-              onClick={() => {
-                setMenu(false);
-                setToggleMenu(false);
-              }}
-            >
-              {l("common.header.mytrrials.text") || "Invoices"}
-            </Link>
-          </div>
-
-
-
+            <span className="text-sm">
+              {l("common.header.trialsoverview.text") || "Invoices"}
+            </span>
+          </Link>
         </div>
 
-
-
-        <div
-          className="flex flex-col gap-3 w-full pl-4 pr-12  absolute bottom-0 mb-8"
-        >
+        <div className="flex flex-col gap-3 w-full pl-4 pr-12  absolute bottom-0 mb-8">
           <hr className="border border-gray-200 w-full mb-8" />
           <h4 className="text-base font-semibold ml-4 ">
             {l("navbar.account.header") || "Account"}
           </h4>
 
           <div className="navbar_item items-center justify-between">
-            <div
-              className="flex gap-3"
-            >
+            <div className="flex gap-3">
               <Image
                 src="/settings_icon.png"
                 alt="setting-icon"
@@ -194,7 +189,7 @@ export default function NavbarDashboardMobile() {
               />
               <Link
                 className="text-sm"
-                href="/settings" 
+                href="/settings"
                 onClick={() => {
                   setMenu(false);
                   setToggleMenu(false);
@@ -204,20 +199,19 @@ export default function NavbarDashboardMobile() {
               </Link>
             </div>
           </div>
-        
-            <button
-              className="navbar_item items-center text-sm"
-              onClick={openLogoutModal}
-            >
-              <Image
-                src="/logout_icon.png"
-                alt="logout-icon"
-                width={24}
-                height={24}
-              />
-              {l("navbar.account.logout.text") || "Log Out"}
-            </button>
-          
+
+          <button
+            className="navbar_item items-center text-sm"
+            onClick={openLogoutModal}
+          >
+            <Image
+              src="/logout_icon.png"
+              alt="logout-icon"
+              width={24}
+              height={24}
+            />
+            {l("navbar.account.logout.text") || "Log Out"}
+          </button>
         </div>
       </div>
     </>

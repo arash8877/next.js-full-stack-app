@@ -44,7 +44,7 @@ export default function TrialDetailsLayout({
   ageMin,
   ageMax,
   gender,
-  recruitingStatus,
+  isRecruiting,
   applicantsNumber,
 }: iTrialInfoProps) {
   // const [isModalOpen, setModalOpen] = useState(false);
@@ -228,7 +228,7 @@ export default function TrialDetailsLayout({
       title: title || "",
       shortDescription: shortDescription || "",
       fullDescription: fullDescription || "",
-      recruitingStatus: recruitingStatus || false,
+      isRecruiting: isRecruiting || false,
       ageMin: ageMin || "",
       ageMax: ageMax || "",
       applicantsNumber: applicantsNumber || "",
@@ -250,7 +250,7 @@ export default function TrialDetailsLayout({
         title: values.title,
         shortDescription: values.shortDescription,
         fullDescription: values.fullDescription,
-        recruitingStatus: values.recruitingStatus,
+        isRecruiting: values.isRecruiting,
         ageMin: Number(values.ageMin),
         ageMax: Number(values.ageMax),
         applicantsNumber: values.applicantsNumber,
@@ -263,7 +263,7 @@ export default function TrialDetailsLayout({
         country: values.country,
         gender: values.gender,
         urlStub: "hhhh",
-        approvedOn: new Date().toISOString(), // Convert Date to string
+        approvedAt: new Date().toISOString(), // Convert Date to string
         isCompleted: false,
       };
 
@@ -275,7 +275,7 @@ export default function TrialDetailsLayout({
             title: data.title,
             shortDescription: data.shortDescription,
             fullDescription: data.fullDescription,
-            isRecruiting: data.recruitingStatus,
+            isRecruiting: data.isRecruiting,
             ageMin: data.ageMin,
             ageMax: data.ageMax,
             gender: data.gender,
@@ -334,13 +334,13 @@ export default function TrialDetailsLayout({
                   <span className="ml-1">*</span>
                 </label>
                 <RecruitingDropdown
-                  status={formik.values.gender}
-                  setStatus={(value) => formik.setFieldValue("gender", value)}
+                  value={formik.values.isRecruiting.toString()}
+                  onChange={(value) => formik.setFieldValue("isRecruiting", value)}
                   borderColor="#DFF2DF"
                 />
                 <small className="text-red-600">
-                  {formik.touched.recruitingStatus &&
-                    formik.errors.recruitingStatus}
+                  {formik.touched.isRecruiting &&
+                    formik.errors.isRecruiting}
                 </small>
               </div>
             </div>

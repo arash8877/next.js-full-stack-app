@@ -33,7 +33,8 @@ export default function TrialsPage() {
       pagination: { maxPageResult: 5, pageIndex: 0 },
     });
   const { l } = useLanguageStore();
-  const { allTrials, trialsError, trialsIsLoading } = useGetAllTrials(filteringSettings);
+  const { allTrials, trialsError, trialsIsLoading } =
+    useGetAllTrials(filteringSettings);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   // const observerRef = useRef<IntersectionObserver | null>(null);
   // const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -53,35 +54,35 @@ export default function TrialsPage() {
     }
   }, [trialsError]);
 
-      //---- set loading timeout -----
-      useEffect(() => {
-        const timer = setTimeout(() => {
-          setLoadingTimeout(true);
-        }, 10000); 
-        return () => clearTimeout(timer);
-      }, []);
+  //---- set loading timeout -----
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoadingTimeout(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   //--------------------------------- return ------------------------------------------------
   return (
     <div>
       <SidebarLayout>
-        <h1 className="text-2xl font-semibold mt-3 mb-4 sm:text-3xl sm:mb-[52px]">
-          {l("trialoverview.title") || "Trials Overview"}
-        </h1>
-        <TrialFilterBar
-          defaultFilterValues={filteringSettings}
-          onFilterChange={handleFilterChange}
-        />
-         {trialsIsLoading && !loadingTimeout ? (
-      <Spinner />
-    ) : 
-        allTrials && allTrials.length === 0 ? (
+        <div className="sm:sticky top-0 bg-white sm:pt-11">
+          <h1 className="text-2xl font-semibold mb-4 sm:text-3xl sm:mb-[52px]">
+            {l("trialoverview.title") || "Trials Overview"}
+          </h1>
+          <TrialFilterBar
+            defaultFilterValues={filteringSettings}
+            onFilterChange={handleFilterChange}
+          />
+        </div>
+        {trialsIsLoading && !loadingTimeout ? (
+          <Spinner />
+        ) : allTrials && allTrials.length === 0 ? (
           <h2 className="text-lg font-semibold text-center mt-20">
             {l("trialoverview.warning.notrials") ||
               "No trials available ! Create your first trial."}
           </h2>
         ) : (
-          
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 mt-8 justify-center">
             {allTrials &&
               allTrials.map((trial, index) => (
@@ -101,7 +102,9 @@ export default function TrialsPage() {
                   }
                   submissionDeadline={formatDate(trial["submissionDeadline"])}
                   media={trial.media}
-                  userApplication={trial.userApplication}
+                  approvedAt={trial.approvedAt}
+                  publishedAt={trial.publishedAt}
+                  declined={trial.declined}
                   //medicalCategories={trial.medicalCategories || []}
                   medicalCategories={[]}
                   inclusionDiseases={trial.inclusionDiseases || []}
@@ -114,3 +117,5 @@ export default function TrialsPage() {
     </div>
   );
 }
+
+// "0001-01-01T00:00:00"

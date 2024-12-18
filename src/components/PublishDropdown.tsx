@@ -14,15 +14,14 @@ interface RecruitingDropdownProps {
 }
 
 //---------------------------------- main function ------------------------------------------
-export default function RecruitingDropdown({
+export default function PublishDropdown({
   value,
   onChange,
   borderColor,
 }: RecruitingDropdownProps) {
   const { l } = useLanguageStore();
 
-
-  //-------------------- JSX ------------------------
+  //------------ return -------------------
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
@@ -43,14 +42,14 @@ export default function RecruitingDropdown({
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", color: "#aaaaaa" }}
             >
-              {l("dropdown.gender.info") || "Select recruiting Status"}
+              {l("dropdown.gender.info") || "Select one ..."}
             </Typography>
           </MenuItem>
           <MenuItem value="true">
-            {l("dropdown.gender.male") || "Recruiting"}
+            {l("dropdown.gender.male") || "Publish"}
           </MenuItem>
           <MenuItem value="false">
-            {l("dropdown.gender.female") || "Not Recruiting"}
+            {l("dropdown.gender.female") || "Unpublish"}
           </MenuItem>
         </Select>
       </FormControl>

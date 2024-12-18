@@ -101,6 +101,7 @@ export interface iUserProps {
   email: string;
   jobTitle: string;
   phoneNumber: string;
+  isAdmin: boolean;
   consentedToTerms: boolean;
   hasConsentedToMarketing: boolean;
   preferredLanguage: string;
@@ -162,7 +163,10 @@ export interface iTrialCardProps {
   address: string | undefined;
   submissionDeadline: string;
   media: iMediaProps;
-  userApplication: iUserTrialApplication | null;
+  userApplication?: iUserTrialApplication | null;
+  approvedAt: string;
+  publishedAt: string;
+  declined: boolean;
   medicalCategories: iCategoryProps[][];
   inclusionDiseases: string[];
   applicantsNumber: number;
@@ -203,13 +207,16 @@ export interface iTrialInfoProps {
   ageMin: string;
   ageMax: string;
   gender: string;
-  recruiting?: string;
-  approvedOn: string;
+  isRecruiting: boolean;
+  isPublished?: boolean;
+  approvedAt: string;
+  publishedAt: string;
+  declined: boolean;
   startDate: string;
   endDate: string;
   submissionDeadline: string;
   isCompleted: boolean;
-  userApplication: iUserTrialApplication | null;
+  userApplication?: iUserTrialApplication | null;
   diseases: string[];
   applicantsNumber: number;
   recruitingStatus: string;
@@ -240,7 +247,7 @@ export interface iTrialApplicationsUserInfo {
   email: string;
   phoneNumber: string;
   gender: string;
-  recruiting?: string;
+  isRecruiting: boolean;
 }
 
 //--------------- application -------------------------
@@ -313,7 +320,6 @@ export interface CreateTrialStep3FormValues {
   ageStart: number;
   ageEnd: number;
   gender: string;
-  recruiting?: string;
 }
 
 export interface CreateTrialStep4FormProps {
@@ -331,6 +337,8 @@ export interface CreateTrialStep5FormProps {
   participantActivities?: string;
   expectedParticipants: string;
   additionalInformation?: string;
+  isRecruiting: boolean;
+  isPublished?: boolean;
   drivingCompensation?: boolean;
   monetaryCompensation?: boolean;
   otherCompensation?: boolean;

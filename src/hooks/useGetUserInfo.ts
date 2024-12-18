@@ -20,6 +20,7 @@ const useGetUserInfo = (): {
     lastName: "",
     jobTitle: "",
     phoneNumber: "",
+    isAdmin: false,
     consentedToTerms: true,
     hasConsentedToMarketing: true,
     preferredLanguage: "",
@@ -52,7 +53,7 @@ const useGetUserInfo = (): {
     }
   }, [data]);
 
-  //  console.log(userInfo)
+   console.log("user info:", userInfo)
   return { userData: userInfo, userError: error, userIsLoading: isLoading };
 };
 

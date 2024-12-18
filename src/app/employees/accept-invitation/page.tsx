@@ -5,13 +5,11 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import AcceptInvitationForm from "@/components/AcceptInvitationForm";
 import axios from "axios";
-import useGetUserInfo from "@/hooks/useGetUserInfo";
 import useLanguageStore from "@/stores/language-store";
 
 //---------------------------- main function -----------------------------
-export default function LoginPage() {
+export default function AcceptInvitationPage() {
   const router = useRouter();
-  const { userData } = useGetUserInfo();
   const { l } = useLanguageStore();
 
   //---- check if user completed the registration ----
@@ -68,7 +66,7 @@ export default function LoginPage() {
                   "You have been invited by to join TrialSync sponsor platform. Please accept the invitation to create your profile."}
               </p>
             </div>
-            <AcceptInvitationForm {...userData}/>
+            <AcceptInvitationForm />
           </div>
         <div
           className="bg-cover bg-center rounded-2xl"

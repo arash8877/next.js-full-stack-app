@@ -3,17 +3,19 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import TooltipButton from "./Tooltip";
 import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import { CreateTrialStep5FormProps } from "@/types/index";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
+import PublishDropdown from "./PublishDropdown";
+import RecruitingDropdown from "./RecruitingDropdown";
 import useLanguageStore from "@/stores/language-store";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
-import "react-quill/dist/quill.snow.css";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep5Form = () => {
@@ -31,8 +33,16 @@ const CreateTrialStep5Form = () => {
       )
       .integer("Expected number of participants must be an integer")
       .min(1, "Expected number of participants must be greater than zero!"),
-  });
+    isRecruiting: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "isRecruiting status is required!"
+    ),
 
+    isPublished: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Publish status is required!"
+    ),
+  });
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
@@ -40,6 +50,8 @@ const CreateTrialStep5Form = () => {
       participantActivities: formData.step5Data?.participantActivities || "",
       expectedParticipants: formData.step5Data?.expectedParticipants || "",
       additionalInformation: formData.step5Data.additionalInformation || "",
+      isRecruiting: formData.step5Data.isRecruiting || false,
+      isPublished: formData.step5Data?.isPublished || false,
       drivingCompensation: formData.step5Data?.drivingCompensation || false,
       monetaryCompensation: formData.step5Data?.monetaryCompensation || false,
       otherCompensation: formData.step5Data?.otherCompensation || false,
@@ -49,19 +61,22 @@ const CreateTrialStep5Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
+      console.log("values in step 5", values);
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       const payload = {
         participantActivities: values["participantActivities"],
         expectedParticipants: values["expectedParticipants"],
         additionalInformation: values["additionalInformation"],
+        recruiter: values["isRecruiting"],
+        isPublished: values["isPublished"],
         drivingCompensation: values["drivingCompensation"] ?? false,
         monetaryCompensation: values["monetaryCompensation"] ?? false,
         otherCompensation: values["otherCompensation"] ?? false,
         otherCompensationText: values["otherCompensationText"] || "",
       };
       try {
-    // eslint-disable-next-line
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`, //request
           payload,
@@ -71,6 +86,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
+        console.log("response step5:", response.data);
         setFormData({
           ...formData,
           step5Data: {
@@ -79,6 +95,8 @@ const CreateTrialStep5Form = () => {
             expectedParticipants: values.expectedParticipants,
             additionalInformation: values.additionalInformation || "",
             drivingCompensation: values.drivingCompensation,
+            isRecruiting: values.isRecruiting,
+            isPublished: values.isPublished ?? false,
             monetaryCompensation: values.monetaryCompensation,
             otherCompensation: values.otherCompensation,
             otherCompensationText: values.otherCompensationText || "",
@@ -160,7 +178,7 @@ const CreateTrialStep5Form = () => {
             </label>
             <input
               name="expectedParticipants"
-              type="number"
+              type="text"
               value={
                 formik.values.expectedParticipants !== null
                   ? formik.values.expectedParticipants
@@ -195,6 +213,44 @@ const CreateTrialStep5Form = () => {
               placeholder="Briefly describe additional information"
               className="register_input custom-border"
             />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="isRecruiting" className="text-sm font-semibold">
+              Recruiting status:<span className="ml-1">*</span>
+            </label>
+            <RecruitingDropdown
+              value={formik.values.isRecruiting.toString()}
+              onChange={(value) => formik.setFieldValue("isRecruiting", value)}
+              borderColor="#DFF2DF"
+            />
+            <small className="text-red-600">
+              {formik.touched.isRecruiting && formik.errors.isRecruiting}
+            </small>
+          </div>
+
+          <div className="flex flex-col w-full">
+            <label htmlFor="publish" className="flex items-center text-sm font-semibold">
+              Publish status:<span className="ml-1">*</span>{" "}
+              <span>
+                <TooltipButton
+                  title={
+                    "If you select 'Publish', the trial will be published immediately after approval"
+                  }
+                  iconSrc="/tooltip.svg"
+                />
+              </span>
+            </label>
+            <PublishDropdown
+              value={formik.values.isPublished?.toString() || ""}
+              onChange={(value) => formik.setFieldValue("isPublished", value)}
+              borderColor="#DFF2DF"
+            />
+            <small className="text-red-600">
+              {formik.touched.isPublished && formik.errors.isPublished}
+            </small>
           </div>
         </div>
 

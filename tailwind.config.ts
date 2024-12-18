@@ -75,8 +75,11 @@ const config: Config = {
           300: "#FFE39B",
           400: "#",
           yellow: "#FFEBB9",
-          red: "#B42318",
+          yellow2: "#FFE39B",
           green: "#B5E6B2",
+          green2: "#83D57F",
+          red: "#B42318",
+          red2: "#F47F7F",
         },
       },
       fontSize: {

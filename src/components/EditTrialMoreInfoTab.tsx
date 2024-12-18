@@ -8,9 +8,11 @@ import { CreateTrialStep5FormProps } from "@/types";
 import axios, { AxiosError } from "axios";
 import CustomButton from "./CustomButton";
 import { toast } from "react-toastify";
+import RecruitingDropdown from "./RecruitingDropdown";
 // import useIsAuthenticated from "@/hooks/useIsAuthenticated";
 import useLanguageStore from "@/stores/language-store";
 import "react-quill/dist/quill.snow.css";
+import PublishDropdown from "./PublishDropdown";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 //----------------------------------- Main function -----------------------------------
@@ -19,6 +21,8 @@ export default function EditTrialMoreInfoTab({
   participantActivities,
   expectedParticipants,
   additionalInformation,
+  isRecruiting,
+  isPublished,
   drivingCompensation,
   monetaryCompensation,
   otherCompensation,
@@ -35,6 +39,16 @@ export default function EditTrialMoreInfoTab({
       )
       .integer("Expected number of participants must be an integer")
       .min(1, "Expected number of participants must be greater than zero!"),
+
+    isRecruiting: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Recruiting status is required!"
+    ),
+
+    isPublished: Yup.string().required(
+      l("register.step1.form.country.validation.required") ||
+        "Publish status is required!"
+    ),
   });
 
   //--------------- formik ----------------
@@ -48,6 +62,8 @@ export default function EditTrialMoreInfoTab({
       participantActivities: participantActivities || "",
       expectedParticipants: expectedParticipants || 0,
       additionalInformation: additionalInformation || "",
+      isRecruiting: isRecruiting || "Not Recruiting",
+      isPublished: isPublished || "Not Published",
       drivingCompensation: drivingCompensation || false,
       monetaryCompensation: monetaryCompensation || false,
       otherCompensation: otherCompensation || false,
@@ -61,6 +77,8 @@ export default function EditTrialMoreInfoTab({
         participantActivities: values.participantActivities,
         expectedParticipants: values.expectedParticipants,
         additionalInformation: values.additionalInformation,
+        isRecruiting: values.isRecruiting,
+        isPublished: values.isPublished,
         drivingCompensation: values.drivingCompensation,
         monetaryCompensation: values.monetaryCompensation,
         otherCompensation: values.otherCompensation,
@@ -68,7 +86,7 @@ export default function EditTrialMoreInfoTab({
       };
       const token = localStorage.getItem("token");
       try {
-      // eslint-disable-next-line
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step5`,
           payload,
@@ -188,6 +206,36 @@ export default function EditTrialMoreInfoTab({
                 placeholder="Briefly describe additional information"
                 className="register_input custom-border"
               />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-6 xl:flex-row">
+            <div className="flex flex-col gap-2 w-full">
+              <label htmlFor="§" className="text-sm font-semibold">
+                Recruiting status:<span className="ml-1">*</span>
+              </label>
+              <RecruitingDropdown
+                value={formik.values.isRecruiting.toString()}
+                onChange={(value) => formik.setFieldValue("isRecruiting", value)}
+                borderColor="#DFF2DF"
+              />
+              <small className="text-red-600">
+                {formik.touched.isRecruiting && formik.errors.isRecruiting}
+              </small>
+            </div>
+
+            <div className="flex flex-col gap-2 w-full">
+              <label htmlFor="isPublished" className="text-sm font-semibold">
+                Publish status:<span className="ml-1">*</span>
+              </label>
+              <PublishDropdown
+                value={formik.values.isPublished.toString()}
+                onChange={(value) => formik.setFieldValue("onChange", value)}
+                borderColor="#DFF2DF"
+              />
+              <small className="text-red-600">
+                {formik.touched.isPublished && formik.errors.isPublished}
+              </small>
             </div>
           </div>
 
