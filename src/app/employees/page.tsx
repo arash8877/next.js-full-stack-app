@@ -77,11 +77,9 @@ export default function EmployeesPage() {
               <th className="hidden">Id</th>
               <th className="py-3 px-6">First Name</th>
               <th className="py-3 px-6">Last Name</th>
-              <th className="py-3 px-6 hidden lg:table-cell">Email</th>{" "}
+              <th className="py-3 px-6 hidden lg:table-cell">Email</th>
               {/* Hidden on small screens */}
-              <th className="py-3 px-6 hidden lg:table-cell">
-                Last Login
-              </th>{" "}
+              <th className="py-3 px-6 hidden lg:table-cell">Last Login</th>
               {/* Hidden on small screens */}
               <th className="py-3 px-6 text-right">Action</th>
             </tr>
@@ -94,7 +92,7 @@ export default function EmployeesPage() {
                 <td className="py-4 px-6">{employee.lastName}</td>
                 <td className="py-4 px-6 hidden lg:table-cell break-all max-w-xs whitespace-normal">
                   {employee.email}
-                </td>{" "}
+                </td>
                 {/* Email should break into multiple lines */}
                 <td className="py-4 px-6 hidden lg:table-cell">
                   {new Date(employee.lastLogin).toLocaleDateString("en-US", {
