@@ -52,7 +52,33 @@ interface FormStore {
   resetFormData: () => void;
 }
 
-//---------------------------- main function ------------------------------
+//--- remove "create-trial-store" from localStorage after 2 hours ---
+const scheduleLocalStorageCleanup = () => {
+  const storedTimeKey = "create-trial-store-timestamp";
+  const currentTime = Date.now();
+  
+  const storedTimestamp = localStorage.getItem(storedTimeKey);
+
+  // If there's no timestamp, set one now
+  if (!storedTimestamp) {
+    localStorage.setItem(storedTimeKey, currentTime.toString());
+  } else {
+    const elapsedTime = currentTime - parseInt(storedTimestamp, 10);
+    const twoHoursInMs = 2 * 60 * 60 * 1000;
+
+    if (elapsedTime >= twoHoursInMs) {
+      localStorage.removeItem("create-trial-store");
+      localStorage.removeItem(storedTimeKey);
+    }
+  }
+
+  setTimeout(() => {
+    localStorage.removeItem("create-trial-store");
+    localStorage.removeItem(storedTimeKey);
+  }, 2 * 60 * 60 * 1000); 
+};
+
+//----------------------------------------- main function -------------------------------------------
 const useCreateTrialStore = create<FormStore>()(
   persist(
     (set) => ({
@@ -136,7 +162,10 @@ const useCreateTrialStore = create<FormStore>()(
     }),
     {
       name: "create-trial-store", // Key in localStorage
-      storage: createJSONStorage(() => localStorage), // Use localStorage
+      storage: createJSONStorage(() => localStorage), 
+      onRehydrateStorage: () => {
+        scheduleLocalStorageCleanup();
+      },
     }
   )
 );

@@ -38,7 +38,7 @@ const CreateTrialStep5Form = () => {
         "isRecruiting status is required!"
     ),
 
-    publish: Yup.string().required(
+    isPublished: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Publish status is required!"
     ),
@@ -178,7 +178,7 @@ const CreateTrialStep5Form = () => {
             </label>
             <input
               name="expectedParticipants"
-              type="number"
+              type="text"
               value={
                 formik.values.expectedParticipants !== null
                   ? formik.values.expectedParticipants
