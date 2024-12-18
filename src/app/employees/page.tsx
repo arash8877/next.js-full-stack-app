@@ -138,11 +138,13 @@ export default function EmployeesPage() {
                 </td>
                 {/* Email should break into multiple lines */}
                 <td className="py-4 px-6 hidden 2xl:table-cell">
-                  {new Date(employee.lastLogin).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {employee.lastLogin == "0001-01-01T00:00:00"
+                    ? "---------"
+                    : new Date(employee.lastLogin).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                 </td>
                 <td className="py-4 px-6 flex justify-end">
                   {employee.lastLogin == "0001-01-01T00:00:00" ? (
