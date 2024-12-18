@@ -34,12 +34,14 @@ const style = {
 interface InviteEmployeeModalProps {
   open: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
 //------------------------------- main function -------------------------------
 export default function InviteEmployeeModal({
   open,
   onClose,
+  onSuccess,
 }: InviteEmployeeModalProps) {
   const { l } = useLanguageStore();
   // eslint-disable-next-line
@@ -119,11 +121,16 @@ export default function InviteEmployeeModal({
         console.log("response for invite:", response);
         console.log("invite form submitted");
         onClose();
+
         toast.success("Invitation is sent successfully", {
           position: "top-center",
           autoClose: 2000,
           className: "single_line_toast",
         });
+
+        setTimeout(() => {
+          onSuccess();
+        }, 2100);
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response && error.response.data) {

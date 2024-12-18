@@ -49,6 +49,11 @@ export default function EmployeesPage() {
     setIsInviteEmployeeModalOpen(false);
   };
 
+  //---- Refresh page after invite an employee -----
+  const handleSuccess = () => {
+    window.location.reload();
+  };
+
   //------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
@@ -129,6 +134,7 @@ export default function EmployeesPage() {
         <InviteEmployeeModal
           open={isInviteEmployeeModalOpen}
           onClose={closeInviteEmployeeModal}
+          onSuccess={handleSuccess}
         />
       )}
     </SidebarLayout>
