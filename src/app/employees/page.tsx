@@ -6,6 +6,7 @@ import CustomButton from "@/components/CustomButton";
 import { useRouter } from "next/navigation";
 import useLanguageStore from "@/stores/language-store";
 import InviteEmployeeModal from "@/components/InviteEmployeeModal";
+import { toast } from "react-toastify";
 import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 import axios from "axios";
 
@@ -21,11 +22,14 @@ export default function EmployeesPage() {
     router.push(`/employees/${employeeId}`);
   }
 
+  console.log("sponsorContacts*********:", companyData.sponsorContacts);
+
+  //----- Un-Invite an employee -----
   async function unInviteEmployee(employeeId: number) {
-    console.log("Uninvite user!");
+    console.log("Uninvite employee!");
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`, //PATCH request
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,12 +37,44 @@ export default function EmployeesPage() {
           },
         }
       );
+      toast.success("Invitation removed successfully", {
+        position: "top-center",
+        autoClose: 2000,
+        className: "single_line_toast",
+      });
       setTimeout(() => {
         window.location.reload();
-      }, 0);
+      }, 2100);
     } catch (error) {
       console.error("Error in /uninvite", error);
+      toast.error("Something went wrong!", {
+        position: "top-center",
+        autoClose: 2000,
+        className: "single_line_toast",
+      });
     }
+  }
+
+  //----- Re-Invite an employee -----
+  // eslint-disable-next-line
+  async function reInviteEmployee(employeeId: number) {
+    console.log("Re-invite employee!");
+    // try {
+    //   await axios.post(
+    //     `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   setTimeout(() => {
+    //     window.location.reload();
+    //   }, 0);
+    // } catch (error) {
+    //   console.error("Error in /uninvite", error);
+    // }
   }
 
   //---- open and close modal -----
@@ -47,6 +83,11 @@ export default function EmployeesPage() {
   };
   const closeInviteEmployeeModal = () => {
     setIsInviteEmployeeModalOpen(false);
+  };
+
+  //---- Refresh page after invite an employee -----
+  const handleSuccess = () => {
+    window.location.reload();
   };
 
   //------------------------------- JSX -----------------------------------
@@ -76,13 +117,11 @@ export default function EmployeesPage() {
             <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
               <th className="hidden">Id</th>
               <th className="py-3 px-6">First Name</th>
-              <th className="py-3 px-6">Last Name</th>
-              <th className="py-3 px-6 hidden lg:table-cell">Email</th>{" "}
+              <th className="py-3 px-6 hidden md:table-cell">Last Name</th>
               {/* Hidden on small screens */}
-              <th className="py-3 px-6 hidden lg:table-cell">
-                Last Login
-              </th>{" "}
+              <th className="py-3 px-6 hidden lg:table-cell">Email</th>
               {/* Hidden on small screens */}
+              <th className="py-3 px-6 hidden 2xl:table-cell">Last Login</th>
               <th className="py-3 px-6 text-right">Action</th>
             </tr>
           </thead>
@@ -91,30 +130,42 @@ export default function EmployeesPage() {
               <tr key={index} className="border-b">
                 <td className="hidden">{employee.userId}</td>
                 <td className="py-4 px-6">{employee.firstName}</td>
-                <td className="py-4 px-6">{employee.lastName}</td>
+                <td className="py-4 px-6 hidden md:table-cell">
+                  {employee.lastName}
+                </td>
                 <td className="py-4 px-6 hidden lg:table-cell break-all max-w-xs whitespace-normal">
                   {employee.email}
-                </td>{" "}
+                </td>
                 {/* Email should break into multiple lines */}
-                <td className="py-4 px-6 hidden lg:table-cell">
-                  {new Date(employee.lastLogin).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                <td className="py-4 px-6 hidden 2xl:table-cell">
+                  {employee.lastLogin == "0001-01-01T00:00:00"
+                    ? "---------"
+                    : new Date(employee.lastLogin).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                 </td>
                 <td className="py-4 px-6 flex justify-end">
-                  {employee.firstName == "Invited" ? (
-                    <CustomButton
-                      title={l("forgotpassword.form.submit") || "Uninvite"}
-                      containerStyles="rounded-lg flex_center bg-bgColor-red text-white h-8 custom_padding"
-                      btnType="button"
-                      handleClick={() => unInviteEmployee(employee.userId)}
-                    />
+                  {employee.lastLogin == "0001-01-01T00:00:00" ? (
+                    <div className="flex gap-2">
+                      <CustomButton
+                        title={l("forgotpassword.form.submit") || "Uninvite"}
+                        containerStyles="rounded-lg flex_center bg-bgColor-red text-white h-8 custom_padding"
+                        btnType="button"
+                        handleClick={() => unInviteEmployee(employee.userId)}
+                      />
+                      <CustomButton
+                        title={l("forgotpassword.form.submit") || "Reinvite"}
+                        containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom_padding"
+                        btnType="button"
+                        handleClick={() => reInviteEmployee(employee.userId)}
+                      />
+                    </div>
                   ) : (
                     <CustomButton
                       title={l("forgotpassword.form.submit") || "View"}
-                      containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom_padding"
+                      containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom_padding2"
                       btnType="button"
                       handleClick={() =>
                         redirectToEmployeeDetails(employee.userId)
@@ -131,6 +182,7 @@ export default function EmployeesPage() {
         <InviteEmployeeModal
           open={isInviteEmployeeModalOpen}
           onClose={closeInviteEmployeeModal}
+          onSuccess={handleSuccess}
         />
       )}
     </SidebarLayout>

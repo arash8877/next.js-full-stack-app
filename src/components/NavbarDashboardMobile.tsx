@@ -153,7 +153,7 @@ export default function NavbarDashboardMobile() {
             </Link>
           )}
 
-          <Link
+          {/* <Link
             href="/invoices"
             className="navbar_item items-center"
             onClick={() => {
@@ -170,7 +170,7 @@ export default function NavbarDashboardMobile() {
             <span className="text-sm">
               {l("common.header.trialsoverview.text") || "Invoices"}
             </span>
-          </Link>
+          </Link> */}
         </div>
 
         <div className="flex flex-col gap-3 w-full pl-4 pr-12  absolute bottom-0 mb-8">

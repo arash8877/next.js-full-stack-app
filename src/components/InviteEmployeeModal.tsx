@@ -34,12 +34,14 @@ const style = {
 interface InviteEmployeeModalProps {
   open: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
 //------------------------------- main function -------------------------------
 export default function InviteEmployeeModal({
   open,
   onClose,
+  onSuccess,
 }: InviteEmployeeModalProps) {
   const { l } = useLanguageStore();
   // eslint-disable-next-line
@@ -47,6 +49,36 @@ export default function InviteEmployeeModal({
 
   //----------- Yup ------------
   const formSchema = Yup.object({
+    firstName: Yup.string()
+      .required(
+        l("settings.tab1.form.firstname.validation.required") ||
+          "First name is required!"
+      )
+      .matches(
+        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
+        l("settings.tab1.form.firstname.validation.format") ||
+          "First name should only contain letters!"
+      )
+      .min(
+        2,
+        l("settings.tab1.form.firstname.validation.length") ||
+          "First name must be at least 2 characters!"
+      ),
+    lastName: Yup.string()
+      .required(
+        l("settings.tab1.form.lastname.validation.required") ||
+          "Last name is required!"
+      )
+      .matches(
+        /^[a-zA-ZæøåÆØÅ_-]+( [a-zA-ZæøåÆØÅ_-]+)*$/,
+        l("settings.tab1.form.lastname.validation.format") ||
+          "Last name should only contain letters!"
+      )
+      .min(
+        1,
+        l("settings.tab1.form.lastname.validation.length") ||
+          "Last name must be at least 1 characters!"
+      ),
     jobTitle: Yup.string()
       .required("Job title is required!")
       .min(2, "Job title must be at least 2 characters!"),
@@ -58,6 +90,8 @@ export default function InviteEmployeeModal({
   //------------- Formik -----------
   const formik = useFormik({
     initialValues: {
+      firstName: "",
+      lastName: "",
       jobTitle: "",
       email: "",
     },
@@ -73,6 +107,8 @@ export default function InviteEmployeeModal({
           `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite`,
           {
             redirectUri: `${window.location.origin}/employees/accept-invitation`,
+            firstName: values.firstName,
+            lastName: values.lastName,
             email: values.email,
             jobTitle: values.jobTitle,
           },
@@ -85,11 +121,16 @@ export default function InviteEmployeeModal({
         console.log("response for invite:", response);
         console.log("invite form submitted");
         onClose();
+
         toast.success("Invitation is sent successfully", {
           position: "top-center",
           autoClose: 2000,
           className: "single_line_toast",
         });
+
+        setTimeout(() => {
+          onSuccess();
+        }, 2100);
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response && error.response.data) {
@@ -151,21 +192,36 @@ export default function InviteEmployeeModal({
           onSubmit={formik.handleSubmit}
         >
           <div className="flex flex-col gap-4 w-full">
-              <InputField
-                label={l("register.step2.form.jobTitle.label") || "Job title"}
-                name="jobTitle"
-                type="text"
-                placeholder="e.g. Manager"
-                formik={formik}
-              />
-              <InputField
-                label={l("register.step2.form.email.label") || "Email"}
-                name="email"
-                type="email"
-                placeholder="e.g. employee@email.com"
-                formik={formik}
-                icon="/email_icon.svg"
-              />
+            <InputField
+              label={l("register.step2.form.jobTitle.label") || "First name"}
+              name="firstName"
+              type="text"
+              placeholder="e.g. John"
+              formik={formik}
+            />
+            <InputField
+              label={l("register.step2.form.email.label") || "lastName"}
+              name="lastName"
+              type="test"
+              placeholder="e.g. Doe"
+              formik={formik}
+            />
+
+            <InputField
+              label={l("register.step2.form.jobTitle.label") || "Job title"}
+              name="jobTitle"
+              type="text"
+              placeholder="e.g. Manager"
+              formik={formik}
+            />
+            <InputField
+              label={l("register.step2.form.email.label") || "Email"}
+              name="email"
+              type="email"
+              placeholder="e.g. employee@email.com"
+              formik={formik}
+              icon="/email_icon.svg"
+            />
           </div>
           <Box
             sx={{
