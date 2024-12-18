@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Consent from "./Consent";
 import Link from "next/link";
-import {  iUserUpdateProps } from "@/types/index";
+import { iUserUpdateProps } from "@/types/index";
 import { toast } from "react-toastify";
 // import LanguageDropdown from "./LanguageDropdown";
 import useLanguageStore from "@/stores/language-store";
@@ -33,7 +33,7 @@ const AcceptInvitationForm = () => {
   }, []);
 
   console.log("inviteToken:", inviteToken);
-  
+
   //----Yup validation ---------
   const formSchema = Yup.object({
     firstName: Yup.string()
@@ -71,10 +71,16 @@ const AcceptInvitationForm = () => {
       l("settings.tab1.form.jobtitle.validation.required") ||
         "Job title is required!"
     ),
-    phoneNumber: Yup.string().required(
-      l("register.step1.form.country.validation.required") ||
-        "Phone number is required!"
-    ),
+    phoneNumber: Yup.string()
+      .required(
+        l("register.step1.form.country.validation.required") ||
+          "Phone number is required!"
+      )
+      .min(
+        8,
+        l("settings.tab1.form.firstname.validation.length") ||
+          "Phone number must be at least 8 numbers!"
+      ),
     email: Yup.string()
       .required(
         l("login.form.email.validation.required") || "Email is required!"
@@ -108,7 +114,7 @@ const AcceptInvitationForm = () => {
     hasConsentedToMarketing: Yup.boolean(),
   });
 
-  //---- GET email and jobTitle ----
+  //---- GET invited employee info ----
 
   useEffect(() => {
     async function getUserInfo(): Promise<boolean> {
@@ -138,7 +144,7 @@ const AcceptInvitationForm = () => {
   //eslint-disable-next-line
   const updateInvitedEmployeeForm = async (data: iUserUpdateProps) => {
     //function will be called in onSubmit
-    console.log("iviteToken is missing")
+    console.log("iviteToken is missing");
     if (!inviteToken) {
       return;
     }
@@ -180,8 +186,8 @@ const AcceptInvitationForm = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstName: "",
-      lastName: "",
+      firstName: userInfo?.firstName || "",
+      lastName: userInfo?.lastName || "",
       jobTitle: userInfo?.jobTitle || "",
       phoneNumber: "",
       email: userInfo?.email || "",

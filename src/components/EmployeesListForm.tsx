@@ -5,6 +5,7 @@ import CustomButton from "./CustomButton";
 import DeleteEmployeeModal from "./DeleteEmployeeModal";
 import axios from "axios";
 import { employeesInfoProps } from "@/types/index";
+import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
 
@@ -38,7 +39,10 @@ const EmployeesListForm = ({
 }: employeesInfoProps) => {
   const [isDeleteEmployeeModalOpen, setIsDeleteEmployeeModalOpen] =
     useState(false);
+  const { companyData } = useGetCompanyInfo();
+  const numberOfEmployees = companyData.sponsorContacts.length;
   const { l } = useLanguageStore();
+
 
   //---------------- update user ---------------
   const updateEmployee = async (data: sponsorUserUpdateProps) => {
@@ -142,7 +146,10 @@ const EmployeesListForm = ({
 
   //--------------------------Return---------------------------------
   return (
-    <form className="flex flex-col gap-6 p-12 rounded-3xl border border-bgColor-10 shadow-lg" onSubmit={formik.handleSubmit}>
+    <form
+      className="flex flex-col gap-6 p-12 rounded-3xl border border-bgColor-10 shadow-lg"
+      onSubmit={formik.handleSubmit}
+    >
       <div className="grid gap-7 md:gap-6 xl:w-4/5 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="firstName">
@@ -229,7 +236,7 @@ const EmployeesListForm = ({
         />
         <CustomButton
           title={l("settings.form.submit") || "Delete"}
-          containerStyles="rounded-lg h-[48px] bg-bgColor-red hover1"
+          containerStyles={`rounded-lg h-[48px] bg-bgColor-red hover1 ${numberOfEmployees === 1 ? "hidden" : ""}`}
           textStyles="text-white"
           btnType="button"
           handleClick={openDeleteEmployeeModal}

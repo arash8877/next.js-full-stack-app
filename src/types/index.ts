@@ -364,6 +364,8 @@ export interface employeesInfoProps {
 
 //------- Invite Employee Form --------
 export interface InviteEmployeeFormValues {
+  firstName: string;
+  lastName: string;
   jobTitle: string;
   email: string;
 }

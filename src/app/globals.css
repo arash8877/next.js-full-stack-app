@@ -57,6 +57,9 @@ p {
 .custom_padding {
   padding-inline: 18px !important;
 }
+.custom_padding2 {
+  padding-inline: 29px !important;
+}
 .gradient-green1 {
   @apply bg-gradient-to-r from-primary-800 to-primary-1100;
 }

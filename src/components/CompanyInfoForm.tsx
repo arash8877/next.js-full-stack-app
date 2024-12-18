@@ -15,7 +15,7 @@ interface UpdateSponsorProps {
   country: string
 }
 
-//------------------------------------ main function -----------------------------------
+//---------------------------------------- main function --------------------------------------
 const CompanyInfoForm = ({
   name,
   vatNumber,
@@ -26,7 +26,7 @@ const CompanyInfoForm = ({
   const { l } = useLanguageStore();
   const { jwtInfo } = useJWTUserInfo();
 
-  //---------------- update user ---------------
+  //---------------- update sponsor ---------------
   const updateSponsorData = async (data: UpdateSponsorProps) => {
     //function will be called in onSubmit
     try {
@@ -65,7 +65,6 @@ const CompanyInfoForm = ({
   };
 
   //----Yup validation ---------
-  // eslint-disable-next-line
   const formSchema = Yup.object({
     name: Yup.string()
       .required(
@@ -125,10 +124,10 @@ const CompanyInfoForm = ({
       console.log(data);
       updateSponsorData(data);
     },
-    //validationSchema: formSchema,
+    validationSchema: formSchema,
   });
 
-  //--------------------------Return---------------------------------
+  //-------------------------------- JSX -------------------------------------
   return (
     <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
       <div className="grid gap-7 md:gap-6 lg:w-4/5 md:grid-cols-2">
@@ -154,6 +153,7 @@ const CompanyInfoForm = ({
         <div className="flex flex-col gap-2">
           <label htmlFor="address">
             {l("settings.tab1.form.address.label") || "Address"}
+            <span className="ml-1">*</span>
           </label>
           <input
             name="address"
@@ -209,7 +209,7 @@ const CompanyInfoForm = ({
         <div className="">
           <p>{l("settings.tab4.email.header") || "VAT number"}</p>
           <div className="not_editable_div">
-            <p className="text-base text-dark-300">123456{vatNumber}</p>
+            <p className="text-base text-dark-300">{vatNumber}</p>
           </div>
           <p className="text-base font-normal">
             {l("settings.tab4.email.warning") ||
