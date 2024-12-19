@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
@@ -8,12 +9,14 @@ import CustomDateInput from "./CustomDateInput";
 import GenderDropdown from "./GenderDropdown";
 import axios from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
+import Spinner from "./Spinner";
 import useLanguageStore from "@/stores/language-store";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
   const router = useRouter();
   const { formData, setFormData } = useCreateTrialStore();
+  const [loading, setLoading] = useState(false);
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
@@ -38,7 +41,7 @@ const CreateTrialStep3Form = () => {
         Yup.ref("endDate"),
         "Deadline should not be later than End Study Date"
       ),
-      ageMax: Yup.number()
+    ageMax: Yup.number()
       .min(
         Yup.ref("ageMin"),
         "Maximum age should be greater than or equal to minimum age"
@@ -74,6 +77,7 @@ const CreateTrialStep3Form = () => {
     //-----onSubmit-------
     // eslint-disable-next-line
     onSubmit: async (values) => {
+      setLoading(true);
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
@@ -111,6 +115,8 @@ const CreateTrialStep3Form = () => {
         router.push("/create-trial/step4");
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     },
     validationSchema: formSchema,
@@ -122,6 +128,7 @@ const CreateTrialStep3Form = () => {
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
+      {loading && <Spinner />}
       <div className="flex flex-col gap-2 sm:gap-6 xl:w-3/4">
         <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 xl:w-1/2">

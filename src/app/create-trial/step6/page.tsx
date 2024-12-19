@@ -24,7 +24,7 @@ export default function CreateTrialStep4Page() {
           </h3>
           <h3 className="text-lg font-medium text-center px-6">
             {l("settings.title") ||
-              "You are able to edit the trial after creating it"}
+              "You are able to edit the trial after creation"}
           </h3>
         </div>
 
