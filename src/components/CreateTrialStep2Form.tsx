@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import CustomButton from "./CustomButton";
 import axios from "axios";
 import CountryDropdown from "./CountryDropdown";
+import Spinner from "./Spinner";
 import { AxiosError } from "axios";
 import {
   CreateTrialStep2FormProps,
@@ -66,6 +67,7 @@ const CreateTrialStep2Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
+  const [loading, setLoading] = useState(false);
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
@@ -76,14 +78,29 @@ const CreateTrialStep2Form = () => {
           name: Yup.string().required(
             l("settings.tab1.form.place.validation.required") ||
               "Place is required!"
+          )
+          .min(
+            4,
+            l("settings.tab1.form.title.validation.length") ||
+              "Location must be at least 4 characters!"
           ),
           address: Yup.string().required(
             l("settings.tab1.form.address.validation.required") ||
               "Address is required!"
+          )
+          .min(
+            4,
+            l("settings.tab1.form.title.validation.length") ||
+              "Address must be at least 4 characters!"
           ),
           zipCode: Yup.string().required(
             l("register.step1.form.zipCode.validation.required") ||
               "Zip code is required!"
+          )
+          .min(
+            4,
+            l("settings.tab1.form.title.validation.length") ||
+              "Zip code must be at least 4 characters!"
           ),
           country: Yup.string().required(
             l("register.step1.form.country.validation.required") ||
@@ -104,6 +121,7 @@ const CreateTrialStep2Form = () => {
     validationSchema: formSchema,
     //---------onSubmit--------------
     onSubmit: async (values) => {
+      setLoading(true);
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
@@ -133,6 +151,8 @@ const CreateTrialStep2Form = () => {
         if (error instanceof AxiosError) {
           setError(error.response?.data || "An unknown error occurred");
         }
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -167,6 +187,7 @@ const CreateTrialStep2Form = () => {
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
+      {loading && <Spinner />}
       <div className="flex justify-center">
         <p className="text-red-600">{error}</p>
       </div>
