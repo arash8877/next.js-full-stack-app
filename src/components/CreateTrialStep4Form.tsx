@@ -11,6 +11,7 @@ import { CreateTrialStep4FormProps, iCategoryProps } from "@/types/index";
 import useGetAllMedicalCategories from "@/hooks/useGetAllMedicalCategories";
 import axios, { AxiosError } from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
+import Spinner from "./Spinner";
 import useLanguageStore from "@/stores/language-store";
 import useDiseaseStore from "@/stores/disease-store";
 
@@ -26,6 +27,7 @@ const CreateTrialStep4Form = () => {
   const [error, setError] = useState("");
   const { selectedInclusionDiseases, setSelectedInclusionDiseases } = useDiseaseStore();
   const { selectedExclusionDiseases, setSelectedExclusionDiseases } = useDiseaseStore();
+  const [loading, setLoading] = useState(false);
   const { l } = useLanguageStore();
 
   //--------useEffect for having the latest categories---------
@@ -53,6 +55,7 @@ const CreateTrialStep4Form = () => {
 
     //---------onSubmit--------------
     onSubmit: async (values) => {
+      setLoading(true);
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
@@ -92,6 +95,8 @@ const CreateTrialStep4Form = () => {
         if (error instanceof AxiosError) {
           setError(error.response?.data || "An unknown error occurred");
         }
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -109,7 +114,7 @@ const CreateTrialStep4Form = () => {
     }
   };
 
-  console.log("selectedCategoriesId:", selectedCategoriesId);
+  // console.log("selectedCategoriesId:", selectedCategoriesId);
 
   //-------------------------------------------------- JSX ---------------------------------------------
   return (
@@ -117,6 +122,7 @@ const CreateTrialStep4Form = () => {
       className="flex flex-col gap-6 mx-auto wrapper"
       onSubmit={formik.handleSubmit}
     >
+      {loading && <Spinner />}
       <div className="flex justify-center">
         <p className="text-red-600">{error}</p>
       </div>

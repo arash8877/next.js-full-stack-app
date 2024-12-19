@@ -12,6 +12,7 @@ import useCreateTrialStore from "@/stores/createTrial-store";
 import PublishDropdown from "./PublishDropdown";
 import RecruitingDropdown from "./RecruitingDropdown";
 import useLanguageStore from "@/stores/language-store";
+import Spinner from "./Spinner";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
@@ -22,6 +23,7 @@ const CreateTrialStep5Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
+  const [loading, setLoading] = useState(false);
   const { l } = useLanguageStore();
 
   //----------------- Yup validation ---------------
@@ -61,7 +63,7 @@ const CreateTrialStep5Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      console.log("values in step 5", values);
+      setLoading(true);
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
       const payload = {
@@ -86,7 +88,6 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        console.log("response step5:", response.data);
         setFormData({
           ...formData,
           step5Data: {
@@ -110,6 +111,8 @@ const CreateTrialStep5Form = () => {
         if (error instanceof AxiosError) {
           setError(error.response?.data || "An unknown error occurred");
         }
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -145,6 +148,7 @@ const CreateTrialStep5Form = () => {
       className="flex flex-col gap-6 wrapper"
       onSubmit={formik.handleSubmit}
     >
+      {loading && <Spinner />}
       <div className="flex justify-center">
         <p className="text-red-600">{error}</p>
       </div>

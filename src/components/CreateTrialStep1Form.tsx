@@ -13,6 +13,7 @@ import {
   CreateTrialTitleStepProps,
 } from "@/types/index";
 import useCreateTrialStore from "@/stores/createTrial-store";
+import Spinner from "./Spinner";
 import useLanguageStore from "@/stores/language-store";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -67,6 +68,7 @@ const CreateTrialStep1Form = () => {
   const { l } = useLanguageStore();
   const jwtInfo = useJWTUserInfo();
   const { formData, setFormData } = useCreateTrialStore();
+  const [loading, setLoading] = useState(false);
 
   const formSchema = Yup.object({
     title: Yup.string()
@@ -80,27 +82,30 @@ const CreateTrialStep1Form = () => {
           "Title must be at least 4 characters!"
       ),
     shortDescription: Yup.string()
+      .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
       .required(
         l("settings.tab1.form.shortDescription.validation.required") ||
           "Short description is required!"
       )
       .min(
-        4,
+        10,
         l("settings.tab1.form.shortDescription.validation.length") ||
-          "Short description must be at least 4 characters!"
+          "Short description must be at least 10 characters!"
       ),
     fullDescription: Yup.string()
+      .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
       .required(
         l("register.step1.form.fullDescription.validation.required") ||
           "Full Description is required!"
       )
       .min(
-        4,
+        20,
         l("settings.tab1.form.fullDescription.validation.length") ||
-          "Full description must be at least 4 characters!"
+          "Full description must be at least 20 characters!"
       ),
   });
 
+  //---------- formik -----------
   const formik = useFormik({
     initialValues: {
       title: formData?.step1Data?.title || "",
@@ -108,8 +113,9 @@ const CreateTrialStep1Form = () => {
       fullDescription: formData?.step1Data?.fullDescription || "",
     },
     validationSchema: formSchema,
-
+    //----- on submit ---------
     onSubmit: async (values) => {
+      setLoading(true);
       const token =
         typeof window !== "undefined"
           ? window.localStorage.getItem("token")
@@ -134,7 +140,8 @@ const CreateTrialStep1Form = () => {
           }
         );
         localStorage.setItem("currentTrialEditId", response.data);
-        document.cookie = "createTrialStep1Completed=true; Path=/; max-age=7200";
+        document.cookie =
+          "createTrialStep1Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step2");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {
@@ -142,6 +149,8 @@ const CreateTrialStep1Form = () => {
         } else {
           setError("An unknown error occurred");
         }
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -152,6 +161,7 @@ const CreateTrialStep1Form = () => {
       className="flex flex-col gap-6 w-full wrapper"
       onSubmit={formik.handleSubmit}
     >
+      {loading && <Spinner />}
       {error && <p className="text-red-600">{error}</p>}
 
       <div className="flex flex-col gap-6">
