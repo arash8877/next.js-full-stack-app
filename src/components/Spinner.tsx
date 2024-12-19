@@ -28,6 +28,17 @@ const Spinner: React.FC = () => {
             transform: rotate(360deg);
           }
         }
+
+        /* Media query for mobile view */
+        @media (max-width: 768px) {
+          .spinner-container {
+            height: 50vh; /* Adjust height for mobile view */
+          }
+          .spinner {
+            width: 100px; /* Smaller size for mobile view */
+            height: 100px; /* Smaller size for mobile view */
+          }
+        }
       `}</style>
     </div>
   );
