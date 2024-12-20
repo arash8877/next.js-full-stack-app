@@ -60,9 +60,11 @@ const CreateTrialStep5Form = () => {
       otherCompensationText: formData.step5Data?.otherCompensationText || "",
     },
     validationSchema: formSchema,
+    
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
+      // console.log("values in create trial step 5:", values);
       setLoading(true);
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
@@ -70,7 +72,7 @@ const CreateTrialStep5Form = () => {
         participantActivities: values["participantActivities"],
         expectedParticipants: values["expectedParticipants"],
         additionalInformation: values["additionalInformation"],
-        recruiter: values["isRecruiting"],
+        isRecruiting: values["isRecruiting"],
         isPublished: values["isPublished"],
         drivingCompensation: values["drivingCompensation"] ?? false,
         monetaryCompensation: values["monetaryCompensation"] ?? false,
@@ -88,6 +90,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
+        // console.log("response in create trial step 5:", response);
         setFormData({
           ...formData,
           step5Data: {
@@ -236,7 +239,7 @@ const CreateTrialStep5Form = () => {
           </div>
 
           <div className="flex flex-col w-full">
-            <label htmlFor="publish" className="flex items-center text-sm font-semibold">
+            <label htmlFor="isPublished" className="flex items-center text-sm font-semibold">
               Publish status:<span className="ml-1">*</span>{" "}
               <span>
                 <TooltipButton
