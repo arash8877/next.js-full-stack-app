@@ -200,7 +200,7 @@ export default function InviteEmployeeModal({
               formik={formik}
             />
             <InputField
-              label={l("register.step2.form.email.label") || "lastName"}
+              label={l("register.step2.form.email.label") || "Last name"}
               name="lastName"
               type="test"
               placeholder="e.g. Doe"
