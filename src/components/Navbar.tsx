@@ -32,7 +32,7 @@ const Navbar = ({
   return (
     <header className={`flex ${items} ${justify} px-4  lg:px-16 z-50`}>
       {isLoginUrl || isRegisterStep4Url ? ( // if the current url is login page, the logo will be a link
-        <Link href="https://www.sponsor.trialsync.com/login" target="_blank">
+        <Link href="https://sponsor.trialsync.com/login" target="_blank">
           <div>
             <div className="flex_center gap-1">
               <Image
