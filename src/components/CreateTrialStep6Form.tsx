@@ -109,19 +109,10 @@ const CreateTrialStep6Form = () => {
           </div>
 
           <div className="text-sm mb-2">
-            <p className="font-bold">Short Description:</p>
+            <p className="font-bold">Description:</p>
             <div
               dangerouslySetInnerHTML={{
-                __html: trialData?.shortDescription || "N/A",
-              }}
-              className="ql-editor no_border"
-            />
-          </div>
-          <div className="text-sm mb-2">
-            <p className="font-bold">Full Description:</p>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: trialData?.fullDescription || "N/A",
+                __html: trialData?.description || "----------",
               }}
               className="ql-editor no_border"
             />

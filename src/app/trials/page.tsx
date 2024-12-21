@@ -91,7 +91,7 @@ export default function TrialsPage() {
                   trialId={trial["trialId"]}
                   applicationCount={trial["applicationCount"]}
                   title={trial["title"]}
-                  shortDescription={trial["shortDescription"]}
+                  description={trial["description"]}
                   urlStub={trial["urlStub"]}
                   startDate={formatDate(trial["startDate"])}
                   endDate={formatDate(trial["endDate"])}
