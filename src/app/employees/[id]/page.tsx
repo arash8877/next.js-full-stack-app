@@ -27,8 +27,8 @@ export default function EmployeesPage({ params }: Props) {
   //--------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between md:flex-row md:items-center mb-[6px]">
-        <h1 className="text-2xl font-semibold mt-3 mb-4 sm:text-3xl sm:mb-12">
+      <div className="flex flex-col justify-between md:flex-row md:items-center bg-white sm:pt-11">
+      <h1 className="text-2xl font-semibold sm:text-3xl mb-4 sm:mb-[52px]">
           {l("settings.title") || "Employee Info"}
         </h1>
       </div>
