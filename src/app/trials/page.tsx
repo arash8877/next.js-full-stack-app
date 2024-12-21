@@ -83,7 +83,7 @@ export default function TrialsPage() {
               "No trials available ! Create your first trial."}
           </h2>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 mt-8 justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
             {allTrials &&
               allTrials.map((trial, index) => (
                 <TrialCard
