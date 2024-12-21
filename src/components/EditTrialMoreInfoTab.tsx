@@ -216,7 +216,9 @@ export default function EditTrialMoreInfoTab({
               </label>
               <RecruitingDropdown
                 value={formik.values.isRecruiting.toString()}
-                onChange={(value) => formik.setFieldValue("isRecruiting", value)}
+                onChange={(value) =>
+                  formik.setFieldValue("isRecruiting", value)
+                }
                 borderColor="#DFF2DF"
               />
               <small className="text-red-600">
@@ -320,23 +322,24 @@ export default function EditTrialMoreInfoTab({
             </div>
           </fieldset>
 
-          <div hidden={!isOtherClicked}>
+          {formik.values.otherCompensation && (
             <div className="flex flex-col justify-start gap-2 mb-12">
               <p className="text-sm font-semibold mb-2">
                 {l("register.step4.other.description") ||
                   "Inform other compensation:"}
               </p>
               <textarea
+                id="otherCompensationText"
+                name="otherCompensationText"
                 value={formik.values.otherCompensationText}
-                onChange={(e) => {
-                  const updatedValue = e.target.value;
-                  formik.setFieldValue("otherCompensationText", updatedValue);
-                }}
+                onChange={(e) =>
+                  formik.setFieldValue("otherCompensationText", e.target.value)
+                }
+                placeholder="Please specify other compensation"
                 className="h-24 p-3 border border-[#dff2df] rounded-lg"
-                placeholder="Please inform other compensation"
               />
             </div>
-          </div>
+          )}
         </div>
 
         <div className="flex justify-center xs:justify-end gap-4 mt-8">

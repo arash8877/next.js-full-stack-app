@@ -114,7 +114,7 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
 
   //------------------------------------------ JSX --------------------------------------------
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:gap-4">
+    <div className="flex flex-col gap-3 lg:flex-row lg:gap-4 pb-8">
       <div className="flex bg-white flex-1 rounded-xl relative  md:col-span-4">
         <Image
           src="/search-icon.svg"
