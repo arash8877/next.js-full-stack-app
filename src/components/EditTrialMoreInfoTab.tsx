@@ -110,6 +110,7 @@ export default function EditTrialMoreInfoTab({
   });
 
   //-------- toggle textarea ---------
+  const isOtherCompensationSelected = otherCompensation || false;
   const [isOtherClicked, setIsOtherClicked] = useState(false);
   const toggleOtherCompensation = () => {
     setIsOtherClicked(!isOtherClicked);
@@ -320,7 +321,7 @@ export default function EditTrialMoreInfoTab({
             </div>
           </fieldset>
 
-          <div hidden={!isOtherClicked}>
+          <div hidden={!isOtherCompensationSelected}>
             <div className="flex flex-col justify-start gap-2 mb-12">
               <p className="text-sm font-semibold mb-2">
                 {l("register.step4.other.description") ||
