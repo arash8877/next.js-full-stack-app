@@ -25,7 +25,7 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
   const { l } = useLanguageStore();
 
   function updateURL(newFilters: iTrialFilteringProps) {
-    let newUrl = "/trials";
+    let newUrl = "/";
     let separator = "?";
 
     if (newFilters.searchValue != null) {
@@ -79,7 +79,7 @@ const TrialFilterBar: React.FC<iTrialFilterBarProps> = ({
   const debouncedApplyFilters = debounce(
     (updatedFilters: iTrialFilteringProps) => {
       onFilterChange(updatedFilters);
-      let newUrl = "/trials";
+      let newUrl = "/";
       let separator = "?";
 
       if (updatedFilters.searchValue != null) {

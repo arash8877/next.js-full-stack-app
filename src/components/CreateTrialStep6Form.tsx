@@ -87,7 +87,7 @@ const CreateTrialStep6Form = () => {
         className: "single_line_toast",
       });
 
-      router.push("/trials");
+      router.push("/");
     } catch (error) {
       console.error(error);
       if (error instanceof AxiosError) {
