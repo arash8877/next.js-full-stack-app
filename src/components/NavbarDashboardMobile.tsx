@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import useGetMyTrials from "@/hooks/useGetMyTrials";
 // import useGetUserInfo from "@/hooks/useGetUserInfo";
-import { useMyTrialsStore } from "@/stores/trialCount-store";
+// import useGetMyTrials from "@/hooks/useGetMyTrials";
+// import { useMyTrialsStore } from "@/stores/trialCount-store";
 import LogoutModal from "./LogoutModal";
 import useLanguageStore from "@/stores/language-store";
 
@@ -33,12 +33,13 @@ export default function NavbarDashboardMobile() {
     setIsLogoutModalOpen(false);
   };
 
-  //-----get my trials count from useGetMyTrials hook-----
-  const myTrials = useGetMyTrials();
-  const { getTrialsCount } = useMyTrialsStore();
-  useEffect(() => {
-    getTrialsCount();
-  }, [myTrials, getTrialsCount]);
+  //----- Calculate number of trials -----
+      // -------> the endpoint does not work in SP <-------
+  // const myTrials = useGetMyTrials();
+  // const { getTrialsCount } = useMyTrialsStore();
+  // useEffect(() => {
+  //   getTrialsCount();
+  // }, [myTrials, getTrialsCount]);
 
   //-------------------------------------- JSX ----------------------------------------
   return (

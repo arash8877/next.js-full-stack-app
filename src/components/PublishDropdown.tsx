@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import useLanguageStore from "@/stores/language-store";
 
-interface RecruitingDropdownProps {
+interface PublishDropdownProps {
   value: string;
   onChange: React.Dispatch<React.SetStateAction<string>>;
   borderColor: string;
@@ -18,9 +18,8 @@ export default function PublishDropdown({
   value,
   onChange,
   borderColor,
-}: RecruitingDropdownProps) {
+}: PublishDropdownProps) {
   const { l } = useLanguageStore();
-
   //------------ return -------------------
   return (
     <Box sx={{ minWidth: 120 }}>

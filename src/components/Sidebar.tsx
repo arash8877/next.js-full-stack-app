@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink"; 
 import LogoutModal from "./LogoutModal";
-import useGetMyTrials from "@/hooks/useGetMyTrials";
+// import useGetMyTrials from "@/hooks/useGetMyTrials";
+// import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
-import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useLanguageStore from "@/stores/language-store";
 
 //------------------------------- main function ------------------------------------------
@@ -18,12 +18,13 @@ export default function SidebarDashboard() {
   const isAdmin = userData.isAdmin;
   const { l } = useLanguageStore();
 
-  //-----get my trials count from useGetMyTrials hook-----
-  const myTrials = useGetMyTrials();
-  const { getTrialsCount } = useMyTrialsStore();
-  useEffect(() => {
-    getTrialsCount();
-  }, [myTrials, getTrialsCount]);
+  //----- Calculate number of trials -----
+      // -------> the endpoint does not work in SP <-------
+  // const myTrials = useGetMyTrials();
+  // const { getTrialsCount } = useMyTrialsStore();
+  // useEffect(() => {
+  //   getTrialsCount();
+  // }, [myTrials, getTrialsCount]);
 
   //-------- toggle sidebar ----------
   const toggleSidebar = () => {

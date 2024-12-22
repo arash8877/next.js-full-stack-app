@@ -15,8 +15,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function EditTrialTitleTab({
   trialId,
   title,
-  shortDescription,
-  fullDescription,
+  description,
 }: CreateTrialTitleStepProps) {
   const { l } = useLanguageStore();
 
@@ -33,21 +32,16 @@ export default function EditTrialTitleTab({
           "Title must be at least 5 characters!"
       ),
 
-    shortDescription: Yup.string()
+    description: Yup.string()
       .required(
-        l("settings.tab1.form.shortDescription.validation.required") ||
-          "Short description is required!"
+        l("settings.tab1.form.description.validation.required") ||
+          "Description is required!"
       )
       .min(
-        10,
-        l("settings.tab1.form.shortDescription.validation.length") ||
-          "Short description must be at least 10 characters!"
+        20,
+        l("settings.tab1.form.description.validation.length") ||
+          "Description must be at least 20 characters!"
       ),
-
-    fullDescription: Yup.string().required(
-      l("settings.tab1.form.fullDescription.validation.required") ||
-        "Full description is required!"
-    ),
   });
 
   //--------------- formik ----------------
@@ -59,8 +53,7 @@ export default function EditTrialTitleTab({
     enableReinitialize: true,
     initialValues: {
       title: title || "",
-      shortDescription: shortDescription || "",
-      fullDescription: fullDescription || "",
+      description: description || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -68,8 +61,7 @@ export default function EditTrialTitleTab({
       const data = {
         trialId: trialId,
         title: values.title,
-        shortDescription: values.shortDescription,
-        fullDescription: values.fullDescription,
+        description: values.description,
       };
 
       try {
@@ -79,8 +71,7 @@ export default function EditTrialTitleTab({
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step1`,
           {
             title: data.title,
-            shortDescription: data.shortDescription,
-            fullDescription: data.fullDescription,
+            description: data.description,
           },
           {
             headers: {
@@ -136,39 +127,20 @@ export default function EditTrialTitleTab({
             <div className="flex flex-col gap-4 xl:gap-16">
               <div className="flex flex-col gap-2 w-full">
                 <label
-                  htmlFor="shortDescription"
+                  htmlFor="description"
                   className="text-sm font-semibold"
                 >
-                  Short Description:<span className="ml-1">*</span>
+                  Description:<span className="ml-1">*</span>
                 </label>
                 <ReactQuill
-                  value={formik.values.shortDescription}
+                  value={formik.values.description}
                   onChange={(value) =>
-                    formik.setFieldValue("shortDescription", value)
+                    formik.setFieldValue("description", value)
                   }
                 />
                 <small className="text-red-600">
-                  {formik.touched.shortDescription &&
-                    formik.errors.shortDescription}
-                </small>
-              </div>
-
-              <div className="flex flex-col gap-2 w-full">
-                <label
-                  htmlFor="fullDescription"
-                  className="text-sm font-semibold"
-                >
-                  Full Description:<span className="ml-1">*</span>
-                </label>
-                <ReactQuill
-                  value={formik.values.fullDescription}
-                  onChange={(value) =>
-                    formik.setFieldValue("fullDescription", value)
-                  }
-                />
-                <small className="text-red-600">
-                  {formik.touched.fullDescription &&
-                    formik.errors.fullDescription}
+                  {formik.touched.description &&
+                    formik.errors.description}
                 </small>
               </div>
             </div>

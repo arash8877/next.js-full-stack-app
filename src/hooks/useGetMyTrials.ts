@@ -28,6 +28,7 @@ export default function useGetMyTrials(): IUseGetMyTrials {
 
   const { data, error, isLoading } = useSWR(
     authenticated
+    // -------> the endpoint does not work in SP <-------
       ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/applications`
       : null,
     fetcher
