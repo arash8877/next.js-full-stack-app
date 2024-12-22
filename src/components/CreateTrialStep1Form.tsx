@@ -81,36 +81,24 @@ const CreateTrialStep1Form = () => {
         l("settings.tab1.form.title.validation.length") ||
           "Title must be at least 4 characters!"
       ),
-    shortDescription: Yup.string()
+    description: Yup.string()
       .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
       .required(
-        l("settings.tab1.form.shortDescription.validation.required") ||
-          "Short description is required!"
-      )
-      .min(
-        10,
-        l("settings.tab1.form.shortDescription.validation.length") ||
-          "Short description must be at least 10 characters!"
-      ),
-    fullDescription: Yup.string()
-      .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
-      .required(
-        l("register.step1.form.fullDescription.validation.required") ||
-          "Full Description is required!"
+        l("settings.tab1.form.description.validation.required") ||
+          "Description is required!"
       )
       .min(
         20,
-        l("settings.tab1.form.fullDescription.validation.length") ||
-          "Full description must be at least 20 characters!"
-      ),
+        l("settings.tab1.form.description.validation.length") ||
+          "Description must be at least 20 characters!"
+      )
   });
 
   //---------- formik -----------
   const formik = useFormik({
     initialValues: {
       title: formData?.step1Data?.title || "",
-      shortDescription: formData?.step1Data?.shortDescription || "",
-      fullDescription: formData?.step1Data?.fullDescription || "",
+      description: formData?.step1Data?.description || "",
     },
     validationSchema: formSchema,
     //----- on submit ---------
@@ -125,9 +113,10 @@ const CreateTrialStep1Form = () => {
         const payload = {
           sponsorId: jwtInfo.jwtInfo?.sponsor_id,
           title: values["title"],
-          shortDescription: values["shortDescription"],
-          fullDescription: values["fullDescription"],
+          description: values["description"],
+
         };
+        // console.log("payload in create-trial-step1:", payload);
         setFormData({ step1Data: values });
 
         const response = await axios.post(
@@ -175,42 +164,24 @@ const CreateTrialStep1Form = () => {
         />
 
         <div className="flex flex-col gap-2 w-full mb-12">
-          <label htmlFor="shortDescription" className="text-sm font-semibold">
-            Short Description<span className="ml-1">*</span>
+          <label htmlFor="description" className="text-sm font-semibold">
+            Description<span className="ml-1">*</span>
           </label>
           <div className="h-[200px]">
             <ReactQuill
-              value={formik.values.shortDescription}
+              value={formik.values.description}
               onChange={(value) =>
-                formik.setFieldValue("shortDescription", value)
+                formik.setFieldValue("description", value)
               }
               className="h-full"
             />
           </div>
 
           <small className="text-red-600 mt-10">
-            {formik.touched.shortDescription && formik.errors.shortDescription}
+            {formik.touched.description && formik.errors.description}
           </small>
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="fullDescription" className="text-sm font-semibold">
-            Full Description<span className="ml-1">*</span>
-          </label>
-          <div className="h-[400px]">
-            <ReactQuill
-              value={formik.values.fullDescription}
-              onChange={(value) =>
-                formik.setFieldValue("fullDescription", value)
-              }
-              className="h-full"
-            />
-          </div>
-
-          <small className="text-red-600 mt-10">
-            {formik.touched.fullDescription && formik.errors.fullDescription}
-          </small>
-        </div>
       </div>
 
       <div className="flex justify-center xs:justify-end gap-4 mt-20">

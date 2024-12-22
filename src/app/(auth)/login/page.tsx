@@ -18,7 +18,7 @@ export default function LoginPage() {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          router.push("/trials");
+          router.push("/");
         } catch (error) {
           console.error("Error checking if user is completed", error);
         }

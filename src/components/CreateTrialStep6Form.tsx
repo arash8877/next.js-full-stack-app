@@ -87,7 +87,7 @@ const CreateTrialStep6Form = () => {
         className: "single_line_toast",
       });
 
-      router.push("/trials");
+      router.push("/");
     } catch (error) {
       console.error(error);
       if (error instanceof AxiosError) {
@@ -109,19 +109,10 @@ const CreateTrialStep6Form = () => {
           </div>
 
           <div className="text-sm mb-2">
-            <p className="font-bold">Short Description:</p>
+            <p className="font-bold">Description:</p>
             <div
               dangerouslySetInnerHTML={{
-                __html: trialData?.shortDescription || "----------",
-              }}
-              className="ql-editor no_border"
-            />
-          </div>
-          <div className="text-sm mb-2">
-            <p className="font-bold">Full Description:</p>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: trialData?.fullDescription || "----------",
+                __html: trialData?.description || "----------",
               }}
               className="ql-editor no_border"
             />

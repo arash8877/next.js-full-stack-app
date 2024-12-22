@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink"; 
 import LogoutModal from "./LogoutModal";
-import useGetMyTrials from "@/hooks/useGetMyTrials";
+// import useGetMyTrials from "@/hooks/useGetMyTrials";
+// import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
-import { useMyTrialsStore } from "@/stores/trialCount-store";
 import useLanguageStore from "@/stores/language-store";
 
 //------------------------------- main function ------------------------------------------
@@ -18,12 +18,13 @@ export default function SidebarDashboard() {
   const isAdmin = userData.isAdmin;
   const { l } = useLanguageStore();
 
-  //-----get my trials count from useGetMyTrials hook-----
-  const myTrials = useGetMyTrials();
-  const { getTrialsCount } = useMyTrialsStore();
-  useEffect(() => {
-    getTrialsCount();
-  }, [myTrials, getTrialsCount]);
+  //----- Calculate number of trials -----
+      // -------> the endpoint does not work in SP <-------
+  // const myTrials = useGetMyTrials();
+  // const { getTrialsCount } = useMyTrialsStore();
+  // useEffect(() => {
+  //   getTrialsCount();
+  // }, [myTrials, getTrialsCount]);
 
   //-------- toggle sidebar ----------
   const toggleSidebar = () => {
@@ -50,7 +51,7 @@ export default function SidebarDashboard() {
         }`}
       >
         <div className="flex flex-col">
-          <Link href="https://sponsor.trialsync.com/trials">
+          <Link href="https://sponsor.trialsync.com">
             <div
               className={`flex gap-2 items-center sidebar_animation ${
                 isSidebarOpen ? "pl-9 mt-11" : "pl-3 my-11"
@@ -92,7 +93,7 @@ export default function SidebarDashboard() {
               }`}
             >
               <ActiveLink
-                href="/trials"
+                href="/"
                 activeClassName="sidebar_item_active"
                 nonActiveClassName=""
               >

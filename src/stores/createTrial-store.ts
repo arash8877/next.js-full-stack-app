@@ -6,8 +6,7 @@ import { merge } from "lodash";
 interface FormData {
   step1Data: {
     title: string;
-    shortDescription: string;
-    fullDescription: string;
+    description: string;
   };
   step2Data: {
     trialSites: {
@@ -83,7 +82,7 @@ const useCreateTrialStore = create<FormStore>()(
   persist(
     (set) => ({
       formData: {
-        step1Data: { title: "", shortDescription: "", fullDescription: "" },
+        step1Data: { title: "", description: "" },
         step2Data: {
           trialSites: [{ name: "", address: "", zipCode: "", country: "" }],
         },
@@ -126,7 +125,7 @@ const useCreateTrialStore = create<FormStore>()(
       resetFormData: () =>
         set({
           formData: {
-            step1Data: { title: "", shortDescription: "", fullDescription: "" },
+            step1Data: { title: "", description: ""},
             step2Data: {
               trialSites: [{ name: "", address: "", zipCode: "", country: "" }],
             },

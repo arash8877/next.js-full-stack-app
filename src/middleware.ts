@@ -57,7 +57,7 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/trials",
+    "/",
     "/company",
     "/employees",
     "/invoices",

@@ -62,8 +62,8 @@ export default function EditTrialMoreInfoTab({
       participantActivities: participantActivities || "",
       expectedParticipants: expectedParticipants || 0,
       additionalInformation: additionalInformation || "",
-      isRecruiting: isRecruiting || "Not Recruiting",
-      isPublished: isPublished || "Not Published",
+      isRecruiting: isRecruiting || false,
+      isPublished: isPublished || false,
       drivingCompensation: drivingCompensation || false,
       monetaryCompensation: monetaryCompensation || false,
       otherCompensation: otherCompensation || false,
@@ -84,6 +84,7 @@ export default function EditTrialMoreInfoTab({
         otherCompensation: values.otherCompensation,
         otherCompensationText: values.otherCompensationText,
       };
+      // console.log("payload edit trial step$$$$$$$", payload);
       const token = localStorage.getItem("token");
       try {
         // eslint-disable-next-line
@@ -96,6 +97,7 @@ export default function EditTrialMoreInfoTab({
             },
           }
         );
+        // console.log("response edit trial step$$$$$$$", response);
         toast.success("The trial is updated successfully", {
           position: "top-center",
           autoClose: 2000,
@@ -232,7 +234,7 @@ export default function EditTrialMoreInfoTab({
               </label>
               <PublishDropdown
                 value={formik.values.isPublished.toString()}
-                onChange={(value) => formik.setFieldValue("onChange", value)}
+                onChange={(value) => formik.setFieldValue("isPublished", value)}
                 borderColor="#DFF2DF"
               />
               <small className="text-red-600">

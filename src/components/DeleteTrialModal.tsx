@@ -67,7 +67,7 @@ export default function DeleteTrialModal({
           className: "single_line_toast",
         }
       );
-      router.push("/trials");
+      router.push("/");
     } catch (error) {
       toast.error(
         l("settings.tab1.form.toast.error") || "Something went wrong!",
