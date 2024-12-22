@@ -40,7 +40,7 @@ export default function AcceptInvitationPage() {
         try {
           const isCompleted = await CheckUserCompleted();
           if (isCompleted) {
-            router.push("/trials");
+            router.push("/");
           }
         } catch (error) {
           console.error("Error checking if user is completed", error);

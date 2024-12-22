@@ -94,7 +94,7 @@ export default function NavbarDashboardMobile() {
             {l("navbar.services.header") || "Services"}
           </h4>
           <Link
-            href="/trials"
+            href="/"
             className="navbar_item items-center"
             onClick={() => {
               setMenu(false);

@@ -48,7 +48,7 @@ const LoginForm = () => {
         localStorage.setItem("token", response.data.token);
         document.cookie = `token=${response.data.token}; path=/; max-age=86400; SameSite=Strict; Secure`;
         localStorage.setItem("language", response.data.user.preferredLanguage);
-        router.push("/trials");
+        router.push("/");
 
 
       } catch (error) {
