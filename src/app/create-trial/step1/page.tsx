@@ -10,7 +10,7 @@ export default function CreateTrialStep1Page() {
 
   return (
     <SidebarLayout>
-      <div className="sm:sticky top-0 bg-white sm:pt-11">
+      <div className="bg-white sm:pt-11">
         <h1 className="text-2xl font-semibold sm:text-3xl mb-4 sm:mb-[52px]">
           {
             //l("settings.title") ||

@@ -22,7 +22,6 @@ export default function EmployeesPage() {
     router.push(`/employees/${employeeId}`);
   }
 
-  console.log("sponsorContacts*********:", companyData.sponsorContacts);
 
   //----- Un-Invite an employee -----
   async function unInviteEmployee(employeeId: number) {
@@ -93,7 +92,7 @@ export default function EmployeesPage() {
   //------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col justify-between gap-3 mb-4 sm:mb-0 md:flex-row lg:gap-4 sm:sticky top-0 bg-white sm:pt-11">
+      <div className="flex flex-col justify-between gap-3 mb-4 sm:mb-0 md:flex-row lg:gap-4 bg-white sm:pt-11">
         <h1 className="text-2xl font-semibold sm:text-3xl sm:mb-[52px]">
           {l("settings.title") || "Employees"}
         </h1>
@@ -133,10 +132,9 @@ export default function EmployeesPage() {
                 <td className="py-4 px-6 hidden md:table-cell">
                   {employee.lastName}
                 </td>
-                <td className="py-4 px-6 hidden lg:table-cell break-all max-w-xs whitespace-normal">
+                <td className="py-4 px-6 hidden lg:table-cell">
                   {employee.email}
                 </td>
-                {/* Email should break into multiple lines */}
                 <td className="py-4 px-6 hidden 2xl:table-cell">
                   {employee.lastLogin == "0001-01-01T00:00:00"
                     ? "---------"
