@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// import useGetUserInfo from "@/hooks/useGetUserInfo";
+import useGetUserInfo from "@/hooks/useGetUserInfo";
 // import useGetMyTrials from "@/hooks/useGetMyTrials";
 // import { useMyTrialsStore } from "@/stores/trialCount-store";
 import LogoutModal from "./LogoutModal";
@@ -13,9 +13,8 @@ import useLanguageStore from "@/stores/language-store";
 export default function NavbarDashboardMobile() {
   const [menu, setMenu] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
-  // const { userData } = useGetUserInfo();
-  // const isAdmin = userData.isAdmin;
-  const isAdmin = true;
+  const { userData } = useGetUserInfo();
+  const isAdmin = userData.isAdmin;
   const { l } = useLanguageStore();
 
   //--- toggle burger icon -----
