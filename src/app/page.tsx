@@ -77,7 +77,7 @@ export default function TrialsPage() {
   return (
     <div>
       <SidebarLayout>
-        <div className="sm:sticky top-0 bg-white sm:pt-11">
+        <div className="sm:sticky top-0 bg-white sm:pt-11 trials-header-shadow-removal">
           <h1 className="text-2xl font-semibold mb-4 sm:text-3xl sm:mb-[52px]">
             {l("trialoverview.title") || "Trials Overview"}
           </h1>

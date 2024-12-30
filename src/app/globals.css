@@ -133,6 +133,10 @@ p {
   @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 py-8 xs:px-8 place-items-center;
 }
 
+.trials-header-shadow-removal {
+  @apply relative before:content-[''] after:content-[''] before:absolute after:absolute before:top-0 after:top-0 before:bottom-0 after:bottom-0 before:-left-5 after:-right-5 before:w-5 after:w-5 before:bg-white after:bg-white;
+}
+
 /*---------------------------- My-trials ----------------------------- */
 .my_trials_grid {
   @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 xs:px-8 pb-8 place-items-center;
