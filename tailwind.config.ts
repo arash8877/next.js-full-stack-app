@@ -78,6 +78,7 @@ const config: Config = {
           yellow2: "#FFE39B",
           green: "#B5E6B2",
           green2: "#83D57F",
+          blue: "#B1F0F7",
           red: "#B42318",
           red2: "#F47F7F",
         },
