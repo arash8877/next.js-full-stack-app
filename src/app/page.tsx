@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
@@ -116,6 +115,7 @@ export default function TrialsPage() {
                   media={trial.media}
                   approvedAt={trial.approvedAt}
                   publishedAt={trial.publishedAt}
+                  referred={trial.referred}
                   declined={trial.declined}
                   //medicalCategories={trial.medicalCategories || []}
                   medicalCategories={[]}
@@ -129,4 +129,3 @@ export default function TrialsPage() {
     </div>
   );
 }
-
