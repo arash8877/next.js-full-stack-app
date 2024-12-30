@@ -58,16 +58,16 @@ function RegisterStep4() {
             <div className="flex_center flex-col mt-12 mb-8">
               <h1 className="text-2xl text-center md:text-3xl font-semibold mb-4 md:mb-12">
                 {l("register.step4.header") ||
-                  "You are successfully registered"}
+                  "You have successfully registered"}
               </h1>
               <p className="text-base text-center md:font-semibold">
                 {l("register.step2.description1") ||
-                  "We will review your information and will send an status update email to"}{" "}
+                  "We will review your information and will send a status update email to"}{" "}
                 {email}
               </p>
               <p className="text-base text-center pt-6">
                 {l("settings.tab4.email.warning") ||
-                  "Our support team is always ready to help you. Any questions, please contact us at"}{" "}
+                  "Our support team is always ready to assist you. If you have any questions, please contact us at"}{" "}
                 <a
                   className="italic underline"
                   href="mailto:support@trialsync.com"
