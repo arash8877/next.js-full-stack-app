@@ -183,14 +183,16 @@ p {
 /* Customize the editor's toolbar */
 .ql-toolbar {
   background-color: #f3f3f3;
-  border-radius: 8px;
   border: 1px solid #dff2df;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 /* Customize the editor itself */
 .ql-container {
   border: 2px solid #dff2df;
-  border-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   font-family: "Arial", sans-serif;
   margin-top: 20px;
 }
@@ -201,7 +203,8 @@ p {
   line-height: 1.6;
   background-color: white;
   border: 1px solid #dff2df;
-  border-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .no_border {
