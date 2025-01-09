@@ -54,7 +54,7 @@ const formSchema = Yup.object({
         console.log(response)
         toast.success("Success! Login with new password", {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 3000,
           className: "single_line_toast",
         });
 
@@ -118,7 +118,7 @@ const formSchema = Yup.object({
       <div className="flex justify-center">
         <CustomButton
           title={l("resetpassword.form.submit") || "Submit"}
-          containerStyles="rounded-lg bg-gradient-button w-full h-10"
+          containerStyles="rounded-lg bg-gradient-button w-full h-10 flex_center"
           btnType="submit"
         />
       </div>
