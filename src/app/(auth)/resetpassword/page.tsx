@@ -67,8 +67,8 @@ function ResetPasswordPage() {
             justify="justify-center lg:justify-start"
             displayLogin="hidden"
           />
-      <section className="flex items-center custom-height">
-        <div className="reset_password_div border border-bgColor-10">
+      <section className="flex justify-center items-start md:items-center custom-height">
+        <div className="reset_password_div border border-bgColor-10 shadow-lg">
           <div>
             <div className="flex_center flex-col">
               <h1 className="text-2xl md:text-3xl font-semibold mb-4">

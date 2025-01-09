@@ -115,27 +115,27 @@ export default function EmployeesPage() {
           <thead>
             <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
               <th className="hidden">Id</th>
-              <th className="py-3 px-6">First Name</th>
-              <th className="py-3 px-6 hidden md:table-cell">Last Name</th>
+              <th className="py-3 px-6 text-xs">First Name</th>
+              <th className="py-3 px-6 hidden md:table-cell text-xs">Last Name</th>
               {/* Hidden on small screens */}
-              <th className="py-3 px-6 hidden lg:table-cell">Email</th>
+              <th className="py-3 px-6 hidden lg:table-cell text-xs">Email</th>
               {/* Hidden on small screens */}
-              <th className="py-3 px-6 hidden 2xl:table-cell">Last Login</th>
-              <th className="py-3 px-6 text-right">Action</th>
+              <th className="py-3 px-6 hidden 2xl:table-cell text-xs">Last Login</th>
+              <th className="py-3 px-6 text-right text-xs">Action</th>
             </tr>
           </thead>
           <tbody>
             {companyData?.sponsorContacts?.map((employee, index) => (
               <tr key={index} className="border-b">
                 <td className="hidden">{employee.userId}</td>
-                <td className="py-4 px-6">{employee.firstName}</td>
-                <td className="py-4 px-6 hidden md:table-cell">
+                <td className="py-4 px-6 text-sm 2xl:text-base">{employee.firstName}</td>
+                <td className="py-4 px-6 hidden md:table-cell text-sm 2xl:text-base">
                   {employee.lastName}
                 </td>
-                <td className="py-4 px-6 hidden lg:table-cell">
+                <td className="py-4 px-6 hidden lg:table-cell text-sm 2xl:text-base">
                   {employee.email}
                 </td>
-                <td className="py-4 px-6 hidden 2xl:table-cell">
+                <td className="py-4 px-6 hidden 2xl:table-cell 2xl:text-base">
                   {employee.lastLogin == "0001-01-01T00:00:00"
                     ? "---------"
                     : new Date(employee.lastLogin).toLocaleDateString("en-US", {
@@ -149,13 +149,15 @@ export default function EmployeesPage() {
                     <div className="flex gap-2">
                       <CustomButton
                         title={l("forgotpassword.form.submit") || "Uninvite"}
-                        containerStyles="rounded-lg flex_center bg-bgColor-red text-white h-8 custom_padding"
+                        containerStyles="rounded-lg flex_center bg-bgColor-red h-8 custom_padding"
+                        textStyles="text-white text-xs xl:text-sm 2xl:text-base"
                         btnType="button"
                         handleClick={() => unInviteEmployee(employee.userId)}
                       />
                       <CustomButton
                         title={l("forgotpassword.form.submit") || "Reinvite"}
                         containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom_padding"
+                        textStyles="text-xs xl:text-sm 2xl:text-base"
                         btnType="button"
                         handleClick={() => reInviteEmployee(employee.userId)}
                       />
@@ -164,6 +166,7 @@ export default function EmployeesPage() {
                     <CustomButton
                       title={l("forgotpassword.form.submit") || "View"}
                       containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom_padding2"
+                      textStyles="text-xs xl:text-sm 2xl:text-base"
                       btnType="button"
                       handleClick={() =>
                         redirectToEmployeeDetails(employee.userId)
