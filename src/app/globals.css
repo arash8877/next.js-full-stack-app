@@ -99,10 +99,6 @@ p {
   @apply mx-auto bg-white max-w-3xl px-6 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl;
 }
 
-.register_step3_div {
-  @apply mx-auto bg-white max-w-3xl px-6 mt-[192px] sm:mt-0 md:px-12 py-6 md:py-10 xl:py-12 rounded-3xl;
-}
-
 .register_step4_section {
   @apply mx-auto bg-white max-w-3xl px-6 md:px-12 py-6 md:py-10 xl:py-12 mt-12 rounded-3xl;
 }
