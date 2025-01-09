@@ -97,7 +97,7 @@ iTrialCardProps) {
         <p className="text-xs font-medium w-[38%]">
           {l("trialcard.period") || "Interest Area:"}
         </p>
-        <p className="text-xs font-light line-clamp-1">
+        <p className="text-xs text-right font-light line-clamp-1">
           {inclusionDiseases.length > 0 ? inclusionDiseases.join(", ") : "-"}
         </p>
       </div>
