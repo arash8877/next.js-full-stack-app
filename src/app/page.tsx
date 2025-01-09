@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
@@ -78,7 +77,7 @@ export default function TrialsPage() {
   return (
     <div>
       <SidebarLayout>
-        <div className="sm:sticky top-0 bg-white sm:pt-11">
+        <div className="sm:sticky top-0 bg-white sm:pt-11 trials-header-shadow-removal">
           <h1 className="text-2xl font-semibold mb-4 sm:text-3xl sm:mb-[52px]">
             {l("trialoverview.title") || "Trials Overview"}
           </h1>
@@ -116,6 +115,7 @@ export default function TrialsPage() {
                   media={trial.media}
                   approvedAt={trial.approvedAt}
                   publishedAt={trial.publishedAt}
+                  referred={trial.referred}
                   declined={trial.declined}
                   //medicalCategories={trial.medicalCategories || []}
                   medicalCategories={[]}
@@ -129,4 +129,3 @@ export default function TrialsPage() {
     </div>
   );
 }
-

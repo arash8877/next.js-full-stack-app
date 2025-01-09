@@ -19,6 +19,7 @@ export default function TrialCard({
   submissionDeadline,
   approvedAt,
   publishedAt,
+  referred,
   declined,
   inclusionDiseases,
 }: //medicalCategories,
@@ -79,6 +80,7 @@ iTrialCardProps) {
           <TrialStatusBadge
             approvedAt={approvedAt}
             publishedAt={publishedAt}
+            referred={referred}
             declined={declined}
           />
         }
