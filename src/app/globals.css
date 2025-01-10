@@ -77,11 +77,9 @@ p {
 .register_input {
   @apply w-full h-[48px] p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
 }
-.custom-height {
-  height: calc(100vh - 103px);
-}
+
 .custom_height {
-  height: calc(100vh - 103px);
+  height: calc(100vh - 220px);
 }
 .custom_height2 {
   height: 56px !important;

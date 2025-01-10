@@ -51,7 +51,7 @@ function RegisterStep4() {
   return (
     <main className="min-h-screen my-6 mx-2 md:mx-14 lg:mx-16">
       <Navbar justify="justify-between" displayLogin="hidden" />
-      <section className="flex items-center custom-height">
+      <section className="flex items-center custom_height ">
         <div className="register_step2_div border border-bgColor-10 shadow-lg">
           <RegisterStepper activeStep={3} />
           <div>

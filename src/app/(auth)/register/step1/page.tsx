@@ -17,7 +17,7 @@ export default function RegisterStep1() {
         items="items-start"
         displayCompanyName="hidden sm:block"
       />
-      <section className="flex items-start md:items-center custom-height">
+      <section className="flex items-start md:items-center custom_height ">
         <div className="register_step1_section border border-bgColor-10 shadow-lg">
           <RegisterStepper activeStep={0} />
           <div>
