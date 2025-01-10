@@ -62,7 +62,7 @@ function ResetPasswordPage() {
 
   //--------------------------------------- Return -------------------------------------------
   return (
-    <main className="min-h-screen my-6 mx-2 md:mx-14 lg:mx-16">
+    <main className="min-h-screen pt-6 mx-2 md:mx-14 lg:mx-16">
       <Navbar justify="justify-center lg:justify-start" displayLogin="hidden" />
       <section className="flex justify-center items-start md:items-center custom_height ">
         <div className="reset_password_div border border-bgColor-10 shadow-lg">

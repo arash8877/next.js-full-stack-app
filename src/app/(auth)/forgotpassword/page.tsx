@@ -5,6 +5,7 @@ import { Suspense, useState } from "react";
 import Navbar from "@/components/Navbar";
 import CustomButton from "@/components/CustomButton";
 import ForgotPasswordForm from "@/components/ForgotPasswordForm";
+import { toast } from "react-toastify";
 import axios from "axios";
 import useEmailStore from "@/stores/emailForNotLoginUser-store";
 import { languages } from "@/lib/languageInfo";
@@ -28,8 +29,6 @@ function ForgotPasswordPage() {
 
   //------------ Handle Resend Email------------
   async function handleResendEmail() {
-    alert("Email has been sent successfully");
-
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/resetpassword`,
@@ -39,8 +38,24 @@ function ForgotPasswordPage() {
         }
       );
       console.log(response);
+      toast.success(
+        l("settings.tab1.form.toast.success") || "Email sent successfully",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
     } catch (error) {
       console.error("Error in resending email:", error);
+      toast.error(
+        l("settings.tab1.form.toast.error") || "Something went wrong!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
     }
   }
 
@@ -60,7 +75,7 @@ function ForgotPasswordPage() {
         //---- if email sent successfully ----
         <div className="flex flex-col">
           <Navbar
-            justify="justify-center lg:justify-start"
+            justify="justify-center md:justify-start"
             displayLogin="hidden"
           />
           <section className="flex justify-center items-start md:items-center custom_height">
@@ -92,7 +107,7 @@ function ForgotPasswordPage() {
         <>
           <div>
             <Navbar
-              justify="justify-center lg:justify-start"
+              justify="justify-center md:justify-start"
               displayLogin="hidden"
             />
             <section className="flex justify-center items-start md:items-center  custom_height">

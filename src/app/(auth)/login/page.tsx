@@ -30,10 +30,10 @@ export default function LoginPage() {
 
   // ------------------------------ return -------------------------------
   return (
-    <main className="mx-2 md:mx-14 lg:grid lg:grid-cols-2 lg:mx-4">
-      <div>
-        <Navbar justify="justify-between mt-6" displayLogin="hidden" />
-        <section className="mx-auto flex justify-center  items-start md:items-center custom_height2">
+    <main className="min-h-screen p-4 lg:grid lg:grid-cols-2 gap-4">
+      <div className="flex flex-col">
+        <Navbar justify="justify-center md:justify-start" displayLogin="hidden" />
+        <section className="flex justify-center  items-start md:items-center custom_height">
           <div className="bg-white px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl border border-bgColor-10 shadow-lg">
             <div className="flex_center flex-col gap-4 mb-8">
               <h1 className="text-2xl md:text-3xl font-semibold mb-4">
@@ -57,7 +57,7 @@ export default function LoginPage() {
         </section>
       </div>
       <div
-        className="bg-cover bg-center rounded-2xl my-4"
+        className="bg-cover bg-center rounded-2xl "
         style={{ backgroundImage: `url(/bg_login.svg)` }}
       ></div>
     </main>
