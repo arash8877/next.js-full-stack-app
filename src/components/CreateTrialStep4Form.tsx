@@ -25,8 +25,10 @@ const CreateTrialStep4Form = () => {
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
   const router = useRouter();
   const [error, setError] = useState("");
-  const { selectedInclusionDiseases, setSelectedInclusionDiseases } = useDiseaseStore();
-  const { selectedExclusionDiseases, setSelectedExclusionDiseases } = useDiseaseStore();
+  const { selectedInclusionDiseases, setSelectedInclusionDiseases } =
+    useDiseaseStore();
+  const { selectedExclusionDiseases, setSelectedExclusionDiseases } =
+    useDiseaseStore();
   const [loading, setLoading] = useState(false);
   const { l } = useLanguageStore();
 
@@ -156,7 +158,7 @@ const CreateTrialStep4Form = () => {
                 formik.setFieldValue("inclusionRequirements", e.target.value)
               }
               placeholder="Enter the eventual inclusion requirements"
-              className="register_input custom-border custom_height2 resize-none"
+              className="register_input custom-border custom_height3 resize-none"
             />
           </div>
         </div>
@@ -189,7 +191,7 @@ const CreateTrialStep4Form = () => {
                 formik.setFieldValue("exclusionRequirements", e.target.value)
               }
               placeholder="Enter the eventual exclusion requirements"
-              className="register_input custom-border custom_height2 resize-none"
+              className="register_input custom-border custom_height3 resize-none"
             />
           </div>
         </div>
