@@ -52,9 +52,9 @@ function ForgotPasswordPage() {
   //------------------------------ Return -------------------------------
   return (
     <main
-      className={`min-h-screen my-6 mx-2 md:mx-14 lg:grid lg:${
-        emailSent ? "" : "grid-cols-2"
-      } lg:mx-4`}
+      className={`min-h-screen p-4 lg:grid lg:${
+        emailSent ? "" : "grid-cols-2 gap-4"
+      } ""`}
     >
       {emailSent ? (
         //---- if email sent successfully ----
@@ -63,7 +63,7 @@ function ForgotPasswordPage() {
             justify="justify-center lg:justify-start"
             displayLogin="hidden"
           />
-          <section className="flex justify-center items-start md:items-center custom_height ">
+          <section className="flex justify-center items-start md:items-center custom_height">
             <div className="mx-auto bg-white max-w-3xl px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12  rounded-3xl border border-bgColor-10 shadow-lg">
               <div>
                 <div className="flex_center flex-col mt-12 mb-8">
