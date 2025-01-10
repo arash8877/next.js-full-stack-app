@@ -99,7 +99,7 @@ function RegisterStep3() {
     <PreVerifyRegisterProtectedLayout>
       <main className="min-h-screen pt-6 mx-2 md:mx-14 lg:mx-16">
         <Navbar
-          justify="justify-center  md:justify-start"
+          justify="justify-center md:justify-start"
           displayLogin="hidden"
         />
         <section className="flex items-center custom_height ">
