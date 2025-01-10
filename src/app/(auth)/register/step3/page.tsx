@@ -28,7 +28,6 @@ function RegisterStep3() {
   }, [setSelectedLang]);
 
   //-----------
-  
 
   //------------- Handle Next Step ---------------
   useEffect(() => {
@@ -98,35 +97,38 @@ function RegisterStep3() {
   //----------------------------- JSX --------------------------------------
   return (
     <PreVerifyRegisterProtectedLayout>
-    <main className="min-h-screen my-6 mx-2 md:mx-14 lg:mx-16">
-      <Navbar justify="justify-between" displayLogin="hidden" />
-      <section className="flex items-center custom-height">
-        <div className="register_step2_div border border-bgColor-10 shadow-lg">
-          <RegisterStepper activeStep={2} />
-          <div>
-            <div className="flex_center flex-col mt-12 mb-8">
-              <h1 className="text-2xl md:text-3xl font-semibold mb-4">
-                {l("register.step2.header") || "Check your email inbox"}
-              </h1>
-              <p className="text-base text-center">
-                {l("register.step2.description1") ||
-                  "You should have received a verification email at"}{" "}
-                {email}
-                {l("register.step2.description2") ||
-                  ". If not, click the button below to resend the email."}
-              </p>
-            </div>
-            <div className="flex justify-center flex-col xs:flex-row gap-4">
-              <CustomButton
-                title={l("register.step2.btn") || "Resend verification email"}
-                containerStyles="rounded-lg border border-primary-400 hover:border-2 "
-                handleClick={handleResendEmail}
-              />
+      <main className="min-h-screen pt-6 mx-2 md:mx-14 lg:mx-16">
+        <Navbar
+          justify="justify-center md:justify-start"
+          displayLogin="hidden"
+        />
+        <section className="flex items-center custom_height ">
+          <div className="register_step2_div border border-bgColor-10 shadow-lg">
+            <RegisterStepper activeStep={2} />
+            <div>
+              <div className="flex_center flex-col mt-12 mb-8">
+                <h1 className="text-2xl md:text-3xl font-semibold mb-4">
+                  {l("register.step2.header") || "Check your email inbox"}
+                </h1>
+                <p className="text-base text-center">
+                  {l("register.step2.description1") ||
+                    "You should have received a verification email at"}{" "}
+                  {email}
+                  {l("register.step2.description2") ||
+                    ". If not, click the button below to resend the email."}
+                </p>
+              </div>
+              <div className="flex justify-center flex-col xs:flex-row gap-4">
+                <CustomButton
+                  title={l("register.step2.btn") || "Resend verification email"}
+                  containerStyles="rounded-lg border border-primary-400 hover:border-2 "
+                  handleClick={handleResendEmail}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
     </PreVerifyRegisterProtectedLayout>
   );
 }

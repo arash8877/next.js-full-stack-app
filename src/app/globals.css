@@ -77,13 +77,14 @@ p {
 .register_input {
   @apply w-full h-[48px] p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
 }
-.custom-height {
-  height: calc(100vh - 103px);
-}
+
 .custom_height {
-  height: calc(100vh - 103px);
+  height: calc(100vh - 220px);
 }
 .custom_height2 {
+  height: calc(100vh - 102px);
+}
+.custom_height3 {
   height: 56px !important;
 }
 
@@ -92,7 +93,7 @@ p {
 }
 
 .register_step1_section {
-  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 lg:px-12 py-6 md:py-10 xl:py-12 sm:mt-12 rounded-3xl;
+  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 py-6 md:py-10 xl:py-12 rounded-3xl;
 }
 
 .register_step2_div {
