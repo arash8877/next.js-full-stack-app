@@ -81,7 +81,7 @@ const CreateTrialStep1Form = () => {
         l("settings.tab1.form.title.validation.length") ||
           "Title must be at least 4 characters!"
       ),
-    description: Yup.string()
+      shortDescription: Yup.string()
       .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
       .required(
         l("settings.tab1.form.description.validation.required") ||
@@ -98,7 +98,7 @@ const CreateTrialStep1Form = () => {
   const formik = useFormik({
     initialValues: {
       title: formData?.step1Data?.title || "",
-      description: formData?.step1Data?.description || "",
+      shortDescription: formData?.step1Data?.shortDescription || "",
     },
     validationSchema: formSchema,
     //----- on submit ---------
@@ -113,7 +113,7 @@ const CreateTrialStep1Form = () => {
         const payload = {
           sponsorId: jwtInfo.jwtInfo?.sponsor_id,
           title: values["title"],
-          description: values["description"],
+          shortDescription: values["shortDescription"],
 
         };
         // console.log("payload in create-trial-step1:", payload);
@@ -164,21 +164,21 @@ const CreateTrialStep1Form = () => {
         />
 
         <div className="flex flex-col gap-2 w-full mb-12">
-          <label htmlFor="description" className="text-sm font-semibold">
+          <label htmlFor="shortDescription" className="text-sm font-semibold">
             Description<span className="ml-1">*</span>
           </label>
           <div className="h-[200px]">
             <ReactQuill
-              value={formik.values.description}
+              value={formik.values.shortDescription}
               onChange={(value) =>
-                formik.setFieldValue("description", value)
+                formik.setFieldValue("shortDescription", value)
               }
               className="h-full"
             />
           </div>
 
           <small className="text-red-600 mt-10">
-            {formik.touched.description && formik.errors.description}
+            {formik.touched.shortDescription && formik.errors.shortDescription}
           </small>
         </div>
 

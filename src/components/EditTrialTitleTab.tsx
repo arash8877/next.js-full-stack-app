@@ -15,7 +15,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function EditTrialTitleTab({
   trialId,
   title,
-  description,
+  shortDescription,
 }: CreateTrialTitleStepProps) {
   const { l } = useLanguageStore();
 
@@ -32,7 +32,7 @@ export default function EditTrialTitleTab({
           "Title must be at least 5 characters!"
       ),
 
-    description: Yup.string()
+      shortDescription: Yup.string()
       .required(
         l("settings.tab1.form.description.validation.required") ||
           "Description is required!"
@@ -53,7 +53,7 @@ export default function EditTrialTitleTab({
     enableReinitialize: true,
     initialValues: {
       title: title || "",
-      description: description || "",
+      shortDescription: shortDescription || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -61,7 +61,7 @@ export default function EditTrialTitleTab({
       const data = {
         trialId: trialId,
         title: values.title,
-        description: values.description,
+        shortDescription: values.shortDescription,
       };
 
       try {
@@ -71,7 +71,7 @@ export default function EditTrialTitleTab({
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step1`,
           {
             title: data.title,
-            description: data.description,
+            shortDescription: data.shortDescription,
           },
           {
             headers: {
@@ -133,14 +133,14 @@ export default function EditTrialTitleTab({
                   Description:<span className="ml-1">*</span>
                 </label>
                 <ReactQuill
-                  value={formik.values.description}
+                  value={formik.values.shortDescription}
                   onChange={(value) =>
                     formik.setFieldValue("description", value)
                   }
                 />
                 <small className="text-red-600">
-                  {formik.touched.description &&
-                    formik.errors.description}
+                  {formik.touched.shortDescription &&
+                    formik.errors.shortDescription}
                 </small>
               </div>
             </div>
