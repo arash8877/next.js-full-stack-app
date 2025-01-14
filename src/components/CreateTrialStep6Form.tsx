@@ -25,6 +25,8 @@ const CreateTrialStep6Form = () => {
     }
   }, []);
 
+  console.log("trialData in CreateTrialStep6Form:", trialData);
+
   useEffect(() => {
     const fetchPreviewKey = async () => {
       const token = localStorage.getItem("token");
@@ -259,14 +261,14 @@ const CreateTrialStep6Form = () => {
           <div className="flex gap-2">
             <p className="font-bold">Recruiting Status:</p>
             <p className="">
-              {trialData?.isRecruiting === true ? "Recruiting" : "Not Recruiting"}
+              {trialData?.isRecruiting === true ? "Yes" : "No"}
             </p>
           </div>
 
           <div className="flex gap-2">
             <p className="font-bold">Publish Status:</p>
             <p className="">
-              {trialData?.isPublished === true ? "Publish": "Not Publish"}
+              {trialData?.publishedAt === "0001-01-01T00:00:00" ? "No": "Yes"}
             </p>
           </div>
 

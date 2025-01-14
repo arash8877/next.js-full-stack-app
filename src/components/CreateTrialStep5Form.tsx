@@ -90,7 +90,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        // console.log("response in create trial step 5:", response);
+        console.log("response in create trial step 5:", response);
         setFormData({
           ...formData,
           step5Data: {

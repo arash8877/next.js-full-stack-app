@@ -342,6 +342,7 @@ export interface CreateTrialStep5FormProps {
   additionalInformation?: string;
   isRecruiting: boolean;
   isPublished?: boolean;
+  publishedAt?: string;
   drivingCompensation?: boolean;
   monetaryCompensation?: boolean;
   otherCompensation?: boolean;
