@@ -54,6 +54,7 @@ export default function EditTrialTitleTab({
     initialValues: {
       title: title || "",
       shortDescription: shortDescription || "",
+      fullDescription: shortDescription || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -62,6 +63,7 @@ export default function EditTrialTitleTab({
         trialId: trialId,
         title: values.title,
         shortDescription: values.shortDescription,
+        fullDescription: values.shortDescription,
       };
 
       try {

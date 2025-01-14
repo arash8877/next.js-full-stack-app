@@ -235,7 +235,7 @@ const CreateTrialStep6Form = () => {
             <div
               dangerouslySetInnerHTML={{
                 __html: trialData?.participantActivities || "----------",
-              }}
+              }} 
               className="ql-editor no_border"
             />
           </div>

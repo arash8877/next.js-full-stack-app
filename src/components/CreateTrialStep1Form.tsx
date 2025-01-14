@@ -99,6 +99,7 @@ const CreateTrialStep1Form = () => {
     initialValues: {
       title: formData?.step1Data?.title || "",
       shortDescription: formData?.step1Data?.shortDescription || "",
+      // fullDescription: formData?.step1Data?.fullDescription || "",
     },
     validationSchema: formSchema,
     //----- on submit ---------
@@ -114,6 +115,7 @@ const CreateTrialStep1Form = () => {
           sponsorId: jwtInfo.jwtInfo?.sponsor_id,
           title: values["title"],
           shortDescription: values["shortDescription"],
+          fullDescription: values["shortDescription"],
 
         };
         // console.log("payload in create-trial-step1:", payload);
