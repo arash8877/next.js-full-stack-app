@@ -7,6 +7,7 @@ import ActiveLink from "./ActiveLink";
 import LogoutModal from "./LogoutModal";
 // import useGetMyTrials from "@/hooks/useGetMyTrials";
 // import { useMyTrialsStore } from "@/stores/trialCount-store";
+import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 import useGetUserInfo from "@/hooks/useGetUserInfo";
 import useLanguageStore from "@/stores/language-store";
 
@@ -15,8 +16,11 @@ export default function SidebarDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const { userData } = useGetUserInfo();
+  const { companyData } = useGetCompanyInfo();
+  const sponsorName = companyData.name;
   const isAdmin = userData.isAdmin;
   const { l } = useLanguageStore();
+
 
   //----- Calculate number of trials -----
       // -------> the endpoint does not work in SP <-------
@@ -76,7 +80,7 @@ export default function SidebarDashboard() {
             </div>
           </Link>
           {isSidebarOpen && (
-            <h3 className="text-center mb-6 text-primary-1400">Sponsor</h3>
+            <h3 className="text-center mb-6 text-primary-1400">{sponsorName}</h3>
           )}
         </div>
         <hr className="border-bgColor-10 w-full mb-9 sidebar_animation" />

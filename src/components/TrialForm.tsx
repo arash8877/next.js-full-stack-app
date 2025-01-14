@@ -35,7 +35,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function TrialDetailsLayout({
   trialId,
   title,
-  description,
+  shortDescription,
   trialSites,
   startDate,
   endDate,
@@ -117,7 +117,7 @@ export default function TrialDetailsLayout({
           "Title must be at least 5 characters!"
       ),
 
-    description: Yup.string()
+      shortDescription: Yup.string()
       .required(
         l("settings.tab1.form.description.validation.required") ||
           "Description is required!"
@@ -220,7 +220,7 @@ export default function TrialDetailsLayout({
     enableReinitialize: true,
     initialValues: {
       title: title || "",
-      description: description || "",
+      shortDescription: shortDescription || "",
       isRecruiting: isRecruiting || false,
       ageMin: ageMin || "",
       ageMax: ageMax || "",
@@ -241,7 +241,7 @@ export default function TrialDetailsLayout({
       const data = {
         trialId: trialId,
         title: values.title,
-        description: values.description,
+        shortDescription: values.shortDescription,
         isRecruiting: values.isRecruiting,
         ageMin: Number(values.ageMin),
         ageMax: Number(values.ageMax),
@@ -265,7 +265,7 @@ export default function TrialDetailsLayout({
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
           {
             title: data.title,
-            description: data.description,
+            shortDescription: data.shortDescription,
             isRecruiting: data.isRecruiting,
             ageMin: data.ageMin,
             ageMax: data.ageMax,
@@ -544,14 +544,14 @@ export default function TrialDetailsLayout({
                   Description:<span className="ml-1">*</span>
                 </label>
                 <ReactQuill
-                  value={formik.values.description}
+                  value={formik.values.shortDescription}
                   onChange={(value) =>
                     formik.setFieldValue("description", value)
                   }
                 />
                 <small className="text-red-600">
-                  {formik.touched.description &&
-                    formik.errors.description}
+                  {formik.touched.shortDescription &&
+                    formik.errors.shortDescription}
                 </small>
               </div>
             </div>
