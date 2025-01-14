@@ -12,7 +12,7 @@ export default function TrialCard({
   trialId,
   applicationCount,
   title,
-  description,
+  shortDescription,
   startDate,
   endDate,
   address,
@@ -30,7 +30,7 @@ iTrialCardProps) {
   const { l } = useLanguageStore();
   // eslint-disable-next-line
   const plainText =
-    new DOMParser().parseFromString(description, "text/html").body
+    new DOMParser().parseFromString(shortDescription, "text/html").body
       .textContent || "";
 
   //--------------------------------- return ------------------------------------------------
@@ -88,7 +88,7 @@ iTrialCardProps) {
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
       <hr />
       <div className="text-sm line-clamp-2">
-        {new DOMParser().parseFromString(description, "text/html").body
+        {new DOMParser().parseFromString(shortDescription, "text/html").body
           .textContent || ""}
       </div>
 

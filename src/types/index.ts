@@ -156,7 +156,8 @@ export interface iTrialCardProps {
   trialId: number;
   applicationCount: number;
   title: string;
-  description: string;
+  shortDescription: string;
+  fullDescription?: string;
   urlStub: string;
   startDate: string;
   endDate: string;
@@ -199,7 +200,8 @@ export interface iTrialInfoProps {
   trialId: number;
   applicationCount: number;
   title: string;
-  description: string;
+  shortDescription: string;
+  fullDescription?: string;
   urlStub: string;
   // company: iCompany;
   trialSites: iTrialSite[];
@@ -280,7 +282,8 @@ export interface iApplicationProps {
 export interface CreateTrialTitleStepProps {
   trialId?: number;
   title: string;
-  description: string;
+  shortDescription: string;
+  fullDescription?: string;
 }
 
 export interface CreateTrialStep1FormProps {
