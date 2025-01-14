@@ -80,7 +80,7 @@ export default function SidebarDashboard() {
             </div>
           </Link>
           {isSidebarOpen && (
-            <h3 className="text-center mb-6 text-primary-1400">{sponsorName}</h3>
+            <h3 className="text-center mb-6 mt-4 text-primary-1400">{sponsorName}</h3>
           )}
         </div>
         <hr className="border-bgColor-10 w-full mb-9 sidebar_animation" />
