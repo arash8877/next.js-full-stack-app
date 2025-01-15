@@ -79,6 +79,7 @@ const CreateTrialStep5Form = () => {
         otherCompensation: values["otherCompensation"] ?? false,
         otherCompensationText: values["otherCompensationText"] || "",
       };
+      console.log("payload in create trial step 5:", payload);
       try {
         // eslint-disable-next-line
         const response = await axios.patch(

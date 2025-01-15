@@ -139,7 +139,7 @@ export default function EditTrialTitleTab({
                 <ReactQuill
                   value={formik.values.shortDescription}
                   onChange={(value) =>
-                    formik.setFieldValue("description", value)
+                    formik.setFieldValue("shortDescription", value)
                   }
                 />
                 <small className="text-red-600">

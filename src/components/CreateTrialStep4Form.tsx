@@ -68,9 +68,10 @@ const CreateTrialStep4Form = () => {
           exclusionRequirements: values["exclusionRequirements"],
           medicalCategories: selectedCategoriesId,
         };
+        console.log("PAYLOAD in create trial- step4", payload);
         // eslint-disable-next-line
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, //post request
+          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step4`, 
           payload,
           {
             headers: {
@@ -78,7 +79,7 @@ const CreateTrialStep4Form = () => {
             },
           }
         );
-        // console.log("RESPONSE", response);
+        console.log("RESPONSE in create trial- step4", response);
         setFormData({
           ...formData,
           step4Data: {
@@ -171,7 +172,7 @@ const CreateTrialStep4Form = () => {
             <DiseaseDropdown
               value={selectedExclusionDiseases}
               onChange={(value) => {
-                formik.setFieldValue("inclusionDiseases", value);
+                formik.setFieldValue("exclusionDiseases", value);
                 setSelectedExclusionDiseases(value);
               }}
             />

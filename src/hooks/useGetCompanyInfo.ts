@@ -46,7 +46,7 @@ const useGetCompanyInfo = (): {
     }
   }, [data]);
 
-   console.log("companyInfo:", companyInfo)
+  //  console.log("companyInfo:", companyInfo)
   return { companyData: companyInfo, companyError: error, companyIsLoading: isLoading };
 };
 

@@ -57,7 +57,7 @@ const CreateTrialStep6Form = () => {
     const trialId = localStorage.getItem("currentTrialEditId");
     try {
       const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/complete`, //post request
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/complete`, 
         {},
         {
           headers: {
