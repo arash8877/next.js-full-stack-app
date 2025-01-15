@@ -32,7 +32,6 @@ const AcceptInvitationForm = () => {
     setInviteToken(query.get("inviteToken"));
   }, []);
 
-  console.log("inviteToken:", inviteToken);
 
   //----Yup validation ---------
   const formSchema = Yup.object({
@@ -120,14 +119,13 @@ const AcceptInvitationForm = () => {
     async function getUserInfo(): Promise<boolean> {
       try {
         // const token = localStorage.getItem("token");
-
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/user`,
           {
             token: inviteToken,
           }
         );
-        // console.log("response:", response.data);
+        // console.log("Response in Accept invitation form - getUserInfo:", response.data);
         setUserInfo(response.data);
         return response.data;
       } catch (error) {
@@ -138,13 +136,12 @@ const AcceptInvitationForm = () => {
     getUserInfo();
   }, [inviteToken]);
 
-  console.log("userInfo:", userInfo);
+  // console.log("userInfo in accept-invitation form:", userInfo);
 
   //---------------- update user ---------------
   //eslint-disable-next-line
   const updateInvitedEmployeeForm = async (data: iUserUpdateProps) => {
     //function will be called in onSubmit
-    console.log("iviteToken is missing");
     if (!inviteToken) {
       return;
     }
@@ -159,7 +156,7 @@ const AcceptInvitationForm = () => {
         }
       );
       router.push("/login");
-      console.log("res", response);
+      // console.log("Response in Accept invitation form - updateInvitedEmployeeForm:", response);
       toast.success(
         l("settings.tab1.form.toast.success") ||
           "Your profile is created successfully!",
@@ -198,7 +195,7 @@ const AcceptInvitationForm = () => {
     },
     //----onSubmit-------
     onSubmit: async (values) => {
-      console.log("values:", values);
+      // console.log("values:", values);
       const data = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -210,7 +207,7 @@ const AcceptInvitationForm = () => {
         consentedToTerms: values.consentedToTerms,
         hasConsentedToMarketing: values.hasConsentedToMarketing,
       };
-      console.log("data:", data);
+      // console.log("data:", data);
 
       updateInvitedEmployeeForm(data);
     },
