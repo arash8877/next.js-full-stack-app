@@ -87,7 +87,7 @@ iTrialCardProps) {
       </div>
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
       <hr />
-      <div className="text-sm line-clamp-2">
+      <div className="text-sm line-clamp-2 lg:line-clamp-3">
         {new DOMParser().parseFromString(shortDescription, "text/html").body
           .textContent || ""}
       </div>
@@ -95,7 +95,7 @@ iTrialCardProps) {
       <hr />
       <div className="flex justify-between gap-2">
         <p className="text-xs font-medium w-[38%]">
-          {l("trialcard.period") || "Interest Area:"}
+          {l("trialcard.period") || "Condition of interest:"}
         </p>
         <p className="text-xs text-right font-light line-clamp-1">
           {inclusionDiseases.length > 0 ? inclusionDiseases.join(", ") : "-"}

@@ -146,6 +146,7 @@ const AcceptInvitationForm = () => {
       return;
     }
     try {
+  //eslint-disable-next-line
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite/${inviteToken}/create`,
         data,
