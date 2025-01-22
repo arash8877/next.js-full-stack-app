@@ -53,26 +53,20 @@ export default function AcceptInvitationPage() {
 
   // ------------------------------ return -------------------------------
   return (
-    <div className="">
-      <Navbar justify="justify-between mt-6" displayLogin="hidden" />
-      <div className="mx-2 md:mx-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:mx-4 mt-8 mb-4">
-          <div className="bg-white wrapper mx-auto rounded-2xl lg:w-full">
-            <div className="flex_center flex-col gap-4 mb-8">
-              <h1 className="text-2xl md:text-3xl font-semibold mb-4">
-                {l("login.header") || "Accept Invitation"}
-              </h1>
-              <p className="text-base text-center">
-                {l("login.description") ||
-                  "You have been invited by to join TrialSync sponsor platform. Please accept the invitation to create your profile."}
-              </p>
-            </div>
-            <AcceptInvitationForm />
-          </div>
-        <div
-          className="bg-cover bg-center rounded-2xl"
-          style={{ backgroundImage: `url(/bg_login.svg)` }}
-        ></div>
-      </div>
-    </div>
+    <main className="min-h-screen my-6 mx-2 md:mx-14 lg:mx-16">
+      <Navbar justify="justify-center md:justify-start" displayLogin="hidden" />
+      <section className="register_step1_section border border-bgColor-10 shadow-lg">
+        <div className="bg-white mx-auto pb-12 rounded-2xl lg:w-full">
+          <h1 className="text-center text-2xl md:text-3xl font-semibold mb-4">
+            {l("login.header") || "Accept Invitation"}
+          </h1>
+          <p className="text-base text-center px-4 lg:px-12">
+            {l("login.description") ||
+              "You have been invited to join TrialSync sponsor platform. Please accept the invitation to create your profile."}
+          </p>
+        </div>
+        <AcceptInvitationForm />
+      </section>
+    </main>
   );
 }

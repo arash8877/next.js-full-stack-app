@@ -54,7 +54,6 @@ export default function EditTrialTitleTab({
     initialValues: {
       title: title || "",
       shortDescription: shortDescription || "",
-      fullDescription: shortDescription || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -74,6 +73,7 @@ export default function EditTrialTitleTab({
           {
             title: data.title,
             shortDescription: data.shortDescription,
+            fullDescription: data.shortDescription
           },
           {
             headers: {
@@ -86,6 +86,8 @@ export default function EditTrialTitleTab({
           autoClose: 2000,
           className: "single_line_toast",
         });
+
+        setTimeout(() => window.location.reload(), 2000);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
@@ -137,7 +139,7 @@ export default function EditTrialTitleTab({
                 <ReactQuill
                   value={formik.values.shortDescription}
                   onChange={(value) =>
-                    formik.setFieldValue("description", value)
+                    formik.setFieldValue("shortDescription", value)
                   }
                 />
                 <small className="text-red-600">

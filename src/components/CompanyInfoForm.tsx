@@ -9,10 +9,10 @@ import useLanguageStore from "@/stores/language-store";
 import useJWTUserInfo from "@/hooks/useJWTUserInfo";
 
 interface UpdateSponsorProps {
-  name: string,
-  address: string,
-  zipCode: string,
-  country: string
+  name: string;
+  address: string;
+  zipCode: string;
+  country: string;
 }
 
 //---------------------------------------- main function --------------------------------------
@@ -50,7 +50,7 @@ const CompanyInfoForm = ({
           className: "single_line_toast",
         }
       );
-      // console.log(response);
+      // console.log("Response in company info form:", response);
     } catch (error) {
       console.error("Error in /users", error);
       toast.error(
@@ -121,11 +121,11 @@ const CompanyInfoForm = ({
         country: values.country,
       };
 
-      console.log(data);
       updateSponsorData(data);
     },
     validationSchema: formSchema,
   });
+  // console.log("Initial Form Values:", formik.initialValues);
 
   //-------------------------------- JSX -------------------------------------
   return (

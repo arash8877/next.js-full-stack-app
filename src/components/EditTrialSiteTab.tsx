@@ -81,6 +81,7 @@ export default function EditTrialSiteTab({
           l("settings.form.success") || "Trial updated successfully!"
         );
         setLocalTrialSites(values.trialSites); // Update localTrialSites after successful submission
+        setTimeout(() => window.location.reload(), 2000);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);

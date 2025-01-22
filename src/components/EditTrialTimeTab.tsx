@@ -135,6 +135,8 @@ export default function TrialDetailsLayout({
           autoClose: 2000,
           className: "single_line_toast",
         });
+
+        setTimeout(() => window.location.reload(), 2000);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
