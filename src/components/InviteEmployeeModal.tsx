@@ -101,8 +101,9 @@ export default function InviteEmployeeModal({
     // eslint-disable-next-line
     onSubmit: async (values) => {
       const token = localStorage.getItem("token");
-      console.log("Submitting form with values:", values);
+      // console.log("Invite employee values:", values);
       try {
+    // eslint-disable-next-line
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite`,
           {
@@ -118,8 +119,7 @@ export default function InviteEmployeeModal({
             },
           }
         );
-        console.log("response for invite:", response);
-        console.log("invite form submitted");
+        // console.log("response for invite employee:", response);
         onClose();
 
         toast.success("Invitation is sent successfully", {

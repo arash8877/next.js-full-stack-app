@@ -17,18 +17,17 @@ export default function TrialStatusBadge({
     if (
       approvedAt === "0001-01-01T00:00:00" &&
       publishedAt === "0001-01-01T00:00:00"
-    )
-      return "Pending Approval";
-    if (approvedAt) return "Approved";
-    if (referred) return "Referred";
+    )return "Pending Approval";
+    if (approvedAt !== "0001-01-01T00:00:00") return "Approved";
     if (declined) return "Declined";
-    // if (publishedAt) return "Published";
+    if (referred) return "Referred";
+    // if (publishedAt !== "0001-01-01T00:00:00") return "Published";
   };
 
   const getBgColor = () => {
     const status = getStatusText();
-    // if (status === "Published") return "bg-blue-500";
-    if (status === "Approved") return "bg-bgColor-green2 text-white";
+    // if (status === "Published") return "bg-blue-500 text-white";
+    if (status === "Approved") return "bg-bgColor-green2 text-black";
     if (status === "Pending Approval") return "bg-bgColor-yellow2 text-black";
     if (status === "Referred") return "bg-bgColor-blue text-black";
     if (status === "Declined") return "bg-bgColor-red2 text-black";

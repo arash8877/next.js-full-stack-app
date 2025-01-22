@@ -9,6 +9,8 @@ import InviteEmployeeModal from "@/components/InviteEmployeeModal";
 import { toast } from "react-toastify";
 import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 import axios from "axios";
+import { AxiosError } from "axios";
+
 
 //------------------------------------ main function -----------------------------------
 export default function EmployeesPage() {
@@ -16,6 +18,8 @@ export default function EmployeesPage() {
     useState(false);
   const { companyData } = useGetCompanyInfo();
   const router = useRouter();
+    // eslint-disable-next-line
+  const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
   function redirectToEmployeeDetails(employeeId: number) {
@@ -56,24 +60,44 @@ export default function EmployeesPage() {
 
   //----- Re-Invite an employee -----
   // eslint-disable-next-line
-  async function reInviteEmployee(employeeId: number) {
-    console.log("Re-invite employee!");
-    // try {
-    //   await axios.post(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   setTimeout(() => {
-    //     window.location.reload();
-    //   }, 0);
-    // } catch (error) {
-    //   console.error("Error in /uninvite", error);
-    // }
+  async function reInviteEmployee(email: string) {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite/resend`,
+        {
+          redirectUri: `${window.location.origin}/employees/accept-invitation`,
+          email: email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("response for Reinvite employee:", response);
+
+      toast.success("Invitation is sent successfully", {
+        position: "top-center",
+        autoClose: 2000,
+        className: "single_line_toast",
+      });
+
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response && error.response.data) {
+          setError(error.response.data);
+        } else {
+          setError("An unknown error occurred");
+          toast.error("Something went wrong!", {
+            position: "top-center",
+            autoClose: 2000,
+            className: "single_line_toast",
+          });
+        }
+      }
+    }
+
   }
 
   //---- open and close modal -----
@@ -159,7 +183,7 @@ export default function EmployeesPage() {
                         containerStyles="rounded-lg flex_center bg-gradient-button h-8 custom_padding"
                         textStyles="text-xs xl:text-sm 2xl:text-base"
                         btnType="button"
-                        handleClick={() => reInviteEmployee(employee.userId)}
+                        handleClick={() => reInviteEmployee(employee.email)}
                       />
                     </div>
                   ) : (

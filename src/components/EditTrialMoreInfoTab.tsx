@@ -22,7 +22,7 @@ export default function EditTrialMoreInfoTab({
   expectedParticipants,
   additionalInformation,
   isRecruiting,
-  isPublished,
+  publishedAt,
   drivingCompensation,
   monetaryCompensation,
   otherCompensation,
@@ -63,7 +63,7 @@ export default function EditTrialMoreInfoTab({
       expectedParticipants: expectedParticipants || 0,
       additionalInformation: additionalInformation || "",
       isRecruiting: isRecruiting || false,
-      isPublished: isPublished || false,
+      isPublished: publishedAt !== "0001-01-01T00:00:00" && !!publishedAt,
       drivingCompensation: drivingCompensation || false,
       monetaryCompensation: monetaryCompensation || false,
       otherCompensation: otherCompensation || false,
@@ -84,7 +84,7 @@ export default function EditTrialMoreInfoTab({
         otherCompensation: values.otherCompensation,
         otherCompensationText: values.otherCompensationText,
       };
-      // console.log("payload edit trial step$$$$$$$", payload);
+      console.log("payload edit trial step 5", payload);
       const token = localStorage.getItem("token");
       try {
         // eslint-disable-next-line
@@ -97,12 +97,14 @@ export default function EditTrialMoreInfoTab({
             },
           }
         );
-        // console.log("response edit trial step$$$$$$$", response);
+        console.log("response edit trial step 5", response);
         toast.success("The trial is updated successfully", {
           position: "top-center",
           autoClose: 2000,
           className: "single_line_toast",
         });
+
+        setTimeout(() => window.location.reload(), 2000);
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error);
