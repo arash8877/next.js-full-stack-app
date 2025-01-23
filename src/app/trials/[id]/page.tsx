@@ -51,7 +51,7 @@ console.log("trialData:", trialData);
 
   useEffect(() => {
     if (previewKey && urlStub) {
-      router.push(`https://test.app.trialsync.com/trial/${urlStub}?previewkey=${previewKey}`);
+      router.push(`https://app.trialsync.com/trial/${urlStub}?previewkey=${previewKey}`);
     } else {
       console.error("urlStub is missing or previewKey is unavailable");
     }

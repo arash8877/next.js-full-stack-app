@@ -25,7 +25,7 @@ const CreateTrialStep6Form = () => {
     }
   }, []);
 
-  console.log("trialData in CreateTrialStep6Form:", trialData);
+  // console.log("trialData in Create Trial-Step6:", trialData);
 
   useEffect(() => {
     const fetchPreviewKey = async () => {
@@ -40,6 +40,7 @@ const CreateTrialStep6Form = () => {
             },
           }
         );
+        console.log("RESPONSE in Create Trial - Step6:", response);
         setPreviewKey(response.data);
       } catch (error) {
         console.error(error);
