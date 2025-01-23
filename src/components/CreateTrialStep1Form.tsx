@@ -118,7 +118,7 @@ const CreateTrialStep1Form = () => {
           fullDescription: values["shortDescription"],
 
         };
-        // console.log("payload in create-trial-step1:", payload);
+        console.log("Payload in create-trial-step1:", payload);
         setFormData({ step1Data: values });
 
         const response = await axios.post(
@@ -130,6 +130,7 @@ const CreateTrialStep1Form = () => {
             },
           }
         );
+        console.log("RESPONSE in create-trial-step1:", response);
         localStorage.setItem("currentTrialEditId", response.data);
         document.cookie =
           "createTrialStep1Completed=true; Path=/; max-age=7200";

@@ -131,6 +131,7 @@ const CreateTrialStep2Form = () => {
           zipCode: site.zipCode,
           country: site.country,
         }));
+        console.log("Payload in step 2:", trialSites);
         // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
@@ -143,6 +144,7 @@ const CreateTrialStep2Form = () => {
             },
           }
         );
+        console.log("RESPONSE in create trial step 2:", response);
         setFormData({ step2Data: { trialSites: values.trialSites } });
         document.cookie =
           "createTrialStep2Completed=true; Path=/; max-age=7200";

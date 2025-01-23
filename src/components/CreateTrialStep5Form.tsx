@@ -64,7 +64,6 @@ const CreateTrialStep5Form = () => {
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      // console.log("values in create trial step 5:", values);
       setLoading(true);
       const token = localStorage.getItem("token");
       const trialId = localStorage.getItem("currentTrialEditId");
@@ -79,7 +78,7 @@ const CreateTrialStep5Form = () => {
         otherCompensation: values["otherCompensation"] ?? false,
         otherCompensationText: values["otherCompensationText"] || "",
       };
-      console.log("payload in create trial step 5:", payload);
+      console.log("Payload in create trial step 5:", payload);
       try {
         // eslint-disable-next-line
         const response = await axios.patch(
@@ -91,7 +90,7 @@ const CreateTrialStep5Form = () => {
             },
           }
         );
-        console.log("response in create trial step 5:", response);
+        console.log("RESPONSE in create trial step 5:", response);
         setFormData({
           ...formData,
           step5Data: {
