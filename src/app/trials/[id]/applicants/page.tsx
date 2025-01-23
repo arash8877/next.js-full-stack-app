@@ -48,9 +48,9 @@ export default function ApplicantsPage({ params }: Props) {
   //------------------------------- JSX -----------------------------------
   return (
     <SidebarLayout>
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col justify-between lg:flex-row">
-          <h1 className="text-2xl font-semibold mt-3 mb-8 sm:text-3xl sm:mb-12">
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col justify-between lg:flex-row sm:pt-11">
+          <h1 className="text-2xl font-semibold sm:text-3xl mb-4 sm:mb-12">
             {l("settings.title") || "Applicants for trial:"}
           </h1>
           <div className="flex_center border h-16 px-8 bg-white rounded-2xl">
@@ -76,7 +76,7 @@ export default function ApplicantsPage({ params }: Props) {
             disabled={applicationsData?.[0]?.unlocked || applicationsData?.length === 0}
           />
         </div>
-        <div className="overflow-x-auto bg-white wrapper rounded-3xl mt-4">
+        <div className="overflow-x-auto bg-white wrapper rounded-3xl mt-4 sm:mt-0">
           <table className="min-w-full bg-white">
             <thead>
               <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
