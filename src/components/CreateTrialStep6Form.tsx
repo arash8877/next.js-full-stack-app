@@ -5,6 +5,7 @@ import CustomButton from "./CustomButton";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import useLanguageStore from "@/stores/language-store";
 import useCreateTrialStore from "@/stores/createTrial-store";
+import useDiseaseStore from "@/stores/disease-store";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -17,6 +18,7 @@ const CreateTrialStep6Form = () => {
   const [trialId, setTrialId] = useState<string | null>(null);
   const { trialData } = useGetSingleTrialInfo(trialId || "");
   const { resetFormData } = useCreateTrialStore();
+  const { resetDiseases } = useDiseaseStore();
   const { l } = useLanguageStore();
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -58,7 +60,7 @@ const CreateTrialStep6Form = () => {
     const trialId = localStorage.getItem("currentTrialEditId");
     try {
       const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/complete`, 
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/complete`,
         {},
         {
           headers: {
@@ -68,6 +70,7 @@ const CreateTrialStep6Form = () => {
       );
       console.log("response in createTrialStep6Form:", response);
       resetFormData();
+      resetDiseases();
       localStorage.removeItem("currentTrialEditId");
       document.cookie = "createTrialStep6Completed=true; Path=/; max-age=7200";
       const cookiesToRemove = [
@@ -238,7 +241,7 @@ const CreateTrialStep6Form = () => {
             <div
               dangerouslySetInnerHTML={{
                 __html: trialData?.participantActivities || "----------",
-              }} 
+              }}
               className="ql-editor no_border"
             />
           </div>
@@ -269,7 +272,7 @@ const CreateTrialStep6Form = () => {
           <div className="flex gap-2">
             <p className="font-bold">Publish Status:</p>
             <p className="">
-              {trialData?.publishedAt === "0001-01-01T00:00:00" ? "No": "Yes"}
+              {trialData?.publishedAt === "0001-01-01T00:00:00" ? "No" : "Yes"}
             </p>
           </div>
 

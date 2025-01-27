@@ -40,7 +40,7 @@ console.log("trialData:", trialData);
           }
         );
         setPreviewKey(response.data); 
-        console.log("Response:", response)
+        console.log("Response in preview:", response)
       } catch (error) {
         console.error(error);
       }
