@@ -18,6 +18,8 @@ export default function EditTrialSiteTab({
   const { l } = useLanguageStore();
   const [localTrialSites, setLocalTrialSites] = useState(trialSites || []);
 
+  console.log("trialSites in edit trial step 2:", trialSites);
+
   useEffect(() => {
     setLocalTrialSites(trialSites || []);
   }, [trialSites]);

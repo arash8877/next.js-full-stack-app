@@ -7,6 +7,7 @@ interface DiseaseStore {
   setSelectedExclusionDiseases: (diseases: string[]) => void;
   setUserInclusionDiseases: (diseases: string[]) => void;
   setUserExclusionDiseases: (diseases: string[]) => void;
+  resetDiseases: () => void;
 }
 
 const useDiseaseStore = create<DiseaseStore>((set) => ({
@@ -16,6 +17,7 @@ const useDiseaseStore = create<DiseaseStore>((set) => ({
   setSelectedExclusionDiseases: (diseases) => set({ selectedExclusionDiseases: diseases }),
   setUserInclusionDiseases: (diseases) => set({ selectedInclusionDiseases: diseases }),
   setUserExclusionDiseases: (diseases) => set({ selectedExclusionDiseases: diseases }),
+  resetDiseases: () => set({ selectedInclusionDiseases: [], selectedExclusionDiseases: [] }),
 }));
 
 export default useDiseaseStore;
