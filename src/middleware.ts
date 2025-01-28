@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get("token");
+  const token = req.cookies.get("sp_token");
   const registerStep1Completed = req.cookies.get('registerStep1Completed');
   const createTrialStep1Completed = req.cookies.get("createTrialStep1Completed");
   const createTrialStep2Completed = req.cookies.get("createTrialStep2Completed");

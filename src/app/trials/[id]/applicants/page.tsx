@@ -11,12 +11,12 @@ import axios from "axios";
 
 type Props = {
   params: { id: string };
-}
+};
 
 //------------------------------------ main function -----------------------------------
 export default function ApplicantsPage({ params }: Props) {
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
-  const { applicationsData } = useGetApplicationsInfo(params.id)
+  const { applicationsData } = useGetApplicationsInfo(params.id);
   const { trialData } = useGetSingleTrialInfo(params.id);
   const { l } = useLanguageStore();
   const title = trialData?.title;
@@ -25,16 +25,18 @@ export default function ApplicantsPage({ params }: Props) {
 
   const handleUnlock = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/v1/invoices/purchase/trial`, 
-      {
-        trialId: params.id
-      },
-      {
-        // request
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/invoices/purchase/trial`,
+        {
+          trialId: params.id,
+        },
+        {
+          // request
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
           },
-      });
+        }
+      );
       console.log(response);
       setIsUnlockModalOpen(false);
       setTimeout(() => {
@@ -60,9 +62,7 @@ export default function ApplicantsPage({ params }: Props) {
         </div>
 
         <div className="flex flex-col justify-between gap-4 lg:flex-row">
-          <h2 className="lg:w-2/3">
-            {title}
-          </h2>
+          <h2 className="lg:w-2/3">{title}</h2>
           <CustomButton
             title={
               applicationsData?.[0]?.unlocked
@@ -73,7 +73,9 @@ export default function ApplicantsPage({ params }: Props) {
             disabledContainerStyles="rounded-lg flex_center bg-gray-300 h-11 text-white"
             btnType="button"
             handleClick={() => setIsUnlockModalOpen(true)}
-            disabled={applicationsData?.[0]?.unlocked || applicationsData?.length === 0}
+            disabled={
+              applicationsData?.[0]?.unlocked || applicationsData?.length === 0
+            }
           />
         </div>
         <div className="overflow-x-auto bg-white wrapper rounded-3xl mt-4 sm:mt-0">
@@ -82,11 +84,8 @@ export default function ApplicantsPage({ params }: Props) {
               <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
                 <th className="py-3 px-6">First Name</th>
                 <th className="py-3 px-6">Last Name</th>
-                <th className="py-3 px-6 hidden lg:table-cell">
-                  Gender
-                </th>{" "}
+                <th className="py-3 px-6 hidden lg:table-cell">Gender</th>{" "}
                 <th className="py-3 px-6">Email</th>
-             
               </tr>
             </thead>
             <tbody>

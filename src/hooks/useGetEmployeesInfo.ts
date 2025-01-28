@@ -4,7 +4,9 @@ import { SponsorUserInfo } from "@/types";
 import useSWR from "swr";
 
 //----------------------------------- Main Function ---------------------------------------
-const useGetEmployeesInfo = (id: string): {
+const useGetEmployeesInfo = (
+  id: string
+): {
   employeeData: SponsorUserInfo;
   employeeError: Error | null;
   employeeIsLoading: boolean;
@@ -19,12 +21,12 @@ const useGetEmployeesInfo = (id: string): {
     jobTitle: "",
     phoneNumber: "",
     preferredLanguage: "",
-    sponsor: null
+    sponsor: null,
   };
 
   //--- Fetcher Function ---
   const fetcher = async (url: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -35,23 +37,30 @@ const useGetEmployeesInfo = (id: string): {
   };
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("sp_token") : null;
 
   //--- GET Employee Info ---
   const { data, error, isLoading } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${id}` : null,
+    token
+      ? `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${id}`
+      : null,
     fetcher
   );
-  const [employeesInfo, setEmployeesInfo] = useState<SponsorUserInfo>(initialEmployeeInfo);
+  const [employeesInfo, setEmployeesInfo] =
+    useState<SponsorUserInfo>(initialEmployeeInfo);
   useEffect(() => {
     if (data) {
-        console.log("hook data", data);
-        setEmployeesInfo(data);
+      console.log("hook data", data);
+      setEmployeesInfo(data);
     }
   }, [data]);
 
   //  console.log(employeesInfo)
-  return { employeeData: employeesInfo, employeeError: error, employeeIsLoading: isLoading };
+  return {
+    employeeData: employeesInfo,
+    employeeError: error,
+    employeeIsLoading: isLoading,
+  };
 };
 
 export default useGetEmployeesInfo;

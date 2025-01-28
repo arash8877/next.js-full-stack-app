@@ -36,7 +36,7 @@ const CompanyInfoForm = ({
         data,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
             "Content-Type": "application/json",
           },
         }

@@ -7,7 +7,7 @@ import { useMyTrialsStore } from "@/stores/trialCount-store";
 
 export interface IUseGetMyTrials {
   myTrialsData: iApplicationProps[];
-  myTrialsError:  Error | null;
+  myTrialsError: Error | null;
   myTrialsIsLoading: boolean;
 }
 
@@ -20,7 +20,7 @@ export default function useGetMyTrials(): IUseGetMyTrials {
     axios
       .get(url, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
           accept: "application/json",
         },
       })
@@ -28,8 +28,8 @@ export default function useGetMyTrials(): IUseGetMyTrials {
 
   const { data, error, isLoading } = useSWR(
     authenticated
-    // -------> the endpoint does not work in SP <-------
-      ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/applications`
+      ? // -------> the endpoint does not work in SP <-------
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/users/applications`
       : null,
     fetcher
   );

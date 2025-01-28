@@ -37,7 +37,7 @@ export default function TrialsPage() {
 
   //---------------
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
 
     if (!token) {
       redirect("/login");

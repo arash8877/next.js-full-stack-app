@@ -58,7 +58,7 @@ const CreateTrialStep4Form = () => {
     //---------onSubmit--------------
     onSubmit: async (values) => {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         const payload = {

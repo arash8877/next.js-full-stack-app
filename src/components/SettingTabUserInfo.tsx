@@ -26,7 +26,7 @@ const SettingUserInfoForm = ({
         data,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
             "Content-Type": "application/json",
           },
         }
@@ -97,15 +97,16 @@ const SettingUserInfoForm = ({
         l("settings.tab1.form.lastname.validation.length") ||
           "Last name must be at least 1 characters!"
       ),
-    phoneNumber: Yup.string().required(
-      l("register.step1.form.country.validation.required") ||
-        "Phone number is required!"
-    )
-    .min(
-      8,
-      l("settings.tab1.form.firstname.validation.length") ||
-        "Phone number must be at least 8 numbers!"
-    ),
+    phoneNumber: Yup.string()
+      .required(
+        l("register.step1.form.country.validation.required") ||
+          "Phone number is required!"
+      )
+      .min(
+        8,
+        l("settings.tab1.form.firstname.validation.length") ||
+          "Phone number must be at least 8 numbers!"
+      ),
     jobTitle: Yup.string().required(
       l("settings.tab1.form.jobtitle.validation.required") ||
         "Job title is required!"

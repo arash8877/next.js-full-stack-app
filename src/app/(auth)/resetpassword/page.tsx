@@ -37,7 +37,7 @@ function ResetPasswordPage() {
             },
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
               },
             }
           );

@@ -7,8 +7,6 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
 
-
-
 interface iResetPasswordProps {
   token: string | null;
 }
@@ -17,17 +15,31 @@ interface iResetPasswordProps {
 const ResetPasswordForm = ({ token }: iResetPasswordProps) => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const { l } = useLanguageStore(); 
+  const { l } = useLanguageStore();
 
-//----- Yup validation -----
-const formSchema = Yup.object({
-  password: Yup.string()
-    .required(l("resetpassword.form.password.validation.required") || "Password is required!")
-    .min(8, (l("resetpassword.form.password.validation.format") || "Password must be at least 8 characters")),
-  repeatedPassword: Yup.string()
-    .required(l("resetpassword.form.repeatpassword.validation.required") || "Please repeat the password!")
-    .oneOf([Yup.ref("password")], (l("resetpassword.form.repeatpassword.validation.format") || "Passwords must match!")),
-});
+  //----- Yup validation -----
+  const formSchema = Yup.object({
+    password: Yup.string()
+      .required(
+        l("resetpassword.form.password.validation.required") ||
+          "Password is required!"
+      )
+      .min(
+        8,
+        l("resetpassword.form.password.validation.format") ||
+          "Password must be at least 8 characters"
+      ),
+    repeatedPassword: Yup.string()
+      .required(
+        l("resetpassword.form.repeatpassword.validation.required") ||
+          "Please repeat the password!"
+      )
+      .oneOf(
+        [Yup.ref("password")],
+        l("resetpassword.form.repeatpassword.validation.format") ||
+          "Passwords must match!"
+      ),
+  });
 
   //----formik----------------
   const formik = useFormik({
@@ -47,11 +59,11 @@ const formSchema = Yup.object({
           },
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
             },
           }
         );
-        console.log(response)
+        console.log(response);
         toast.success("Success! Login with new password", {
           position: "top-center",
           autoClose: 3000,
@@ -83,12 +95,15 @@ const formSchema = Yup.object({
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="password">
-          {l("resetpassword.form.password.label") || "Enter your password"}<span className="ml-1">*</span>
+          {l("resetpassword.form.password.label") || "Enter your password"}
+          <span className="ml-1">*</span>
         </label>
         <input
           name="password"
           type="password"
-          placeholder={l("resetpassword.form.password.placeholder") || "Min. 8 characters"}
+          placeholder={
+            l("resetpassword.form.password.placeholder") || "Min. 8 characters"
+          }
           value={formik.values.password}
           onChange={formik.handleChange("password")}
           onBlur={formik.handleBlur("password")}
@@ -100,12 +115,15 @@ const formSchema = Yup.object({
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="repeatedPassword">
-          {l("resetpassword.form.repeatpassword.label") || "Repeat password"}<span className="ml-1">*</span>
+          {l("resetpassword.form.repeatpassword.label") || "Repeat password"}
+          <span className="ml-1">*</span>
         </label>
         <input
           name="repeatedPassword"
           type="password"
-          placeholder={l("resetpassword.form.password.placeholder") || "Min. 8 characters"}
+          placeholder={
+            l("resetpassword.form.password.placeholder") || "Min. 8 characters"
+          }
           value={formik.values.repeatedPassword}
           onChange={formik.handleChange("repeatedPassword")}
           onBlur={formik.handleBlur("repeatedPassword")}

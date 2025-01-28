@@ -30,7 +30,7 @@ function RegisterStep4() {
           {},
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
               accept: "application/json",
             },
           }
@@ -41,6 +41,15 @@ function RegisterStep4() {
       }
     }
     callEndpoint();
+
+
+    const timer = setTimeout(() => {
+      localStorage.removeItem("sp_token");
+      localStorage.removeItem("sponsorId");
+      document.cookie = "registerStep1Completed=; Path=/; max-age=0";
+    }, 5000); 
+    return () => clearTimeout(timer);
+
   }, []);
 
   //------------ get user email ------------

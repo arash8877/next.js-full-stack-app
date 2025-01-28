@@ -15,7 +15,7 @@ export default function AcceptInvitationPage() {
   //---- check if user completed the registration ----
   async function CheckUserCompleted(): Promise<boolean> {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
 
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/users/completed`,
@@ -35,7 +35,7 @@ export default function AcceptInvitationPage() {
 
   useEffect(() => {
     const checkUserStatus = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       if (token) {
         try {
           const isCompleted = await CheckUserCompleted();

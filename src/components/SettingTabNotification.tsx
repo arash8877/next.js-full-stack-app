@@ -6,11 +6,10 @@ import { toast } from "react-toastify";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import useLanguageStore from "@/stores/language-store";
 
-
 //------------------------------------ main function ----------------------------------
 export default function SettingTabNotification() {
-  const { l } = useLanguageStore(); 
-  
+  const { l } = useLanguageStore();
+
   //--------- update user -----
   const { userData } = useGetUserInfo();
   const updateUser = async (data: { hasConsentedToMarketing: boolean }) => {
@@ -20,19 +19,26 @@ export default function SettingTabNotification() {
         data,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
             "Content-Type": "application/json",
           },
         }
       );
-      console.log(response)
-      toast.success(l("settings.tab1.form.toast.success") || "Notifications is updated successfully!", {
-        position: "top-center",
-        autoClose: 2000,
-        className: "single_line_toast",
-      });
+      console.log(response);
+      toast.success(
+        l("settings.tab1.form.toast.success") ||
+          "Notifications is updated successfully!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
     } catch (error) {
-      console.error(l("settings.tab1.form.toast.error") || "Error in /users", error);
+      console.error(
+        l("settings.tab1.form.toast.error") || "Error in /users",
+        error
+      );
       toast.error("Something went wrong!", {
         position: "top-center",
         autoClose: 2000,
@@ -64,7 +70,8 @@ export default function SettingTabNotification() {
         {l("settings.tab2.header") || "Consent to Email Marketing"}
       </h2>
       <p className="text-base mb-6">
-        {l("settings.tab2.marketingconsent.text") || "By checking this box, you agree to receive marketings emails from TrialSync. You can opt-out at any time by following the unsubscribe link in our emails."}
+        {l("settings.tab2.marketingconsent.text") ||
+          "By checking this box, you agree to receive marketings emails from TrialSync. You can opt-out at any time by following the unsubscribe link in our emails."}
       </p>
       <div className="flex flex-col my-6">
         <form onSubmit={formik.handleSubmit}>
@@ -81,7 +88,8 @@ export default function SettingTabNotification() {
             }
             label={
               <span className="text-sm">
-                {l("settings.tab2.marketingconsent.label") || "I agree to receive marketing emails."}
+                {l("settings.tab2.marketingconsent.label") ||
+                  "I agree to receive marketing emails."}
               </span>
             }
           />

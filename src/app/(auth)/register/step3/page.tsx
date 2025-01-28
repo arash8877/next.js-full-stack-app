@@ -42,7 +42,7 @@ function RegisterStep3() {
               token: token,
             }
           );
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("sp_token", response.data.token);
 
           router.push("/register/step4");
         } catch (error) {
@@ -60,7 +60,7 @@ function RegisterStep3() {
   //------------ Handle Resend Email------------
   async function handleResendEmail() {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/invites/verifymail`, //request to resend email

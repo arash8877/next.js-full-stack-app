@@ -11,20 +11,23 @@ import useLanguageStore from "@/stores/language-store";
 
 //---- Yup validation ----
 
-
 //------------------------ main function -----------------------------
 const LoginForm = () => {
   const [error, setError] = useState("");
   const router = useRouter();
   const { l } = useLanguageStore();
 
-    //------------ get user email ------------
+  //------------ get user email ------------
 
   const formSchema = Yup.object({
     email: Yup.string()
-      .required(l("login.form.email.validation.required") || "Email is required!")
+      .required(
+        l("login.form.email.validation.required") || "Email is required!"
+      )
       .email(l("Invalid email format") || "Invalid email format"),
-    password: Yup.string().required(l("login.form.password.validation.required") || "Password is required!"),
+    password: Yup.string().required(
+      l("login.form.password.validation.required") || "Password is required!"
+    ),
   });
 
   // -------------- formik -------------------
@@ -43,38 +46,38 @@ const LoginForm = () => {
             password: values.password,
           }
         );
-        
-        console.log("response in login form:", response.data)
-        localStorage.setItem("token", response.data.token);
-        document.cookie = `token=${response.data.token}; path=/; max-age=86400; SameSite=Strict; Secure`;
+
+        console.log("response in login form:", response.data);
+        localStorage.setItem("sp_token", response.data.token);
+        document.cookie = `sp_token=${response.data.token}; path=/; max-age=86400; SameSite=Strict; Secure`;
         localStorage.setItem("language", response.data.user.preferredLanguage);
         router.push("/");
-
-
       } catch (error) {
         console.error("catch error in login", error);
         // --- Cast error to AxiosError to resolve the type ---
         if (
           axios.isAxiosError(error) &&
-          (error.response?.status === 401 || error.response?.status === 404 || error.response?.status === 400)
+          (error.response?.status === 401 ||
+            error.response?.status === 404 ||
+            error.response?.status === 400)
         ) {
-          if (typeof error.response.data === 'string') {
+          if (typeof error.response.data === "string") {
             setError(l("login.form.validation.error") || error.response.data);
+          } else {
+            setError(
+              l("login.form.validation.error") || "Invalid email or password"
+            );
           }
-          else {
-            setError(l("login.form.validation.error") || "Invalid email or password");
-          }
-         
         }
       }
     },
     validationSchema: formSchema,
   });
 
-  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setError(""); // Reset the error message
     formik.handleChange(event);
-  };
+  }
 
   //------------------------------- return -----------------------------
   return (
@@ -90,13 +93,16 @@ const LoginForm = () => {
               href="/forgotpassword"
               className="text-sm md:text-xs underline"
             >
-              {l("login.form.cta.forgotpassword.text") || "Forgot your password?"}
+              {l("login.form.cta.forgotpassword.text") ||
+                "Forgot your password?"}
             </Link>
           </div>
           <input
             name="email"
             type="email"
-            placeholder={l("login.form.email.placeholder") || "youremail@email.com"}
+            placeholder={
+              l("login.form.email.placeholder") || "youremail@email.com"
+            }
             value={formik.values.email}
             onChange={handleChange}
             onBlur={formik.handleBlur("email")}
@@ -108,13 +114,15 @@ const LoginForm = () => {
         </div>
         <div className="flex flex-col">
           <label htmlFor="password">
-            {l("login.form.password.label") ||"Enter your password"}
+            {l("login.form.password.label") || "Enter your password"}
             <span className="ml-1">*</span>
           </label>
           <input
             name="password"
             type="password"
-            placeholder={l("login.form.password.placeholder") || "Your password"}
+            placeholder={
+              l("login.form.password.placeholder") || "Your password"
+            }
             value={formik.values.password}
             onChange={handleChange}
             onBlur={formik.handleBlur("password")}

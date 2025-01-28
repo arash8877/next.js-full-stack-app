@@ -12,7 +12,7 @@ import useLanguageStore from "@/stores/language-store";
 
 //--------- style ---------
 const style = {
-    position: 'absolute' as const,
+  position: "absolute" as const,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -47,7 +47,7 @@ export default function DeleteUserModal({ open, onClose }: DeleteUserProps) {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/v1/users`, {
         // request
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
         },
       });
 
