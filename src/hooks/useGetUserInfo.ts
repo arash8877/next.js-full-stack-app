@@ -4,9 +4,9 @@ import { iUserProps } from "@/types";
 import useSWR from "swr";
 
 interface iError {
-    message: string;
-    status?: number;
-  }
+  message: string;
+  status?: number;
+}
 //----------------------------------- Main Function ---------------------------------------
 const useGetUserInfo = (): {
   userData: iUserProps;
@@ -28,7 +28,7 @@ const useGetUserInfo = (): {
 
   //--- Fetcher Function ---
   const fetcher = async (url: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ const useGetUserInfo = (): {
   };
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("sp_token") : null;
 
   //--- GET User Info ---
   const { data, error, isLoading } = useSWR(

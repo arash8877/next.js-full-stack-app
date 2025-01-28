@@ -111,7 +111,7 @@ export default function TrialDetailsLayout({
         gender: values.gender,
       };
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       try {
         // eslint-disable-next-line
         const response = await axios.patch(

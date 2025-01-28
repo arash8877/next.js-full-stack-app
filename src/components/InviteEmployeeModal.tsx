@@ -100,10 +100,10 @@ export default function InviteEmployeeModal({
     //----- onSubmit -----
     // eslint-disable-next-line
     onSubmit: async (values) => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       // console.log("Invite employee values:", values);
       try {
-    // eslint-disable-next-line
+        // eslint-disable-next-line
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite`,
           {

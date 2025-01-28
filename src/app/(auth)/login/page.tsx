@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     const checkUserStatus = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       if (token) {
         try {
           router.push("/");
@@ -32,7 +32,10 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen p-4 lg:grid lg:grid-cols-2 gap-4">
       <div className="flex flex-col">
-        <Navbar justify="justify-center md:justify-start" displayLogin="hidden" />
+        <Navbar
+          justify="justify-center md:justify-start"
+          displayLogin="hidden"
+        />
         <section className="flex justify-center  items-start md:items-center custom_height">
           <div className="bg-white px-4 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl border border-bgColor-10 shadow-lg">
             <div className="flex_center flex-col gap-4 mb-8">

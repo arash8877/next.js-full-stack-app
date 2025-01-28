@@ -81,7 +81,7 @@ const CreateTrialStep1Form = () => {
         l("settings.tab1.form.title.validation.length") ||
           "Title must be at least 4 characters!"
       ),
-      shortDescription: Yup.string()
+    shortDescription: Yup.string()
       .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
       .required(
         l("settings.tab1.form.description.validation.required") ||
@@ -91,7 +91,7 @@ const CreateTrialStep1Form = () => {
         20,
         l("settings.tab1.form.description.validation.length") ||
           "Description must be at least 20 characters!"
-      )
+      ),
   });
 
   //---------- formik -----------
@@ -107,7 +107,7 @@ const CreateTrialStep1Form = () => {
       setLoading(true);
       const token =
         typeof window !== "undefined"
-          ? window.localStorage.getItem("token")
+          ? window.localStorage.getItem("sp_token")
           : null;
 
       try {
@@ -116,7 +116,6 @@ const CreateTrialStep1Form = () => {
           title: values["title"],
           shortDescription: values["shortDescription"],
           fullDescription: values["shortDescription"],
-
         };
         console.log("Payload in create-trial-step1:", payload);
         setFormData({ step1Data: values });
@@ -184,7 +183,6 @@ const CreateTrialStep1Form = () => {
             {formik.touched.shortDescription && formik.errors.shortDescription}
           </small>
         </div>
-
       </div>
 
       <div className="flex justify-center xs:justify-end gap-4 mt-20">

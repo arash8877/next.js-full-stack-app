@@ -55,7 +55,7 @@ export default function DeleteTrialModal({
         {
           // request
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
           },
         }
       );

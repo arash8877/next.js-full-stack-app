@@ -59,7 +59,8 @@ const RegisterStep2Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
-  const sponsorId = typeof window !== "undefined" ? localStorage.getItem("sponsorId") : null;
+  const sponsorId =
+    typeof window !== "undefined" ? localStorage.getItem("sponsorId") : null;
 
   //----------------- Yup validation ---------------
   // eslint-disable-next-line
@@ -181,7 +182,7 @@ const RegisterStep2Form = () => {
 
         console.log("step2 response:", response);
 
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("sp_token", response.data.token);
 
         router.push("/register/step3");
       } catch (error) {

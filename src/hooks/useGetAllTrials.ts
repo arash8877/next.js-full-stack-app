@@ -22,7 +22,7 @@ export default function useGetAllTrials({
   const fetcher = async (url: string, body: { searchValue: string }) => {
     const res = await axios.post(url, body, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
         accept: "application/json",
       },
     });

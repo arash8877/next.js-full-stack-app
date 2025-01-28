@@ -13,7 +13,7 @@ const useGetSingleTrialInfo = (
   trialIsLoading: boolean;
 } => {
   const fetcher = async (url: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ const useGetSingleTrialInfo = (
   };
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("sp_token") : null;
   const { data, error, isLoading } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${id}` : null,
     fetcher

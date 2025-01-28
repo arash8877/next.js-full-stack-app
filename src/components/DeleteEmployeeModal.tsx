@@ -52,7 +52,7 @@ export default function DeleteEmployeeModal({
         {
           // request
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
           },
         }
       );

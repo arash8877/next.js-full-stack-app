@@ -75,7 +75,7 @@ export default function TrialDetailsLayout({
         data,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
             "Content-Type": "application/json",
           },
         }
@@ -117,7 +117,7 @@ export default function TrialDetailsLayout({
           "Title must be at least 5 characters!"
       ),
 
-      shortDescription: Yup.string()
+    shortDescription: Yup.string()
       .required(
         l("settings.tab1.form.description.validation.required") ||
           "Description is required!"
@@ -259,7 +259,7 @@ export default function TrialDetailsLayout({
         isCompleted: false,
       };
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       try {
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/edit`,
@@ -326,12 +326,13 @@ export default function TrialDetailsLayout({
                 </label>
                 <RecruitingDropdown
                   value={formik.values.isRecruiting.toString()}
-                  onChange={(value) => formik.setFieldValue("isRecruiting", value)}
+                  onChange={(value) =>
+                    formik.setFieldValue("isRecruiting", value)
+                  }
                   borderColor="#DFF2DF"
                 />
                 <small className="text-red-600">
-                  {formik.touched.isRecruiting &&
-                    formik.errors.isRecruiting}
+                  {formik.touched.isRecruiting && formik.errors.isRecruiting}
                 </small>
               </div>
             </div>
@@ -537,10 +538,7 @@ export default function TrialDetailsLayout({
 
             <div className="flex flex-col gap-4 xl:gap-16">
               <div className="flex flex-col gap-2 w-full">
-                <label
-                  htmlFor="description"
-                  className="text-sm font-semibold"
-                >
+                <label htmlFor="description" className="text-sm font-semibold">
                   Description:<span className="ml-1">*</span>
                 </label>
                 <ReactQuill

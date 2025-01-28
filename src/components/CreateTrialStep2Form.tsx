@@ -75,33 +75,36 @@ const CreateTrialStep2Form = () => {
     trialSites: Yup.array()
       .of(
         Yup.object({
-          name: Yup.string().required(
-            l("settings.tab1.form.place.validation.required") ||
-              "Place is required!"
-          )
-          .min(
-            4,
-            l("settings.tab1.form.title.validation.length") ||
-              "Location must be at least 4 characters!"
-          ),
-          address: Yup.string().required(
-            l("settings.tab1.form.address.validation.required") ||
-              "Address is required!"
-          )
-          .min(
-            4,
-            l("settings.tab1.form.title.validation.length") ||
-              "Address must be at least 4 characters!"
-          ),
-          zipCode: Yup.string().required(
-            l("register.step1.form.zipCode.validation.required") ||
-              "Zip code is required!"
-          )
-          .min(
-            4,
-            l("settings.tab1.form.title.validation.length") ||
-              "Zip code must be at least 4 characters!"
-          ),
+          name: Yup.string()
+            .required(
+              l("settings.tab1.form.place.validation.required") ||
+                "Place is required!"
+            )
+            .min(
+              4,
+              l("settings.tab1.form.title.validation.length") ||
+                "Location must be at least 4 characters!"
+            ),
+          address: Yup.string()
+            .required(
+              l("settings.tab1.form.address.validation.required") ||
+                "Address is required!"
+            )
+            .min(
+              4,
+              l("settings.tab1.form.title.validation.length") ||
+                "Address must be at least 4 characters!"
+            ),
+          zipCode: Yup.string()
+            .required(
+              l("register.step1.form.zipCode.validation.required") ||
+                "Zip code is required!"
+            )
+            .min(
+              4,
+              l("settings.tab1.form.title.validation.length") ||
+                "Zip code must be at least 4 characters!"
+            ),
           country: Yup.string().required(
             l("register.step1.form.country.validation.required") ||
               "Country is required!"
@@ -122,7 +125,7 @@ const CreateTrialStep2Form = () => {
     //---------onSubmit--------------
     onSubmit: async (values) => {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         const trialSites = values.trialSites.map((site) => ({

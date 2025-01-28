@@ -14,14 +14,14 @@ const useGetApplicantsInfo = (): {
     applicantsNumber: 0,
     firstName: "",
     lastName: "",
-    age: "", 
+    age: "",
     zipCode: "",
     country: "",
   };
 
   //--- Fetcher Function ---
   const fetcher = async (url: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,22 +32,27 @@ const useGetApplicantsInfo = (): {
   };
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("sp_token") : null;
 
   //--- GET applicant Info ---
   const { data, error, isLoading } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
     fetcher
   );
-  const [applicantInfo, setApplicantInfo] = useState<applicantsInfoProps>(initialApplicantInfo);
+  const [applicantInfo, setApplicantInfo] =
+    useState<applicantsInfoProps>(initialApplicantInfo);
   useEffect(() => {
     if (data) {
-        setApplicantInfo(data);
+      setApplicantInfo(data);
     }
   }, [data]);
 
   //  console.log(applicantInfo)
-  return { applicantData: applicantInfo, applicantError: error, applicantIsLoading: isLoading };
+  return {
+    applicantData: applicantInfo,
+    applicantError: error,
+    applicantIsLoading: isLoading,
+  };
 };
 
 export default useGetApplicantsInfo;

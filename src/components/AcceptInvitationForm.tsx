@@ -32,7 +32,6 @@ const AcceptInvitationForm = () => {
     setInviteToken(query.get("inviteToken"));
   }, []);
 
-
   //----Yup validation ---------
   const formSchema = Yup.object({
     firstName: Yup.string()
@@ -118,7 +117,7 @@ const AcceptInvitationForm = () => {
   useEffect(() => {
     async function getUserInfo(): Promise<boolean> {
       try {
-        // const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("sp_token");
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/invites/user`,
           {
@@ -146,7 +145,7 @@ const AcceptInvitationForm = () => {
       return;
     }
     try {
-  //eslint-disable-next-line
+      //eslint-disable-next-line
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite/${inviteToken}/create`,
         data,

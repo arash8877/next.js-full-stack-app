@@ -14,7 +14,7 @@ const useGetInvoicesInfo = (): {
 
   //--- Fetcher Function ---
   const fetcher = async (url: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -25,22 +25,27 @@ const useGetInvoicesInfo = (): {
   };
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("sp_token") : null;
 
   //--- GET invoice Info ---
   const { data, error, isLoading } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/invoices` : null,
     fetcher
   );
-  const [invoicesInfo, setInvoicesInfo] = useState<invoicesInfoProps[]>(initialInvoiceInfo);
+  const [invoicesInfo, setInvoicesInfo] =
+    useState<invoicesInfoProps[]>(initialInvoiceInfo);
   useEffect(() => {
     if (data) {
-        setInvoicesInfo(data);
+      setInvoicesInfo(data);
     }
   }, [data]);
 
   //  console.log(invoicesInfo)
-  return { invoiceData: invoicesInfo, invoiceError: error, invoiceIsLoading: isLoading };
+  return {
+    invoiceData: invoicesInfo,
+    invoiceError: error,
+    invoiceIsLoading: isLoading,
+  };
 };
 
 export default useGetInvoicesInfo;

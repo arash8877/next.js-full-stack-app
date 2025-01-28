@@ -32,7 +32,7 @@ export default function EditTrialTitleTab({
           "Title must be at least 5 characters!"
       ),
 
-      shortDescription: Yup.string()
+    shortDescription: Yup.string()
       .required(
         l("settings.tab1.form.description.validation.required") ||
           "Description is required!"
@@ -66,14 +66,14 @@ export default function EditTrialTitleTab({
       };
 
       try {
-        const token = localStorage.getItem("token");
-      // eslint-disable-next-line
+        const token = localStorage.getItem("sp_token");
+        // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step1`,
           {
             title: data.title,
             shortDescription: data.shortDescription,
-            fullDescription: data.shortDescription
+            fullDescription: data.shortDescription,
           },
           {
             headers: {
@@ -130,10 +130,7 @@ export default function EditTrialTitleTab({
 
             <div className="flex flex-col gap-4 xl:gap-16">
               <div className="flex flex-col gap-2 w-full">
-                <label
-                  htmlFor="description"
-                  className="text-sm font-semibold"
-                >
+                <label htmlFor="description" className="text-sm font-semibold">
                   Description:<span className="ml-1">*</span>
                 </label>
                 <ReactQuill
