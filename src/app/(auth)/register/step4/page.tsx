@@ -41,6 +41,15 @@ function RegisterStep4() {
       }
     }
     callEndpoint();
+
+
+    const timer = setTimeout(() => {
+      localStorage.removeItem("sp_token");
+      localStorage.removeItem("sponsorId");
+      document.cookie = "registerStep1Completed=; Path=/; max-age=0";
+    }, 5000); 
+    return () => clearTimeout(timer);
+
   }, []);
 
   //------------ get user email ------------
