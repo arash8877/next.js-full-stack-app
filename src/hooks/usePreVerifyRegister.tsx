@@ -10,7 +10,7 @@ const usePreVerifyRegister = () => {
   //--- request to check if user has verified email + post that user complete ----
   const CheckUserVerified = async (): Promise<boolean> => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
 
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/users/verified`,

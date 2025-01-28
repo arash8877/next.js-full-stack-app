@@ -78,22 +78,22 @@ const CreateTrialStep3Form = () => {
     // eslint-disable-next-line
     onSubmit: async (values) => {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       const payload = {
         startDate: values["startDate"],
-            endDate: values["endDate"],
-            submissionDeadline: values["deadline"],
-            ageMin: values["ageMin"],
-            ageMax: values["ageMax"],
-            gender: values["gender"],
-      }
+        endDate: values["endDate"],
+        submissionDeadline: values["deadline"],
+        ageMin: values["ageMin"],
+        ageMax: values["ageMax"],
+        gender: values["gender"],
+      };
       try {
         // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //PATCH request
           {
-            payload
+            payload,
           },
           {
             headers: {
@@ -101,7 +101,7 @@ const CreateTrialStep3Form = () => {
             },
           }
         );
-        console.log("Payload in create trial step 3", payload)
+        console.log("Payload in create trial step 3", payload);
         console.log("RESPONSE in create trial- step3", response);
         setFormData({
           ...formData,

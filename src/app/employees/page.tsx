@@ -11,21 +11,19 @@ import useGetCompanyInfo from "@/hooks/useGetCompanyInfo";
 import axios from "axios";
 import { AxiosError } from "axios";
 
-
 //------------------------------------ main function -----------------------------------
 export default function EmployeesPage() {
   const [isInviteEmployeeModalOpen, setIsInviteEmployeeModalOpen] =
     useState(false);
   const { companyData } = useGetCompanyInfo();
   const router = useRouter();
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   const [error, setError] = useState("");
   const { l } = useLanguageStore();
 
   function redirectToEmployeeDetails(employeeId: number) {
     router.push(`/employees/${employeeId}`);
   }
-
 
   //----- Un-Invite an employee -----
   async function unInviteEmployee(employeeId: number) {
@@ -35,7 +33,7 @@ export default function EmployeesPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/user/${employeeId}/uninvite`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
             "Content-Type": "application/json",
           },
         }
@@ -61,7 +59,7 @@ export default function EmployeesPage() {
   //----- Re-Invite an employee -----
   // eslint-disable-next-line
   async function reInviteEmployee(email: string) {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsorcontacts/invite/resend`,
@@ -82,7 +80,6 @@ export default function EmployeesPage() {
         autoClose: 2000,
         className: "single_line_toast",
       });
-
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response && error.response.data) {
@@ -97,7 +94,6 @@ export default function EmployeesPage() {
         }
       }
     }
-
   }
 
   //---- open and close modal -----
@@ -140,11 +136,15 @@ export default function EmployeesPage() {
             <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
               <th className="hidden">Id</th>
               <th className="py-3 px-6 text-xs">First Name</th>
-              <th className="py-3 px-6 hidden md:table-cell text-xs">Last Name</th>
+              <th className="py-3 px-6 hidden md:table-cell text-xs">
+                Last Name
+              </th>
               {/* Hidden on small screens */}
               <th className="py-3 px-6 hidden lg:table-cell text-xs">Email</th>
               {/* Hidden on small screens */}
-              <th className="py-3 px-6 hidden 2xl:table-cell text-xs">Last Login</th>
+              <th className="py-3 px-6 hidden 2xl:table-cell text-xs">
+                Last Login
+              </th>
               <th className="py-3 px-6 text-right text-xs">Action</th>
             </tr>
           </thead>
@@ -152,7 +152,9 @@ export default function EmployeesPage() {
             {companyData?.sponsorContacts?.map((employee, index) => (
               <tr key={index} className="border-b">
                 <td className="hidden">{employee.userId}</td>
-                <td className="py-4 px-6 text-sm 2xl:text-base">{employee.firstName}</td>
+                <td className="py-4 px-6 text-sm 2xl:text-base">
+                  {employee.firstName}
+                </td>
                 <td className="py-4 px-6 hidden md:table-cell text-sm 2xl:text-base">
                   {employee.lastName}
                 </td>

@@ -31,7 +31,7 @@ const CreateTrialStep6Form = () => {
 
   useEffect(() => {
     const fetchPreviewKey = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         const response = await axios.get(
@@ -56,7 +56,7 @@ const CreateTrialStep6Form = () => {
   }, [trialId]);
 
   async function handleCreateTrial() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     const trialId = localStorage.getItem("currentTrialEditId");
     try {
       const response = await axios.patch(

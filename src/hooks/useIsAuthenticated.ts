@@ -6,7 +6,7 @@ export default function useIsAuthenticated() {
   useEffect(() => {
     // Check if running on the client
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       setAuthenticated(Boolean(token));
     }
   }, []);

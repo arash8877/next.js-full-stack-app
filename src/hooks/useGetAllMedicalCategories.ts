@@ -18,7 +18,7 @@ export default function useGetAllMedicalCategories(): UseGetAllMedicalCategories
     axios
       .get(url, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
           accept: "application/json",
         },
       })

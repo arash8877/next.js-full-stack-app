@@ -43,7 +43,6 @@ const EmployeesListForm = ({
   const numberOfEmployees = companyData.sponsorContacts.length;
   const { l } = useLanguageStore();
 
-
   //---------------- update user ---------------
   const updateEmployee = async (data: sponsorUserUpdateProps) => {
     //function will be called in onSubmit
@@ -53,7 +52,7 @@ const EmployeesListForm = ({
         data,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("sp_token")}`,
             "Content-Type": "application/json",
           },
         }
@@ -236,7 +235,9 @@ const EmployeesListForm = ({
         />
         <CustomButton
           title={l("settings.form.submit") || "Delete"}
-          containerStyles={`rounded-lg h-[48px] bg-bgColor-red hover1 ${numberOfEmployees === 1 ? "hidden" : ""}`}
+          containerStyles={`rounded-lg h-[48px] bg-bgColor-red hover1 ${
+            numberOfEmployees === 1 ? "hidden" : ""
+          }`}
           textStyles="text-white"
           btnType="button"
           handleClick={openDeleteEmployeeModal}

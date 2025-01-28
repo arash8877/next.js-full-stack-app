@@ -17,7 +17,6 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
-
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep5Form = () => {
   const router = useRouter();
@@ -60,12 +59,12 @@ const CreateTrialStep5Form = () => {
       otherCompensationText: formData.step5Data?.otherCompensationText || "",
     },
     validationSchema: formSchema,
-    
+
     //---------onSubmit--------------
     // eslint-disable-next-line
     onSubmit: async (values) => {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       const payload = {
         participantActivities: values["participantActivities"],
@@ -239,7 +238,10 @@ const CreateTrialStep5Form = () => {
           </div>
 
           <div className="flex flex-col w-full">
-            <label htmlFor="isPublished" className="flex items-center text-sm font-semibold">
+            <label
+              htmlFor="isPublished"
+              className="flex items-center text-sm font-semibold"
+            >
               Publish status:<span className="ml-1">*</span>{" "}
               <span>
                 <TooltipButton

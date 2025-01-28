@@ -7,11 +7,9 @@ import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import Spinner from "@/components/Spinner";
 import axios from "axios";
 
-
 type SingleTrialPageProps = {
   params: { id: string };
 };
-
 
 //------------------------------------ main function -----------------------------------
 export default function SingleTrialPage({ params }: SingleTrialPageProps) {
@@ -22,14 +20,12 @@ export default function SingleTrialPage({ params }: SingleTrialPageProps) {
   const { id } = useParams();
   const trialId = id;
 
-
-
-console.log("trialData:", trialData);
+  console.log("trialData:", trialData);
   console.log("urlStub:", urlStub);
 
   useEffect(() => {
     const fetchPreviewKey = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/preview`,
@@ -39,26 +35,27 @@ console.log("trialData:", trialData);
             },
           }
         );
-        setPreviewKey(response.data); 
-        console.log("Response in preview:", response)
+        setPreviewKey(response.data);
+        console.log("Response in preview:", response);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchPreviewKey();
-  }, [trialId]); 
+  }, [trialId]);
 
   useEffect(() => {
     if (previewKey && urlStub) {
-      router.push(`https://app.trialsync.com/trial/${urlStub}?previewkey=${previewKey}`);
+      router.push(
+        `https://app.trialsync.com/trial/${urlStub}?previewkey=${previewKey}`
+      );
     } else {
       console.error("urlStub is missing or previewKey is unavailable");
     }
   }, [previewKey, router, urlStub]);
 
   console.log("previewKey:", previewKey);
-
 
   //------------------------------- JSX -----------------------------------
   return (

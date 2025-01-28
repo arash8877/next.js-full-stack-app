@@ -16,12 +16,12 @@ const useGetCompanyInfo = (): {
     country: "",
     vatNumber: "",
     zipCode: "",
-    sponsorContacts: []
-  }
+    sponsorContacts: [],
+  };
 
   //--- Fetcher Function ---
   const fetcher = async (url: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("sp_token");
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ const useGetCompanyInfo = (): {
   };
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== "undefined" ? localStorage.getItem("sp_token") : null;
 
   //--- GET Company Info ---
   const { data, error, isLoading } = useSWR(
@@ -42,12 +42,16 @@ const useGetCompanyInfo = (): {
   const [companyInfo, setCompanyInfo] = useState<CompanyInfoProps>(initialInfo);
   useEffect(() => {
     if (data) {
-        setCompanyInfo(data);
+      setCompanyInfo(data);
     }
   }, [data]);
 
   //  console.log("companyInfo:", companyInfo)
-  return { companyData: companyInfo, companyError: error, companyIsLoading: isLoading };
+  return {
+    companyData: companyInfo,
+    companyError: error,
+    companyIsLoading: isLoading,
+  };
 };
 
 export default useGetCompanyInfo;

@@ -73,7 +73,7 @@ export default function EditTrialMedicalTab({
         exclusionRequirements: values.exclusionRequirements,
         medicalCategories: selectedCategoriesId,
       };
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       try {
         //eslint-disable-next-line
         const response = await axios.patch(

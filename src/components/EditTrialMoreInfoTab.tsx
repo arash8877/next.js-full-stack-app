@@ -85,7 +85,7 @@ export default function EditTrialMoreInfoTab({
         otherCompensationText: values.otherCompensationText,
       };
       console.log("payload edit trial step 5", payload);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("sp_token");
       try {
         // eslint-disable-next-line
         const response = await axios.patch(
