@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import UnlockApplicantsModal from "@/components/UnlockApplicantsModal";
-import CustomButton from "@/components/CustomButton";
 import useLanguageStore from "@/stores/language-store";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import useGetApplicationsInfo from "@/hooks/useGetApplicationsInfo";
