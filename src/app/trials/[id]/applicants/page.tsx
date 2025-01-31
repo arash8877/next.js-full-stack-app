@@ -63,7 +63,7 @@ export default function ApplicantsPage({ params }: Props) {
 
         <div className="flex flex-col justify-between gap-4 lg:flex-row">
           <h2 className="lg:w-2/3">{title}</h2>
-          <CustomButton
+          {/* <CustomButton
             title={
               applicationsData?.[0]?.unlocked
                 ? l("forgotpassword.form.submit") || "Unlocked"
@@ -76,7 +76,7 @@ export default function ApplicantsPage({ params }: Props) {
             disabled={
               applicationsData?.[0]?.unlocked || applicationsData?.length === 0
             }
-          />
+          /> */}
         </div>
         <div className="overflow-x-auto bg-white wrapper rounded-3xl mt-4 sm:mt-0">
           <table className="min-w-full bg-white">
