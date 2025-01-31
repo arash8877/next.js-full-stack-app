@@ -35,50 +35,45 @@ export default function TrialDetailsLayout({
   const { l } = useLanguageStore();
 
   //----Yup validation ---------
-  // eslint-disable-next-line
   const formSchema = Yup.object({
-    ageMin: Yup.number()
-      .required(
-        l("settings.tab1.form.ageMin.validation.required") ||
-          "Minimum age is required!"
-      )
-      .min(0, "Minimum age must be greater than or equal to 0"),
-
-    ageMax: Yup.number()
-      .min(0, "Maximum age must be greater than or equal to 0")
-      .when("ageMin", {
-        is: (ageMin: number) => ageMin !== undefined && ageMin !== null,
-        then: (schema) =>
-          schema.min(
-            Yup.ref("ageMin"),
-            "Maximum age must be greater than or equal to minimum age!"
-          ),
-        otherwise: (schema) => schema,
-      }),
-
-    startDate: Yup.date()
-      .required(
-        l("settings.tab1.form.startDate.validation.required") ||
-          "Start date is required!"
-      )
-      .typeError("Please enter a valid start date"),
-
+    startDate: Yup.date().required(
+      l("settings.tab1.form.place.validation.required") ||
+        "Start date is required!"
+    ),
     endDate: Yup.date()
       .required(
-        l("settings.tab1.form.endDate.validation.required") ||
+        l("settings.tab1.form.address.validation.required") ||
           "End date is required!"
       )
-      .typeError("Please enter a valid end date"),
-
-    submissionDeadline: Yup.date()
+      .min(Yup.ref("startDate"), "End date must be later than start date"),
+    deadline: Yup.date()
       .required(
-        l("settings.tab1.form.submissionDeadline.validation.required") ||
-          "Submission deadline is required!"
+        l("register.step1.form.zipCode.validation.required") ||
+          "Deadline is required!"
       )
-      .typeError("Please enter a valid submission deadline"),
+      .max(
+        Yup.ref("endDate"),
+        "Deadline should not be later than End Study Date"
+      ),
+    ageMax: Yup.number()
+      .min(
+        Yup.ref("ageMin"),
+        "Maximum age should be greater than or equal to minimum age"
+      )
+      .integer("Maximum age must be an integer")
+      .max(120, "Maximum age should be less than or equal to 120 years"),
+    ageMin: Yup.number()
+      .typeError("Minimum age must be a valid number")
+      .required(
+        l("register.step1.form.country.validation.required") ||
+          "Minimum age is required!"
+      )
+      .integer("Minimum age must be an integer")
+      .min(18, "Minimum age should be 18 years or older")
+      .max(119, "Minimum age should be less than 120 years"),
 
     gender: Yup.string().required(
-      l("settings.tab1.form.gender.validation.required") ||
+      l("register.step1.form.country.validation.required") ||
         "Gender is required!"
     ),
   });
@@ -216,6 +211,11 @@ export default function TrialDetailsLayout({
                 onChange={(date) => formik.setFieldValue("endDate", date)}
                 onBlur={formik.handleBlur}
                 borderColor="custom-border"
+                minDate={
+                  formik.values.startDate
+                    ? new Date(formik.values.startDate) // Set minDate to start date for end date
+                    : undefined
+                }
               />
               <small className="text-red-600">
                 {formik.touched.endDate && formik.errors.endDate}
@@ -238,8 +238,17 @@ export default function TrialDetailsLayout({
                 onChange={(date) =>
                   formik.setFieldValue("submissionDeadline", date)
                 }
-                onBlur={formik.handleBlur}
+                onBlur={formik.handleBlur("submissionDeadline")}
                 borderColor="custom-border"
+                maxDate={
+                  formik.values.endDate
+                    ? new Date(
+                        new Date(formik.values.endDate).setDate(
+                          new Date(formik.values.endDate).getDate() - 1
+                        )
+                      )
+                    : undefined
+                }
               />
               <small className="text-red-600">
                 {formik.touched.submissionDeadline &&
