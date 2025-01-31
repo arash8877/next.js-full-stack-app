@@ -82,10 +82,9 @@ export default function ApplicantsPage({ params }: Props) {
           <table className="min-w-full bg-white">
             <thead>
               <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
-                <th className="py-3 px-6">First Name</th>
-                <th className="py-3 px-6">Last Name</th>
-                <th className="py-3 px-6 hidden lg:table-cell">Gender</th>{" "}
-                <th className="py-3 px-6">Email</th>
+                <th className="py-3 px-6">Patient ID</th>
+                <th className="py-3 px-6">Status</th>
+                <th className="py-3 px-6 hidden lg:table-cell">Assigned Site</th>{" "}
               </tr>
             </thead>
             <tbody>
@@ -96,7 +95,6 @@ export default function ApplicantsPage({ params }: Props) {
                   <td className="py-4 px-6 hidden lg:table-cell">
                     {applicant.user.gender}
                   </td>
-                  <td className="py-4 px-6">{applicant.user.email}</td>
                 </tr>
               ))}
             </tbody>
