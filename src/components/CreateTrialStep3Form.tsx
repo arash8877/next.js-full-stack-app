@@ -11,6 +11,7 @@ import axios from "axios";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import Spinner from "./Spinner";
 import useLanguageStore from "@/stores/language-store";
+import AgeDropdown from "./AgeDropdown";
 
 //-------------------------------------- main function-----------------------------------------
 const CreateTrialStep3Form = () => {
@@ -143,6 +144,7 @@ const CreateTrialStep3Form = () => {
               value={formik.values.startDate}
               onChange={(date) => formik.setFieldValue("startDate", date)}
               onBlur={formik.handleBlur("startDate")}
+              borderColor="custom-border"
             />
             <small className="text-red-600">
               {formik.touched.startDate && formik.errors.startDate}
@@ -158,6 +160,7 @@ const CreateTrialStep3Form = () => {
               value={formik.values.endDate}
               onChange={(date) => formik.setFieldValue("endDate", date)}
               onBlur={formik.handleBlur("endDate")}
+              borderColor="custom-border"
               minDate={
                 formik.values.startDate
                   ? new Date(formik.values.startDate) // Set minDate to start date for end date
@@ -180,6 +183,7 @@ const CreateTrialStep3Form = () => {
               value={formik.values.deadline}
               onChange={(date) => formik.setFieldValue("deadline", date)}
               onBlur={formik.handleBlur("deadline")}
+              borderColor="custom-border"
               maxDate={
                 formik.values.endDate
                   ? new Date(
@@ -203,7 +207,7 @@ const CreateTrialStep3Form = () => {
             <GenderDropdown
               gender={formik.values.gender}
               setGender={(value) => formik.setFieldValue("gender", value)}
-              borderColor="black"
+              borderColor="#DFF2DF"
             />
             <small className="text-red-600">
               {formik.touched.gender && formik.errors.gender}
@@ -217,21 +221,10 @@ const CreateTrialStep3Form = () => {
               {l("register.step3.form.ageMin.label") || "Min. Age"}
               <span className="ml-1">*</span>
             </label>
-            <input
-              type="text"
-              placeholder={
-                l("register.step3.form.ageMin.placeholder") || "e.g. 18 years"
-              }
-              value={formik.values.ageMin}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (/^\d*$/.test(value)) {
-                  // Only allow digits
-                  formik.setFieldValue("ageMin", value);
-                }
-              }}
-              onBlur={formik.handleBlur("ageMin")}
-              className="register_input focus:border-blue-500"
+            <AgeDropdown
+              age={Number(formik.values.ageMin)}
+              setAge={(value) => formik.setFieldValue("ageMin", value)}
+              borderColor="#DFF2DF"
             />
             <small className="text-red-600">
               {formik.touched.ageMin && formik.errors.ageMin}
@@ -242,15 +235,10 @@ const CreateTrialStep3Form = () => {
             <label htmlFor="ageMax">
               {l("register.step3.form.ageMax.label") || "Max. Age"}
             </label>
-            <input
-              type="text"
-              placeholder={
-                l("register.step3.form.ageMax.placeholder") || "e.g. 90 years"
-              }
-              value={formik.values.ageMax}
-              onChange={formik.handleChange("ageMax")}
-              onBlur={formik.handleBlur("ageMax")}
-              className="register_input focus:border-blue-500"
+            <AgeDropdown
+              age={Number(formik.values.ageMax)}
+              setAge={(value) => formik.setFieldValue("ageMax", value)}
+              borderColor="#DFF2DF"
             />
             <small className="text-red-600">
               {formik.touched.ageMax && formik.errors.ageMax}
