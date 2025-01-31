@@ -164,6 +164,15 @@ iTrialCardProps) {
             />
           </Link>
         </div>
+        <div className="flex flex-col">
+          <Link href={`/trials/${trialId}/applicants`}>
+            <CustomButton
+              title={l("trialcard.cta.text") || "START RECRUITING"}
+              containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
+              btnType="button"
+            />
+          </Link>
+        </div>
       </div>
     </section>
   );
