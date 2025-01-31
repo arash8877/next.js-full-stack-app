@@ -168,7 +168,7 @@ iTrialCardProps) {
           <Link href={`/trials/${trialId}/applicants`}>
             <CustomButton
               title={l("trialcard.cta.text") || "START RECRUITING"}
-              containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
+              containerStyles="rounded-lg gradient-green2 text-white mt-4 hover1 custom-width-btn"
               btnType="button"
             />
           </Link>
