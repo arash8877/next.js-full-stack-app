@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,8 +26,7 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
 }) => {
   const dateValue = value ? new Date(value) : null;
   const { l } = useLanguageStore();
-  const selectedLang = localStorage.getItem("language");
-
+  const selectedLang = typeof window !== "undefined" ? localStorage.getItem("language") : "en";
 
   //----- Handle changes when the date is changed -----
   const handleDateChange = (date: Date | null) => {
@@ -55,7 +56,7 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
       selected={dateValue}
       onChange={handleDateChange}
       onMonthChange={handleMonthChange} // Trigger when month changes
-      onYearChange={handleYearChange}   // Trigger when year changes
+      onYearChange={handleYearChange} // Trigger when year changes
       onBlur={onBlur}
       dateFormat="d MMMM, yyyy"
       maxDate={maxDate}
@@ -63,7 +64,9 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
       className={`register_input focus:border-zinc-400 ${
         borderColor ? `${borderColor}` : ""
       }`}
-      placeholderText={l("input.datepicker.placeholder") || "Click to select a date"}
+      placeholderText={
+        l("input.datepicker.placeholder") || "Click to select a date"
+      }
       showYearDropdown
       showMonthDropdown
       dropdownMode="select"
