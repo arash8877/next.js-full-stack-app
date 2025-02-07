@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import UnlockApplicantsModal from "@/components/UnlockApplicantsModal";
-import CustomButton from "@/components/CustomButton";
 import useLanguageStore from "@/stores/language-store";
 import useGetSingleTrialInfo from "@/hooks/useGetSingleTrialInfo";
 import useGetApplicationsInfo from "@/hooks/useGetApplicationsInfo";
@@ -63,7 +62,7 @@ export default function ApplicantsPage({ params }: Props) {
 
         <div className="flex flex-col justify-between gap-4 lg:flex-row">
           <h2 className="lg:w-2/3">{title}</h2>
-          <CustomButton
+          {/* <CustomButton
             title={
               applicationsData?.[0]?.unlocked
                 ? l("forgotpassword.form.submit") || "Unlocked"
@@ -76,16 +75,15 @@ export default function ApplicantsPage({ params }: Props) {
             disabled={
               applicationsData?.[0]?.unlocked || applicationsData?.length === 0
             }
-          />
+          /> */}
         </div>
         <div className="overflow-x-auto bg-white wrapper rounded-3xl mt-4 sm:mt-0">
           <table className="min-w-full bg-white">
             <thead>
               <tr className="bg-[#EEEEEE] text-left text-sm uppercase tracking-wider">
-                <th className="py-3 px-6">First Name</th>
-                <th className="py-3 px-6">Last Name</th>
-                <th className="py-3 px-6 hidden lg:table-cell">Gender</th>{" "}
-                <th className="py-3 px-6">Email</th>
+                <th className="py-3 px-6">Patient ID</th>
+                <th className="py-3 px-6">Status</th>
+                <th className="py-3 px-6 hidden lg:table-cell">Assigned Site</th>{" "}
               </tr>
             </thead>
             <tbody>
@@ -96,7 +94,6 @@ export default function ApplicantsPage({ params }: Props) {
                   <td className="py-4 px-6 hidden lg:table-cell">
                     {applicant.user.gender}
                   </td>
-                  <td className="py-4 px-6">{applicant.user.email}</td>
                 </tr>
               ))}
             </tbody>

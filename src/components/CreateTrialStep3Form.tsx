@@ -97,9 +97,7 @@ const CreateTrialStep3Form = () => {
             : null;
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //PATCH request
-          {
             payload,
-          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
