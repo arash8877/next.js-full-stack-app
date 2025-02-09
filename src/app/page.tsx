@@ -22,6 +22,41 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString("en-US", options);
 }
 
+//-------------------------- TrialList function ----------------------------
+const TrialList = ({ trials }: { trials: iTrialInfoProps[] }) => {
+  return (
+    <>
+      {trials.map((trial, index) => (
+        <TrialCard
+          key={index}
+          trialId={trial["trialId"]}
+          applicationCount={trial["applicationCount"]}
+          title={trial["title"]}
+          shortDescription={trial["shortDescription"] || ""}
+          urlStub={trial["urlStub"]}
+          startDate={formatDate(trial["startDate"])}
+          endDate={formatDate(trial["endDate"])}
+          address={
+            trial["trialSites"]
+              ? trial["trialSites"]?.[0]?.["address"]
+              : undefined
+          }
+          submissionDeadline={formatDate(trial["submissionDeadline"])}
+          media={trial.media}
+          approvedAt={trial.approvedAt}
+          publishedAt={trial.publishedAt}
+          referred={trial.referred}
+          declined={trial.declined}
+          //medicalCategories={trial.medicalCategories || []}
+          medicalCategories={[]}
+          inclusionDiseases={trial.inclusionDiseases || []}
+          applicantsNumber={trial.applicantsNumber}
+        />
+      ))}
+    </>
+  );
+};
+
 //----------------------------- main function -------------------------------
 export default function TrialsPage() {
   const [filteringSettings, setFilteringSettings] =
@@ -52,12 +87,6 @@ export default function TrialsPage() {
   //------------------ Pagination -----------------
   const [currentPage, setCurrentPage] = useState(1);
   const [trialsPerPage] = useState(6);
-
-  const [nextItems, setNext] = useState(trialsPerPage);
-  const handleMoreTrials = () => {
-    setNext(nextItems + trialsPerPage);
-    console.log(nextItems);
-  };
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -71,11 +100,9 @@ export default function TrialsPage() {
     };
   }, []);
 
-  //---------------
   const indexOfLastTrial = currentPage * trialsPerPage;
   const indexOfFirstPost = indexOfLastTrial - trialsPerPage;
   const currentTrials = allTrials.slice(indexOfFirstPost, indexOfLastTrial);
-  const currentTrialsMobile = allTrials.slice(0, nextItems);
 
   //--- handleFilterChange function ---
   const handleFilterChange = useCallback((newFilters: iTrialFilteringProps) => {
@@ -126,15 +153,14 @@ export default function TrialsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
               {allTrials && (
                 <TrialList
-                  trials={isMobile ? currentTrialsMobile : currentTrials}
+                  trials={
+                    isMobile
+                      ? allTrials.slice(0, currentPage * trialsPerPage)
+                      : currentTrials
+                  }
                 />
               )}
             </div>
-            {nextItems < allTrials.length && (
-              <button onClick={handleMoreTrials} className="show-more">
-                Show more
-              </button>
-            )}
             <CustomPagination
               allTrials={allTrials.length}
               trialsPerPage={trialsPerPage}
@@ -147,38 +173,3 @@ export default function TrialsPage() {
     </div>
   );
 }
-
-//-------------------------- TrialList component ----------------------------
-const TrialList = ({ trials }: { trials: iTrialInfoProps[] }) => {
-  return (
-    <>
-      {trials.map((trial, index) => (
-        <TrialCard
-          key={index}
-          trialId={trial["trialId"]}
-          applicationCount={trial["applicationCount"]}
-          title={trial["title"]}
-          shortDescription={trial["shortDescription"] || ""}
-          urlStub={trial["urlStub"]}
-          startDate={formatDate(trial["startDate"])}
-          endDate={formatDate(trial["endDate"])}
-          address={
-            trial["trialSites"]
-              ? trial["trialSites"]?.[0]?.["address"]
-              : undefined
-          }
-          submissionDeadline={formatDate(trial["submissionDeadline"])}
-          media={trial.media}
-          approvedAt={trial.approvedAt}
-          publishedAt={trial.publishedAt}
-          referred={trial.referred}
-          declined={trial.declined}
-          //medicalCategories={trial.medicalCategories || []}
-          medicalCategories={[]}
-          inclusionDiseases={trial.inclusionDiseases || []}
-          applicantsNumber={trial.applicantsNumber}
-        />
-      ))}
-    </>
-  );
-};

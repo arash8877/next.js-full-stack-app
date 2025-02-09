@@ -1,4 +1,4 @@
-import { useState } from "react"; 
+import { useState } from "react";
 import { Pagination, useMediaQuery } from "@mui/material";
 
 interface CustomPaginationProps {
@@ -13,17 +13,18 @@ const CustomPagination = ({
   trialsPerPage,
   currentPage,
   onPageChange,
-  
 }: CustomPaginationProps) => {
   const totalPages = Math.ceil(allTrials / trialsPerPage);
   const isMobile = useMediaQuery("(max-width:944px)");
 
-
-    const [nextItems, setNext] = useState(trialsPerPage);
-    const handleShowMore = () => {
-      setNext(nextItems + trialsPerPage);
-    };
-
+  const [nextItems, setNext] = useState(trialsPerPage);
+  const handleShowMore = () => {
+    setNext(nextItems + trialsPerPage);
+    onPageChange(
+      {} as React.ChangeEvent<unknown>,
+      Math.ceil(nextItems / trialsPerPage) + 1
+    );
+  };
 
   //-------------------------------- JSX --------------------------------
   return (
@@ -41,8 +42,8 @@ const CustomPagination = ({
           count={totalPages}
           page={currentPage}
           onChange={onPageChange}
-          siblingCount={2}
-          boundaryCount={2}
+          siblingCount={1}
+          boundaryCount={1}
           size="medium"
           shape="rounded"
           sx={{
