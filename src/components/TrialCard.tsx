@@ -35,6 +35,7 @@ iTrialCardProps) {
     new DOMParser().parseFromString(shortDescription, "text/html").body
       .textContent || "";
 
+  //------------ Send start Recruitment Mail -----------------
   async function sendStartRecruitmentMail() {
     try {
       const token =
@@ -42,7 +43,7 @@ iTrialCardProps) {
             ? localStorage.getItem("sp_token")
             : null;
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/recruitment/${trialId}/start`, //POST request
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/recruitment/${trialId}/start`, 
         {},
         {
           headers: {
@@ -52,7 +53,7 @@ iTrialCardProps) {
       );
       console.log(response);
       toast.success(
-        l("settings.tab1.form.toast.success") || "Email sent successfully",
+        l("settings.tab1.form.toast.success") || "Request sent successfully",
         {
           position: "top-center",
           autoClose: 2000,
