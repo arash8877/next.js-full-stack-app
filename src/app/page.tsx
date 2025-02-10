@@ -102,7 +102,7 @@ export default function TrialsPage() {
                   trialId={trial["trialId"]}
                   applicationCount={trial["applicationCount"]}
                   title={trial["title"]}
-                  shortDescription={trial["shortDescription"] || ""}
+                  summary={trial["summary"] || "Not provided"}
                   urlStub={trial["urlStub"]}
                   startDate={formatDate(trial["startDate"])}
                   endDate={formatDate(trial["endDate"])}

@@ -53,7 +53,7 @@ const InputField: React.FC<
         style={icon ? { paddingLeft: "2.5rem" } : {}}
       />
     </div>
-    <small className="text-red-600">
+    <small className="text-red-600 mt-1">
       {formik.touched[name as keyof CreateTrialTitleStepProps] &&
         formik.errors[name as keyof CreateTrialTitleStepProps]}
     </small>
@@ -82,15 +82,25 @@ const CreateTrialStep1Form = () => {
           "Title must be at least 4 characters!"
       ),
     shortDescription: Yup.string()
+      .required(
+        l("settings.tab1.form.shortDescription.validation.required") ||
+          "Brief Summary is required!"
+      )
+      .min(
+        20,
+        l("settings.tab1.form.shortDescription.validation.length") ||
+          "Brief Summary must be at least 20 characters!"
+      ),
+    fullDescription: Yup.string()
       .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
       .required(
         l("settings.tab1.form.description.validation.required") ||
           "Description is required!"
       )
       .min(
-        20,
+        40,
         l("settings.tab1.form.description.validation.length") ||
-          "Description must be at least 20 characters!"
+          "Description must be at least 40 characters!"
       ),
   });
 
@@ -99,7 +109,7 @@ const CreateTrialStep1Form = () => {
     initialValues: {
       title: formData?.step1Data?.title || "",
       shortDescription: formData?.step1Data?.shortDescription || "",
-      // fullDescription: formData?.step1Data?.fullDescription || "",
+      fullDescription: formData?.step1Data?.fullDescription || "",
     },
     validationSchema: formSchema,
     //----- on submit ---------
@@ -115,7 +125,7 @@ const CreateTrialStep1Form = () => {
           sponsorId: jwtInfo.jwtInfo?.sponsor_id,
           title: values["title"],
           shortDescription: values["shortDescription"],
-          fullDescription: values["shortDescription"],
+          fullDescription: values["fullDescription"],
         };
         console.log("Payload in create-trial-step1:", payload);
         setFormData({ step1Data: values });
@@ -165,22 +175,44 @@ const CreateTrialStep1Form = () => {
           formik={formik}
         />
 
+        <div className="flex flex-col w-full">
+          <label htmlFor="shortDescription" className="text-sm font-semibold mb-2">
+            Brief Summary
+          </label>
+          <textarea
+            name="shortDescription"
+            value={formik.values.shortDescription}
+            onChange={(e) =>
+              formik.setFieldValue("shortDescription", e.target.value)
+            }
+            placeholder={
+              l("placeholder.summary.key") ||
+              "Enter a brief summary of the trial"
+            }
+            className="register_input custom-border custom_height4 resize-none"
+          />
+
+          <small className="text-red-600 mt-1">
+            {formik.touched.shortDescription && formik.errors.shortDescription}
+          </small>
+        </div>
+
         <div className="flex flex-col gap-2 w-full mb-12">
-          <label htmlFor="shortDescription" className="text-sm font-semibold">
+          <label htmlFor="fullDescription" className="text-sm font-semibold">
             Description<span className="ml-1">*</span>
           </label>
           <div className="h-[200px]">
             <ReactQuill
-              value={formik.values.shortDescription}
+              value={formik.values.fullDescription}
               onChange={(value) =>
-                formik.setFieldValue("shortDescription", value)
+                formik.setFieldValue("fullDescription", value)
               }
               className="h-full"
             />
           </div>
 
           <small className="text-red-600 mt-10">
-            {formik.touched.shortDescription && formik.errors.shortDescription}
+            {formik.touched.fullDescription && formik.errors.fullDescription}
           </small>
         </div>
       </div>
