@@ -22,46 +22,13 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString("en-US", options);
 }
 
-//-------------------------- TrialList function ----------------------------
-const TrialList = ({ trials }: { trials: iTrialInfoProps[] }) => {
-  return (
-    <>
-      {trials.map((trial, index) => (
-        <TrialCard
-          key={index}
-          trialId={trial["trialId"]}
-          applicationCount={trial["applicationCount"]}
-          title={trial["title"]}
-          shortDescription={trial["shortDescription"] || ""}
-          urlStub={trial["urlStub"]}
-          startDate={formatDate(trial["startDate"])}
-          endDate={formatDate(trial["endDate"])}
-          address={
-            trial["trialSites"]
-              ? trial["trialSites"]?.[0]?.["address"]
-              : undefined
-          }
-          submissionDeadline={formatDate(trial["submissionDeadline"])}
-          media={trial.media}
-          approvedAt={trial.approvedAt}
-          publishedAt={trial.publishedAt}
-          referred={trial.referred}
-          declined={trial.declined}
-          //medicalCategories={trial.medicalCategories || []}
-          medicalCategories={[]}
-          inclusionDiseases={trial.inclusionDiseases || []}
-          applicantsNumber={trial.applicantsNumber}
-        />
-      ))}
-    </>
-  );
-};
-
 //----------------------------- main function -------------------------------
 export default function TrialsPage() {
   const [filteringSettings, setFilteringSettings] =
     useState<iTrialFilteringProps>({
       searchValue: null,
+      pageSize: 2,
+      pageIndex: 0,
       medicalCategories: null,
       filterByIsRecruiting: null,
       filterBySoonRecruiting: null,
@@ -69,7 +36,7 @@ export default function TrialsPage() {
       showExpiredTrials: null,
       pagination: { maxPageResult: 5, pageIndex: 0 },
     });
-  const { allTrials, trialsError, trialsIsLoading } =
+  const { allTrials, trialsError, trialsIsLoading, totalPages, pageIndex } =
     useGetAllTrials(filteringSettings);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   // const observerRef = useRef<IntersectionObserver | null>(null);
@@ -85,8 +52,9 @@ export default function TrialsPage() {
   });
 
   //------------------ Pagination -----------------
-  const [currentPage, setCurrentPage] = useState(1);
-  const [trialsPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(pageIndex + 1);
+  const [loadedTrials, setLoadedTrials] = useState<iTrialInfoProps[]>([]);
+  const trialsPerPage = filteringSettings.pageSize;
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -100,9 +68,13 @@ export default function TrialsPage() {
     };
   }, []);
 
-  const indexOfLastTrial = currentPage * trialsPerPage;
-  const indexOfFirstPost = indexOfLastTrial - trialsPerPage;
-  const currentTrials = allTrials.slice(indexOfFirstPost, indexOfLastTrial);
+  useEffect(() => {
+    if (isMobile) {
+      setLoadedTrials((prev) => [...prev, ...allTrials]);
+    }
+  }, [allTrials, isMobile]);
+
+  const displayedTrials = isMobile ? loadedTrials : allTrials || [];
 
   //--- handleFilterChange function ---
   const handleFilterChange = useCallback((newFilters: iTrialFilteringProps) => {
@@ -148,20 +120,9 @@ export default function TrialsPage() {
               "No trials available ! Create your first trial."}
           </h2>
         ) : (
-<<<<<<< HEAD
-          <>
-            {" "}
+          <div className="flex flex-col flex-grow">
             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
-              {allTrials && (
-                <TrialList
-                  trials={
-                    isMobile
-                      ? allTrials.slice(0, currentPage * trialsPerPage)
-                      : currentTrials
-=======
-          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
-            {allTrials &&
-              allTrials.map((trial, index) => (
+              {displayedTrials.map((trial, index) => (
                 <TrialCard
                   key={index}
                   trialId={trial["trialId"]}
@@ -175,18 +136,24 @@ export default function TrialsPage() {
                     trial["trialSites"]
                       ? trial["trialSites"]?.[0]?.["address"]
                       : undefined
->>>>>>> test
                   }
                 />
-              )}
+              ))}
             </div>
             <CustomPagination
-              allTrials={allTrials.length}
-              trialsPerPage={trialsPerPage}
               currentPage={currentPage}
-              onPageChange={(event, value) => setCurrentPage(value)}
+              totalPages={totalPages}
+              trialsPerPage={trialsPerPage}
+              pageIndex={pageIndex}
+              onPageChange={(event, value) => {
+                setCurrentPage(value);
+                setFilteringSettings((prevFilters) => ({
+                  ...prevFilters,
+                  pageIndex: value - 1,
+                }));
+              }}
             />
-          </>
+          </div>
         )}
       </SidebarLayout>
     </div>

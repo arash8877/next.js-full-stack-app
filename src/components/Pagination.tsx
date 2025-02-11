@@ -1,34 +1,24 @@
-import { useState } from "react";
+import { CustomPaginationProps } from "@/types";
 import { Pagination, useMediaQuery } from "@mui/material";
 
-interface CustomPaginationProps {
-  allTrials: number;
-  trialsPerPage: number;
-  currentPage: number;
-  onPageChange: (event: React.ChangeEvent<unknown>, value: number) => void;
-}
 //------------------------------ main component --------------------------------
 const CustomPagination = ({
-  allTrials,
-  trialsPerPage,
+  totalPages,
   currentPage,
   onPageChange,
 }: CustomPaginationProps) => {
-  const totalPages = Math.ceil(allTrials / trialsPerPage);
   const isMobile = useMediaQuery("(max-width:944px)");
 
-  const [nextItems, setNext] = useState(trialsPerPage);
+  
   const handleShowMore = () => {
-    setNext(nextItems + trialsPerPage);
-    onPageChange(
-      {} as React.ChangeEvent<unknown>,
-      Math.ceil(nextItems / trialsPerPage) + 1
-    );
+    if (currentPage < totalPages) {
+      onPageChange({} as React.ChangeEvent<unknown>, currentPage + 1);
+    }
   };
 
   //-------------------------------- JSX --------------------------------
   return (
-    <div className="pagination-container flex justify-center mt-4">
+    <div className="pagination-container flex justify-center my-4">
       {isMobile ? (
         <button
           onClick={handleShowMore}

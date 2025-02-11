@@ -118,10 +118,10 @@ iTrialCardProps) {
         </div>
         {
           <TrialStatusBadge
-            approvedAt={approvedAt}
-            publishedAt={publishedAt}
-            referred={referred}
-            declined={declined}
+            approvedAt={approvedAt || ""}
+            publishedAt={publishedAt || ""}
+            referred={referred ?? false}
+            declined={declined ?? false}
           />
         }
       </div>
@@ -138,7 +138,7 @@ iTrialCardProps) {
           {l("trialcard.period") || "Condition of interest:"}
         </p>
         <p className="text-xs text-right font-light line-clamp-1">
-          {inclusionDiseases.length > 0 ? inclusionDiseases.join(", ") : "-"}
+        {inclusionDiseases && inclusionDiseases.length > 0 ? inclusionDiseases.join(", ") : "-"}
         </p>
       </div>
 

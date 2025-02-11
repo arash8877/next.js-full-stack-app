@@ -162,16 +162,16 @@ export interface iTrialCardProps {
   startDate: string;
   endDate: string;
   address: string | undefined;
-  submissionDeadline: string;
-  media: iMediaProps;
+  submissionDeadline?: string;
+  media?: iMediaProps;
   userApplication?: iUserTrialApplication | null;
-  approvedAt: string;
-  publishedAt: string;
-  referred: boolean;
-  declined: boolean;
-  medicalCategories: iCategoryProps[][];
-  inclusionDiseases: string[];
-  applicantsNumber: number;
+  approvedAt?: string;
+  publishedAt?: string;
+  referred?: boolean;
+  declined?: boolean;
+  medicalCategories?: iCategoryProps[][];
+  inclusionDiseases?: string[];
+  applicantsNumber?: number;
   //medicalCategories: iCategoryProps[];
   // imageSrc: string;
   // underReview?: boolean;
@@ -463,5 +463,14 @@ export const applicationStates: {
     color: "#F47F7F",
   },
 };
+
+//----------------------- Pagination -------------------
+export interface CustomPaginationProps {
+  trialsPerPage: number;
+  totalPages: number;
+  pageIndex: number;
+  currentPage: number;
+  onPageChange: (event: React.ChangeEvent<unknown>, value: number) => void;
+}
 
 //-------------------------  ----------------------------
