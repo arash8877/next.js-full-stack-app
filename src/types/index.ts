@@ -411,6 +411,8 @@ export interface applicantsInfoProps {
 //------------------------- filtering ----------------------------
 export interface iTrialFilteringProps {
   searchValue: string | null;
+  pageSize: number;
+  pageIndex: number;
   medicalCategories: number[] | null;
   filterByIsRecruiting: boolean | null;
   filterBySoonRecruiting: boolean | null;
