@@ -7,6 +7,7 @@ interface FormData {
   step1Data: {
     title: string;
     shortDescription: string;
+    fullDescription: string;
   };
   step2Data: {
     trialSites: {
@@ -55,7 +56,7 @@ interface FormStore {
 const scheduleLocalStorageCleanup = () => {
   const storedTimeKey = "create-trial-store-timestamp";
   const currentTime = Date.now();
-  
+
   const storedTimestamp = localStorage.getItem(storedTimeKey);
 
   // If there's no timestamp, set one now
@@ -74,7 +75,7 @@ const scheduleLocalStorageCleanup = () => {
   setTimeout(() => {
     localStorage.removeItem("create-trial-store");
     localStorage.removeItem(storedTimeKey);
-  }, 2 * 60 * 60 * 1000); 
+  }, 2 * 60 * 60 * 1000);
 };
 
 //----------------------------------------- main function -------------------------------------------
@@ -82,7 +83,7 @@ const useCreateTrialStore = create<FormStore>()(
   persist(
     (set) => ({
       formData: {
-        step1Data: { title: "", shortDescription: "" },
+        step1Data: { title: "", shortDescription: "", fullDescription: "" },
         step2Data: {
           trialSites: [{ name: "", address: "", zipCode: "", country: "" }],
         },
@@ -125,7 +126,7 @@ const useCreateTrialStore = create<FormStore>()(
       resetFormData: () =>
         set({
           formData: {
-            step1Data: { title: "", shortDescription: ""},
+            step1Data: { title: "", shortDescription: "", fullDescription: "" },
             step2Data: {
               trialSites: [{ name: "", address: "", zipCode: "", country: "" }],
             },
@@ -161,7 +162,7 @@ const useCreateTrialStore = create<FormStore>()(
     }),
     {
       name: "create-trial-store", // Key in localStorage
-      storage: createJSONStorage(() => localStorage), 
+      storage: createJSONStorage(() => localStorage),
       onRehydrateStorage: () => {
         scheduleLocalStorageCleanup();
       },

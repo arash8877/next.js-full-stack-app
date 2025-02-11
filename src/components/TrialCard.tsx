@@ -6,13 +6,15 @@ import CustomButton from "./CustomButton";
 import { iTrialCardProps } from "@/types";
 import TrialStatusBadge from "./TrialStatusBadge";
 import useLanguageStore from "@/stores/language-store";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 //--------------------------------- main function -------------------------------
 export default function TrialCard({
   trialId,
   applicationCount,
   title,
-  shortDescription,
+  summary,
   startDate,
   endDate,
   address,
@@ -30,8 +32,46 @@ iTrialCardProps) {
   const { l } = useLanguageStore();
   // eslint-disable-next-line
   const plainText =
-    new DOMParser().parseFromString(shortDescription, "text/html").body
+    new DOMParser().parseFromString(summary, "text/html").body
       .textContent || "";
+
+  //------------ Send start Recruitment Mail -----------------
+  async function sendStartRecruitmentMail() {
+    try {
+      const token =
+          typeof window !== "undefined"
+            ? localStorage.getItem("sp_token")
+            : null;
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/recruitment/${trialId}/start`, 
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      toast.success(
+        l("settings.tab1.form.toast.success") || "Request sent successfully",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
+    } catch (error) {
+      console.error("Error in resending email:", error);
+      toast.error(
+        l("settings.tab1.form.toast.error") || "Something went wrong!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          className: "single_line_toast",
+        }
+      );
+    }
+  }
 
   //--------------------------------- return ------------------------------------------------
   return (
@@ -88,7 +128,7 @@ iTrialCardProps) {
       <h2 className="text-lg font-semibold line-clamp-1">{title}</h2>
       <hr />
       <div className="text-sm line-clamp-2 lg:line-clamp-3">
-        {new DOMParser().parseFromString(shortDescription, "text/html").body
+        {new DOMParser().parseFromString(summary, "text/html").body
           .textContent || ""}
       </div>
 
@@ -163,6 +203,14 @@ iTrialCardProps) {
               btnType="button"
             />
           </Link>
+        </div>
+        <div className="flex flex-col">
+          <CustomButton
+            title={l("trialcard.cta.text") || "START RECRUITING"}
+            containerStyles="rounded-lg gradient-green2 text-white mt-4 hover1 custom-width-btn"
+            btnType="button"
+            handleClick={sendStartRecruitmentMail}
+          />
         </div>
       </div>
     </section>

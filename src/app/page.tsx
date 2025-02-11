@@ -148,6 +148,7 @@ export default function TrialsPage() {
               "No trials available ! Create your first trial."}
           </h2>
         ) : (
+<<<<<<< HEAD
           <>
             {" "}
             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
@@ -157,6 +158,24 @@ export default function TrialsPage() {
                     isMobile
                       ? allTrials.slice(0, currentPage * trialsPerPage)
                       : currentTrials
+=======
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
+            {allTrials &&
+              allTrials.map((trial, index) => (
+                <TrialCard
+                  key={index}
+                  trialId={trial["trialId"]}
+                  applicationCount={trial["applicationCount"]}
+                  title={trial["title"]}
+                  summary={trial["summary"] || "Not provided"}
+                  urlStub={trial["urlStub"]}
+                  startDate={formatDate(trial["startDate"])}
+                  endDate={formatDate(trial["endDate"])}
+                  address={
+                    trial["trialSites"]
+                      ? trial["trialSites"]?.[0]?.["address"]
+                      : undefined
+>>>>>>> test
                   }
                 />
               )}
