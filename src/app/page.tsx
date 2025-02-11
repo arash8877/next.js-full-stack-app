@@ -3,11 +3,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { SidebarLayout } from "@/components/SidebarLayout";
 import { redirect } from "next/navigation";
-import { iTrialFilteringProps } from "@/types";
+import { iTrialFilteringProps, iTrialInfoProps } from "@/types";
 import TrialCard from "@/components/TrialCard";
 import useGetAllTrials from "@/hooks/useGetAllTrials";
 import TrialFilterBar from "@/components/TrialFilterBar";
 import useLanguageStore from "@/stores/language-store";
+import CustomPagination from "@/components/Pagination";
 import Spinner from "@/components/Spinner";
 
 //------- format date function --------
@@ -21,11 +22,13 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString("en-US", options);
 }
 
-//-----------------------------main function -------------------------------
+//----------------------------- main function -------------------------------
 export default function TrialsPage() {
   const [filteringSettings, setFilteringSettings] =
     useState<iTrialFilteringProps>({
       searchValue: null,
+      pageSize: 2,
+      pageIndex: 0,
       medicalCategories: null,
       filterByIsRecruiting: null,
       filterBySoonRecruiting: null,
@@ -33,22 +36,45 @@ export default function TrialsPage() {
       showExpiredTrials: null,
       pagination: { maxPageResult: 5, pageIndex: 0 },
     });
+  const { allTrials, trialsError, trialsIsLoading, totalPages, pageIndex } =
+    useGetAllTrials(filteringSettings);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
+  // const observerRef = useRef<IntersectionObserver | null>(null);
+  // const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const { l } = useLanguageStore();
 
   //---------------
   useEffect(() => {
     const token = localStorage.getItem("sp_token");
-
     if (!token) {
       redirect("/login");
     }
   });
-  //---------------
-  const { allTrials, trialsError, trialsIsLoading } =
-    useGetAllTrials(filteringSettings);
-  const [loadingTimeout, setLoadingTimeout] = useState(false);
-  // const observerRef = useRef<IntersectionObserver | null>(null);
-  // const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  //------------------ Pagination -----------------
+  const [currentPage, setCurrentPage] = useState(pageIndex + 1);
+  const [loadedTrials, setLoadedTrials] = useState<iTrialInfoProps[]>([]);
+  const trialsPerPage = filteringSettings.pageSize;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize(); // Check initial screen size
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      setLoadedTrials((prev) => [...prev, ...allTrials]);
+    }
+  }, [allTrials, isMobile]);
+
+  const displayedTrials = isMobile ? loadedTrials : allTrials || [];
 
   //--- handleFilterChange function ---
   const handleFilterChange = useCallback((newFilters: iTrialFilteringProps) => {
@@ -94,9 +120,9 @@ export default function TrialsPage() {
               "No trials available ! Create your first trial."}
           </h2>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
-            {allTrials &&
-              allTrials.map((trial, index) => (
+          <div className="flex flex-col flex-grow">
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 4xl:grid-cols-5 gap-6 justify-center">
+              {displayedTrials.map((trial, index) => (
                 <TrialCard
                   key={index}
                   trialId={trial["trialId"]}
@@ -111,18 +137,22 @@ export default function TrialsPage() {
                       ? trial["trialSites"]?.[0]?.["address"]
                       : undefined
                   }
-                  submissionDeadline={formatDate(trial["submissionDeadline"])}
-                  media={trial.media}
-                  approvedAt={trial.approvedAt}
-                  publishedAt={trial.publishedAt}
-                  referred={trial.referred}
-                  declined={trial.declined}
-                  //medicalCategories={trial.medicalCategories || []}
-                  medicalCategories={[]}
-                  inclusionDiseases={trial.inclusionDiseases || []}
-                  applicantsNumber={trial.applicantsNumber}
                 />
               ))}
+            </div>
+            <CustomPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              trialsPerPage={trialsPerPage}
+              pageIndex={pageIndex}
+              onPageChange={(event, value) => {
+                setCurrentPage(value);
+                setFilteringSettings((prevFilters) => ({
+                  ...prevFilters,
+                  pageIndex: value - 1,
+                }));
+              }}
+            />
           </div>
         )}
       </SidebarLayout>
