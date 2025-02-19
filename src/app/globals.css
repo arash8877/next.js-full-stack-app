@@ -54,6 +54,9 @@ p {
 .custom-width-btn {
   width: 100% !important;
 }
+.custom-width2-btn {
+  @apply w-full lg:w-auto px-8 py-2.5;
+}
 .custom_padding {
   padding-inline: 18px !important;
 }
@@ -323,5 +326,5 @@ p {
 /*---------------------------- Pricing Page ----------------------------- */
 
 .pricing_card {
-  @apply flex flex-col items-center justify-center gap-6 lg:flex-row lg:justify-between bg-white rounded-3xl wrapper2 border border-bgColor-10 shadow-lg;
+  @apply flex flex-col items-center justify-center gap-6 lg:flex-row lg:justify-between border-2 bg-white rounded-3xl wrapper2 shadow-lg cursor-pointer;
 }

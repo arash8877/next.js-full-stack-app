@@ -7,8 +7,6 @@ import { useRouter } from "next/navigation";
 import { iTrialCardProps } from "@/types";
 import TrialStatusBadge from "./TrialStatusBadge";
 import useLanguageStore from "@/stores/language-store";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 //--------------------------------- main function -------------------------------
 export default function TrialCard({
@@ -37,43 +35,7 @@ iTrialCardProps) {
     new DOMParser().parseFromString(summary, "text/html").body
       .textContent || "";
 
-  //------------ Send start Recruitment Mail -----------------
-  async function sendStartRecruitmentMail() {
-    try {
-      const token =
-          typeof window !== "undefined"
-            ? localStorage.getItem("sp_token")
-            : null;
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/recruitment/${trialId}/start`, 
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response);
-      toast.success(
-        l("settings.tab1.form.toast.success") || "Request sent successfully",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    } catch (error) {
-      console.error("Error in resending email:", error);
-      toast.error(
-        l("settings.tab1.form.toast.error") || "Something went wrong!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    }
-  }
+
 
   //--------------------------------- JSX ------------------------------------------------
   return (
