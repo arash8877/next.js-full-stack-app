@@ -32,10 +32,8 @@ iTrialCardProps) {
   const { l } = useLanguageStore();
   // eslint-disable-next-line
   const plainText =
-    new DOMParser().parseFromString(summary, "text/html").body
-      .textContent || "";
-
-
+    new DOMParser().parseFromString(summary, "text/html").body.textContent ||
+    "";
 
   //--------------------------------- JSX ------------------------------------------------
   return (
@@ -102,7 +100,9 @@ iTrialCardProps) {
           {l("trialcard.period") || "Condition of interest:"}
         </p>
         <p className="text-xs text-right font-light line-clamp-1">
-        {inclusionDiseases && inclusionDiseases.length > 0 ? inclusionDiseases.join(", ") : "-"}
+          {inclusionDiseases && inclusionDiseases.length > 0
+            ? inclusionDiseases.join(", ")
+            : "-"}
         </p>
       </div>
 
@@ -174,6 +174,8 @@ iTrialCardProps) {
             containerStyles="rounded-lg gradient-green2 text-white mt-4 hover1 custom-width-btn"
             btnType="button"
             handleClick={() => router.push(`/trials/${trialId}/price`)}
+            disabledContainerStyles="rounded-lg bg-gray-300"
+            disabled={publishedAt === "0001-01-01T00:00:00"}
           />
         </div>
       </div>
