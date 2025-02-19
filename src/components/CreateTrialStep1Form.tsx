@@ -70,6 +70,7 @@ const CreateTrialStep1Form = () => {
   const { formData, setFormData } = useCreateTrialStore();
   const [loading, setLoading] = useState(false);
 
+  //----Yup validation ---------
   const formSchema = Yup.object({
     title: Yup.string()
       .required(
@@ -176,7 +177,10 @@ const CreateTrialStep1Form = () => {
         />
 
         <div className="flex flex-col w-full">
-          <label htmlFor="shortDescription" className="text-sm font-semibold mb-2">
+          <label
+            htmlFor="shortDescription"
+            className="text-sm font-semibold mb-2"
+          >
             Brief Summary
           </label>
           <textarea
