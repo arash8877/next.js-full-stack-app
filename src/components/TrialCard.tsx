@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
+import { useRouter } from "next/navigation";
 import { iTrialCardProps } from "@/types";
 import TrialStatusBadge from "./TrialStatusBadge";
 import useLanguageStore from "@/stores/language-store";
@@ -29,6 +30,7 @@ export default function TrialCard({
 // imageSrc,
 // underReview,
 iTrialCardProps) {
+  const router = useRouter();
   const { l } = useLanguageStore();
   // eslint-disable-next-line
   const plainText =
@@ -73,7 +75,7 @@ iTrialCardProps) {
     }
   }
 
-  //--------------------------------- return ------------------------------------------------
+  //--------------------------------- JSX ------------------------------------------------
   return (
     <section className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-bgColor-10 shadow-lg hover:shadow-xl ">
       <div className="flex justify-between">
@@ -206,10 +208,10 @@ iTrialCardProps) {
         </div>
         <div className="flex flex-col">
           <CustomButton
-            title={l("trialcard.cta.text") || "START RECRUITING"}
+            title={l("trialcard.cta.text") || "Publish"}
             containerStyles="rounded-lg gradient-green2 text-white mt-4 hover1 custom-width-btn"
             btnType="button"
-            handleClick={sendStartRecruitmentMail}
+            handleClick={() => router.push(`/trials/${trialId}/price`)}
           />
         </div>
       </div>
