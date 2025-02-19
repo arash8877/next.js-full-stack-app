@@ -41,14 +41,14 @@ export default function PublishDropdown({
             <Typography
               sx={{ fontStyle: "normal", fontWeight: "400", color: "#aaaaaa" }}
             >
-              {l("dropdown.gender.info") || "Select one ..."}
+              {l("dropdown.ff.info") || "Select one ..."}
             </Typography>
           </MenuItem>
           <MenuItem value="true">
-            {l("dropdown.gender.male") || "Publish"}
+            {l("dropdown.ff.male") || "Publish"}
           </MenuItem>
           <MenuItem value="false">
-            {l("dropdown.gender.female") || "Unpublish"}
+            {l("dropdown.f.female") || "Unpublish"}
           </MenuItem>
         </Select>
       </FormControl>

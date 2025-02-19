@@ -23,7 +23,6 @@ export default function EditTrialPage({ params }: Props) {
   const [currentTab, setCurrentTab] = useState<string>("1");
   const { l } = useLanguageStore();
 
-
   //------ tabs array ------
   // eslint-disable-next-line
   const tabs = [
@@ -49,10 +48,10 @@ export default function EditTrialPage({ params }: Props) {
         <EditTrialMedicalTab
           {...{
             trialId: trialData?.trialId,
-            inclusionDiseases: trialData?.inclusionDiseases,
-            exclusionDiseases: trialData?.exclusionDiseases,
-            inclusionRequirements: trialData?.inclusionRequirements,
-            exclusionRequirements: trialData?.exclusionRequirements,
+            inclusionCriteria: trialData?.inclusionCriteria,
+            exclusionCriteria: trialData?.exclusionCriteria,
+            conditionOfInterest: trialData?.conditionOfInterest,
+            exclusionCondition: trialData?.exclusionCondition,
             medicalCategories: trialData?.medicalCategories?.map((category) => {
               return category.medicalCategory;
             }),

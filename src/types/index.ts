@@ -170,7 +170,7 @@ export interface iTrialCardProps {
   referred?: boolean;
   declined?: boolean;
   medicalCategories?: iCategoryProps[][];
-  inclusionDiseases?: string[];
+  inclusionCriteria?: string[];
   applicantsNumber?: number;
   //medicalCategories: iCategoryProps[];
   // imageSrc: string;
@@ -205,11 +205,11 @@ export interface iTrialInfoProps {
   summary?: string;
   urlStub: string;
   // company: iCompany;
-  trialSites: iTrialSite[];
+  sites: iTrialSite[];
   media: iMediaProps;
-  ageMin: string;
-  ageMax: string;
-  gender: string;
+  minimumAge: string;
+  maximumAge: string;
+  biologicalSex: string;
   isRecruiting: boolean;
   isPublished?: boolean;
   approvedAt: string;
@@ -225,12 +225,12 @@ export interface iTrialInfoProps {
   applicantsNumber: number;
   recruitingStatus: string;
   expectedParticipants: string;
-  inclusionDiseases?: string[];
-  inclusionRequirements?: string;
-  exclusionDiseases?: string[];
-  exclusionRequirements?: string;
+  inclusionCriteria?: string[];
+  conditionOfInterest?: string;
+  exclusionCriteria?: string[];
+  exclusionCondition?: string;
   medicalCategories?: iTrialCategoryProps[];
-  participantActivities?: string;
+  activities?: string;
   additionalInformation?: string;
   drivingCompensation?: boolean;
   monetaryCompensation?: boolean;
@@ -250,7 +250,7 @@ export interface iTrialApplicationsUserInfo {
   lastName: string;
   email: string;
   phoneNumber: string;
-  gender: string;
+  biologicalSex: string;
   isRecruiting: boolean;
 }
 
@@ -305,7 +305,7 @@ export interface SiteFormValues {
 }
 
 export interface CreateTrialStep2FormValues {
-  trialSites: SiteFormValues[];
+  sites: SiteFormValues[];
 }
 
 export interface CreateTrialStep2FormProps {
@@ -328,17 +328,17 @@ export interface CreateTrialStep3FormValues {
 
 export interface CreateTrialStep4FormProps {
   trialId?: number;
-  inclusionDiseases?: string[];
-  inclusionRequirements?: string;
-  exclusionDiseases?: string[];
-  exclusionRequirements?: string;
+  inclusionCriteria?: string[];
+  conditionOfInterest?: string;
+  exclusionCriteria?: string[];
+  exclusionCondition?: string;
   //selectedMedicalCategories: iCategoryProps[];
   medicalCategories?: iCategoryProps[];
 }
 
 export interface CreateTrialStep5FormProps {
   trialId?: number;
-  participantActivities?: string;
+  activities?: string;
   expectedParticipants: string;
   additionalInformation?: string;
   isRecruiting: boolean;
@@ -352,7 +352,7 @@ export interface CreateTrialStep5FormProps {
 
 export interface EditTrialMoreInfoTabProps {
   trialId: number;
-  participantActivities: string;
+  activities: string;
   expectedParticipants: string;
   additionalInformation: string;
   compensations: [boolean, boolean, boolean, string];

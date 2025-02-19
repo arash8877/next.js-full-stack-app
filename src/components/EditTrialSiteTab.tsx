@@ -11,22 +11,19 @@ import { toast } from "react-toastify";
 import useLanguageStore from "@/stores/language-store";
 
 //----------------------------------- Main function -----------------------------------
-export default function EditTrialSiteTab({
-  trialId,
-  trialSites,
-}: iTrialInfoProps) {
+export default function EditTrialSiteTab({ trialId, sites }: iTrialInfoProps) {
   const { l } = useLanguageStore();
-  const [localTrialSites, setLocalTrialSites] = useState(trialSites || []);
+  const [localsites, setLocalsites] = useState(sites || []);
 
-  console.log("trialSites in edit trial step 2:", trialSites);
+  console.log("sites in edit trial step 2:", sites);
 
   useEffect(() => {
-    setLocalTrialSites(trialSites || []);
-  }, [trialSites]);
+    setLocalsites(sites || []);
+  }, [sites]);
 
   //---- Validation Schema ---------
   const formSchema = Yup.object({
-    trialSites: Yup.array()
+    sites: Yup.array()
       .of(
         Yup.object({
           name: Yup.string().required(
@@ -62,7 +59,7 @@ export default function EditTrialSiteTab({
     validateOnMount: false,
     enableReinitialize: true,
     initialValues: {
-      trialSites: localTrialSites,
+      sites: localsites,
     },
     onSubmit: async (values) => {
       const token = localStorage.getItem("sp_token");
@@ -71,7 +68,7 @@ export default function EditTrialSiteTab({
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
           {
-            trialSites: values.trialSites,
+            sites: values.sites,
           },
           {
             headers: {
@@ -82,7 +79,7 @@ export default function EditTrialSiteTab({
         toast.success(
           l("settings.form.success") || "Trial updated successfully!"
         );
-        setLocalTrialSites(values.trialSites); // Update localTrialSites after successful submission
+        setLocalsites(values.sites); // Update localsites after successful submission
         setTimeout(() => window.location.reload(), 2000);
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -96,9 +93,9 @@ export default function EditTrialSiteTab({
   //------------------Add another site ----------------
   const addSite = () => {
     formik.setFieldValue(
-      "trialSites",
+      "sites",
       [
-        ...formik.values.trialSites,
+        ...formik.values.sites,
         {
           name: "",
           address: "",
@@ -112,16 +109,16 @@ export default function EditTrialSiteTab({
 
   // --------- remove a site  -----------
   const removeSite = (index: number) => {
-    const updatedSites = [...formik.values.trialSites];
+    const updatedSites = [...formik.values.sites];
     updatedSites.splice(index, 1);
-    formik.setFieldValue("trialSites", updatedSites);
+    formik.setFieldValue("sites", updatedSites);
   };
 
   //-------------------------------------------- return -----------------------------------------------
   return (
     <section className="flex flex-col mt-8 lg:mt-12  bg-white rounded-lg">
       <form onSubmit={formik.handleSubmit}>
-        {formik.values.trialSites.map((site, index) => {
+        {formik.values.sites.map((site, index) => {
           return (
             <div
               key={index}
@@ -130,47 +127,47 @@ export default function EditTrialSiteTab({
               <div className="flex flex-col lg:w-3/4 2xl:w-1/2 gap-4">
                 <div className="flex flex-col gap-2">
                   <label
-                    htmlFor={`trialSites.${index}.name`}
+                    htmlFor={`sites.${index}.name`}
                     className="text-sm font-semibold"
                   >
                     {l("settings.tab4.form.password.label") || "Location:"}
                     <span className="ml-1">*</span>
                   </label>
                   <input
-                    name={`trialSites.${index}.name`}
+                    name={`sites.${index}.name`}
                     type="text"
-                    value={formik.values.trialSites[index].name}
+                    value={formik.values.sites[index].name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className="register_input custom-border"
                   />
                   <small className="text-red-600">
-                    {formik.touched.trialSites?.[index]?.name &&
-                      typeof formik.errors.trialSites?.[index] === "object" &&
-                      formik.errors.trialSites?.[index]?.name}
+                    {formik.touched.sites?.[index]?.name &&
+                      typeof formik.errors.sites?.[index] === "object" &&
+                      formik.errors.sites?.[index]?.name}
                   </small>
                 </div>
 
                 <div className="flex flex-col gap-2">
                   <label
-                    htmlFor={`trialSites.${index}.address`}
+                    htmlFor={`sites.${index}.address`}
                     className="text-sm font-semibold"
                   >
                     {l("settings.tab4.form.password.label") || "Address:"}
                     <span className="ml-1">*</span>
                   </label>
                   <input
-                    name={`trialSites.${index}.address`}
+                    name={`sites.${index}.address`}
                     type="text"
-                    value={formik.values.trialSites[index].address}
+                    value={formik.values.sites[index].address}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className="register_input custom-border"
                   />
                   <small className="text-red-600">
-                    {formik.touched.trialSites?.[index]?.address &&
-                      typeof formik.errors.trialSites?.[index] === "object" &&
-                      formik.errors.trialSites?.[index]?.address}
+                    {formik.touched.sites?.[index]?.address &&
+                      typeof formik.errors.sites?.[index] === "object" &&
+                      formik.errors.sites?.[index]?.address}
                   </small>
                 </div>
               </div>
@@ -178,46 +175,46 @@ export default function EditTrialSiteTab({
               <div className="flex flex-col lg:w-3/4 2xl:w-1/2 gap-4 ">
                 <div className="flex flex-col gap-2">
                   <label
-                    htmlFor={`trialSites.${index}.zipCode`}
+                    htmlFor={`sites.${index}.zipCode`}
                     className="text-sm font-semibold"
                   >
                     {l("settings.tab4.form.password.label") || "Zip Code:"}
                     <span className="ml-1">*</span>
                   </label>
                   <input
-                    name={`trialSites.${index}.zipCode`}
+                    name={`sites.${index}.zipCode`}
                     type="text"
-                    value={formik.values.trialSites[index].zipCode}
+                    value={formik.values.sites[index].zipCode}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className="register_input custom-border"
                   />
                   <small className="text-red-600">
-                    {formik.touched.trialSites?.[index]?.zipCode &&
-                      typeof formik.errors.trialSites?.[index] === "object" &&
-                      formik.errors.trialSites?.[index]?.zipCode}
+                    {formik.touched.sites?.[index]?.zipCode &&
+                      typeof formik.errors.sites?.[index] === "object" &&
+                      formik.errors.sites?.[index]?.zipCode}
                   </small>
                 </div>
 
                 <div className="flex flex-col gap-2 ">
                   <label
-                    htmlFor={`trialSites.${index}.country`}
+                    htmlFor={`sites.${index}.country`}
                     className="text-sm font-semibold"
                   >
                     {l("settings.tab1.form.country.label") || "Country:"}
                     <span className="ml-1">*</span>
                   </label>
                   <CountryDropdown
-                    country={formik.values.trialSites[index].country}
+                    country={formik.values.sites[index].country}
                     setCountry={(value) =>
-                      formik.setFieldValue(`trialSites.${index}.country`, value)
+                      formik.setFieldValue(`sites.${index}.country`, value)
                     }
                     borderColor="#DFF2DF"
                   />
                   <small className="text-red-600">
-                    {formik.touched.trialSites?.[index]?.country &&
-                      typeof formik.errors.trialSites?.[index] === "object" &&
-                      formik.errors.trialSites?.[index]?.country}
+                    {formik.touched.sites?.[index]?.country &&
+                      typeof formik.errors.sites?.[index] === "object" &&
+                      formik.errors.sites?.[index]?.country}
                   </small>
                 </div>
               </div>

@@ -16,6 +16,7 @@ export default function EditTrialTitleTab({
   trialId,
   title,
   shortDescription,
+  fullDescription,
 }: CreateTrialTitleStepProps) {
   const { l } = useLanguageStore();
 
@@ -27,20 +28,30 @@ export default function EditTrialTitleTab({
           "Title is required!"
       )
       .min(
-        5,
+        4,
         l("settings.tab1.form.title.validation.length") ||
-          "Title must be at least 5 characters!"
+          "Title must be at least 4 characters!"
       ),
-
     shortDescription: Yup.string()
+      .required(
+        l("settings.tab1.form.shortDescription.validation.required") ||
+          "Brief Summary is required!"
+      )
+      .min(
+        20,
+        l("settings.tab1.form.shortDescription.validation.length") ||
+          "Brief Summary must be at least 20 characters!"
+      ),
+    fullDescription: Yup.string()
+      .transform((value) => value.replace(/<[^>]+>/g, "").trim()) // Remove HTML tags and trim
       .required(
         l("settings.tab1.form.description.validation.required") ||
           "Description is required!"
       )
       .min(
-        20,
+        40,
         l("settings.tab1.form.description.validation.length") ||
-          "Description must be at least 20 characters!"
+          "Description must be at least 40 characters!"
       ),
   });
 
@@ -54,6 +65,7 @@ export default function EditTrialTitleTab({
     initialValues: {
       title: title || "",
       shortDescription: shortDescription || "",
+      fullDescription: fullDescription || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
@@ -128,20 +140,49 @@ export default function EditTrialTitleTab({
               </small>
             </div>
 
+            <div className="flex flex-col w-full">
+              <label
+                htmlFor="shortDescription"
+                className="text-sm font-semibold mb-2"
+              >
+                Brief Summary
+              </label>
+              <textarea
+                name="shortDescription"
+                value={formik.values.shortDescription}
+                onChange={(e) =>
+                  formik.setFieldValue("shortDescription", e.target.value)
+                }
+                placeholder={
+                  l("placeholder.summary.key") ||
+                  "Enter a brief summary of the trial"
+                }
+                className="register_input custom-border custom_height4 resize-none"
+              />
+
+              <small className="text-red-600 mt-1">
+                {formik.touched.shortDescription &&
+                  formik.errors.shortDescription}
+              </small>
+            </div>
+
             <div className="flex flex-col gap-4 xl:gap-16">
               <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="description" className="text-sm font-semibold">
+                <label
+                  htmlFor="fullDescription"
+                  className="text-sm font-semibold"
+                >
                   Description:<span className="ml-1">*</span>
                 </label>
                 <ReactQuill
-                  value={formik.values.shortDescription}
+                  value={formik.values.fullDescription}
                   onChange={(value) =>
-                    formik.setFieldValue("shortDescription", value)
+                    formik.setFieldValue("fullDescription", value)
                   }
                 />
                 <small className="text-red-600">
-                  {formik.touched.shortDescription &&
-                    formik.errors.shortDescription}
+                  {formik.touched.fullDescription &&
+                    formik.errors.fullDescription}
                 </small>
               </div>
             </div>

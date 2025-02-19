@@ -133,8 +133,8 @@ export default function TrialsPage() {
                   startDate={formatDate(trial["startDate"])}
                   endDate={formatDate(trial["endDate"])}
                   address={
-                    trial["trialSites"]
-                      ? trial["trialSites"]?.[0]?.["address"]
+                    trial["sites"]
+                      ? trial["sites"]?.[0]?.["address"]
                       : undefined
                   }
                 />

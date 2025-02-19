@@ -92,7 +92,7 @@ export default function ApplicantsPage({ params }: Props) {
                   <td className="py-4 px-6">{applicant.user.firstName}</td>
                   <td className="py-4 px-6">{applicant.user.lastName}</td>
                   <td className="py-4 px-6 hidden lg:table-cell">
-                    {applicant.user.gender}
+                    {applicant.user.biologicalSex}
                   </td>
                 </tr>
               ))}

@@ -22,7 +22,7 @@ export default function TrialCard({
   publishedAt,
   referred,
   declined,
-  inclusionDiseases,
+  inclusionCriteria,
 }: //medicalCategories,
 // applicantsNumber
 // imageSrc,
@@ -100,8 +100,8 @@ iTrialCardProps) {
           {l("trialcard.period") || "Condition of interest:"}
         </p>
         <p className="text-xs text-right font-light line-clamp-1">
-          {inclusionDiseases && inclusionDiseases.length > 0
-            ? inclusionDiseases.join(", ")
+          {inclusionCriteria && inclusionCriteria.length > 0
+            ? inclusionCriteria.join(", ")
             : "-"}
         </p>
       </div>
