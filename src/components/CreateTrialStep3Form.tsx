@@ -41,14 +41,14 @@ const CreateTrialStep3Form = () => {
         Yup.ref("endDate"),
         "Deadline should not be later than End Study Date"
       ),
-    ageMax: Yup.number()
+    maximumAge: Yup.number()
       .min(
-        Yup.ref("ageMin"),
+        Yup.ref("minimumAge"),
         "Maximum age should be greater than or equal to minimum age"
       )
       .integer("Maximum age must be an integer")
       .max(120, "Maximum age should be less than or equal to 120 years"),
-    ageMin: Yup.number()
+    minimumAge: Yup.number()
       .typeError("Minimum age must be a valid number")
       .required(
         l("register.step1.form.country.validation.required") ||
@@ -58,7 +58,7 @@ const CreateTrialStep3Form = () => {
       .min(18, "Minimum age should be 18 years or older")
       .max(119, "Minimum age should be less than 120 years"),
 
-    gender: Yup.string().required(
+      biologicalSex: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Gender is required!"
     ),
@@ -70,9 +70,9 @@ const CreateTrialStep3Form = () => {
       startDate: formData.step3Data.startDate || "",
       endDate: formData.step3Data.endDate || "",
       deadline: formData.step3Data.deadline || "",
-      ageMin: formData.step3Data.ageMin || "",
-      ageMax: formData.step3Data.ageMax || "",
-      gender: formData.step3Data.gender || "",
+      minimumAge: formData.step3Data.minimumAge || "",
+      maximumAge: formData.step3Data.maximumAge || "",
+      biologicalSex: formData.step3Data.biologicalSex || "",
     },
     //-----onSubmit-------
     onSubmit: async (values) => {
@@ -81,9 +81,9 @@ const CreateTrialStep3Form = () => {
         startDate: values["startDate"],
         endDate: values["endDate"],
         submissionDeadline: values["deadline"],
-        ageMin: values["ageMin"],
-        ageMax: values["ageMax"],
-        gender: values["gender"],
+        minimumAge: values["minimumAge"],
+        maximumAge: values["maximumAge"],
+        biologicalSex: values["biologicalSex"],
       };
       try {
         // eslint-disable-next-line
@@ -97,7 +97,7 @@ const CreateTrialStep3Form = () => {
             : null;
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step3`, //PATCH request
-            payload,
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -113,9 +113,9 @@ const CreateTrialStep3Form = () => {
             startDate: values.startDate,
             endDate: values.endDate,
             deadline: values.deadline,
-            ageMin: values.ageMin,
-            ageMax: values.ageMax,
-            gender: values.gender,
+            minimumAge: values.minimumAge,
+            maximumAge: values.maximumAge,
+            biologicalSex: values.biologicalSex,
           },
         });
         document.cookie =
@@ -204,48 +204,48 @@ const CreateTrialStep3Form = () => {
           </div>
 
           <div className="flex flex-col xl:w-1/2">
-            <label htmlFor="gender" className="mb-2">
+            <label htmlFor="biologicalSex" className="mb-2">
               {l("register.step3.form.gender.label") || "Biological sex"}
               <span className="ml-1">*</span>
             </label>
             <GenderDropdown
-              gender={formik.values.gender}
-              setGender={(value) => formik.setFieldValue("gender", value)}
+              gender={formik.values.biologicalSex}
+              setGender={(value) => formik.setFieldValue("biologicalSex", value)}
               borderColor="#DFF2DF"
             />
             <small className="text-red-600">
-              {formik.touched.gender && formik.errors.gender}
+              {formik.touched.biologicalSex && formik.errors.biologicalSex}
             </small>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
           <div className="flex flex-col gap-2 xl:w-1/2">
-            <label htmlFor="ageMin">
-              {l("register.step3.form.ageMin.label") || "Min. Age"}
+            <label htmlFor="minimumAge">
+              {l("register.step3.form.minimumAge.label") || "Min. Age"}
               <span className="ml-1">*</span>
             </label>
             <AgeDropdown
-              age={Number(formik.values.ageMin)}
-              setAge={(value) => formik.setFieldValue("ageMin", value)}
+              age={Number(formik.values.minimumAge)}
+              setAge={(value) => formik.setFieldValue("minimumAge", value)}
               borderColor="#DFF2DF"
             />
             <small className="text-red-600">
-              {formik.touched.ageMin && formik.errors.ageMin}
+              {formik.touched.minimumAge && formik.errors.minimumAge}
             </small>
           </div>
 
           <div className="flex flex-col gap-2 xl:w-1/2">
-            <label htmlFor="ageMax">
-              {l("register.step3.form.ageMax.label") || "Max. Age"}
+            <label htmlFor="maximumAge">
+              {l("register.step3.form.maximumAge.label") || "Max. Age"}
             </label>
             <AgeDropdown
-              age={Number(formik.values.ageMax)}
-              setAge={(value) => formik.setFieldValue("ageMax", value)}
+              age={Number(formik.values.maximumAge)}
+              setAge={(value) => formik.setFieldValue("maximumAge", value)}
               borderColor="#DFF2DF"
             />
             <small className="text-red-600">
-              {formik.touched.ageMax && formik.errors.ageMax}
+              {formik.touched.maximumAge && formik.errors.maximumAge}
             </small>
           </div>
         </div>

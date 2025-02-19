@@ -28,9 +28,9 @@ export default function TrialDetailsLayout({
   startDate,
   endDate,
   submissionDeadline,
-  ageMin,
-  ageMax,
-  gender,
+  minimumAge,
+  maximumAge,
+  biologicalSex,
 }: iTrialInfoProps) {
   const { l } = useLanguageStore();
 
@@ -55,14 +55,14 @@ export default function TrialDetailsLayout({
         Yup.ref("endDate"),
         "Deadline should not be later than End Study Date"
       ),
-    ageMax: Yup.number()
+    maximumAge: Yup.number()
       .min(
-        Yup.ref("ageMin"),
+        Yup.ref("minimumAge"),
         "Maximum age should be greater than or equal to minimum age"
       )
       .integer("Maximum age must be an integer")
       .max(120, "Maximum age should be less than or equal to 120 years"),
-    ageMin: Yup.number()
+    minimumAge: Yup.number()
       .typeError("Minimum age must be a valid number")
       .required(
         l("register.step1.form.country.validation.required") ||
@@ -72,7 +72,7 @@ export default function TrialDetailsLayout({
       .min(18, "Minimum age should be 18 years or older")
       .max(119, "Minimum age should be less than 120 years"),
 
-    gender: Yup.string().required(
+      biologicalSex: Yup.string().required(
       l("register.step1.form.country.validation.required") ||
         "Gender is required!"
     ),
@@ -86,24 +86,24 @@ export default function TrialDetailsLayout({
     validateOnMount: false,
     enableReinitialize: true,
     initialValues: {
-      ageMin: ageMin || "",
-      ageMax: ageMax || "",
+      minimumAge: minimumAge || "",
+      maximumAge: maximumAge || "",
       startDate: startDate,
       endDate: endDate,
       submissionDeadline: submissionDeadline,
-      gender: gender || "",
+      biologicalSex: biologicalSex || "",
     },
     //----onSubmit-------
     onSubmit: async (values) => {
       // eslint-disable-next-line
       const data = {
         trialId: trialId,
-        ageMin: Number(values.ageMin),
-        ageMax: Number(values.ageMax),
+        minimumAge: Number(values.minimumAge),
+        maximumAge: Number(values.maximumAge),
         startDate: values.startDate,
         endDate: values.endDate,
         submissionDeadline: values.submissionDeadline,
-        gender: values.gender,
+        biologicalSex: values.biologicalSex,
       };
 
       const token = localStorage.getItem("sp_token");
@@ -115,9 +115,9 @@ export default function TrialDetailsLayout({
             startDate: data.startDate,
             endDate: data.endDate,
             submissionDeadline: data.submissionDeadline,
-            gender: data.gender,
-            ageMin: data.ageMin,
-            ageMax: data.ageMax,
+            biologicalSex: data.biologicalSex,
+            minimumAge: data.minimumAge,
+            maximumAge: data.maximumAge,
           },
           {
             headers: {
@@ -156,30 +156,30 @@ export default function TrialDetailsLayout({
         <div className="flex flex-col gap-2 sm:gap-6 md:top-[50px] xl:3/4">
           <div className="flex flex-col gap-2 sm:gap-6 xl:flex-row">
             <div className="flex flex-col gap-2 xl:w-1/2">
-              <label htmlFor="ageMin" className="text-sm font-semibold">
+              <label htmlFor="minimumAge" className="text-sm font-semibold">
                 {l("settings.tab4.form.password.label") || "Min. Age:"}
                 <span className="ml-1">*</span>
               </label>
               <AgeDropdown
-                age={Number(formik.values.ageMin)}
-                setAge={(value) => formik.setFieldValue("ageMin", value)}
+                age={Number(formik.values.minimumAge)}
+                setAge={(value) => formik.setFieldValue("minimumAge", value)}
                 borderColor="#DFF2DF"
               />
               <small className="text-red-600">
-                {formik.touched.ageMin && formik.errors.ageMin}
+                {formik.touched.minimumAge && formik.errors.minimumAge}
               </small>
             </div>
             <div className="flex flex-col gap-2 xl:w-1/2">
-              <label htmlFor="ageMax" className="text-sm font-semibold">
-                {l("settings.tab4.form.ageMax.label") || "Max. Age:"}
+              <label htmlFor="maximumAge" className="text-sm font-semibold">
+                {l("settings.tab4.form.maximumAge.label") || "Max. Age:"}
               </label>
               <AgeDropdown
-                age={Number(formik.values.ageMax)}
-                setAge={(value) => formik.setFieldValue("ageMax", value)}
+                age={Number(formik.values.maximumAge)}
+                setAge={(value) => formik.setFieldValue("maximumAge", value)}
                 borderColor="#DFF2DF"
               />
               <small className="text-red-600">
-                {formik.touched.ageMax && formik.errors.ageMax}
+                {formik.touched.maximumAge && formik.errors.maximumAge}
               </small>
             </div>
           </div>
@@ -257,17 +257,17 @@ export default function TrialDetailsLayout({
             </div>
 
             <div className="flex flex-col gap-2 xl:w-1/2">
-              <label htmlFor="gender" className="text-sm font-semibold">
+              <label htmlFor="biologicalSex" className="text-sm font-semibold">
                 {l("register.step3.form.gender.label") || "Biological sex:"}
                 <span className="ml-1">*</span>
               </label>
               <GenderDropdown
-                gender={formik.values.gender}
-                setGender={(value) => formik.setFieldValue("gender", value)}
+                gender={formik.values.biologicalSex}
+                setGender={(value) => formik.setFieldValue("biologicalSex", value)}
                 borderColor="#DFF2DF"
               />
               <small className="text-red-600">
-                {formik.touched.gender && formik.errors.gender}
+                {formik.touched.biologicalSex && formik.errors.biologicalSex}
               </small>
             </div>
           </div>

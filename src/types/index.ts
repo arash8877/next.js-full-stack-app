@@ -207,9 +207,9 @@ export interface iTrialInfoProps {
   // company: iCompany;
   trialSites: iTrialSite[];
   media: iMediaProps;
-  ageMin: string;
-  ageMax: string;
-  gender: string;
+  minimumAge: string;
+  maximumAge: string;
+  biologicalSex: string;
   isRecruiting: boolean;
   isPublished?: boolean;
   approvedAt: string;
@@ -250,7 +250,7 @@ export interface iTrialApplicationsUserInfo {
   lastName: string;
   email: string;
   phoneNumber: string;
-  gender: string;
+  biologicalSex: string;
   isRecruiting: boolean;
 }
 

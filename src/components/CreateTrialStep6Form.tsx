@@ -155,12 +155,12 @@ const CreateTrialStep6Form = () => {
 
         <div className="p-4 border-4 border-primary-50 rounded-md mt-4">
           <div className="flex gap-2">
-            <p className="mb-2 font-bold">Age Range:</p> {trialData?.ageMin} -{" "}
-            {trialData?.ageMax}
+            <p className="mb-2 font-bold">Age Range:</p> {trialData?.minimumAge}{" "}
+            - {trialData?.maximumAge}
           </div>
           <div className="flex gap-2">
-            <p className="mb-2 font-bold">Gender:</p>{" "}
-            {trialData?.gender || "----------"}
+            <p className="mb-2 font-bold">Biological Sex:</p>{" "}
+            {trialData?.biologicalSex || "----------"}
           </div>
           <div className="flex gap-2">
             <p className="mb-2 font-bold">Expected Participants:</p>{" "}
