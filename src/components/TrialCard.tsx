@@ -175,7 +175,7 @@ iTrialCardProps) {
             btnType="button"
             handleClick={() => router.push(`/trials/${trialId}/price`)}
             disabledContainerStyles="rounded-lg bg-gray-300"
-            disabled={publishedAt === "0001-01-01T00:00:00"}
+            disabled={approvedAt === "0001-01-01T00:00:00"}
           />
         </div>
       </div>
