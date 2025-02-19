@@ -1,23 +1,28 @@
-import {create} from 'zustand';
+import { create } from "zustand";
 
 interface DiseaseStore {
-  selectedInclusionDiseases: string[];
-  selectedExclusionDiseases: string[];
-  setSelectedInclusionDiseases: (diseases: string[]) => void;
-  setSelectedExclusionDiseases: (diseases: string[]) => void;
-  setUserInclusionDiseases: (diseases: string[]) => void;
-  setUserExclusionDiseases: (diseases: string[]) => void;
+  selectedinclusionCriteria: string[];
+  selectedexclusionCriteria: string[];
+  setSelectedinclusionCriteria: (diseases: string[]) => void;
+  setSelectedexclusionCriteria: (diseases: string[]) => void;
+  setUserinclusionCriteria: (diseases: string[]) => void;
+  setUserexclusionCriteria: (diseases: string[]) => void;
   resetDiseases: () => void;
 }
 
 const useDiseaseStore = create<DiseaseStore>((set) => ({
-  selectedInclusionDiseases: [],
-  selectedExclusionDiseases: [],
-  setSelectedInclusionDiseases: (diseases) => set({ selectedInclusionDiseases: diseases }),
-  setSelectedExclusionDiseases: (diseases) => set({ selectedExclusionDiseases: diseases }),
-  setUserInclusionDiseases: (diseases) => set({ selectedInclusionDiseases: diseases }),
-  setUserExclusionDiseases: (diseases) => set({ selectedExclusionDiseases: diseases }),
-  resetDiseases: () => set({ selectedInclusionDiseases: [], selectedExclusionDiseases: [] }),
+  selectedinclusionCriteria: [],
+  selectedexclusionCriteria: [],
+  setSelectedinclusionCriteria: (diseases) =>
+    set({ selectedinclusionCriteria: diseases }),
+  setSelectedexclusionCriteria: (diseases) =>
+    set({ selectedexclusionCriteria: diseases }),
+  setUserinclusionCriteria: (diseases) =>
+    set({ selectedinclusionCriteria: diseases }),
+  setUserexclusionCriteria: (diseases) =>
+    set({ selectedexclusionCriteria: diseases }),
+  resetDiseases: () =>
+    set({ selectedinclusionCriteria: [], selectedexclusionCriteria: [] }),
 }));
 
 export default useDiseaseStore;

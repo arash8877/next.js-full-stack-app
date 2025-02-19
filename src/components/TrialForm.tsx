@@ -36,7 +36,7 @@ export default function TrialDetailsLayout({
   trialId,
   title,
   shortDescription,
-  trialSites,
+  sites,
   startDate,
   endDate,
   submissionDeadline,
@@ -62,8 +62,8 @@ export default function TrialDetailsLayout({
   // const authenticated = useIsAuthenticated();
   const { l } = useLanguageStore();
   useEffect(() => {
-    console.log("Sites", trialSites);
-  }, [trialSites]);
+    console.log("Sites", sites);
+  }, [sites]);
 
   //---------------- update trial ---------------
   // eslint-disable-next-line
@@ -229,10 +229,10 @@ export default function TrialDetailsLayout({
       startDate: startDate,
       endDate: endDate,
       submissionDeadline: submissionDeadline,
-      location: trialSites?.[0]?.name || "",
-      address: trialSites?.[0]?.address || "",
-      zipCode: trialSites?.[0]?.zipCode || "",
-      country: trialSites?.[0]?.country || "",
+      location: sites?.[0]?.name || "",
+      address: sites?.[0]?.address || "",
+      zipCode: sites?.[0]?.zipCode || "",
+      country: sites?.[0]?.country || "",
       biologicalSex: biologicalSex || "",
     },
     //----onSubmit-------
@@ -503,13 +503,18 @@ export default function TrialDetailsLayout({
               </div>
 
               <div className="flex flex-col gap-2 w-1/2">
-                <label htmlFor="biologicalSex" className="text-sm font-semibold">
+                <label
+                  htmlFor="biologicalSex"
+                  className="text-sm font-semibold"
+                >
                   {l("register.step3.form.gender.label") || "Biological sex:"}
                   <span className="ml-1">*</span>
                 </label>
                 <GenderDropdown
                   gender={formik.values.biologicalSex}
-                  setGender={(value) => formik.setFieldValue("biologicalSex", value)}
+                  setGender={(value) =>
+                    formik.setFieldValue("biologicalSex", value)
+                  }
                   borderColor="#DFF2DF"
                 />
                 <small className="text-red-600">

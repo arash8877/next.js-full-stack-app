@@ -17,10 +17,10 @@ import useCreateTrialStore from "@/stores/createTrial-store";
 //------------------------------------ main function ----------------------------------
 export default function EditTrialMedicalTab({
   trialId,
-  inclusionDiseases,
-  exclusionDiseases,
-  inclusionRequirements,
-  exclusionRequirements,
+  inclusionCriteria,
+  exclusionCriteria,
+  conditionOfInterest,
+  exclusionCondition,
   medicalCategories,
 }: CreateTrialStep4FormProps) {
   const { categoriesData } = useGetAllMedicalCategories();
@@ -52,10 +52,10 @@ export default function EditTrialMedicalTab({
   //--------------- formik ----------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      inclusionDiseases: inclusionDiseases || [],
-      inclusionRequirements: inclusionRequirements || "",
-      exclusionDiseases: exclusionDiseases || [],
-      exclusionRequirements: exclusionRequirements || "",
+      inclusionCriteria: inclusionCriteria || [],
+      conditionOfInterest: conditionOfInterest || "",
+      exclusionCriteria: exclusionCriteria || [],
+      exclusionCondition: exclusionCondition || "",
       medicalCategories: categories.filter(
         (category) =>
           category.medicalCategoryId !== undefined &&
@@ -67,10 +67,10 @@ export default function EditTrialMedicalTab({
     //----onSubmit-------
     onSubmit: async (values) => {
       const payload = {
-        inclusionDiseases: values.inclusionDiseases,
-        exclusionDiseases: values.exclusionDiseases,
-        inclusionRequirements: values.inclusionRequirements,
-        exclusionRequirements: values.exclusionRequirements,
+        inclusionCriteria: values.inclusionCriteria,
+        exclusionCriteria: values.exclusionCriteria,
+        conditionOfInterest: values.conditionOfInterest,
+        exclusionCondition: values.exclusionCondition,
         medicalCategories: selectedCategoriesId,
       };
       const token = localStorage.getItem("sp_token");
@@ -139,25 +139,25 @@ export default function EditTrialMedicalTab({
                 Inclusion Disease:
               </label>
               <DiseaseDropdown
-                value={formik.values.inclusionDiseases || []}
+                value={formik.values.inclusionCriteria || []}
                 onChange={(value) =>
-                  formik.setFieldValue("inclusionDiseases", value)
+                  formik.setFieldValue("inclusionCriteria", value)
                 }
               />
             </div>
 
             <div className="flex flex-col gap-2 w-full">
               <label
-                htmlFor="inclusionRequirements"
+                htmlFor="conditionOfInterest"
                 className="text-sm font-semibold"
               >
                 Inclusion Requirements:
               </label>
               <textarea
-                name="inclusionRequirements"
-                value={formik.values.inclusionRequirements}
+                name="conditionOfInterest"
+                value={formik.values.conditionOfInterest}
                 onChange={(e) =>
-                  formik.setFieldValue("inclusionRequirements", e.target.value)
+                  formik.setFieldValue("conditionOfInterest", e.target.value)
                 }
                 placeholder="Enter the eventual inclusion requirements"
                 className="register_input custom-border custom_height3"
@@ -174,25 +174,25 @@ export default function EditTrialMedicalTab({
                 Exclusion Disease:
               </label>
               <DiseaseDropdown
-                value={formik.values.exclusionDiseases || []}
+                value={formik.values.exclusionCriteria || []}
                 onChange={(value) =>
-                  formik.setFieldValue("exclusionDiseases", value)
+                  formik.setFieldValue("exclusionCriteria", value)
                 }
               />
             </div>
 
             <div className="flex flex-col gap-2 w-full">
               <label
-                htmlFor="exclusionRequirements"
+                htmlFor="exclusionCondition"
                 className="text-sm font-semibold"
               >
                 Exclusion Requirements:
               </label>
               <textarea
-                name="exclusionRequirements"
-                value={formik.values.exclusionRequirements}
+                name="exclusionCondition"
+                value={formik.values.exclusionCondition}
                 onChange={(e) =>
-                  formik.setFieldValue("exclusionRequirements", e.target.value)
+                  formik.setFieldValue("exclusionCondition", e.target.value)
                 }
                 placeholder="Enter the eventual exclusion requirements"
                 className="register_input custom-border custom_height3"

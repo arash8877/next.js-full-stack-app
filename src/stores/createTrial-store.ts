@@ -10,7 +10,7 @@ interface FormData {
     fullDescription: string;
   };
   step2Data: {
-    trialSites: {
+    sites: {
       name: string;
       address: string;
       zipCode: string;
@@ -26,15 +26,15 @@ interface FormData {
     biologicalSex: string;
   };
   step4Data: {
-    inclusionDiseases?: string[];
-    inclusionRequirements?: string;
-    exclusionDiseases?: string[];
-    exclusionRequirements?: string;
+    inclusionCriteria?: string[];
+    conditionOfInterest?: string;
+    exclusionCriteria?: string[];
+    exclusionCondition?: string;
     medicalCategoryNames?: string[];
     medicalCategoryIds?: number[];
   };
   step5Data: {
-    participantActivities: string;
+    activities: string;
     expectedParticipants: string;
     additionalInformation: string;
     isRecruiting: boolean;
@@ -85,7 +85,7 @@ const useCreateTrialStore = create<FormStore>()(
       formData: {
         step1Data: { title: "", shortDescription: "", fullDescription: "" },
         step2Data: {
-          trialSites: [{ name: "", address: "", zipCode: "", country: "" }],
+          sites: [{ name: "", address: "", zipCode: "", country: "" }],
         },
         step3Data: {
           startDate: "",
@@ -96,15 +96,15 @@ const useCreateTrialStore = create<FormStore>()(
           biologicalSex: "",
         },
         step4Data: {
-          inclusionDiseases: [],
-          inclusionRequirements: "",
-          exclusionDiseases: [],
-          exclusionRequirements: "",
+          inclusionCriteria: [],
+          conditionOfInterest: "",
+          exclusionCriteria: [],
+          exclusionCondition: "",
           medicalCategoryNames: [],
           medicalCategoryIds: [],
         },
         step5Data: {
-          participantActivities: "",
+          activities: "",
           expectedParticipants: "",
           additionalInformation: "",
           isRecruiting: false,
@@ -128,7 +128,7 @@ const useCreateTrialStore = create<FormStore>()(
           formData: {
             step1Data: { title: "", shortDescription: "", fullDescription: "" },
             step2Data: {
-              trialSites: [{ name: "", address: "", zipCode: "", country: "" }],
+              sites: [{ name: "", address: "", zipCode: "", country: "" }],
             },
             step3Data: {
               startDate: "",
@@ -139,15 +139,15 @@ const useCreateTrialStore = create<FormStore>()(
               biologicalSex: "",
             },
             step4Data: {
-              inclusionDiseases: [],
-              inclusionRequirements: "",
-              exclusionDiseases: [],
-              exclusionRequirements: "",
+              inclusionCriteria: [],
+              conditionOfInterest: "",
+              exclusionCriteria: [],
+              exclusionCondition: "",
               medicalCategoryNames: [],
               medicalCategoryIds: [],
             },
             step5Data: {
-              participantActivities: "",
+              activities: "",
               expectedParticipants: "",
               additionalInformation: "",
               isRecruiting: false,

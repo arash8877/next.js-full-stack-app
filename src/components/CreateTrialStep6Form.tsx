@@ -127,8 +127,8 @@ const CreateTrialStep6Form = () => {
 
         <div className="p-4 border-4 border-primary-50 rounded-md mt-4">
           <p className="font-bold mb-2">Trial Sites</p>
-          {trialData?.trialSites && trialData.trialSites.length > 0 ? (
-            trialData.trialSites.map((site, index) => (
+          {trialData?.sites && trialData.sites.length > 0 ? (
+            trialData.sites.map((site, index) => (
               <div key={index} className="flex flex-col gap-2">
                 <div className="text-sm">
                   <p className="mb-2 font-bold">Location:</p>{" "}
@@ -183,10 +183,10 @@ const CreateTrialStep6Form = () => {
 
           <div className="mb-2">
             <p className="font-bold">Inclusion Diseases:</p>
-            {trialData?.inclusionDiseases &&
-            trialData.inclusionDiseases.length > 0 ? (
+            {trialData?.inclusionCriteria &&
+            trialData.inclusionCriteria.length > 0 ? (
               <ul className="list-disc pl-5">
-                {trialData.inclusionDiseases.map((disease, index) => (
+                {trialData.inclusionCriteria.map((disease, index) => (
                   <li key={index}>{disease || "----------"}</li>
                 ))}
               </ul>
@@ -197,15 +197,15 @@ const CreateTrialStep6Form = () => {
 
           <div className="mb-2">
             <p className="font-bold">Inclusion Requirements:</p>{" "}
-            {trialData?.inclusionRequirements || "----------"}
+            {trialData?.conditionOfInterest || "----------"}
           </div>
 
           <div className="mb-2">
             <p className="font-bold">Exclusion Diseases:</p>
-            {trialData?.exclusionDiseases &&
-            trialData.exclusionDiseases.length > 0 ? (
+            {trialData?.exclusionCriteria &&
+            trialData.exclusionCriteria.length > 0 ? (
               <ul className="list-disc pl-5">
-                {trialData.exclusionDiseases.map((disease, index) => (
+                {trialData.exclusionCriteria.map((disease, index) => (
                   <li key={index}>{disease || "----------"}</li>
                 ))}
               </ul>
@@ -216,7 +216,7 @@ const CreateTrialStep6Form = () => {
 
           <div className="mb-2">
             <p className="font-bold">Exclusion Requirements:</p>{" "}
-            {trialData?.exclusionRequirements || "----------"}
+            {trialData?.exclusionCondition || "----------"}
           </div>
 
           <div>
@@ -240,7 +240,7 @@ const CreateTrialStep6Form = () => {
             <p className="font-bold">Participant Activities:</p>
             <div
               dangerouslySetInnerHTML={{
-                __html: trialData?.participantActivities || "----------",
+                __html: trialData?.activities || "----------",
               }}
               className="ql-editor no_border"
             />

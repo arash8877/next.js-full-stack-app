@@ -18,7 +18,7 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 //----------------------------------- Main function -----------------------------------
 export default function EditTrialMoreInfoTab({
   trialId,
-  participantActivities,
+  activities,
   expectedParticipants,
   additionalInformation,
   isRecruiting,
@@ -59,7 +59,7 @@ export default function EditTrialMoreInfoTab({
     validateOnMount: false,
     enableReinitialize: true,
     initialValues: {
-      participantActivities: participantActivities || "",
+      activities: activities || "",
       expectedParticipants: expectedParticipants || 0,
       additionalInformation: additionalInformation || "",
       isRecruiting: isRecruiting || false,
@@ -74,7 +74,7 @@ export default function EditTrialMoreInfoTab({
       // eslint-disable-next-line
       const payload = {
         trialId: trialId,
-        participantActivities: values.participantActivities,
+        activities: values.activities,
         expectedParticipants: values.expectedParticipants,
         additionalInformation: values.additionalInformation,
         isRecruiting: values.isRecruiting,
@@ -144,24 +144,18 @@ export default function EditTrialMoreInfoTab({
       <form onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-6 2xl:w-2/3">
           <div className="flex flex-col gap-2 w-full">
-            <label
-              htmlFor="participantActivities"
-              className="text-sm font-semibold"
-            >
+            <label htmlFor="activities" className="text-sm font-semibold">
               Describe participant activities:
             </label>
             <div className="h-[200px] mb-16">
               <ReactQuill
-                value={formik.values.participantActivities}
-                onChange={(value) =>
-                  formik.setFieldValue("participantActivities", value)
-                }
+                value={formik.values.activities}
+                onChange={(value) => formik.setFieldValue("activities", value)}
                 placeholder="Outline participant activities"
                 className="h-full"
               />
               <small className="text-red-600">
-                {formik.touched.participantActivities &&
-                  formik.errors.participantActivities}
+                {formik.touched.activities && formik.errors.activities}
               </small>
             </div>
           </div>

@@ -48,7 +48,7 @@ const CreateTrialStep5Form = () => {
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep5FormProps>({
     initialValues: {
-      participantActivities: formData.step5Data?.participantActivities || "",
+      activities: formData.step5Data?.activities || "",
       expectedParticipants: formData.step5Data?.expectedParticipants || "",
       additionalInformation: formData.step5Data.additionalInformation || "",
       isRecruiting: formData.step5Data.isRecruiting || false,
@@ -67,7 +67,7 @@ const CreateTrialStep5Form = () => {
       const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       const payload = {
-        participantActivities: values["participantActivities"],
+        activities: values["activities"],
         expectedParticipants: values["expectedParticipants"],
         additionalInformation: values["additionalInformation"],
         isRecruiting: values["isRecruiting"],
@@ -94,7 +94,7 @@ const CreateTrialStep5Form = () => {
           ...formData,
           step5Data: {
             ...formData.step5Data,
-            participantActivities: values.participantActivities || "",
+            activities: values.activities || "",
             expectedParticipants: values.expectedParticipants,
             additionalInformation: values.additionalInformation || "",
             drivingCompensation: values.drivingCompensation,
@@ -157,18 +157,13 @@ const CreateTrialStep5Form = () => {
 
       <div className="flex flex-col gap-6 2xl:w-2/3">
         <div className="flex flex-col gap-2 w-full">
-          <label
-            htmlFor="participantActivities"
-            className="text-sm font-semibold"
-          >
+          <label htmlFor="activities" className="text-sm font-semibold">
             Describe participant activities
           </label>
           <div className="h-[200px] mb-16">
             <ReactQuill
-              value={formik.values.participantActivities}
-              onChange={(value) =>
-                formik.setFieldValue("participantActivities", value)
-              }
+              value={formik.values.activities}
+              onChange={(value) => formik.setFieldValue("activities", value)}
               className="h-full"
             />
           </div>

@@ -42,10 +42,10 @@ const InputField: React.FC<
       )}
       <input
         id={`${name}-${siteIndex}`}
-        name={`trialSites[${siteIndex}].${name}`}
+        name={`sites[${siteIndex}].${name}`}
         type={type}
         placeholder={placeholder}
-        value={formik.values.trialSites[siteIndex][name]}
+        value={formik.values.sites[siteIndex][name]}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         className="register_input mt-2 custom-border"
@@ -54,9 +54,9 @@ const InputField: React.FC<
     </div>
     <small className="text-red-600">
       {
-        (
-          formik.errors.trialSites as FormikErrors<SiteFormValues>[] | undefined
-        )?.[siteIndex]?.[name]
+        (formik.errors.sites as FormikErrors<SiteFormValues>[] | undefined)?.[
+          siteIndex
+        ]?.[name]
       }
     </small>
   </div>
@@ -72,7 +72,7 @@ const CreateTrialStep2Form = () => {
 
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({
-    trialSites: Yup.array()
+    sites: Yup.array()
       .of(
         Yup.object({
           name: Yup.string()
@@ -117,7 +117,7 @@ const CreateTrialStep2Form = () => {
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep2FormValues>({
     initialValues: {
-      trialSites: formData?.step2Data?.trialSites || [
+      sites: formData?.step2Data?.sites || [
         { name: "", address: "", zipCode: "", country: "" },
       ],
     },
@@ -128,18 +128,18 @@ const CreateTrialStep2Form = () => {
       const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
-        const trialSites = values.trialSites.map((site) => ({
+        const sites = values.sites.map((site) => ({
           name: site.name,
           address: site.address,
           zipCode: site.zipCode,
           country: site.country,
         }));
-        console.log("Payload in step 2:", trialSites);
+        console.log("Payload in step 2:", sites);
         // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
           {
-            trialSites,
+            sites,
           },
           {
             headers: {
@@ -148,7 +148,7 @@ const CreateTrialStep2Form = () => {
           }
         );
         console.log("RESPONSE in create trial step 2:", response);
-        setFormData({ step2Data: { trialSites: values.trialSites } });
+        setFormData({ step2Data: { sites: values.sites } });
         document.cookie =
           "createTrialStep2Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step3");
@@ -165,9 +165,9 @@ const CreateTrialStep2Form = () => {
   //------------------Add another site ----------------
   const addSite = () => {
     formik.setFieldValue(
-      "trialSites",
+      "sites",
       [
-        ...formik.values.trialSites,
+        ...formik.values.sites,
         {
           name: "",
           address: "",
@@ -181,9 +181,9 @@ const CreateTrialStep2Form = () => {
 
   //------------------ remove site ----------------
   const removeSite = (index: number) => {
-    const updatedSites = [...formik.values.trialSites];
+    const updatedSites = [...formik.values.sites];
     updatedSites.splice(index, 1);
-    formik.setFieldValue("trialSites", updatedSites, false);
+    formik.setFieldValue("sites", updatedSites, false);
   };
 
   //--------------------------------------------------Return---------------------------------------------
@@ -197,7 +197,7 @@ const CreateTrialStep2Form = () => {
         <p className="text-red-600">{error}</p>
       </div>
 
-      {formik.values.trialSites.map((_, index) => (
+      {formik.values.sites.map((_, index) => (
         <div
           key={index}
           className={`flex flex-col gap-6 xl:w-1/2 ${
@@ -233,16 +233,16 @@ const CreateTrialStep2Form = () => {
               Country<span className="ml-1">*</span>
             </label>
             <CountryDropdown
-              country={formik.values.trialSites[index].country}
+              country={formik.values.sites[index].country}
               setCountry={(value) =>
-                formik.setFieldValue(`trialSites[${index}].country`, value)
+                formik.setFieldValue(`sites[${index}].country`, value)
               }
               borderColor="#dff2df"
             />
             <small className="text-red-600">
-              {formik.touched.trialSites?.[index]?.country &&
+              {formik.touched.sites?.[index]?.country &&
                 (
-                  formik.errors.trialSites as
+                  formik.errors.sites as
                     | FormikErrors<SiteFormValues>[]
                     | undefined
                 )?.[index]?.country}

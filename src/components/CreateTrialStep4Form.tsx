@@ -25,9 +25,9 @@ const CreateTrialStep4Form = () => {
   const [categories, setCategories] = useState<iCategoryProps[]>([]);
   const router = useRouter();
   const [error, setError] = useState("");
-  const { selectedInclusionDiseases, setSelectedInclusionDiseases } =
+  const { selectedinclusionCriteria, setSelectedinclusionCriteria } =
     useDiseaseStore();
-  const { selectedExclusionDiseases, setSelectedExclusionDiseases } =
+  const { selectedexclusionCriteria, setSelectedexclusionCriteria } =
     useDiseaseStore();
   const [loading, setLoading] = useState(false);
   const { l } = useLanguageStore();
@@ -42,10 +42,10 @@ const CreateTrialStep4Form = () => {
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep4FormProps>({
     initialValues: {
-      inclusionDiseases: formData.step4Data.inclusionDiseases || [],
-      inclusionRequirements: formData.step4Data.inclusionRequirements || "",
-      exclusionDiseases: formData.step4Data.exclusionDiseases || [],
-      exclusionRequirements: formData.step4Data.exclusionRequirements || "",
+      inclusionCriteria: formData.step4Data.inclusionCriteria || [],
+      conditionOfInterest: formData.step4Data.conditionOfInterest || "",
+      exclusionCriteria: formData.step4Data.exclusionCriteria || [],
+      exclusionCondition: formData.step4Data.exclusionCondition || "",
       medicalCategories: categories.filter(
         (category) =>
           category.medicalCategoryId !== undefined &&
@@ -62,10 +62,10 @@ const CreateTrialStep4Form = () => {
       const trialId = localStorage.getItem("currentTrialEditId");
       try {
         const payload = {
-          inclusionDiseases: values["inclusionDiseases"],
-          inclusionRequirements: values["inclusionRequirements"],
-          exclusionDiseases: values["exclusionDiseases"],
-          exclusionRequirements: values["exclusionRequirements"],
+          inclusionCriteria: values["inclusionCriteria"],
+          conditionOfInterest: values["conditionOfInterest"],
+          exclusionCriteria: values["exclusionCriteria"],
+          exclusionCondition: values["exclusionCondition"],
           medicalCategories: selectedCategoriesId,
         };
         console.log("PAYLOAD in create trial- step4", payload);
@@ -84,10 +84,10 @@ const CreateTrialStep4Form = () => {
           ...formData,
           step4Data: {
             ...formData.step4Data,
-            inclusionDiseases: values.inclusionDiseases,
-            inclusionRequirements: values.inclusionRequirements,
-            exclusionDiseases: values.exclusionDiseases,
-            exclusionRequirements: values.exclusionRequirements,
+            inclusionCriteria: values.inclusionCriteria,
+            conditionOfInterest: values.conditionOfInterest,
+            exclusionCriteria: values.exclusionCriteria,
+            exclusionCondition: values.exclusionCondition,
             medicalCategoryIds: selectedCategoriesId,
           },
         });
@@ -137,26 +137,26 @@ const CreateTrialStep4Form = () => {
               Inclusion Disease
             </label>
             <DiseaseDropdown
-              value={selectedInclusionDiseases}
+              value={selectedinclusionCriteria}
               onChange={(value) => {
-                formik.setFieldValue("inclusionDiseases", value);
-                setSelectedInclusionDiseases(value);
+                formik.setFieldValue("inclusionCriteria", value);
+                setSelectedinclusionCriteria(value);
               }}
             />
           </div>
 
           <div className="flex flex-col gap-2 w-full">
             <label
-              htmlFor="inclusionRequirements"
+              htmlFor="conditionOfInterest"
               className="text-sm font-semibold"
             >
               Inclusion Requirements
             </label>
             <textarea
-              name="inclusionRequirements"
-              value={formik.values.inclusionRequirements}
+              name="conditionOfInterest"
+              value={formik.values.conditionOfInterest}
               onChange={(e) =>
-                formik.setFieldValue("inclusionRequirements", e.target.value)
+                formik.setFieldValue("conditionOfInterest", e.target.value)
               }
               placeholder="Enter the eventual inclusion requirements"
               className="register_input custom-border custom_height3 resize-none"
@@ -170,26 +170,26 @@ const CreateTrialStep4Form = () => {
               Exclusion Disease
             </label>
             <DiseaseDropdown
-              value={selectedExclusionDiseases}
+              value={selectedexclusionCriteria}
               onChange={(value) => {
-                formik.setFieldValue("exclusionDiseases", value);
-                setSelectedExclusionDiseases(value);
+                formik.setFieldValue("exclusionCriteria", value);
+                setSelectedexclusionCriteria(value);
               }}
             />
           </div>
 
           <div className="flex flex-col gap-2 w-full">
             <label
-              htmlFor="exclusionRequirements"
+              htmlFor="exclusionCondition"
               className="text-sm font-semibold"
             >
               Exclusion Requirements
             </label>
             <textarea
-              name="exclusionRequirements"
-              value={formik.values.exclusionRequirements}
+              name="exclusionCondition"
+              value={formik.values.exclusionCondition}
               onChange={(e) =>
-                formik.setFieldValue("exclusionRequirements", e.target.value)
+                formik.setFieldValue("exclusionCondition", e.target.value)
               }
               placeholder="Enter the eventual exclusion requirements"
               className="register_input custom-border custom_height3 resize-none"
