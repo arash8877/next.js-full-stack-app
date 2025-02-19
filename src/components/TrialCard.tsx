@@ -3,11 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
+import { useRouter } from "next/navigation";
 import { iTrialCardProps } from "@/types";
 import TrialStatusBadge from "./TrialStatusBadge";
 import useLanguageStore from "@/stores/language-store";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 //--------------------------------- main function -------------------------------
 export default function TrialCard({
@@ -29,51 +28,14 @@ export default function TrialCard({
 // imageSrc,
 // underReview,
 iTrialCardProps) {
+  const router = useRouter();
   const { l } = useLanguageStore();
   // eslint-disable-next-line
   const plainText =
-    new DOMParser().parseFromString(summary, "text/html").body
-      .textContent || "";
+    new DOMParser().parseFromString(summary, "text/html").body.textContent ||
+    "";
 
-  //------------ Send start Recruitment Mail -----------------
-  async function sendStartRecruitmentMail() {
-    try {
-      const token =
-          typeof window !== "undefined"
-            ? localStorage.getItem("sp_token")
-            : null;
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/recruitment/${trialId}/start`, 
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response);
-      toast.success(
-        l("settings.tab1.form.toast.success") || "Request sent successfully",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    } catch (error) {
-      console.error("Error in resending email:", error);
-      toast.error(
-        l("settings.tab1.form.toast.error") || "Something went wrong!",
-        {
-          position: "top-center",
-          autoClose: 2000,
-          className: "single_line_toast",
-        }
-      );
-    }
-  }
-
-  //--------------------------------- return ------------------------------------------------
+  //--------------------------------- JSX ------------------------------------------------
   return (
     <section className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-bgColor-10 shadow-lg hover:shadow-xl ">
       <div className="flex justify-between">
@@ -138,7 +100,9 @@ iTrialCardProps) {
           {l("trialcard.period") || "Condition of interest:"}
         </p>
         <p className="text-xs text-right font-light line-clamp-1">
-        {inclusionDiseases && inclusionDiseases.length > 0 ? inclusionDiseases.join(", ") : "-"}
+          {inclusionDiseases && inclusionDiseases.length > 0
+            ? inclusionDiseases.join(", ")
+            : "-"}
         </p>
       </div>
 
@@ -206,10 +170,12 @@ iTrialCardProps) {
         </div>
         <div className="flex flex-col">
           <CustomButton
-            title={l("trialcard.cta.text") || "START RECRUITING"}
+            title={l("trialcard.cta.text") || "Publish"}
             containerStyles="rounded-lg gradient-green2 text-white mt-4 hover1 custom-width-btn"
             btnType="button"
-            handleClick={sendStartRecruitmentMail}
+            handleClick={() => router.push(`/trials/${trialId}/price`)}
+            disabledContainerStyles="rounded-lg bg-gray-300"
+            disabled={approvedAt === "0001-01-01T00:00:00"}
           />
         </div>
       </div>
