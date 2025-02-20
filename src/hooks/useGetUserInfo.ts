@@ -43,7 +43,7 @@ const useGetUserInfo = (): {
 
   //--- GET User Info ---
   const { data, error, isLoading } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/v1/users/current` : null,
+    token ? `${process.env.NEXT_PUBLIC_SHARED_API_URL}/v1/users/current` : null,
     fetcher
   );
   const [userInfo, setUserInfo] = useState<iUserProps>(initialUserInfo);
