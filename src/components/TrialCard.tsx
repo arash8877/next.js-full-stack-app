@@ -171,7 +171,7 @@ iTrialCardProps) {
         <div className="flex flex-col">
           <CustomButton
             title={l("trialcard.cta.text") || "Publish"}
-            containerStyles="rounded-lg gradient-green2 text-white mt-4 hover1 custom-width-btn"
+            containerStyles="rounded-lg gradient-green2 text-white mt-4 hover2 custom-width-btn"
             btnType="button"
             handleClick={() => router.push(`/trials/${trialId}/price`)}
             disabledContainerStyles="rounded-lg bg-gray-300"
