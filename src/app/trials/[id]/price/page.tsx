@@ -192,7 +192,7 @@ export default function PricePage() {
             {formik.touched.priceModel && formik.errors.priceModel}
           </small>
 
-          <div className="flex justify-center px-4 mt-20">
+          <div className="flex justify-center px-4 lg:mt-8">
             <CustomButton
               title={l("register.step1.form.cta.btn") || "Publish Trial"}
               containerStyles="rounded-lg gradient-green1 hover1 custom-width2-btn"
