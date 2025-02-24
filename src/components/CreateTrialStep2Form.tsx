@@ -17,6 +17,7 @@ import {
 } from "@/types/index";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useLanguageStore from "@/stores/language-store";
+import SiteDropdown from "./SiteDropdown";
 
 //--------- Reusable Input Component ---------
 const InputField: React.FC<
@@ -117,9 +118,9 @@ const CreateTrialStep2Form = () => {
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep2FormValues>({
     initialValues: {
-      sites: formData?.step2Data?.sites || [
-        { name: "", address: "", zipCode: "", country: "" },
-      ],
+      sites: formData?.step2Data?.sites?.filter(
+        (site) => site.name.trim() !== ""
+      ) || [{ name: "", address: "", zipCode: "", country: "" }],
     },
     validationSchema: formSchema,
     //---------onSubmit--------------
@@ -127,19 +128,21 @@ const CreateTrialStep2Form = () => {
       setLoading(true);
       const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
-      try {
-        const sites = values.sites.map((site) => ({
+      const payload = {
+        TrialSites: values.sites.map((site) => ({
           name: site.name,
           address: site.address,
           zipCode: site.zipCode,
           country: site.country,
-        }));
-        console.log("Payload in step 2:", sites);
+        })),
+      };
+      console.log("Payload in step 2:", payload);
+      try {
         // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
           {
-            sites,
+            payload,
           },
           {
             headers: {
@@ -154,7 +157,14 @@ const CreateTrialStep2Form = () => {
         router.push("/create-trial/step3");
       } catch (error) {
         if (error instanceof AxiosError) {
-          setError(error.response?.data || "An unknown error occurred");
+          const errorMessage =
+            typeof error.response?.data === "string"
+              ? error.response.data
+              : JSON.stringify(error.response?.data);
+
+          setError(errorMessage || "An unknown error occurred");
+        } else {
+          setError("An unknown error occurred");
         }
       } finally {
         setLoading(false);
@@ -189,12 +199,32 @@ const CreateTrialStep2Form = () => {
   //--------------------------------------------------Return---------------------------------------------
   return (
     <form
-      className="flex flex-col gap-6 wrapper"
+      className="flex flex-col gap-12 wrapper"
       onSubmit={formik.handleSubmit}
     >
       {loading && <Spinner />}
       <div className="flex justify-center">
         <p className="text-red-600">{error}</p>
+      </div>
+
+      <div className="flex flex-col gap-2 w-full">
+        <label htmlFor="inclusionDisease" className="text-sm font-semibold">
+          List of Sites
+        </label>
+        <SiteDropdown
+          value={formik.values.sites.map((site) => site)}
+          onChange={(selectedSites) => {
+            formik.setFieldValue(
+              "sites",
+              selectedSites.map((site) => ({
+                name: site.name,
+                address: site.address,
+                zipCode: site.zipCode,
+                country: site.country,
+              }))
+            );
+          }}
+        />
       </div>
 
       {formik.values.sites.map((_, index) => (
@@ -248,33 +278,30 @@ const CreateTrialStep2Form = () => {
                 )?.[index]?.country}
             </small>
           </div>
-          {index > 0 && (
-            <div className="flex justify-center xs:justify-start gap-4  ">
-              <CustomButton
-                title={l("settings.tab3.btn.text") || "Remove Site"}
-                containerStyles="bg-bgColor-red rounded-lg"
-                textStyles="text-white"
-                handleClick={() => removeSite(index)}
-              />
-            </div>
-          )}
+
+          <div className="flex justify-center xs:justify-start gap-4">
+            <CustomButton
+              title={l("settings.tab3.btn.text") || "Remove Site"}
+              containerStyles="bg-bgColor-red rounded-lg"
+              textStyles="text-white"
+              handleClick={() => removeSite(index)}
+            />
+          </div>
         </div>
       ))}
 
-      <div className="flex justify-center xs:justify-end gap-4 xl:w-1/2">
+      <div className="flex justify-center lg:justify-start gap-4">
         <CustomButton
           title="+ Add another site"
-          containerStyles="rounded-lg bg-secondary-50 hover1"
+          containerStyles="custom-width3-btn rounded-lg bg-secondary-50 hover1"
           handleClick={addSite}
         />
       </div>
 
-      <div className="flex justify-center xs:justify-end gap-4">
+      <div className="flex justify-center lg:justify-end gap-4">
         <CustomButton
           title="Next"
-          containerStyles="rounded-lg gradient-green1 hover1 mt-4"
-          // disabledContainerStyles="rounded-lg bg-gray-300"
-          // disabled={!formik.isValid || !formik.dirty}
+          containerStyles="custom-width3-btn rounded-lg gradient-green1 hover1 mt-4"
           btnType="submit"
         />
       </div>
