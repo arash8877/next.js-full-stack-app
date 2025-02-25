@@ -88,9 +88,7 @@ export default function SiteDropdown({ value, onChange }: SiteDropdownProps) {
       onChange={(_, newValue) => {
         onChange(newValue);
       }}
-      value={mySites.filter((site) =>
-        Array.isArray(value) && value.some((val) => val.name === site.name)
-      )}
+      value={value}
       inputValue={inputValue}
       onInputChange={handleInputChange}
       noOptionsText={
