@@ -55,8 +55,14 @@ p {
   width: 100% !important;
 }
 .custom-width2-btn {
-  @apply w-full px-8 py-2.5 lg:w-auto lg:px-16 lg:py-6;
+  @apply w-full px-8 py-2.5 lg:w-auto lg:px-16 lg:py-6 !important;
 }
+
+.custom-width3-btn {
+  @apply w-full py-2.5 lg:w-auto lg:px-8 !important;
+}
+
+
 .custom_padding {
   padding-inline: 18px !important;
 }

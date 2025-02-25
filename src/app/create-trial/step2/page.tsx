@@ -20,7 +20,7 @@ export default function CreateTrialStep2Page() {
         <h3 className="text-lg font-medium text-center px-6 mt-12">
           {
             l("settings.title.kkk") ||
-            "Please enter one or more locations where the trial will be conducted"
+            "Select sites from the list or enter them manually"
           }
         </h3>
         <CreateTrialStep2Form />
