@@ -131,7 +131,6 @@ const CreateTrialStep2Form = () => {
     //---------onSubmit--------------
     onSubmit: async (values) => {
       setLoading(true);
-      console.log("Values in step 2:", values);
       const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
       const allSites = [
@@ -148,13 +147,7 @@ const CreateTrialStep2Form = () => {
       };
       console.log("Payload in step 2:", payload);
       try {
-        setFormData({
-          ...formData,
-          step2Data: {
-            ...formData.step2Data,
-          },
-        });
-        console.log("formData in step 2:", formData.step2Data);
+        setFormData({ step2Data: { enteredSites: values.enteredSites } });
         // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
@@ -166,12 +159,7 @@ const CreateTrialStep2Form = () => {
           }
         );
         console.log("RESPONSE in create trial step 2:", response);
-        setFormData({
-          ...formData,
-          step2Data: {
-            ...formData.step2Data,
-          },
-        });
+        setFormData({ step2Data: { enteredSites: values.enteredSites } });
         document.cookie =
           "createTrialStep2Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step3");
@@ -191,6 +179,8 @@ const CreateTrialStep2Form = () => {
       }
     },
   });
+
+  console.log("formData in step 2:", formData.step2Data);
 
   // console.log("initial values in step 2:", formik.initialValues);
   // const initialValues = formik.initialValues;
@@ -247,7 +237,7 @@ const CreateTrialStep2Form = () => {
         </div>
       )}
 
-      {showSiteFields && isEnteredSites && (
+      {showSiteFields || isEnteredSites && (
         <>
           {formik.values.enteredSites.map((_, index) => (
             <div
