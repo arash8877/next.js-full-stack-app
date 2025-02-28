@@ -305,7 +305,8 @@ export interface SiteFormValues {
 }
 
 export interface CreateTrialStep2FormValues {
-  sites: SiteFormValues[];
+  selectedSites: SiteFormValues[];
+  enteredSites: SiteFormValues[];
 }
 
 export interface CreateTrialStep2FormProps {
