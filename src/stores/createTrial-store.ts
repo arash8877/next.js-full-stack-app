@@ -10,12 +10,6 @@ interface FormData {
     fullDescription: string;
   };
   step2Data: {
-    selectedSites: {
-      name: string;
-      address: string;
-      zipCode: string;
-      country: string;
-    }[];
     enteredSites: {
       name: string;
       address: string;
@@ -91,7 +85,6 @@ const useCreateTrialStore = create<FormStore>()(
       formData: {
         step1Data: { title: "", shortDescription: "", fullDescription: "" },
         step2Data: {
-          selectedSites: [{ name: "", address: "", zipCode: "", country: "" }],
           enteredSites: [{ name: "", address: "", zipCode: "", country: "" }],
         },
         step3Data: {
@@ -135,8 +128,9 @@ const useCreateTrialStore = create<FormStore>()(
           formData: {
             step1Data: { title: "", shortDescription: "", fullDescription: "" },
             step2Data: {
-              selectedSites: [{ name: "", address: "", zipCode: "", country: "" }],
-              enteredSites: [{ name: "", address: "", zipCode: "", country: "" }],
+              enteredSites: [
+                { name: "", address: "", zipCode: "", country: "" },
+              ],
             },
             step3Data: {
               startDate: "",

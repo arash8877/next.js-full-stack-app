@@ -2,30 +2,25 @@ import * as React from "react";
 import { useState } from "react";
 import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
+import { SiteFormValues } from "@/types";
 import { debounce } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import useLanguageStore from "@/stores/language-store";
+import useSelectedSitesStore from "@/stores/selectedSites-store";
 
+//--------- icons for checkbox ----------
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-interface SiteDropdownProps {
-  value: { name: string; address: string; zipCode: string; country: string }[];
-  onChange: (
-    value: { name: string; address: string; zipCode: string; country: string }[]
-  ) => void;
-}
-
 //-------------------------------------- main function -------------------------------------
-export default function SiteDropdown({ value, onChange }: SiteDropdownProps) {
-  const [allSites, setAllSites] = useState<
-    { name: string; address: string; zipCode: string; country: string }[]
-  >([]);
-  const [inputValue, setInputValue] = useState<string>("");
+export default function SiteDropdown() {
   const { l } = useLanguageStore();
+  const [allSites, setAllSites] = useState<SiteFormValues[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
+  const { selectedSites, setSelectedSites } = useSelectedSitesStore();
 
   //--------- get sites from API ----------
   async function getSiteList(searchValue: string) {
@@ -52,6 +47,14 @@ export default function SiteDropdown({ value, onChange }: SiteDropdownProps) {
     }
   }, 200);
 
+  //--------- handle change in dropdown ----------
+  const handleChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: SiteFormValues[]
+  ) => {
+    setSelectedSites(value);
+  };
+
   const handleInputChange = (
     event: React.SyntheticEvent<Element, Event>,
     value: string
@@ -68,10 +71,8 @@ export default function SiteDropdown({ value, onChange }: SiteDropdownProps) {
       options={allSites}
       disableCloseOnSelect
       getOptionLabel={(option) => option.name}
-      onChange={(_, newValue) => {
-        onChange(newValue);
-      }}
-      value={value}
+      onChange={handleChange}
+      value={selectedSites}
       inputValue={inputValue}
       onInputChange={handleInputChange}
       noOptionsText={
