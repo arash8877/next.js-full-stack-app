@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik, FormikErrors } from "formik";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -72,10 +72,15 @@ const CreateTrialStep2Form = () => {
   const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
   const { selectedSites } = useSelectedSitesStore();
-  const isEnteredSites = formData?.step2Data?.enteredSites.length > 0;
+  const isEnteredSites = formData?.step2Data?.enteredSites?.length > 0;
   const [loading, setLoading] = useState(false);
   const [showSiteFields, setShowSiteFields] = useState(false);
   const { l } = useLanguageStore();
+  console.log("ISENTEREDSITES", isEnteredSites);
+
+  useEffect(() => {
+    console.log("formData in step 2 in useeffcet:", formData.step2Data);
+  }, [formData]);
 
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({
@@ -180,8 +185,6 @@ const CreateTrialStep2Form = () => {
     },
   });
 
-  console.log("formData in step 2:", formData.step2Data);
-
   // console.log("initial values in step 2:", formik.initialValues);
   // const initialValues = formik.initialValues;
 
@@ -206,6 +209,7 @@ const CreateTrialStep2Form = () => {
   const removeSite = (index: number) => {
     const updatedEnteredSites = [...formik.values.enteredSites];
     updatedEnteredSites.splice(index, 1);
+    console.log("updatedEnteredSites:", updatedEnteredSites);
     formik.setFieldValue("enteredSites", updatedEnteredSites, false);
     setFormData({ step2Data: { enteredSites: updatedEnteredSites } });
   };
@@ -233,12 +237,15 @@ const CreateTrialStep2Form = () => {
           <CustomButton
             title="+ Add a site manually"
             containerStyles="custom-width3-btn rounded-lg bg-secondary-50 hover1"
-            handleClick={() => setShowSiteFields(true)}
+            handleClick={() => {
+              setShowSiteFields(true);
+              addSite();
+            }}
           />
         </div>
       )}
 
-      {showSiteFields || isEnteredSites && (
+      {(showSiteFields || isEnteredSites) && (
         <>
           {formik.values.enteredSites.map((_, index) => (
             <div
@@ -247,6 +254,7 @@ const CreateTrialStep2Form = () => {
                 index > 0 ? "border-t-2 border-gray-300 pt-12 " : ""
               }`}
             >
+              <h3>testing</h3>
               <InputField
                 label="Location"
                 name="name"
