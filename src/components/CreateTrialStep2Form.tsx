@@ -17,7 +17,6 @@ import {
 } from "@/types/index";
 import useCreateTrialStore from "@/stores/createTrial-store";
 import useSelectedSitesStore from "@/stores/selectedSites-store";
-
 import useLanguageStore from "@/stores/language-store";
 import SiteDropdown from "./SiteDropdown";
 
@@ -130,6 +129,7 @@ const CreateTrialStep2Form = () => {
     validationSchema: formSchema,
     //---------onSubmit--------------
     onSubmit: async (values) => {
+      console.log("values.enteredSites:", values.enteredSites);
       setLoading(true);
       const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
@@ -204,9 +204,10 @@ const CreateTrialStep2Form = () => {
 
   //------------------ remove site ----------------
   const removeSite = (index: number) => {
-    const updatedSites = [...formik.values.enteredSites];
-    updatedSites.splice(index, 1);
-    formik.setFieldValue("enteredSites", updatedSites, false);
+    const updatedEnteredSites = [...formik.values.enteredSites];
+    updatedEnteredSites.splice(index, 1);
+    formik.setFieldValue("enteredSites", updatedEnteredSites, false);
+    setFormData({ step2Data: { enteredSites: updatedEnteredSites } });
   };
 
   //--------------------------------------------------Return---------------------------------------------
