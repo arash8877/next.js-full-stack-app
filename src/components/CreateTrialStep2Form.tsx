@@ -72,11 +72,10 @@ const CreateTrialStep2Form = () => {
   const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
   const { selectedSites } = useSelectedSitesStore();
-  const isEnteredSites = formData?.step2Data?.enteredSites?.length > 0;
+  const isEnteredSites = formData?.step2Data?.enteredSites[0]?.name;
   const [loading, setLoading] = useState(false);
   const [showSiteFields, setShowSiteFields] = useState(false);
   const { l } = useLanguageStore();
-  console.log("ISENTEREDSITES", isEnteredSites);
 
   useEffect(() => {
     console.log("formData in step 2 in useeffcet:", formData.step2Data);
@@ -239,7 +238,6 @@ const CreateTrialStep2Form = () => {
             containerStyles="custom-width3-btn rounded-lg bg-secondary-50 hover1"
             handleClick={() => {
               setShowSiteFields(true);
-              addSite();
             }}
           />
         </div>
@@ -254,7 +252,6 @@ const CreateTrialStep2Form = () => {
                 index > 0 ? "border-t-2 border-gray-300 pt-12 " : ""
               }`}
             >
-              <h3>testing</h3>
               <InputField
                 label="Location"
                 name="name"

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-// import { persist, createJSONStorage } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { merge } from "lodash";
 
 //---- interface ----
@@ -53,34 +53,34 @@ interface FormStore {
 }
 
 //--- remove "create-trial-store" from localStorage after 2 hours ---
-// const scheduleLocalStorageCleanup = () => {
-//   const storedTimeKey = "create-trial-store-timestamp";
-//   const currentTime = Date.now();
+const scheduleLocalStorageCleanup = () => {
+  const storedTimeKey = "create-trial-store-timestamp";
+  const currentTime = Date.now();
 
-//   const storedTimestamp = localStorage.getItem(storedTimeKey);
+  const storedTimestamp = localStorage.getItem(storedTimeKey);
 
-//   // If there's no timestamp, set one now
-//   if (!storedTimestamp) {
-//     localStorage.setItem(storedTimeKey, currentTime.toString());
-//   } else {
-//     const elapsedTime = currentTime - parseInt(storedTimestamp, 10);
-//     const twoHoursInMs = 2 * 60 * 60 * 1000;
+  // If there's no timestamp, set one now
+  if (!storedTimestamp) {
+    localStorage.setItem(storedTimeKey, currentTime.toString());
+  } else {
+    const elapsedTime = currentTime - parseInt(storedTimestamp, 10);
+    const twoHoursInMs = 2 * 60 * 60 * 1000;
 
-//     if (elapsedTime >= twoHoursInMs) {
-//       localStorage.removeItem("create-trial-store");
-//       localStorage.removeItem(storedTimeKey);
-//     }
-//   }
+    if (elapsedTime >= twoHoursInMs) {
+      localStorage.removeItem("create-trial-store");
+      localStorage.removeItem(storedTimeKey);
+    }
+  }
 
-//   setTimeout(() => {
-//     localStorage.removeItem("create-trial-store");
-//     localStorage.removeItem(storedTimeKey);
-//   }, 2 * 60 * 60 * 1000);
-// };
+  setTimeout(() => {
+    localStorage.removeItem("create-trial-store");
+    localStorage.removeItem(storedTimeKey);
+  }, 2 * 60 * 60 * 1000);
+};
 
 //----------------------------------------- main function -------------------------------------------
 const useCreateTrialStore = create<FormStore>()(
-  //persist(
+  persist(
   (set) => ({
     formData: {
       step1Data: { title: "", shortDescription: "", fullDescription: "" },
@@ -161,15 +161,15 @@ const useCreateTrialStore = create<FormStore>()(
           },
         },
       }),
-  })
-  // {
-  //   name: "create-trial-store", // Key in localStorage
-  //   storage: createJSONStorage(() => localStorage),
-  //   onRehydrateStorage: () => {
-  //     scheduleLocalStorageCleanup();
-  //   },
-  // }
-  //)
+  }),
+  {
+    name: "create-trial-store", // Key in localStorage
+    storage: createJSONStorage(() => localStorage),
+    onRehydrateStorage: () => {
+      scheduleLocalStorageCleanup();
+    },
+  }
+  )
 );
 
 export default useCreateTrialStore;
