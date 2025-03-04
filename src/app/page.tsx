@@ -75,6 +75,8 @@ export default function TrialsPage() {
   }, [allTrials, isMobile]);
 
   const displayedTrials = isMobile ? loadedTrials : allTrials || [];
+  console.log("All Trials:", allTrials);
+  console.log("displayedTrials: ", displayedTrials);
 
   //--- handleFilterChange function ---
   const handleFilterChange = useCallback((newFilters: iTrialFilteringProps) => {
@@ -128,15 +130,13 @@ export default function TrialsPage() {
                   trialId={trial["trialId"]}
                   applicationCount={trial["applicationCount"]}
                   title={trial["title"]}
-                  summary={trial["summary"] || "Not provided"}
+                  summary={trial["summary"] || ""}
                   urlStub={trial["urlStub"]}
                   startDate={formatDate(trial["startDate"])}
                   endDate={formatDate(trial["endDate"])}
-                  address={
-                    trial["sites"]
-                      ? trial["sites"]?.[0]?.["address"]
-                      : undefined
-                  }
+                  isApproved={trial["isApproved"]}
+                  isPublished={trial["isPublished"]}
+                  conditionOfInterest={Array.isArray(trial["conditionOfInterest"]) ? trial["conditionOfInterest"] : []}
                 />
               ))}
             </div>

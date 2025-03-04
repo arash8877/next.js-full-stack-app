@@ -1,23 +1,23 @@
 interface iTrialStatusBadgeProps {
   isApproved: boolean;
   isPublished: boolean;
-  referred: boolean;
-  declined: boolean;
+  // referred: boolean;
+  // declined: boolean;
 }
 
 //----------------------------- main function -------------------------------
 export default function TrialStatusBadge({
   isApproved,
-  referred,
-  declined,
+  // referred,
+  // declined,
   // isPublished,
 }: iTrialStatusBadgeProps) {
 
 
   //--- getStatusText function ---
   const getStatusText = () => {
-    if (declined) return "Declined";
-    if (referred) return "Referred";
+    // if (declined) return "Declined";
+    // if (referred) return "Referred";
     if (!isApproved) return "Pending Approval";
     if (isApproved) return "Approved";
     // if (isPublished ) return "Published";

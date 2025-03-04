@@ -16,13 +16,9 @@ export default function TrialCard({
   summary,
   startDate,
   endDate,
-  address,
-  submissionDeadline,
   isApproved,
   isPublished,
-  referred,
-  declined,
-  inclusionCriteria,
+  conditionOfInterest,
 }: //medicalCategories,
 // applicantsNumber
 // imageSrc,
@@ -35,6 +31,18 @@ iTrialCardProps) {
     new DOMParser().parseFromString(summary, "text/html").body.textContent ||
     "";
 
+
+    console.log("TrialCard props:", {
+      trialId,
+      applicationCount,
+      title,
+      summary,
+      startDate,
+      endDate,
+      isApproved,
+      isPublished,
+      conditionOfInterest,
+    });
   //--------------------------------- JSX ------------------------------------------------
   return (
     <section className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-bgColor-10 shadow-lg hover:shadow-xl ">
@@ -82,8 +90,8 @@ iTrialCardProps) {
           <TrialStatusBadge
             isApproved={isApproved || false}
             isPublished={isPublished ||false}
-            referred={referred ?? false}
-            declined={declined ?? false}
+            // referred={referred ?? false}
+            // declined={declined ?? false}
           />
         }
       </div>
@@ -100,8 +108,8 @@ iTrialCardProps) {
           {l("trialcard.period") || "Condition of interest:"}
         </p>
         <p className="text-xs text-right font-light line-clamp-1">
-          {inclusionCriteria && inclusionCriteria.length > 0
-            ? inclusionCriteria.join(", ")
+        {Array.isArray(conditionOfInterest) && conditionOfInterest.length > 0
+            ? conditionOfInterest.join(", ")
             : "-"}
         </p>
       </div>
@@ -116,7 +124,7 @@ iTrialCardProps) {
         </p>
       </div>
       <hr />
-      {address && (
+      {/* {address && (
         <>
           <div className="flex justify-between gap-2">
             <p className="text-xs font-medium">
@@ -126,13 +134,13 @@ iTrialCardProps) {
           </div>
           <hr />
         </>
-      )}
-      <div className="flex justify-between gap-2">
+      )} */}
+      {/* <div className="flex justify-between gap-2">
         <p className="text-xs font-medium">
           {l("trialcard.deadline") || "Submission Deadline:"}
         </p>
         <p className="text-xs font-light">{submissionDeadline}</p>
-      </div>
+      </div> */}
       <div className="flex flex-col justify-between">
         <Link href={`/trials/${trialId}/applicants`}>
           <CustomButton
@@ -174,7 +182,7 @@ iTrialCardProps) {
             containerStyles="rounded-lg gradient-green2 text-white mt-4 hover2 custom-width-btn"
             btnType="button"
             handleClick={() => router.push(`/trials/${trialId}/price`)}
-            disabledContainerStyles="rounded-lg bg-gray-300"
+            disabledContainerStyles="rounded-lg bg-gray-300 mt-4 "
             disabled={isApproved === false}
           />
         </div>

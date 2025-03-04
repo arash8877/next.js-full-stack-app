@@ -154,27 +154,17 @@ export interface iUserType {
 //--------------- trialCard -------------------------
 export interface iTrialCardProps {
   trialId: number;
-  applicationCount: number;
   title: string;
   summary: string;
-  shortDescription?: string;
   urlStub: string;
   startDate: string;
   endDate: string;
-  address: string | undefined;
-  submissionDeadline?: string;
-  media?: iMediaProps;
-  userApplication?: iUserTrialApplication | null;
-  isApproved?: boolean;
-  isPublished?: boolean;
-  referred?: boolean;
-  declined?: boolean;
-  medicalCategories?: iCategoryProps[][];
-  inclusionCriteria?: string[];
-  applicantsNumber?: number;
-  //medicalCategories: iCategoryProps[];
-  // imageSrc: string;
-  // underReview?: boolean;
+  isApproved: boolean;
+  isPublished: boolean;
+  // referred?: boolean;
+  // declined?: boolean;
+  conditionOfInterest: string[];
+  applicationCount?: number;
 }
 
 //------------------ company -------------------------
