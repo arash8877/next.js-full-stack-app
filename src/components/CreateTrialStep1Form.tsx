@@ -123,7 +123,7 @@ const CreateTrialStep1Form = () => {
 
       try {
         const payload = {
-          sponsorId: jwtInfo.jwtInfo?.sponsor_id,
+          sponsorId: jwtInfo.jwtInfo?.sponsor,
           title: values["title"],
           shortDescription: values["shortDescription"],
           fullDescription: values["fullDescription"],

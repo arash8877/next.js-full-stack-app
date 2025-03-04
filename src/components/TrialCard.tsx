@@ -157,7 +157,7 @@ iTrialCardProps) {
             <CustomButton
               title={l("trialcard.cta.text") || "View Trial"}
               containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
-              btnType="submit"
+              btnType="button"
             />
           </a>
           <Link href={`/trials/${trialId}/edit`}>

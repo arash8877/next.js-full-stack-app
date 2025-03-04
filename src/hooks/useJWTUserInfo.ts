@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 interface iJWTInfo {
-  sponsor_id: string;
+  sponsor: string;
 }
 
 const useJWTUserInfo = (): {
