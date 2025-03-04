@@ -32,7 +32,7 @@ const CompanyInfoForm = ({
     try {
       //eslint-disable-next-line
       const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsors/${jwtInfo?.sponsor_id}`, //PATCH request
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/sponsors/${jwtInfo?.sponsor}`, //PATCH request
         data,
         {
           headers: {

@@ -25,35 +25,41 @@ export default function SingleTrialPage({ params }: SingleTrialPageProps) {
 
   useEffect(() => {
     const fetchPreviewKey = async () => {
-      const token = localStorage.getItem("sp_token");
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/preview`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+      if (previewKey && urlStub) {
+        router.push(
+          `https://app.trialsync.com/trial/${urlStub}?previewkey=${previewKey}`
         );
-        setPreviewKey(response.data);
-        console.log("Response in preview:", response);
-      } catch (error) {
-        console.error(error);
+      } else {
+        const token = localStorage.getItem("sp_token");
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/preview`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("**** Response in preview *****:", response);
+          setPreviewKey(response.data);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 
     fetchPreviewKey();
-  }, [trialId]);
+  }, [previewKey, router, trialId, urlStub]);
 
-  useEffect(() => {
-    if (previewKey && urlStub) {
-      router.push(
-        `https://app.trialsync.com/trial/${urlStub}?previewkey=${previewKey}`
-      );
-    } else {
-      console.error("urlStub is missing or previewKey is unavailable");
-    }
-  }, [previewKey, router, urlStub]);
+  // useEffect(() => {
+  //   if (previewKey && urlStub) {
+  //     router.push(
+  //       `https://app.trialsync.com/trial/${urlStub}?previewkey=${previewKey}`
+  //     );
+  //   } else {
+  //     console.error("urlStub is missing or previewKey is unavailable");
+  //   }
+  // }, [previewKey, router, urlStub]);
 
   console.log("previewKey:", previewKey);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik, FormikErrors } from "formik";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -16,6 +16,7 @@ import {
   SiteFormValues,
 } from "@/types/index";
 import useCreateTrialStore from "@/stores/createTrial-store";
+import useSelectedSitesStore from "@/stores/selectedSites-store";
 import useLanguageStore from "@/stores/language-store";
 import SiteDropdown from "./SiteDropdown";
 
@@ -26,44 +27,43 @@ const InputField: React.FC<
     siteIndex: number;
   }
 > = ({ label, name, type, placeholder, formik, icon, siteIndex }) => (
-  console.log("formik.values.sites[siteIndex][name]:", formik.values.sites[siteIndex][name]),
-  (
-    <div className="flex flex-col">
-      <label htmlFor={`${name}-${siteIndex}`}>
-        {label}
-        <span className="ml-1">*</span>
-      </label>
-      <div className="relative">
-        {icon && (
-          <Image
-            src={icon}
-            width={20}
-            height={16}
-            alt={`${name}-icon`}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2"
-          />
-        )}
-        <input
-          id={`${name}-${siteIndex}`}
-          name={`sites[${siteIndex}].${name}`}
-          type={type}
-          placeholder={placeholder}
-          value={formik.values.sites[siteIndex][name]}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          className="register_input mt-2 custom-border"
-          style={icon ? { paddingLeft: "2.5rem" } : {}}
+  <div className="flex flex-col">
+    <label htmlFor={`${name}-${siteIndex}`}>
+      {label}
+      <span className="ml-1">*</span>
+    </label>
+    <div className="relative">
+      {icon && (
+        <Image
+          src={icon}
+          width={20}
+          height={16}
+          alt={`${name}-icon`}
+          className="absolute left-3 top-1/2 transform -translate-y-1/2"
         />
-      </div>
-      <small className="text-red-600">
-        {
-          (formik.errors.sites as FormikErrors<SiteFormValues>[] | undefined)?.[
-            siteIndex
-          ]?.[name]
-        }
-      </small>
+      )}
+      <input
+        id={`${name}-${siteIndex}`}
+        name={`enteredSites[${siteIndex}].${name}`}
+        type={type}
+        placeholder={placeholder}
+        value={formik.values.enteredSites[siteIndex][name]}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        className="register_input mt-2 custom-border"
+        style={icon ? { paddingLeft: "2.5rem" } : {}}
+      />
     </div>
-  )
+    <small className="text-red-600">
+      {
+        (
+          formik.errors.enteredSites as
+            | FormikErrors<SiteFormValues>[]
+            | undefined
+        )?.[siteIndex]?.[name]
+      }
+    </small>
+  </div>
 );
 
 //-------------------------------------- main function-----------------------------------------
@@ -71,72 +71,78 @@ const CreateTrialStep2Form = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { formData, setFormData } = useCreateTrialStore();
+  const { selectedSites } = useSelectedSitesStore();
+  const isEnteredSites = formData?.step2Data?.enteredSites[0]?.name;
   const [loading, setLoading] = useState(false);
   const [showSiteFields, setShowSiteFields] = useState(false);
-  const [selectedSites, setSelectedSites] = useState<SiteFormValues[]>([]);
   const { l } = useLanguageStore();
 
-  console.log("formData in step 2:", formData.step2Data);
-  console.log("selectedSites in step 2:", selectedSites);
+  useEffect(() => {
+    console.log("formData in step 2 in useeffcet:", formData.step2Data);
+  }, [formData]);
+
   //----------------- Yup validation ---------------
   const formSchema = Yup.object({
-    sites: Yup.array()
-      .of(
-        Yup.object({
-          name: Yup.string()
-            .required(
-              l("settings.tab1.form.place.validation.required") ||
-                "Place is required!"
-            )
-            .min(
-              4,
-              l("settings.tab1.form.title.validation.length") ||
-                "Location must be at least 4 characters!"
-            ),
-          address: Yup.string()
-            .required(
-              l("settings.tab1.form.address.validation.required") ||
-                "Address is required!"
-            )
-            .min(
-              4,
-              l("settings.tab1.form.title.validation.length") ||
-                "Address must be at least 4 characters!"
-            ),
-          zipCode: Yup.string()
-            .required(
-              l("register.step1.form.zipCode.validation.required") ||
-                "Zip code is required!"
-            )
-            .min(
-              4,
-              l("settings.tab1.form.title.validation.length") ||
-                "Zip code must be at least 4 characters!"
-            ),
-          country: Yup.string().required(
-            l("register.step1.form.country.validation.required") ||
-              "Country is required!"
+    enteredSites: Yup.array().of(
+      Yup.object({
+        name: Yup.string()
+          .required(
+            l("settings.tab1.form.place.validation.required") ||
+              "Place is required!"
+          )
+          .min(
+            4,
+            l("settings.tab1.form.title.validation.length") ||
+              "Location must be at least 4 characters!"
           ),
-        })
-      )
-      .required(),
+        address: Yup.string()
+          .required(
+            l("settings.tab1.form.address.validation.required") ||
+              "Address is required!"
+          )
+          .min(
+            4,
+            l("settings.tab1.form.title.validation.length") ||
+              "Address must be at least 4 characters!"
+          ),
+        zipCode: Yup.string()
+          .required(
+            l("register.step1.form.zipCode.validation.required") ||
+              "Zip code is required!"
+          )
+          .min(
+            4,
+            l("settings.tab1.form.title.validation.length") ||
+              "Zip code must be at least 4 characters!"
+          ),
+        country: Yup.string().required(
+          l("register.step1.form.country.validation.required") ||
+            "Country is required!"
+        ),
+      })
+    ),
   });
 
   //----------------- formik -------------------
   const formik = useFormik<CreateTrialStep2FormValues>({
-    initialValues: {
-      sites: formData?.step2Data?.sites || [],
-    },
     enableReinitialize: true,
+    initialValues: {
+      enteredSites: formData?.step2Data?.enteredSites || [],
+      selectedSites: selectedSites,
+    },
     validationSchema: formSchema,
     //---------onSubmit--------------
     onSubmit: async (values) => {
+      console.log("values.enteredSites:", values.enteredSites);
       setLoading(true);
       const token = localStorage.getItem("sp_token");
       const trialId = localStorage.getItem("currentTrialEditId");
-      const allSites = [...values.sites, ...selectedSites];
+      const allSites = [
+        ...values.enteredSites,
+        ...formik.initialValues.selectedSites,
+      ];
       const payload = {
-        TrialSites: allSites.map((site) => ({
+        trialSites: allSites.map((site) => ({
           name: site.name,
           address: site.address,
           zipCode: site.zipCode,
@@ -144,14 +150,12 @@ const CreateTrialStep2Form = () => {
         })),
       };
       console.log("Payload in step 2:", payload);
-      setFormData({ step2Data: { sites: values.sites } });
       try {
+        setFormData({ step2Data: { enteredSites: values.enteredSites } });
         // eslint-disable-next-line
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_API_URL}/v1/trials/${trialId}/update/step2`,
-          {
-            payload,
-          },
+          payload,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -159,7 +163,7 @@ const CreateTrialStep2Form = () => {
           }
         );
         console.log("RESPONSE in create trial step 2:", response);
-        setFormData({ step2Data: { sites: values.sites } });
+        setFormData({ step2Data: { enteredSites: values.enteredSites } });
         document.cookie =
           "createTrialStep2Completed=true; Path=/; max-age=7200";
         router.push("/create-trial/step3");
@@ -180,15 +184,15 @@ const CreateTrialStep2Form = () => {
     },
   });
 
-  console.log("Initial Values:", formik.initialValues);
-  const initialValues = formik.initialValues.sites;
+  // console.log("initial values in step 2:", formik.initialValues);
+  // const initialValues = formik.initialValues;
 
   //------------------Add another site ----------------
   const addSite = () => {
     formik.setFieldValue(
-      "sites",
+      "enteredSites",
       [
-        ...formik.values.sites,
+        ...formik.values.enteredSites,
         {
           name: "",
           address: "",
@@ -202,11 +206,12 @@ const CreateTrialStep2Form = () => {
 
   //------------------ remove site ----------------
   const removeSite = (index: number) => {
-    const updatedSites = [...formik.values.sites];
-    updatedSites.splice(index, 1);
-    formik.setFieldValue("sites", updatedSites, false);
+    const updatedEnteredSites = [...formik.values.enteredSites];
+    updatedEnteredSites.splice(index, 1);
+    console.log("updatedEnteredSites:", updatedEnteredSites);
+    formik.setFieldValue("enteredSites", updatedEnteredSites, false);
+    setFormData({ step2Data: { enteredSites: updatedEnteredSites } });
   };
-  
 
   //--------------------------------------------------Return---------------------------------------------
   return (
@@ -223,13 +228,7 @@ const CreateTrialStep2Form = () => {
         <label htmlFor="inclusionDisease" className="text-sm font-semibold">
           List of Sites
         </label>
-        <SiteDropdown
-          value={selectedSites}
-          onChange={(value) => {
-            setSelectedSites(value);
-            formik.setFieldValue("selectedSites", value);
-          }}
-        />
+        <SiteDropdown />
       </div>
 
       {!showSiteFields && (
@@ -237,14 +236,16 @@ const CreateTrialStep2Form = () => {
           <CustomButton
             title="+ Add a site manually"
             containerStyles="custom-width3-btn rounded-lg bg-secondary-50 hover1"
-            handleClick={() => setShowSiteFields(true)}
+            handleClick={() => {
+              setShowSiteFields(true);
+            }}
           />
         </div>
       )}
 
-      {showSiteFields || initialValues.length>0 && (
+      {(showSiteFields || isEnteredSites) && (
         <>
-          {formik.values.sites.map((_, index) => (
+          {formik.values.enteredSites.map((_, index) => (
             <div
               key={index}
               className={`flex flex-col gap-6 xl:w-1/2 ${
@@ -280,16 +281,19 @@ const CreateTrialStep2Form = () => {
                   Country<span className="ml-1">*</span>
                 </label>
                 <CountryDropdown
-                  country={formik.values.sites[index].country}
+                  country={formik.values.enteredSites[index].country}
                   setCountry={(value) =>
-                    formik.setFieldValue(`sites[${index}].country`, value)
+                    formik.setFieldValue(
+                      `enteredSites[${index}].country`,
+                      value
+                    )
                   }
                   borderColor="#dff2df"
                 />
                 <small className="text-red-600">
-                  {formik.touched.sites?.[index]?.country &&
+                  {formik.touched.enteredSites?.[index]?.country &&
                     (
-                      formik.errors.sites as
+                      formik.errors.enteredSites as
                         | FormikErrors<SiteFormValues>[]
                         | undefined
                     )?.[index]?.country}

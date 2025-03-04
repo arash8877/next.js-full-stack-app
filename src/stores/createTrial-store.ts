@@ -10,7 +10,7 @@ interface FormData {
     fullDescription: string;
   };
   step2Data: {
-    sites: {
+    enteredSites: {
       name: string;
       address: string;
       zipCode: string;
@@ -81,92 +81,94 @@ const scheduleLocalStorageCleanup = () => {
 //----------------------------------------- main function -------------------------------------------
 const useCreateTrialStore = create<FormStore>()(
   persist(
-    (set) => ({
-      formData: {
-        step1Data: { title: "", shortDescription: "", fullDescription: "" },
-        step2Data: {
-          sites: [{ name: "", address: "", zipCode: "", country: "" }],
-        },
-        step3Data: {
-          startDate: "",
-          endDate: "",
-          deadline: "",
-          minimumAge: "",
-          maximumAge: "",
-          biologicalSex: "",
-        },
-        step4Data: {
-          inclusionCriteria: [],
-          conditionOfInterest: "",
-          exclusionCriteria: [],
-          exclusionCondition: "",
-          medicalCategoryNames: [],
-          medicalCategoryIds: [],
-        },
-        step5Data: {
-          activities: "",
-          expectedParticipants: "",
-          additionalInformation: "",
-          isRecruiting: false,
-          isPublished: false,
-          drivingCompensation: false,
-          monetaryCompensation: false,
-          otherCompensation: false,
-          otherCompensationText: "",
-        },
+  (set) => ({
+    formData: {
+      step1Data: { title: "", shortDescription: "", fullDescription: "" },
+      step2Data: {
+        enteredSites: [],
       },
+      step3Data: {
+        startDate: "",
+        endDate: "",
+        deadline: "",
+        minimumAge: "",
+        maximumAge: "",
+        biologicalSex: "",
+      },
+      step4Data: {
+        inclusionCriteria: [],
+        conditionOfInterest: "",
+        exclusionCriteria: [],
+        exclusionCondition: "",
+        medicalCategoryNames: [],
+        medicalCategoryIds: [],
+      },
+      step5Data: {
+        activities: "",
+        expectedParticipants: "",
+        additionalInformation: "",
+        isRecruiting: false,
+        isPublished: false,
+        drivingCompensation: false,
+        monetaryCompensation: false,
+        otherCompensation: false,
+        otherCompensationText: "",
+      },
+    },
 
-      //---- setFormData ----
-      setFormData: (data) =>
-        set((state) => ({
-          formData: merge({}, state.formData, data),
-        })),
+    //---- setFormData ----
+    setFormData: (data) => {
+      console.log("data", data);
+      set((state) => ({
+        formData: merge({}, state.formData, data),
+      }));
+    },
 
-      //---- reset FormData ----
-      resetFormData: () =>
-        set({
-          formData: {
-            step1Data: { title: "", shortDescription: "", fullDescription: "" },
-            step2Data: {
-              sites: [{ name: "", address: "", zipCode: "", country: "" }],
-            },
-            step3Data: {
-              startDate: "",
-              endDate: "",
-              deadline: "",
-              minimumAge: "",
-              maximumAge: "",
-              biologicalSex: "",
-            },
-            step4Data: {
-              inclusionCriteria: [],
-              conditionOfInterest: "",
-              exclusionCriteria: [],
-              exclusionCondition: "",
-              medicalCategoryNames: [],
-              medicalCategoryIds: [],
-            },
-            step5Data: {
-              activities: "",
-              expectedParticipants: "",
-              additionalInformation: "",
-              isRecruiting: false,
-              isPublished: false,
-              drivingCompensation: false,
-              monetaryCompensation: false,
-              otherCompensation: false,
-              otherCompensationText: "",
-            },
+    //---- reset FormData ----
+    resetFormData: () =>
+      set({
+        formData: {
+          step1Data: { title: "", shortDescription: "", fullDescription: "" },
+          step2Data: {
+            enteredSites: [{ name: "", address: "", zipCode: "", country: "" }],
           },
-        }),
-    }),
-    {
-      name: "create-trial-store", // Key in localStorage
-      storage: createJSONStorage(() => localStorage),
-      onRehydrateStorage: () => {
-        scheduleLocalStorageCleanup();
-      },
-    }
+          step3Data: {
+            startDate: "",
+            endDate: "",
+            deadline: "",
+            minimumAge: "",
+            maximumAge: "",
+            biologicalSex: "",
+          },
+          step4Data: {
+            inclusionCriteria: [],
+            conditionOfInterest: "",
+            exclusionCriteria: [],
+            exclusionCondition: "",
+            medicalCategoryNames: [],
+            medicalCategoryIds: [],
+          },
+          step5Data: {
+            activities: "",
+            expectedParticipants: "",
+            additionalInformation: "",
+            isRecruiting: false,
+            isPublished: false,
+            drivingCompensation: false,
+            monetaryCompensation: false,
+            otherCompensation: false,
+            otherCompensationText: "",
+          },
+        },
+      }),
+  }),
+  {
+    name: "create-trial-store", // Key in localStorage
+    storage: createJSONStorage(() => localStorage),
+    onRehydrateStorage: () => {
+      scheduleLocalStorageCleanup();
+    },
+  }
   )
 );
 

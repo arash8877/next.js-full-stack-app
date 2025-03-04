@@ -35,6 +35,7 @@ iTrialCardProps) {
     new DOMParser().parseFromString(summary, "text/html").body.textContent ||
     "";
 
+
   //--------------------------------- JSX ------------------------------------------------
   return (
     <section className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-bgColor-10 shadow-lg hover:shadow-xl ">
@@ -157,7 +158,7 @@ iTrialCardProps) {
             <CustomButton
               title={l("trialcard.cta.text") || "View Trial"}
               containerStyles="rounded-lg gradient-green1 mt-4 hover1 custom-width-btn"
-              btnType="submit"
+              btnType="button"
             />
           </a>
           <Link href={`/trials/${trialId}/edit`}>
