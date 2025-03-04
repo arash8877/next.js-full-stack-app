@@ -18,8 +18,8 @@ export default function TrialCard({
   endDate,
   address,
   submissionDeadline,
-  approvedAt,
-  publishedAt,
+  isApproved,
+  isPublished,
   referred,
   declined,
   inclusionCriteria,
@@ -34,7 +34,6 @@ iTrialCardProps) {
   const plainText =
     new DOMParser().parseFromString(summary, "text/html").body.textContent ||
     "";
-
 
   //--------------------------------- JSX ------------------------------------------------
   return (
@@ -57,7 +56,7 @@ iTrialCardProps) {
           ))}
         </div> */}
         <div className="flex justify-between gap-1">
-          {publishedAt === "0001-01-01T00:00:00" ? (
+          {isPublished === false ? (
             <div className="flex_center gap-1">
               <Image
                 src="not-published.svg"
@@ -81,8 +80,8 @@ iTrialCardProps) {
         </div>
         {
           <TrialStatusBadge
-            approvedAt={approvedAt || ""}
-            publishedAt={publishedAt || ""}
+            isApproved={isApproved || false}
+            isPublished={isPublished ||false}
             referred={referred ?? false}
             declined={declined ?? false}
           />
@@ -176,7 +175,7 @@ iTrialCardProps) {
             btnType="button"
             handleClick={() => router.push(`/trials/${trialId}/price`)}
             disabledContainerStyles="rounded-lg bg-gray-300"
-            disabled={approvedAt === "0001-01-01T00:00:00"}
+            disabled={isApproved === false}
           />
         </div>
       </div>

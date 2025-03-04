@@ -1,16 +1,16 @@
 interface iTrialStatusBadgeProps {
-  approvedAt: string;
-  publishedAt: string;
+  isApproved: boolean;
+  isPublished: boolean;
   referred: boolean;
   declined: boolean;
 }
 
 //----------------------------- main function -------------------------------
 export default function TrialStatusBadge({
-  approvedAt,
+  isApproved,
   referred,
   declined,
-  // publishedAt,
+  // isPublished,
 }: iTrialStatusBadgeProps) {
 
 
@@ -18,9 +18,9 @@ export default function TrialStatusBadge({
   const getStatusText = () => {
     if (declined) return "Declined";
     if (referred) return "Referred";
-    if (approvedAt === "0001-01-01T00:00:00") return "Pending Approval";
-    if (approvedAt !== "0001-01-01T00:00:00") return "Approved";
-    // if (publishedAt !== "0001-01-01T00:00:00") return "Published";
+    if (!isApproved) return "Pending Approval";
+    if (isApproved) return "Approved";
+    // if (isPublished ) return "Published";
   };
 
   const getBgColor = () => {

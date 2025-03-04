@@ -165,8 +165,8 @@ export interface iTrialCardProps {
   submissionDeadline?: string;
   media?: iMediaProps;
   userApplication?: iUserTrialApplication | null;
-  approvedAt?: string;
-  publishedAt?: string;
+  isApproved?: boolean;
+  isPublished?: boolean;
   referred?: boolean;
   declined?: boolean;
   medicalCategories?: iCategoryProps[][];
@@ -211,9 +211,8 @@ export interface iTrialInfoProps {
   maximumAge: string;
   biologicalSex: string;
   isRecruiting: boolean;
-  isPublished?: boolean;
-  approvedAt: string;
-  publishedAt: string;
+  isPublished: boolean;
+  isApproved: boolean;
   referred: boolean;
   declined: boolean;
   startDate: string;
@@ -343,8 +342,7 @@ export interface CreateTrialStep5FormProps {
   expectedParticipants: string;
   additionalInformation?: string;
   isRecruiting: boolean;
-  isPublished?: boolean;
-  publishedAt?: string;
+  isPublished: boolean;
   drivingCompensation?: boolean;
   monetaryCompensation?: boolean;
   otherCompensation?: boolean;

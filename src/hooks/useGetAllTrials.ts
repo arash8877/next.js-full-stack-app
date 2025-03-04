@@ -56,7 +56,7 @@ export default function useGetAllTrials({
     }
   }, [data, pagination.pageIndex]);
 
-  // console.log("allTrials: *********###", allTrials);
+  console.log("allTrials: *********###", allTrials);
   return {
     allTrials,
     totalTrials,
