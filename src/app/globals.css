@@ -20,317 +20,166 @@ p {
   font-family: var(--font-satoshi);
 }
 
-/*---------------------------- General styles----------------------------- */
-.flex_center {
-  @apply flex items-center justify-center;
-}
-
-.wrapper {
-  @apply px-4 py-0 sm:py-8 xs:px-8;
-}
-.wrapper2 {
-  @apply px-4 py-4 sm:py-8 xs:px-8;
-}
-.wrapper3 {
-  @apply px-2 py-0 sm:py-8 xs:px-8;
-}
-.wrapper4 {
-  @apply px-4 py-8 sm:py-8 xs:px-8;
-}
-.wrapper5 {
-  @apply px-4 pb-8 sm:pt-0 xs:px-8;
-}
-
-.single_line_toast {
-  white-space: nowrap;
-  width: fit-content;
-  margin-right: 10px;
-}
-/*---------------------------- custom button----------------------------- */
-
-.custom-btn {
-  @apply w-full xs:w-auto px-8 py-2.5;
-}
-.custom-width-btn {
-  width: 100% !important;
-}
-.custom-width2-btn {
-  @apply w-full px-8 py-2.5 lg:w-auto lg:px-16 lg:py-6 !important;
-}
-
-.custom-width3-btn {
-  @apply w-full py-2.5 lg:w-auto lg:px-8 !important;
-}
 
 
-.custom_padding {
-  padding-inline: 18px !important;
-}
-.custom_padding2 {
-  padding-inline: 29px !important;
-}
-.gradient-green1 {
-  @apply bg-gradient-to-r from-primary-800 to-primary-1100;
-}
-.gradient-green2 {
-  @apply bg-gradient-to-r from-primary-1300 to-primary-1200;
-}
-.hover1 {
-  @apply hover:from-primary-1100 hover:to-primary-1100;
-}
-.hover2 {
-  @apply hover:from-primary-1200 hover:to-primary-1200;
-}
 
-/*---------------------------- Register ----------------------------- */
-.register_input {
-  @apply w-full h-[48px] p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
-}
-
-.custom_height {
-  height: calc(100vh - 220px);
-}
-.custom_height2 {
-  height: calc(100vh - 102px);
-}
-.custom_height3 {
-  height: 56px !important;
-}
-.custom_height4 {
-  height: 106px !important;
-}
-
-.custom-border {
-  border-color: #dff2df !important;
-}
-
-.register_step1_section {
-  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 py-6 md:py-10 xl:py-12 rounded-3xl;
-}
-
-.register_step2_div {
-  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 lg:px-10 py-6 md:py-10 xl:py-12 rounded-3xl;
-}
-
-.register_step4_section {
-  @apply mx-auto bg-white max-w-3xl px-6 md:px-12 py-6 md:py-10 xl:py-12 mt-12 rounded-3xl;
-}
-
-/*---------------------------- Reset Password ----------------------------- */
-.reset_password_div {
-  @apply mx-auto bg-white max-w-3xl px-4 md:px-12 lg:px-10 pt-12 pb-6 rounded-3xl;
-}
-
-/*---------------------------- Sidebar ----------------------------- */
-.sidebar_item {
-  @apply flex gap-3 rounded-lg cursor-pointer hover:bg-neutral-50 transition-all duration-300;
-}
-.sidebar_item_active {
-  @apply rounded-lg cursor-pointer bg-neutral-50 transition-all duration-300;
-}
-.sidebar_animation {
-  @apply transition-all duration-300;
-}
-
-/*---------------------------- Navbar-dashboard ----------------------------- */
-.navbar_item {
-  @apply flex gap-3 rounded-lg p-3 cursor-pointer hover:bg-gradient-button;
-}
-
-/*---------------------------- TrialOverview ----------------------------- */
-.trial_overview_grid {
-  @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 py-8 xs:px-8 place-items-center;
-}
-
-.trials-header-shadow-removal {
-  @apply relative before:content-[''] after:content-[''] before:absolute after:absolute before:top-0 after:top-0 before:bottom-0 after:bottom-0 before:-left-5 after:-right-5 before:w-5 after:w-5 before:bg-white after:bg-white;
-}
-
-/*---------------------------- My-trials ----------------------------- */
-.my_trials_grid {
-  @apply grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(356px,1fr))] gap-6 px-4 xs:px-8 pb-8 place-items-center;
-}
-
-/*---------------------------- Trial-Details ----------------------------- */
-.truncate_title {
-  @apply w-full h-[48px] p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
-}
-
-/*---------------------------- filter modal ----------------------------- */
-.filter_modal_btn {
-  @apply inline-flex items-center border border-primary-500 text-xs sm:text-sm px-2 rounded-200 mb-4 py-2 cursor-pointer active:scale-95;
-}
-
-/*---------------------------- Setting ----------------------------- */
-.setting_step4_div {
-  @apply bg-bgColor-100 lg:w-2/5 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
-}
-
-/*---------------------------- LanguageDropdown ----------------------------- */
-@keyframes dropdownOpen {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.dropdown_animation {
-  animation: dropdownOpen 0.3s ease-out forwards;
-}
-
-/*---------------------------- Company ----------------------------- */
-.not_editable_div {
-  @apply bg-bgColor-100 h-[48px] rounded-lg flex items-center pl-5 mt-2.5 mb-2;
-}
-
-/*---------------------------- Text-area ----------------------------- */
-.textarea_input {
-  @apply w-full p-[12px] text-sm rounded-lg border border-black focus:border-blue-600;
-}
-
-/*---------------------------- Quill-Editor ----------------------------- */
-/* Customize the editor's toolbar */
-.ql-toolbar {
-  background-color: #f3f3f3;
-  border: 1px solid #dff2df;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-/* Customize the editor itself */
-.ql-container {
-  border: 2px solid #dff2df;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  font-family: "Arial", sans-serif;
-  margin-top: 20px;
-}
-
-.ql-editor {
-  padding: 10px;
-  font-size: 16px;
-  line-height: 1.6;
-  background-color: white;
-  border: 1px solid #dff2df;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-.no_border {
-  border: none !important;
-}
-
-/* Focused state */
-.ql-container.ql-snow .ql-editor:focus {
-  border: 2px solid #4272e1;
-}
-
-/* Change cursor to pointer when hovering over links */
-.ql-editor a {
-  cursor: pointer;
-  color: #0073e6; /* Optional: Customize link color */
-  text-decoration: underline;
-}
-
-.ql-editor a:hover {
-  color: #005bb5; /* Optional: Customize hover color */
-}
-
-.ql-editor::before {
-  color: #b6babe !important; /* Lighter gray for placeholder */
-  font-style: normal !important; /* Remove italic style */
-  font-size: 0.875rem !important;
-}
-
-.ql-editor h1 {
-  font-size: 2rem; /* Tailwind text-3xl equivalent */
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.ql-editor h2 {
-  font-size: 1.75rem; /* Tailwind text-2xl equivalent */
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.ql-editor h3 {
-  font-size: 1.5rem; /* Tailwind text-xl equivalent */
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.ql-editor h4 {
-  font-size: 1.25rem; /* Tailwind text-lg equivalent */
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-/*---------------------------- Pagination ----------------------------- */
-
-.sticky-pagination {
+.main {
+  width: 100vw;
+  min-height: 100vh;
   position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  /* width: 100%; */
-  /* background-color: white;  */
-  padding: 10px 0 20px 0;
-  /* margin-bottom: 10px; */
-  /* box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);  */
-  z-index: 1000; /* Ensure it stays on top */
-}
-
-.pagination {
-  display: none;
+  display: flex;
   justify-content: center;
-  padding-left: 0;
-  list-style: none;
-  margin-top: 20px;
-  @media only screen and (min-width: 768px) {
-    display: flex;
+  padding: 120px 24px 160px 24px;
+  pointer-events: none;
+}
+
+.main:before {
+  background: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa 100%);
+  position: absolute;
+  content: "";
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.main:after {
+  content: "";
+  background-image: url("/assets/images/grid.svg");
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  opacity: 0.4;
+  filter: invert(1);
+}
+
+.gradient {
+  height: fit-content;
+  z-index: 3;
+  width: 100%;
+  max-width: 640px;
+  background-image: radial-gradient(
+      at 27% 37%,
+      hsla(215, 98%, 61%, 1) 0px,
+      transparent 0%
+    ),
+    radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  filter: blur(100px) saturate(150%);
+  top: 80px;
+  opacity: 0.15;
+}
+
+@media screen and (max-width: 640px) {
+  .main {
+    padding: 0;
   }
 }
 
-.pagination li {
-  margin: 0 5px;
+/* Tailwind Styles */
+
+.app {
+  @apply relative z-10 flex justify-center items-center flex-col max-w-7xl mx-auto sm:px-16 px-6;
 }
 
-.pagination li a {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: white;
-  color: #007bff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.black_btn {
+  @apply rounded-full border border-black bg-black py-1.5 px-5 text-white transition-all hover:bg-white hover:text-black text-center text-sm flex items-center justify-center;
 }
 
-.pagination li a:hover {
-  background-color: #007bff;
-  color: white;
+.outline_btn {
+  @apply rounded-full border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-black hover:text-white text-center text-sm flex items-center justify-center;
 }
 
-.pagination li.active a {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
+.head_text {
+  @apply mt-5 text-5xl font-extrabold leading-[1.15] text-black sm:text-6xl;
 }
 
-.show-more {
-  display: block;
-  @media only screen and (min-width: 768px) {
-    display: none;
-  }
+.orange_gradient {
+  @apply bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent;
 }
 
-/*---------------------------- Pricing Page ----------------------------- */
+.green_gradient {
+  @apply bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent;
+}
 
-.pricing_card {
-  @apply flex flex-col items-center justify-center gap-6 lg:flex-row lg:justify-between border-2 bg-white rounded-3xl wrapper2 shadow-lg;
+.blue_gradient {
+  @apply bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent;
+}
+
+.desc {
+  @apply mt-5 text-lg text-gray-600 sm:text-xl max-w-2xl;
+}
+
+.search_input {
+  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-5 pr-12 text-sm shadow-lg font-medium focus:border-black focus:outline-none focus:ring-0;
+}
+
+.copy_btn {
+  @apply w-7 h-7 rounded-full bg-white/10 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur flex justify-center items-center cursor-pointer;
+}
+
+.glassmorphism {
+  @apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-5;
+}
+
+.prompt_layout {
+  @apply space-y-6 py-8 sm:columns-2 sm:gap-6 xl:columns-3;
+}
+
+/* Feed Component */
+.feed {
+  @apply mt-16 mx-auto w-full max-w-xl flex justify-center items-center flex-col gap-2;
+}
+
+/* Form Component */
+.form_textarea {
+  @apply w-full flex rounded-lg h-[200px] mt-2 p-3 text-sm text-gray-500 outline-0;
+}
+
+.form_input {
+  @apply w-full flex rounded-lg mt-2 p-3 text-sm text-gray-500 outline-0;
+}
+
+/* Nav Component */
+.logo_text {
+  @apply max-sm:hidden font-semibold text-lg text-black tracking-wide;
+}
+
+.dropdown {
+  @apply absolute right-0 top-full mt-3 w-full p-5 rounded-lg bg-white min-w-[210px] flex flex-col gap-2 justify-end items-end;
+}
+
+.dropdown_link {
+  @apply text-sm text-gray-700 hover:text-gray-500 font-medium;
+}
+
+/* PromptCard Component */
+.prompt_card {
+  @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit;
+}
+
+.flex-center {
+  @apply flex justify-center items-center;
+}
+
+.flex-start {
+  @apply flex justify-start items-start;
+}
+
+.flex-end {
+  @apply flex justify-end items-center;
+}
+
+.flex-between {
+  @apply flex justify-between items-center;
 }

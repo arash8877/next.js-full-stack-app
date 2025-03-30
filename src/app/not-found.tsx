@@ -1,11 +1,9 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 const NotFoundPage = () => {
   return (
     <main className="mx-2 md:mx-14">
-      <Navbar justify="justify-between mt-6" displayLogin="hidden" />
       <div style={{ textAlign: "center", marginTop: "20vh" }}>
         <h1 className="text-2xl md:text-4xl font-semibold mb-4">
           404 - Page Not Found
