@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Outfit } from "next/font/google";
+import Nav from "@/components/Nav";
+// import Provider from "@/components/Provider";
 
 //---- fonts ----
 const outfit = Outfit({
@@ -38,7 +40,9 @@ export default function RootLayout({
         <div className="main">
           <div className="gradient" />
         </div>
-        <main className="app">{children}</main>
+        <main className="app">
+          <Nav />
+          {children}</main>
       </body>
     </html>
   );
