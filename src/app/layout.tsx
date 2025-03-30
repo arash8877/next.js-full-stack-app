@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Outfit } from "next/font/google";
 import Nav from "@/components/Nav";
-// import Provider from "@/components/Provider";
+import Provider from "@/components/Provider";
 
 //---- fonts ----
 const outfit = Outfit({
@@ -37,12 +37,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${satoshi.variable}`}>
       <body>
-        <div className="main">
-          <div className="gradient" />
-        </div>
-        <main className="app">
-          <Nav />
-          {children}</main>
+        <Provider session={null}>
+          <div className="main">
+            <div className="gradient" />
+          </div>
+          <main className="app">
+            <Nav />
+            {children}
+          </main>
+        </Provider>
       </body>
     </html>
   );
