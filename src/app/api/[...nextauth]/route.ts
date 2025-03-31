@@ -3,11 +3,16 @@ import GoogleProvider from 'next-auth/providers/google';
 
 
 
+console.log({
+    clientId: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+})
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: '',
-      clientSecret: '',
+        clientId: process.env.GOOGLE_ID || (() => { throw new Error("GOOGLE_ID is not defined in environment variables"); })(),
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET || (() => { throw new Error("GOOGLE_CLIENT_SECRET is not defined in environment variables"); })(),
     })
   ],
   callbacks: {

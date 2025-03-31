@@ -21,6 +21,7 @@
     "is-hotkey": "^0.2.0",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
+    "mongoose": "^8.13.1",
     "next": "^14.2.15",
     "next-auth": "^4.24.11",
     "quill": "^2.0.2",
